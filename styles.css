@@ -1,9 +1,9 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f4f4f4; /* Light grey background for a clean look */
 }
 
 header, nav, main, footer {
@@ -11,33 +11,33 @@ header, nav, main, footer {
 }
 
 header {
-    background: #333;
-    color: #fff;
+    background: #2c3e50; /* Dark blue header */
+    color: #ecf0f1; /* Light grey text */
     text-align: center;
 }
 
 nav {
-    background: #444;
-    color: #fff;
+    background: #3498db; /* Bright blue for navigation */
+    color: #ffffff;
     text-align: center;
 }
 
 nav a {
-    color: #fff;
+    color: #ffffff;
     margin: 0 10px;
     text-decoration: none;
 }
 
 main section {
     margin-bottom: 20px;
-    background: #fff;
+    background: #ffffff;
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 main h2 {
-    color: #333;
+    color: #2c3e50; /* Dark blue for section titles */
 }
 
 .experience, .education {
@@ -46,16 +46,16 @@ main h2 {
 
 .experience h3, .education h3 {
     font-size: 18px;
-    color: #555;
+    color: #16a085; /* Teal for subheadings */
 }
 
 .date {
     font-style: italic;
-    color: #666;
+    color: #7f8c8d; /* Grey for dates */
 }
 
 .technologies {
-    color: #007bff;
+    color: #9b59b6; /* Purple for technology tags */
     font-style: italic;
 }
 
@@ -65,8 +65,8 @@ ul {
 }
 
 footer {
-    background: #333;
-    color: #fff;
+    background: #2c3e50; /* Dark blue footer */
+    color: #ecf0f1;
     text-align: center;
     margin-top: 20px; /* Adds space before the footer */
 }
