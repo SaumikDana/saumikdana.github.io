@@ -70,3 +70,11 @@ footer {
     text-align: center;
     margin-top: 20px; /* Adds space before the footer */
 }
+
+.profile-pic {
+    width: 150px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 50%; /* Makes the image circular */
+    border: 3px solid #2c3e50; /* Adds a border with a color of your choice */
+    margin: 10px 0; /* Adds some space around the image */
+}
