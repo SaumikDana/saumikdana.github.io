@@ -28,8 +28,45 @@ nav a {
     text-decoration: none;
 }
 
+main section {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+main h2 {
+    color: #333;
+}
+
+.experience, .education {
+    margin-bottom: 15px;
+}
+
+.experience h3, .education h3 {
+    font-size: 18px;
+    color: #555;
+}
+
+.date {
+    font-style: italic;
+    color: #666;
+}
+
+.technologies {
+    color: #007bff;
+    font-style: italic;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
 footer {
     background: #333;
     color: #fff;
     text-align: center;
+    margin-top: 20px; /* Adds space before the footer */
 }
