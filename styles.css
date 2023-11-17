@@ -10,6 +10,22 @@ header, nav, main, footer {
     padding: 20px;
 }
 
+header {
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Vertically centers the items in the container */
+    justify-content: center; /* Horizontally centers the items */
+    background: #333; /* Dark background for header */
+    color: #fff;
+}
+
+.profile-pic {
+    width: 150px; /* Adjust as needed */
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid #2c3e50; /* Dark blue border for the image */
+    margin-right: 20px; /* Adds spacing between the image and the text */
+}
+
 nav {
     background: #3498db; /* Bright blue for navigation */
     color: #ffffff;
@@ -63,22 +79,4 @@ footer {
     color: #ecf0f1;
     text-align: center;
     margin-top: 20px; /* Adds space before the footer */
-}
-
-header {
-    display: flex; /* Enables flexbox */
-    align-items: center; /* Vertically centers the items in the container */
-    justify-content: center; /* Horizontally centers the items */
-    background: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-}
-
-.profile-pic {
-    width: 150px; /* Adjust as needed */
-    height: auto;
-    border-radius: 50%;
-    border: 3px solid #2c3e50;
-    margin-right: 20px; /* Adds spacing between the image and the text */
 }
