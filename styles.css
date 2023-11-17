@@ -10,12 +10,6 @@ header, nav, main, footer {
     padding: 20px;
 }
 
-header {
-    background: #2c3e50; /* Dark blue header */
-    color: #ecf0f1; /* Light grey text */
-    text-align: center;
-}
-
 nav {
     background: #3498db; /* Bright blue for navigation */
     color: #ffffff;
