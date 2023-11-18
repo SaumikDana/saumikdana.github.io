@@ -181,26 +181,26 @@
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-
+    
             if (tabName === 'Portfolio') {
                 document.getElementById('portfolioFrame').style.display = 'block';
                 document.getElementById('portfolioFrame').src = 'portfolio.html';
             } else {
                 document.getElementById('portfolioFrame').style.display = 'none';
             }
-
+    
             evt.currentTarget.className += " active";
         }
-
+    
         function displayMessage() {
             document.getElementById("message").innerHTML = "Thank you for visiting my website!";
         }
-
-        // Optional: Add this to set a default open tab
-        window.onload = function() {
-            document.getElementsByClassName("tablinks")[0].click();
-        };
+    
+        // Optional: Commenting out to prevent automatic tab click on page load
+        // window.onload = function() {
+        //     document.getElementsByClassName("tablinks")[0].click();
+        // };
     </script>
-        
+            
 </body>
 </html>
