@@ -11,16 +11,17 @@
     <style>
         .content-container {
             display: flex;
+            flex-direction: column; /* Stacks children vertically */
             align-items: flex-start; /* Adjust vertical alignment as needed */
-            gap: 20px; /* Space between text and image */
+            gap: 20px; /* Space between items */
         }
 
-        .text-section {
-            flex: 1; /* Adjusts size to fill available space */
+        .text-section, .image-section {
+            width: 100%; /* Sets the width to take up the full container width */
         }
 
         .image-section {
-            flex-basis: 250px; /* Adjust width of the image section */
+            flex-basis: auto; /* Adjusts the basis to auto for flexible sizing */
         }
     </style>  
 </head>
