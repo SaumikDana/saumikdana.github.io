@@ -36,9 +36,10 @@
                 I am dedicated to utilizing 
                 my skills to address complex challenges and deliver significant impact.</p>
         </section>
-        <section id="my-projects">
+
+        <div id="Portfolio" class="tabcontent">
             <h2>My Portfolio</h2>
-        
+            
             <!-- Deep Learning Project -->
             <div class="project">
                 <h3>Point Cloud Processing with PointNet</h3>
@@ -74,8 +75,7 @@
                 <p><strong>Technologies:</strong> Python, NumPy</p>
                 <p><a href="https://github.com/SaumikDana/Bayesian_MCMC_Deep-Learning" target="_blank">View Project on GitHub</a></p>
             </div>
-                        
-        
+                            
             <!-- Geoscientific Simulations -->
             <div class="project">
                 <h3>Geoscientific Simulations</h3>
@@ -97,8 +97,8 @@
             </div>
         
             <!-- Add more projects as needed -->
-        </section>
-          
+        </div>
+                  
         <!-- Work Experience Section -->
         <section id="work-experience">
             <h2>Work Experience</h2>
@@ -224,5 +224,27 @@
     <footer>
         <p>Copyright © 2023 by Saumik Dana</p>
     </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(tabName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        
+        // Optional: Add this to set a default open tab
+        window.onload = function() {
+          document.getElementsByClassName("tablinks")[0].click();
+        };
+        </script>
+        
 </body>
 </html>
