@@ -26,12 +26,12 @@ header {
 }
 
 .profile-pic {
-    width: 100px; /* Size for the left image */
+    width: 150px; /* Size for the left image */
     margin-right: 20px;
 }
 
 .profile-pic-right {
-    width: 150px; /* Different size for the right image */
+    width: 200px; /* Different size for the right image */
     margin-left: 20px;
 }
 
