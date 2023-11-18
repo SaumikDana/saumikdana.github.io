@@ -31,9 +31,11 @@ header {
 }
 
 .profile-pic-right {
-    width: 200px; /* Different size for the right image */
+    width: 150px; /* Adjust as needed */
+    height: auto;
     margin-left: 20px;
 }
+
 
 .header-text {
     max-width: 40%;
