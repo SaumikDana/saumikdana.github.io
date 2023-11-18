@@ -1,9 +1,10 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'EB Garamond', serif; /* Using EB Garamond */
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Light grey background for a clean look */
+    background-color: #f4f4f4; /* Light grey background */
+    /* Other styles */
 }
 
 header, nav, main, footer {
