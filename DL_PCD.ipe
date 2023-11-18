@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70218" creator="Ipe 7.2.28">
-<info created="D:20231118134315" modified="D:20231118134315"/>
+<info created="D:20231118134315" modified="D:20231118174727"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -341,5 +341,9 @@ h
 114.112 610.771 m
 181.444 552.748 l
 </path>
+<text matrix="1 0 0 1 -41.0911 55.4741" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="92.279" height="6.918" depth="0" valign="baseline">Global feature vector</text>
+<text matrix="1 0 0 1 127.09 134.495" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="98.326" height="6.926" depth="1.93" valign="baseline">Multi layer perceptron</text>
+<text matrix="1 0 0 1 118.801 -52.1685" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="84.683" height="6.926" depth="1.93" valign="baseline">Segmentation Head</text>
+<text matrix="1 0 0 1 262.067 55.6423" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="107.043" height="6.926" depth="1.93" valign="baseline">Lucas Kanade algorithm</text>
 </page>
 </ipe>
