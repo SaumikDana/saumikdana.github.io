@@ -32,7 +32,7 @@ header {
 }
 
 .profile-pic-right {
-    width: 250px; /* Adjust to match the height for a perfect circle */
+    width: 350px; /* Adjust to match the height for a perfect circle */
     height: 200px; /* Make height equal to width */
     border-radius: 0%;
 /*    object-fit: cover; /* This ensures the image covers the area without stretching */
