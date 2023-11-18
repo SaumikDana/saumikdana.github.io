@@ -11,23 +11,32 @@ header, nav, main, footer {
 }
 
 header {
-    display: flex; /* Enables flexbox */
-    align-items: center; /* Vertically centers the items in the container */
-    justify-content: center; /* Horizontally centers the items */
-    background: #333; /* Dark background for header */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* This will distribute space evenly */
+    background: #333;
     color: #fff;
+    padding: 20px;
+}
+
+.profile-pic, .profile-pic-right {
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid #2c3e50;
 }
 
 .profile-pic {
-    width: 200px; /* Adjust as needed */
-    height: auto;
-    border-radius: 50%;
-    border: 3px solid #2c3e50; /* Dark blue border for the image */
-    margin: 0 20px; /* Adds spacing around the image */
+    width: 200px; /* Size for the left image */
+    margin-right: 20px;
+}
+
+.profile-pic-right {
+    width: 150px; /* Different size for the right image */
+    margin-left: 20px;
 }
 
 .header-text {
-    max-width: 40%; /* Adjust as needed for text width */
+    max-width: 40%;
     text-align: center;
 }
 
