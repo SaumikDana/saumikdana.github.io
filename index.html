@@ -38,7 +38,9 @@
                 my skills to address complex challenges and deliver significant impact.</p>
         </section>
 
-        <!-- Portfolio section removed as it's now in a separate file -->
+        <!-- Add this iframe for the portfolio -->
+        <iframe id="portfolioFrame" style="width:100%; height:600px; display:none;"></iframe>
+
 
         <!-- Work Experience Section -->
         <section id="work-experience">
@@ -172,17 +174,24 @@
 
     <script>
         function openTab(evt, tabName) {
-          var i, tabcontent, tablinks;
-          tabcontent = document.getElementsByClassName("tabcontent");
-          for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-          }
-          tablinks = document.getElementsByClassName("tablinks");
-          for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-          }
-          document.getElementById(tabName).style.display = "block";
-          evt.currentTarget.className += " active";
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            if (tabName === 'Portfolio') {
+                document.getElementById('portfolioFrame').style.display = 'block';
+                document.getElementById('portfolioFrame').src = 'portfolio.html';
+            } else {
+                document.getElementById('portfolioFrame').style.display = 'none';
+            }
+
+            evt.currentTarget.className += " active";
         }
 
         function displayMessage() {
@@ -191,7 +200,7 @@
 
         // Optional: Add this to set a default open tab
         window.onload = function() {
-          document.getElementsByClassName("tablinks")[0].click();
+            document.getElementsByClassName("tablinks")[0].click();
         };
     </script>
         
