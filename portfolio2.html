@@ -22,15 +22,20 @@
         .image-section {
             flex-basis: 250px; /* Adjust width of the image section */
         }
+
+        .content-image {
+            max-width: 100%; /* Ensures that the image is never larger than its container */
+            height: auto; /* Keeps the image aspect ratio intact */
+        }
     </style>  
 </head>
 <body>
     <header>
-        <img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
+        <img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic content-image">
         <div class="header-text">
             <h1>Bayesian/MCMC on time series</h1>
         </div>
-        <img src="me_2019.png" alt="Road Trips" class="profile-pic-right">
+        <img src="me_2019.png" alt="Road Trips" class="profile-pic-right content-image">
     </header>
 
     <main>
@@ -46,7 +51,7 @@
                     but also accounted for uncertainties in the data.</p>
             </div>
             <div class="image-section">
-                <img src="bayesian_mcmc.png" alt="Bayesian/MCMC">
+                <img src="bayesian_mcmc.png" alt="Bayesian/MCMC" class="content-image">
             </div>
         </div>
     </main>
