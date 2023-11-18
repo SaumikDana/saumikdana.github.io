@@ -7,30 +7,53 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+    <style>
+        .content-container {
+            display: flex;
+            align-items: flex-start; /* Adjust vertical alignment as needed */
+            gap: 20px; /* Space between text and image */
+        }
+
+        .text-section {
+            flex: 1; /* Adjusts size to fill available space */
+        }
+
+        .image-section {
+            flex-basis: 250px; /* Adjust width of the image section */
+        }
+    </style>  
 </head>
 <body>
     <header>
         <img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
         <div class="header-text">
-            <h1>Bayesian Inference for Time Series Data</h1>
+            <h1>Bayesian/MCMC on time series</h1>
         </div>
         <img src="me_2019.png" alt="Road Trips" class="profile-pic-right">
     </header>
 
     <main>
-        At USC, I spearheaded a project to develop a 
-        Bayesian inference framework for model parameter estimation 
-        from time series data. 
-        The challenge was to create a model 
-        that could accurately predict and analyze complex data patterns. 
-        By employing Bayesian methods, I was able to construct a 
-        framework that not only provided precise estimations 
-        but also accounted for uncertainties in the data.
+        <div class="content-container">
+            <div class="text-section">
+                <p>At USC, I spearheaded a project to develop a 
+                    Bayesian inference framework for model parameter estimation 
+                    from time series data. 
+                    The challenge was to create a model 
+                    that could accurately predict and analyze complex data patterns. 
+                    By employing Bayesian methods, I was able to construct a 
+                    framework that not only provided precise estimations 
+                    but also accounted for uncertainties in the data.</p>
+            </div>
+            <div class="image-section">
+                <img src="bayesian_mcmc.png" alt="Bayesian/MCMC">
+            </div>
+        </div>
     </main>
 
     <footer>
-        <p>Footer Content</p>
+        <p>Copyright © 2023 by Saumik Dana</p>
     </footer>
+
 </body>
 </html>
