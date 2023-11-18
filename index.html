@@ -18,7 +18,7 @@
         <img src="me_2019.png" alt="Road Trips" class="profile-pic-right">
     </header>         
     <nav>
-        <button class="tablinks" onclick="openTab(event, 'Portfolio')">My Portfolio</button>
+        <button class="tablinks" onclick="alert('Clicked!')">My Portfolio</button>
     </nav>
     
     <main>
@@ -170,7 +170,8 @@
 
     <script>
         function openTab(evt, tabName) {
-            console.log("Tab Name: ", tabName); // This line is for debugging
+            console.log("Function openTab is called"); // New debugging line
+            console.log("Tab Name: ", tabName); // Existing debugging line
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
