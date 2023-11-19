@@ -108,38 +108,6 @@
     <img src="base_arch.png" alt="PointNet_Basic" class="pointnet-image">
     </div>
 
-    And this is how it is coded in Python
-    <pre><code>
-    class PointNet_features(torch.nn.Module):
-    """
-    PointNet_features is a PyTorch module for extracting features from point cloud data.
-    It can optionally include T-Net modules for spatial transformer networks.
-    """
-
-    def __init__(self, ...):
-        """
-        Initialize the PointNet_features module.
-
-        """
-        super().__init__()
-
-        self.h1 = MLPNet(3, mlp_h1, b_shared=True).layers
-
-        self.h2 = MLPNet(mlp_h1[-1], mlp_h2, b_shared=True).layers
-
-        self.tnet1 = TNet(3) if use_tnet else None
-        self.tnet2 = TNet(mlp_h1[-1]) if use_tnet else None  
-
-    def forward(self, points):
-        """
-        Operations galore.
-
-        """
-        ...
-        # Return the global feature vector which can be used for further processing or as input to a classifier.
-        return x
-    </code></pre>
-
     <blockquote>
     "Just like many other famous technologies in deep learning, 
     the main challenge of a technology in deep leaning is probably invariance. 
