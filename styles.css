@@ -1,10 +1,9 @@
 body {
-    font-family: 'EB Garamond', serif; /* Using EB Garamond */
+    font-family: 'EB Garamond', serif;
     line-height: 2.0;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Light grey background */
-    /* Other styles */
+    background-color: #f0e8d9; /* Light cream background */
 }
 
 header, nav, main, footer {
@@ -14,8 +13,8 @@ header, nav, main, footer {
 header {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* This will distribute space evenly */
-    background: #333;
+    justify-content: space-between;
+    background: #35495e; /* Dark slate blue */
     color: #fff;
     padding: 20px;
 }
@@ -23,19 +22,18 @@ header {
 .profile-pic, .profile-pic-right {
     height: auto;
     border-radius: 0%;
-    border: 1px solid #2c3e50;
+    border: 1px solid #7b8a8b; /* Slate grey border */
 }
 
 .profile-pic {
-    width: 200px; /* Size for the left image */
+    width: 200px;
     margin-right: 20px;
 }
 
 .profile-pic-right {
-    width: 500px; /* Adjust to match the height for a perfect circle */
-    height: 200px; /* Make height equal to width */
+    width: 500px;
+    height: 200px;
     border-radius: 0%;
-/*    object-fit: cover; /* This ensures the image covers the area without stretching */
     margin-left: 20px;
 }
 
@@ -45,11 +43,11 @@ header {
 }
 
 nav {
-    background: #3498db; /* Bright blue for navigation */
+    background: #6c5ce7; /* Vivid violet for navigation */
     color: #ffffff;
-    display: flex; /* Use flexbox */
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 nav a {
@@ -66,7 +64,7 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #ddd;
+    background-color: #b2bec3; /* Light blue-grey */
 }
 
 nav a.active {
@@ -82,7 +80,7 @@ main section {
 }
 
 main h2 {
-    color: #2c3e50; /* Dark blue for section titles */
+    color: #2980b9; /* Sea blue for section titles */
 }
 
 .experience, .education {
@@ -91,16 +89,16 @@ main h2 {
 
 .experience h3, .education h3 {
     font-size: 18px;
-    color: #16a085; /* Teal for subheadings */
+    color: #e17055; /* Terracotta for subheadings */
 }
 
 .date {
     font-style: italic;
-    color: #7f8c8d; /* Grey for dates */
+    color: #b2b09b; /* Soft olive for dates */
 }
 
 .technologies {
-    color: #9b59b6; /* Purple for technology tags */
+    color: #6d6875; /* Muted lavender for technology tags */
     font-style: italic;
 }
 
@@ -110,10 +108,10 @@ ul {
 }
 
 footer {
-    background: #2c3e50; /* Dark blue footer */
+    background: #2d3436; /* Charcoal grey footer */
     color: #ecf0f1;
     text-align: center;
-    margin-top: 20px; /* Adds space before the footer */
+    margin-top: 20px;
 }
 
 #my-projects .project {
@@ -122,7 +120,7 @@ footer {
 
 #my-projects .project h3 {
     font-size: 20px;
-    color: #3498db; /* Example color */
+    color: #ff7675; /* Soft red */
 }
 
 #my-projects .project a {
@@ -134,14 +132,12 @@ footer {
     text-decoration: underline;
 }
 
-/* Style the tab */
 .tab {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
 }
 
-/* Style the tab content */
 .tabcontent {
     display: none;
     padding: 6px 12px;
@@ -149,10 +145,9 @@ footer {
     border-top: none;
 }
 
-/* Styles for the iframe */
 iframe {
-    width: 100%; /* Full width */
-    height: 600px; /* Or any other appropriate height */
-    border: none; /* Remove default border */
-    display: block; /* To override any default styles */
+    width: 100%;
+    height: 600px;
+    border: none;
+    display: block;
 }
