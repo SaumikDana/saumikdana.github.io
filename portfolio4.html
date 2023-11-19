@@ -7,7 +7,18 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+    <style>
+        .image-section img {
+            width: 80%;
+            margin-bottom: 0; /* Removes space below the image */
+            padding-bottom: 0; /* Removes padding below the image */
+        }
+        .image-section {
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+    </style>  
 </head>
 <body>
     <header>
@@ -22,40 +33,44 @@
 
         <!-- PhD in Engineering Mechanics -->
         <div class="education">
-            <h2>University of Texas at Austin, TX, USA</p>
+            <h2>University of Texas at Austin, TX, USA</h2>
             <p class="date">Aug 2012 - Dec 2018</p>
         </div>
 
-        I started in Fall 2012 at the Department of Engineering Mechanics, 
-        on course to a classic Application Engineer working out at places like Abaqus, 
-        and Ansys as a career path starting step post PhD. 
-        The first problem I solved was a hydraulic fracturing code
-        refactoring to stub out a cleaner way to understand how fractures 
-        branch out under hydraulic 
-        pressure inside the cracks. Along the way, I understood the impact 
-        of algorithms and how the 
-        underlying mathematics needs to be comprehended to genuinely make progress 
-        in terms of making 
-        things faster and accurate. In the Fall of 2014, 
-        I switched to an advisor at the renowned Institute for Computational
-        Engineering, right across the road from the Department of Engineering Mechanics, 
-        and started
-        tackling problems on the intersection of mechanics, high performance computing, 
-        and algorithms. The crux of the PhD thesis was the solution of this problem
+        <p>
+            I started in Fall 2012 at the Department of Engineering Mechanics, 
+            on course to a classic Application Engineer working out at places like Abaqus, 
+            and Ansys as a career path starting step post PhD. 
+            The first problem I solved was a hydraulic fracturing code
+            refactoring to stub out a cleaner way to understand how fractures 
+            branch out under hydraulic 
+            pressure inside the cracks. Along the way, I understood the impact 
+            of algorithms and how the 
+            underlying mathematics needs to be comprehended to genuinely make progress 
+            in terms of making 
+            things faster and accurate. In the Fall of 2014, 
+            I switched to an advisor at the renowned Institute for Computational
+            Engineering, right across the road from the Department of Engineering Mechanics, 
+            and started
+            tackling problems on the intersection of mechanics, high performance computing, 
+            and algorithms. The crux of the PhD thesis was the solution of this problem.
+        </p>
         
         <div class="image-section">
             <img src="coarse_fine.png" alt="PhD Work" style="width: 80%;">
-        </div>                
+        </div>
 
-        The idea being that the injection or production wells in the reservoir section 
-        of the domain causes geomechanical reaction which have implications on the
-        free surface, albeit on a different length scale. Prior to the implementation 
-        of my algorithm, there was no way in-house for the code framework to pull off
-        a simulation of such magnitude.
-        With some sustained work in high performance computing, iterative solution techniques, 
-        and coding in a mixed programming language environment, I was able to generate
-        simulations of free surface displacements along side pressure evolution almost
-        10000 feet beneath the free surface, at the same time. 
+        <p>
+            The idea being that the injection or production wells in the reservoir section 
+            of the domain causes geomechanical reaction which have implications on the
+            free surface, albeit on a different length scale. Prior to the implementation 
+            of my algorithm, there was no way in-house for the code framework to pull off
+            a simulation of such magnitude.
+            With some sustained work in high performance computing, iterative solution techniques, 
+            and coding in a mixed programming language environment, I was able to generate
+            simulations of free surface displacements along side pressure evolution almost
+            10000 feet beneath the free surface, at the same time.
+        </p>
         
     </main>
 
@@ -65,3 +80,4 @@
 
 </body>
 </html>
+
