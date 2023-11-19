@@ -151,3 +151,19 @@ iframe {
     border: none;
     display: block;
 }
+
+/* CSS for GitHub Link in the Header */
+.header-text .github-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.header-text .github-link:hover {
+    background-color: #45a049;
+}
