@@ -8,6 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+    <style>
+        .side-by-side-images img {
+            display: inline-block;
+            width: 48%; /* Slightly less than 50% to accommodate margins/padding */
+            vertical-align: top; /* Align images at the top */
+            margin-right: 2%; /* Space between images, adjust as needed */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -42,23 +50,17 @@
             I have worked at UT Austin, Siemens Corporate Technology, 
             Los Alamos National Lab, Rensselaer Polytechnic Institute, Baylor College of 
             Medicine, University of Southern California, a fusion startup and a 
-            surgical navigation startup.</p>
+            surgical navigation startup.
+            </p>
         </section>
 
         <section>
-            <h2>And a beer montage ... :-)</h2>
-            <div class="image-section">
-                <img src="montage_grid.png" alt="Classification" style="width: 50%;">
+            <h2>Montages</h2>
+            <div class="side-by-side-images">
+                <img src="montage_grid.png" alt="Beer Montage">
+                <img src="montage.png" alt="Driver's View Montage">
             </div>                
         </section>
-
-        <section>
-            <h2>And a montage through the lens of a driver ... :-)</h2>
-            <div class="image-section">
-                <img src="montage.png" alt="Classification" style="width: 50%;">
-            </div>                
-        </section>
-
     </main>
 
     <footer>
