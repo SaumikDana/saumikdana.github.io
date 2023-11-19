@@ -19,12 +19,67 @@
     </header>
 
     <main>
-        At USC, I spearheaded a project to develop a Bayesian inference 
-        framework for model parameter estimation from time series data. 
-        The challenge was to create a model that could accurately predict 
-        and analyze complex data patterns. By employing Bayesian methods, 
-        I was able to construct a framework that not only provided precise 
-        estimations but also accounted for uncertainties in the data.
+        <p>
+            At USC, I spearheaded a project to develop a Bayesian inference 
+            framework for model parameter estimation from time series data. 
+            The challenge was to create a model that could accurately predict 
+            and analyze complex data patterns. By employing Bayesian methods, 
+            I was able to construct a framework that not only provided precise 
+            estimations but also accounted for uncertainties in the data.
+        </p>
+        <h2>Bayesian Inference with MCMC for Time Series Data</h2>
+        <pre>
+            # Define the prior distribution for the parameter
+            function prior(parameter):
+                # Define the prior probability of the parameter
+                # This could be a uniform, normal, or any other distribution
+                return probability_of_parameter
+
+            # Define the likelihood function
+            function likelihood(parameter, time_series_data):
+                # Calculate the likelihood of the time series data given the parameter
+                # This involves using your model to relate the parameter to the data
+                return likelihood_of_data_given_parameter
+
+            # Define the posterior distribution (unnormalized)
+            function posterior(parameter, time_series_data):
+                return likelihood(parameter, time_series_data) * prior(parameter)
+
+            # MCMC Algorithm (e.g., Metropolis-Hastings)
+            function MCMC(time_series_data, iterations):
+                # Start with an initial guess for the parameter
+                current_parameter = initial_guess
+                samples = []
+
+                for i in 1 to iterations:
+                    # Propose a new parameter value (this step depends on the specific MCMC algorithm)
+                    proposed_parameter = propose_new_parameter(current_parameter)
+
+                    # Calculate acceptance probability
+                    acceptance_probability = min(1, posterior(proposed_parameter, time_series_data) / posterior(current_parameter, time_series_data))
+
+                    # Accept or reject the new parameter value
+                    if random_uniform(0, 1) < acceptance_probability:
+                        current_parameter = proposed_parameter
+
+                    # Collect samples after burn-in period
+                    if i > burn_in:
+                        samples.append(current_parameter)
+
+                return samples
+
+            # Main procedure
+            iterations = 10000
+            burn_in = 1000
+            time_series_data = load_your_time_series_data()
+
+            # Run MCMC to sample from the posterior distribution
+            posterior_samples = MCMC(time_series_data, iterations)
+
+            # Analyze the posterior samples
+            # e.g., calculate mean, median, credible intervals, etc.
+            analyze_posterior_samples(posterior_samples)
+        </pre>
     </main>
 
     <footer>
