@@ -27,7 +27,24 @@
             I was able to construct a framework that not only provided precise 
             estimations but also accounted for uncertainties in the data.
         </p>
-        <h2>Bayesian Inference with MCMC for Time Series Data</h2>
+
+        <h2>Bayesian Inference in Time Series Analysis</h2>
+        <ul>
+            <li><strong>Concept:</strong> Bayesian inference updates the probability of a model parameter's value based on observed time series data.</li>
+            <li><strong>Process:</strong> It combines prior knowledge about the parameter (prior probability) with the likelihood of observing the data given the parameter values to produce an updated probability (posterior probability).</li>
+            <li><strong>Bayes' Theorem:</strong> The process is governed by the formula \( P(\text{Parameter}|\text{Time Series}) = \frac{P(\text{Time Series}|\text{Parameter}) \times P(\text{Parameter})}{P(\text{Time Series})} \).</li>
+            <li><strong>Application:</strong> This approach is particularly valuable in time series analysis for incorporating prior knowledge and handling complex, dynamic data.</li>
+        </ul>
+
+        <h2>Markov Chain Monte Carlo (MCMC) in Bayesian Time Series Analysis</h2>
+        <ul>
+            <li><strong>Purpose:</strong> MCMC is used to approximate the posterior distribution of a parameter when it's too complex to calculate directly in the context of time series data.</li>
+            <li><strong>Method:</strong> It generates a series of samples through a Markov chain process, where the distribution of these samples converges to the posterior distribution of the parameter.</li>
+            <li><strong>Algorithms:</strong> Includes techniques like Metropolis-Hastings and Gibbs sampling, tailored to explore the parameter space efficiently.</li>
+            <li><strong>Utility:</strong> The samples from MCMC provide a way to estimate and understand the posterior distribution, allowing for predictions and uncertainty quantification in time series models.</li>
+        </ul>
+
+        <h2>Pseudocode</h2>
         <pre>
             # Define the prior distribution for the parameter
             function prior(parameter):
