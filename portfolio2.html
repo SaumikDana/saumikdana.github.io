@@ -10,6 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">  
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .custom-image {
+            width: 80%;
+            margin-bottom: 0; /* Removes space below the image */
+            padding-bottom: 0; /* Removes padding below the image */
+        }     
+    </style>  
 </head>
 <body>
     <header>
@@ -45,49 +52,11 @@
             <li><strong>Algorithms:</strong> Includes techniques like Metropolis-Hastings and Gibbs sampling, tailored to explore the parameter space efficiently.</li>
             <li><strong>Utility:</strong> The samples from MCMC provide a way to estimate and understand the posterior distribution, allowing for predictions and uncertainty quantification in time series models.</li>
         </ul>
-
-        <h2>Pseudocode</h2>
-        <pre>
-        # Define the prior distribution for the parameter
-        function prior(parameter):
-            # Define the prior probability of the parameter
-            # This could be a uniform, normal, or any other distribution
-            return probability_of_parameter
-
-        # Define the likelihood function
-        function likelihood(parameter, time_series_data):
-            # Calculate the likelihood of the time series data given the parameter
-            # This involves using your model to relate the parameter to the data
-            return likelihood_of_data_given_parameter
-
-        # Define the posterior distribution (unnormalized)
-        function posterior(parameter, time_series_data):
-            return likelihood(parameter, time_series_data) * prior(parameter)
-
-        # MCMC Algorithm (e.g., Metropolis-Hastings)
-        function MCMC(time_series_data, iterations):
-            # Start with an initial guess for the parameter
-            current_parameter = initial_guess
-            samples = []
-
-            for i in 1 to iterations:
-                # Propose a new parameter value (this step depends on the specific MCMC algorithm)
-                proposed_parameter = propose_new_parameter(current_parameter)
-
-                # Calculate acceptance probability
-                acceptance_probability = min(1, posterior(proposed_parameter, time_series_data) / posterior(current_parameter, time_series_data))
-
-                # Accept or reject the new parameter value
-                if random_uniform(0, 1) < acceptance_probability:
-                    current_parameter = proposed_parameter
-
-                # Collect samples after burn-in period
-                if i > burn_in:
-                    samples.append(current_parameter)
-
-            return samples
-
-        </pre>
+        
+        <div class="image-section">
+            <img src="montage_bayesian.png" alt="PhD Work" class="custom-image">
+        </div>
+        
     </main>
 
     <footer>
