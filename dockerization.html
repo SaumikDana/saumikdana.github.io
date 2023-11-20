@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplified Portfolio - Saumik Dana</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+    <style>
+    .custom-image {
+        width: 100%;
+        margin-bottom: -50px; /* Removes space below the image */
+        padding-bottom: 0; /* Removes padding below the image */
+    }     
+    </style>  
+</head>
+<body>
+    <header>
+    <img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
+    <div class="header-text">
+    <h1>Dockerization</h1>
+    </div>
+    <img src="docker.webp" alt="Road Trips" class="profile-pic-right">
+    </header>
+
+    <main>
+        <section class="docker-info">
+            <h2>Dockerizing a Python Application</h2>
+            <p>
+                Dockerizing a Python application involves several key steps. Here's a guide to help you through the process:
+            </p>
+            <ol>
+                <li><strong>Create a Dockerfile:</strong> This file contains instructions for building the Docker image and typically includes the base image, dependencies, environment variables, and the command to run your application.</li>
+                <li><strong>Create a requirements.txt File:</strong> List all Python dependencies your application needs in this file to ensure they are installed in the Docker container.</li>
+                <li><strong>Build the Docker Image:</strong> Use the docker build command to create a Docker image from your Dockerfile. This image contains your code and dependencies packaged together.</li>
+                <li><strong>Run the Docker Container:</strong> Start a container based on this image using docker run to interact with your application.</li>
+                <li><strong>Testing:</strong> After the container is running, test it to ensure it behaves as expected, just like it does in your local development environment.</li>
+            </ol>
+            <p>Additional steps and best practices include using a .dockerignore file, volume mapping for development, setting environment variables, optimizing the Dockerfile, and adhering to security best practices.</p>
+        </section>
+    </main>
+
+    <footer>
+    <p>Copyright © 2023 by Saumik Dana</p>
+    </footer>
+
+</body>
+</html>
