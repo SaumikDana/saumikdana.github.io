@@ -113,10 +113,27 @@
     Let's also make a list of all the datasets out there in the realm of PointNets applied
     to point cloud processing
     <ul>
-    <li><strong>Princeton:</strong> </li>
+    <li><strong>Princeton:</strong> <a href="https://3dmatch.cs.princeton.edu/" target="_blank">3DMatch Dataset</a>
+    <ul>
+    <li>Data: A 10,000x2 cell array of structs, each containing:
+    <ul>
+    <li>framePath: Path to the scene, sequence, and RGB-D frame</li>
+    <li>pixelCoords: 1x2 array of pixel coordinates on the RGB-D frame</li>
+    <li>camCoords: 3x1 array of 3D camera coordinates</li>
+    <li>bboxCornersCam: 3x8 matrix of 3D camera coordinates for a 0.3m³ bounding box</li>
+    <li>bboxRangePixels: 2x2 matrix of pixel corners of the projected bounding box</li>
+    <li>camK: 3x3 matrix of camera intrinsics</li>
+    <li>colorPatch: HxWx3 uint8 matrix of the RGB patch</li>
+    <li>depthPatch: HxW matrix of the depth patch in meters</li>
+    <li>voxelGridTDF: 30x30x30 matrix of TDF voxel grid values</li>
+    </ul>
+    </li>
+    <li>Labels: In validation-set.mat only, a 10,000x1 cell array of binary correspondence labels</li>
+    </ul>
+    </li>
     <li><strong>Stanford:</strong> </li>
     </ul>
-    
+        
     </main>
     <footer>
     <p>Copyright © 2023 by Saumik Dana</p>
