@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70218" creator="Ipe 7.2.28">
-<info created="D:20231118134315" modified="D:20231120185817"/>
+<info created="D:20231118134315" modified="D:20231118174727"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -325,7 +325,7 @@ h
 <path matrix="0.69084 0 0 0.345216 89.6188 435.792" stroke="red" dash="dashed" pen="heavier">
 52.1776 0 0 52.1776 350.585 617.608 e
 </path>
-<text matrix="1 0 0 1 -8.28207 5.562" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="39.159" height="6.808" depth="0" valign="baseline">PointNet</text>
+<text matrix="1 0 0 1 -5.5815 4.01429" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="39.159" height="6.808" depth="0" valign="baseline">PointNet</text>
 <text matrix="1 0 0 1 146.184 60.0631" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="57.673" height="6.918" depth="0" valign="baseline">Classification</text>
 <text matrix="1 0 0 1 231.778 22.0772" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="53.356" height="6.815" depth="1.93" valign="baseline">Registration</text>
 <text matrix="1 0 0 1 165.481 -47.9406" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="58.946" height="6.815" depth="1.93" valign="baseline">Segmentation</text>
@@ -337,27 +337,15 @@ h
 120.301 631.567 m
 296.905 625.946 l
 </path>
-<path matrix="1.82643 0 0 0.418659 -94.3054 355.066" stroke="red" dash="dashed" pen="fat">
+<path matrix="1.74986 0 0 0.384785 -85.5685 375.756" stroke="red" dash="dashed" pen="fat">
 114.112 610.771 m
 181.444 552.748 l
 </path>
 <text matrix="1 0 0 1 147.89 96.7553" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="98.326" height="6.926" depth="1.93" valign="baseline">Multi layer perceptron</text>
 <text matrix="1 0 0 1 169.527 -14.6408" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="84.683" height="6.926" depth="1.93" valign="baseline">Segmentation Head</text>
 <text matrix="1 0 0 1 237.952 53.9337" transformations="translations" pos="74.4836 624.047" stroke="black" type="label" width="107.043" height="6.926" depth="1.93" valign="baseline">Lucas Kanade algorithm</text>
-<text matrix="0.957555 0.288252 -0.288252 0.957555 228.463 43.89" pos="74.4836 624.047" stroke="black" type="label" width="92.279" height="6.918" depth="0" valign="baseline">Global feature vector</text>
+<text matrix="0.95217 0.305568 -0.305568 0.95217 232.033 48.0755" pos="74.4836 624.047" stroke="black" type="label" width="92.279" height="6.918" depth="0" valign="baseline">Global feature vector</text>
 <text matrix="0.977924 -0.208959 0.208959 0.977924 -80.698 -1.88937" pos="74.4836 624.047" stroke="black" type="label" width="92.279" height="6.918" depth="0" valign="baseline">Global feature vector</text>
-<text matrix="0.987029 -0.160541 0.160541 0.987029 -27.7374 8.17941" pos="74.4836 624.047" stroke="black" type="label" width="61.104" height="6.918" depth="0" valign="baseline">Local features</text>
-<path stroke="black" arrow="normal/normal">
-125.412 647.945 m
-209.402 671.982 l
-</path>
-<path stroke="black" arrow="normal/normal">
-130.698 603.515 m
-219.817 585.598 l
-</path>
-<path matrix="1 0 0 1 4.39464 7.34632" stroke="black" arrow="normal/normal">
-130.698 603.515 m
-219.817 585.598 l
-</path>
+<text matrix="0.979412 -0.201872 0.201872 0.979412 -52.8726 17.3005" pos="74.4836 624.047" stroke="black" type="label" width="61.104" height="6.918" depth="0" valign="baseline">Local features</text>
 </page>
 </ipe>
