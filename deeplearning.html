@@ -66,6 +66,20 @@
         height: auto;
     }
 
+    .custom-image {
+        width: 50%;
+        margin-top: 0;
+        margin-bottom: 20px; /* Removes space below the image */
+        padding-bottom: 0; /* Removes padding below the image */
+    }     
+    .custom-image1 {
+        width: 60%;
+        margin-left: 0;
+        margin-top: 0;
+        margin-bottom: 20px; /* Removes space below the image */
+        padding-bottom: 0; /* Removes padding below the image */
+    }     
+
     </style>
 </head>
 <body>
@@ -78,32 +92,55 @@
     <img src="montage2.webp" alt="PointNet" class="profile-pic-right">
     </header>
     <nav>
-    <a href="fail_cnn.html" class="tablinks">Problems with CNN</a>
     <a href="classification.html" class="tablinks">Classification</a>
     <a href="segmentation.html" class="tablinks">Segmentation</a>
     <a href="registration.html" class="tablinks">Registration</a>
     </nav>
     <main>
-    <div class="content-container">
-    <div class="side-by-side-container">
-    <div class="text-section">
-    <p>During my recent stint at a surgical navigation startup, 
+    <p>
+    During my recent stint at a surgical navigation startup, 
     while the company was cobbling a product demo, which I was heavily involved in, 
     I started looking at point clouds, and I embarked on a personal project to 
     leverage deep learning for point cloud processing. 
     </p>
-    </div>
-    <div class="image-section">
-    <img src="DL_PCD.png" alt="Deep Learning on PCD" style="width: 75%;">
-    </div>                
-    </div>
-    </div>
 
+    <section>
+    <h2>Problems with CNNs</h2>
+    
+    <div class="image-section">
+    <img src="fail_cnn.png" alt="PhD Work" class="custom-image">
+    </div>
+            
+    <blockquote>
+    "Just like many other famous technologies in deep learning, 
+    the main challenge of a technology in deep leaning is probably invariance. 
+    Invariance is tightly related to efficiency, both in training speed and data. 
+    For example, CNN has translational invariance or equivariance, 
+    which means if we translate an object in an image from place A to place B, 
+    the learned object feature is also translated to place B. 
+    Thank to this property, we need not translate an object from places to places 
+    for data augmentation. However, CNN cannot be rotation invariance. 
+    That ‘s why we have to rotate the input images for data augmentation during training. 
+    In point clouds, other than the above two invariances, 
+    we have to consider one more: permutation invariance, 
+    in which the learned point cloud features are consistent 
+    no matter how the points are stored in the input file. 
+    Therefore, the three invariance challenges are: 
+    translation invariance, rotation invariance, and permutation invariance."
+    </blockquote>
+
+    <div class="image-section">
+    <img src="fail_cnn_tmi.png" alt="PhD Work" class="custom-image1">
+    </div>
+    
     <section>
     <h2>PointNet Architecture</h2>
     <div class="text-section">
     <img src="base_arch.png" alt="PointNet Basic Architecture" class="pointnet-image">
     </div>
+    <div class="text-section">
+    <img src="DL_PCD.png" alt="Deep Learning on PCD"  class="pointnet-image">
+    </div>                    
     </section>
 
     <section>
