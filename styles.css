@@ -14,7 +14,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #35495e; /* Dark slate blue */
+    background: #c0392b; /* Deep red */
     color: #fff;
     padding: 20px;
 }
@@ -22,7 +22,7 @@ header {
 .profile-pic, .profile-pic-right {
     height: auto;
     border-radius: 0%;
-    border: 1px solid #7b8a8b; /* Slate grey border */
+    border: 2px solid #2ecc71; /* Fluorescent green border */
 }
 
 .profile-pic {
@@ -64,7 +64,7 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #b2bec3; /* Light blue-grey */
+    background-color: #2ecc71; /* Fluorescent green */
 }
 
 nav a.active {
@@ -80,7 +80,7 @@ main section {
 }
 
 main h2 {
-    color: #2980b9; /* Sea blue for section titles */
+    color: #e74c3c; /* Bright red for section titles */
 }
 
 .experience, .education {
@@ -108,7 +108,7 @@ ul {
 }
 
 footer {
-    background: #2d3436; /* Charcoal grey footer */
+    background: #e74c3c; /* Lighter red */
     color: #ecf0f1;
     text-align: center;
     margin-top: 20px;
@@ -213,4 +213,4 @@ iframe {
 blockquote {
     margin-left: 0;
     padding-left: 0;
-}    
+}
