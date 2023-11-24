@@ -13,12 +13,12 @@ body::before {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 20px; 
+    width: 10px; 
     background: linear-gradient(
         to right, 
-        black 2px, 
-        transparent 2px 10px, 
-        black 10px
+        black 1px, 
+        transparent 1px 9px,
+        black 9px 10px
     );
     z-index: -1;
 }
@@ -216,6 +216,16 @@ iframe {
     main section {
         padding: 15px;
     }
+
+    body::before {
+        width: 5px; /* Adjust for smaller screens */
+        background: linear-gradient(
+            to right, 
+            black 1px, 
+            transparent 1px 4px,
+            black 4px 5px
+        );
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -225,9 +235,3 @@ iframe {
         margin-bottom: 20px;
     }
 }
-
-blockquote {
-    margin-left: 0;
-    padding-left: 0;
-}
-    
