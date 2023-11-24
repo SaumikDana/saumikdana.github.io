@@ -4,6 +4,23 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f0e8d9; /* Light cream background */
+    position: relative; /* Added for the vertical lines */
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px; 
+    background: linear-gradient(
+        to right, 
+        black 2px, 
+        transparent 2px 10px, 
+        black 10px
+    );
+    z-index: -1;
 }
 
 header, nav, main, footer {
@@ -208,7 +225,6 @@ iframe {
         margin-bottom: 20px;
     }
 }
-
 
 blockquote {
     margin-left: 0;
