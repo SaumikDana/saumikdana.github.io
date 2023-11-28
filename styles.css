@@ -235,3 +235,14 @@ iframe {
         margin-bottom: 20px;
     }
 }
+
+.custom-list {
+    list-style: none; /* Removes default bullet points */
+    padding-left: 0; /* Removes default padding */
+}
+
+.custom-list li::before {
+    content: '✘'; /* Adds the cross symbol */
+    padding-right: 10px; /* Adds space between the symbol and text */
+    color: rgb(1, 1, 1); /* Optional: changes the color of the bullet point */
+}
