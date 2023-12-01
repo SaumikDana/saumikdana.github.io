@@ -246,3 +246,18 @@ iframe {
     padding-right: 10px; /* Adds space between the symbol and text */
     color: rgb(1, 1, 1); /* Optional: changes the color of the bullet point */
 }
+
+#news-ticker {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    overflow: hidden;
+}
+#ticker-content {
+    white-space: nowrap;
+    animation: scroll-left 20s linear infinite;
+}
+@keyframes scroll-left {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
