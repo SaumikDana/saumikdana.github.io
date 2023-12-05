@@ -277,6 +277,6 @@ iframe {
 .video-row video {
     flex: 0 0 19%; /* Each video takes up 19% of the row width */
     margin: 0.5%; /* Adds a small space between videos */
-    max-width: 15%;
+    max-width: 19%;
     height: auto;
 }
