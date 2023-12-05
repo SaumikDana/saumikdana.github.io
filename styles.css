@@ -262,3 +262,21 @@ iframe {
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
 }
+
+.image-section {
+    text-align: center; /* Center-aligning the videos */
+}
+
+.video-row {
+    display: flex;
+    justify-content: center; /* Center videos in the row */
+    flex-wrap: wrap; /* Allows wrapping if the container is too narrow */
+    margin-bottom: 20px; /* Space between rows */
+}
+
+.video-row video {
+    flex: 0 0 19%; /* Each video takes up 19% of the row width */
+    margin: 0.5%; /* Adds a small space between videos */
+    max-width: 100%;
+    height: auto;
+}
