@@ -280,3 +280,51 @@ iframe {
     max-width: 19%;
     height: auto;
 }
+
+/* Portfolio Grid */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+    gap: 20px; /* Space between items */
+    padding: 20px;
+}
+
+.portfolio-item {
+    background-color: #ffffff; /* White background for each item */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Ensures the content fits within the borders */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+}
+
+.portfolio-image {
+    width: 100%; /* Full width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.portfolio-description {
+    padding: 15px; /* Spacing inside the item */
+}
+
+.portfolio-description h3 {
+    margin-top: 0; /* No space above the title */
+    color: #333; /* Dark text for readability */
+}
+
+/* Adjust the grid for smaller screens */
+@media screen and (max-width: 768px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr 1fr; /* 2 columns for tablet screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr; /* 1 column for mobile screens */
+    }
+}
