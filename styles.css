@@ -303,7 +303,7 @@ iframe {
 }
 
 .portfolio-image {
-    width: 100%; /* Full width */
+    width: 50%; /* Full width */
     height: auto; /* Maintain aspect ratio */
 }
 
