@@ -284,7 +284,7 @@ iframe {
 /* Portfolio Grid */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+    grid-template-columns: repeat(4, 1fr); /* Adjust the number of columns as needed */
     gap: 20px; /* Space between items */
     padding: 20px;
 }
