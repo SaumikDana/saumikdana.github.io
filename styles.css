@@ -287,7 +287,7 @@ iframe {
     grid-template-columns: repeat(4, 1fr); /* 4 columns */
     gap: 20px;
     padding: 20px;
-    animation: fadeIn 1s ease-in-out; /* New: Fade-in animation */
+    animation: fadeIn 1s ease-in-out; /* Fade-in animation */
 }
 
 @keyframes fadeIn {
@@ -296,12 +296,14 @@ iframe {
 }
 
 .portfolio-item {
-    background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%); /* New: Gradient background */
+    background: linear-gradient(135deg, rgba(230, 233, 240, 0.8) 0%, rgba(238, 241, 245, 0.8) 100%);
     border: 1px solid #ccc;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Enhanced shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* New: Shadow transition */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Shadow transition */
+    background-size: cover;
+    background-position: center;
 }
 
 .portfolio-item:hover {
@@ -309,25 +311,16 @@ iframe {
     box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Deeper shadow on hover */
 }
 
-.portfolio-image {
-    width: 100%;
-    height: auto;
-    transition: transform 0.3s ease; /* New: Transform transition */
-}
-
-.portfolio-image:hover {
-    transform: scale(1.05); /* New: Scale image on hover */
-}
-
 .portfolio-description {
     padding: 15px;
-    text-align: center; /* New: Centered text */
+    text-align: center; /* Centered text */
+    background: rgba(255, 255, 255, 0.6); /* Semi-transparent background for readability */
 }
 
 .portfolio-description h3 {
     margin-top: 0;
     color: #333;
-    font-family: 'Arial', sans-serif; /* New: Custom font */
+    font-family: 'Arial', sans-serif; /* Custom font */
 }
 
 /* Responsive adjustments */
@@ -343,7 +336,7 @@ iframe {
     }
 }
 
-/* Additional: Button styles for interactive elements */
+/* Button styles for interactive elements */
 .button {
     display: inline-block;
     padding: 10px 20px;
