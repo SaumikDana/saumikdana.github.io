@@ -296,7 +296,7 @@ iframe {
 }
 
 .portfolio-item {
-    background-color: #f0f0f0; /* Soft grey background */
+    background-color: #f0f2f5; /* Light gray with a touch of blue */
     border: 1px solid #ccc;
     border-radius: 10px;
     overflow: hidden;
