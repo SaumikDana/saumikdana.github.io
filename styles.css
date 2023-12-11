@@ -360,7 +360,7 @@ iframe {
 
 /* Styling for the portfolio title */
 .portfolio-title {
-    font-size: 1.5em; /* Make the title stand out */
+    font-size: 1.0em; /* Make the title stand out */
     color: #333; /* Dark grey color for better readability */
     padding: 15px; /* Add some padding around the text */
     margin: 0; /* Reset default margin */
