@@ -316,7 +316,6 @@ iframe {
 
 /* Portfolio description styling, initially hidden */
 .portfolio-description {
-    display: none;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -330,13 +329,31 @@ iframe {
     opacity: 0;
     visibility: hidden; /* Hide it visually and layout-wise */
     z-index: 2; /* Ensure it's above other content */
+    overflow-y: auto; /* Allow scrolling for overflowing content */
 }
 
 /* Show the description when the portfolio item is hovered over */
 .portfolio-item:hover .portfolio-description {
-    display: block; /* Display the description */
     opacity: 1; /* Fade in to full visibility */
     visibility: visible; /* Make it visually visible */
+}
+
+/* Additional styling for ensuring link visibility */
+.portfolio-description a {
+    display: inline-block; /* Ensure the link does not break */
+    margin-top: 10px; /* Provide some space above the link */
+    color: #007bff; /* Style the link color as needed */
+    text-decoration: underline; /* Underline the link for clarity */
+}
+
+/* Ensure the link is visible even if the text overflows */
+.portfolio-description a:link,
+.portfolio-description a:visited {
+    position: absolute;
+    bottom: 15px; /* Position it towards the bottom */
+    left: 50%;
+    transform: translateX(-50%); /* Center the link horizontally */
+    z-index: 3; /* Ensure it's above the text content */
 }
 
 /* Styling for the portfolio title */
