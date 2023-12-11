@@ -97,8 +97,9 @@ main section {
 }
 
 main h2 {
-    margin-top: -20px;
+    margin-top: -10px;
     color: #e74c3c; /* Bright red for section titles */
+    margin-bottom: -10px;
 }
 
 .experience, .education {
@@ -106,7 +107,6 @@ main h2 {
 }
 
 .experience h3, .education h3 {
-    margin-top: -20px;
     font-size: 18px;
     color: #e17055; /* Terracotta for subheadings */
 }
