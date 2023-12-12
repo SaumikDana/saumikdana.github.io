@@ -97,7 +97,7 @@ main section {
 }
 
 main h2 {
-    /* margin-top: -10px; */
+    margin-top: -10px;
     color: #e74c3c; /* Bright red for section titles */
     /* margin-bottom: -10px; */
 }
