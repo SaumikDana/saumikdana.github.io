@@ -387,6 +387,11 @@ iframe {
     position: relative; /* Needed for absolute positioning of description */
 }
 
+.portfolio-link {
+    color: #ffffff; /* White color for the text */
+    /* Include other styles like text-decoration if you wish to remove underline etc. */
+}
+
 .portfolio-item::before {
     content: '';
     position: absolute;
