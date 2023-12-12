@@ -404,3 +404,33 @@ iframe {
 .button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
+
+/* Experience Highlights Section Styles */
+#experience-highlights {
+    background-color: #f0e8d9; /* Light cream background to match the rest of the site */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Consistent with main section styling */
+}
+
+#experience-highlights h2 {
+    color: #e74c3c; /* Bright red for section titles */
+    margin-bottom: 15px;
+}
+
+.highlight-item {
+    margin-bottom: 10px;
+}
+
+.highlight-item h3 {
+    font-size: 18px;
+    color: #e17055; /* Terracotta for subheadings */
+    margin-bottom: 5px;
+}
+
+.highlight-item p {
+    color: #666; /* Dark gray for description */
+    font-size: 0.9em;
+    line-height: 1.6;
+}
