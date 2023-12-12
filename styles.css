@@ -387,11 +387,7 @@ iframe {
     position: relative; /* Needed for absolute positioning of description */
 }
 
-.portfolio-link {
-    color: #ffffff; /* White color for the text */
-    /* Include other styles like text-decoration if you wish to remove underline etc. */
-}
-
+/* Dark overlay for better text visibility */
 .portfolio-item::before {
     content: '';
     position: absolute;
@@ -399,17 +395,17 @@ iframe {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
-    z-index: 1;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 1; /* Under the text */
 }
 
 /* Hover effect for portfolio items */
 .portfolio-item:hover {
-    transform: translateY(-10px); /* Enhanced hover effect */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Deeper shadow on hover */
+    transform: translateY(-10px); /* Move up on hover */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Larger shadow on hover */
 }
 
-/* Portfolio description styling, initially hidden */
+/* Portfolio description styling */
 .portfolio-description {
     position: absolute;
     width: 100%;
@@ -418,65 +414,62 @@ iframe {
     left: 0;
     padding: 15px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.9); /* More opaque for readability */
-    border-radius: 10px; /* Match the item's border-radius */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition for fade effect */
+    background: rgba(255, 255, 255, 0.9); /* White semi-transparent background */
+    border-radius: 10px;
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
     opacity: 0;
-    visibility: hidden; /* Hide it visually and layout-wise */
-    z-index: 3; /* Ensure it's above other content */
-    overflow-y: auto; /* Allow scrolling for overflowing content */
+    visibility: hidden; /* Hidden by default */
+    z-index: 3; /* Above the overlay */
+    overflow-y: auto; /* Scroll if needed */
 }
 
-/* Show the description when the portfolio item is hovered over */
+/* Show description on hover */
 .portfolio-item:hover .portfolio-description {
-    opacity: 1; /* Fade in to full visibility */
-    visibility: visible; /* Make it visually visible */
+    opacity: 1; /* Show the description */
+    visibility: visible; /* Make it visible */
 }
 
-/* Additional styling for ensuring link visibility */
-.portfolio-description a {
-    display: inline-block; /* Ensure the link does not break */
-    margin-top: 10px; /* Provide some space above the link */
-    color: #007bff; /* Style the link color as needed */
-    text-decoration: underline; /* Underline the link for clarity */
-}
-
-/* Ensure the link is visible even if the text overflows */
+/* Styling for links in the description */
+.portfolio-description a,
 .portfolio-description a:link,
 .portfolio-description a:visited {
-    position: absolute;
-    bottom: 15px; /* Position it towards the bottom */
-    left: 50%;
-    transform: translateX(-50%); /* Center the link horizontally */
-    z-index: 4; /* Ensure it's above the text content */
+    color: #ffffff; /* White text for visibility */
+    text-decoration: none; /* Optional: no underline */
+    display: inline-block; /* Keep inline but allow block properties */
+    margin-top: 10px; /* Space above the link */
+    position: absolute; /* Positioning at the bottom */
+    bottom: 15px; /* Space from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Offset by half width to truly center */
+    z-index: 4; /* Above the description */
 }
 
 /* Styling for the portfolio title */
 .portfolio-title {
-    font-size: 1.0em; /* Make the title stand out */
-    color: #fff; /* White color for better visibility */
+    font-size: 1.0em; /* Relative font size */
+    color: #fff; /* White text for visibility */
     text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Text shadow for legibility */
-    padding: 15px; /* Add some padding around the text */
-    margin: 0; /* Reset default margin */
+    padding: 15px; /* Padding around the text */
+    margin: 0; /* No margin */
     transition: background-color 0.3s ease; /* Transition for hover effect */
-    position: relative; /* Required for absolute positioning of the image */
+    position: relative; /* Needed for absolute positioning of children */
     z-index: 2; /* Above the overlay */
 }
 
-/* Placeholder for the image */
+/* Placeholder for the image behind the title */
 .portfolio-title::after {
     content: '';
     position: absolute;
     width: 100%;
-    height: 100%; /* Set the initial height to display the image */
+    height: 100%; /* Full height */
     top: 0;
     left: 0;
-    background-size: cover;
-    background-position: center;
-    z-index: -1; /* Ensure it's below the text content */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the background */
+    z-index: -1; /* Below the text */
 }
 
-/* Responsive adjustments for the portfolio grid */
+/* Responsive grid adjustments */
 @media screen and (max-width: 768px) {
     .portfolio-grid {
         grid-template-columns: 1fr 1fr; /* 2 columns for medium screens */
@@ -499,7 +492,7 @@ iframe {
     background-color: #007bff; /* Bootstrap primary blue */
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s; /* Smooth color transition for hover */
+    transition: background-color 0.3s; /* Transition for hover */
 }
 
 .button:hover {
