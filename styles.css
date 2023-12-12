@@ -438,17 +438,19 @@ iframe {
     z-index: 1; /* To ensure it's above the timeline border */
 }
 
+/* 
 .timeline-icon {
     width: 10px;
     height: 10px;
-    background-color: #c0392b; /* Deep red for icons */
+    background-color: #c0392b;
     border-radius: 50%;
     position: absolute;
-    left: -15px; /* Positioning the icon to the left */
+    left: -15px; 
     top: 50%;
     transform: translateY(-50%);
-    z-index: 2; /* Above the timeline and dates */
-}
+    z-index: 2;
+} 
+*/
 
 .timeline-content {
     margin-left: 20px;
