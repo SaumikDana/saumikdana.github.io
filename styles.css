@@ -283,6 +283,83 @@ iframe {
     height: auto;
 }
 
+/* ====================================================*/
+/* Experience Highlights Timeline Styles */
+#experience-highlights {
+    background-color: #f0e8d9;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 20px; /* Adjust left padding to accommodate the dates */
+    margin-left: 10px; /* Adjust if needed */
+    border-left: 2px solid #c0392b; /* Deep red line for the timeline */
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-date {
+    position: absolute;
+    width: 250px; /* Width of date elements */
+    left: 50%; /* Centering the date */
+    transform: translateX(-50%); /* Perfect center alignment */
+    text-align: center;
+    font-weight: bold;
+    color: #c0392b; /* Color for the date text */
+    background-color: #f0e8d9; /* Background color of the date element */
+    padding: 0 5px; /* Padding to cover the timeline border */
+    z-index: 1; /* To ensure it's above the timeline border */
+}
+
+.timeline-content {
+    margin-left: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: -5px; /* Adjust this if necessary */
+}
+
+.timeline-content h3 {
+    font-size: 18px;
+    color: #e17055; /* Terracotta for subheadings */
+    margin-bottom: 5px;
+}
+
+.timeline-content p {
+    color: #666;
+    font-size: 1.0em;
+    line-height: 1.6;
+}
+
+/* New Styles for Interrupting Dates */
+.timeline-date::before,
+.timeline-date::after {
+    content: '';
+    position: absolute;
+    height: 2px; /* Same as timeline border */
+    width: 20px; /* Width should be enough to cover the border and align with the date background */
+    background-color: #f0e8d9; /* Background color to cover the line */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.timeline-date::before {
+    left: -30px; /* Adjust as needed to cover the line behind the date */
+}
+
+.timeline-date::after {
+    right: -30px; /* Adjust as needed to cover the line behind the date */
+}
+
+/* ====================================================*/
 /* Enhanced Portfolio Grid */
 .portfolio-grid {
     display: grid;
@@ -368,11 +445,21 @@ iframe {
     border-bottom: 1px solid #ccc; /* A subtle border under the title */
     cursor: pointer; /* Change cursor to indicate it can be interacted with */
     transition: background-color 0.3s ease; /* Transition for hover effect */
+    position: relative; /* Required for absolute positioning of the image */
 }
 
-/* Hover effect for the portfolio title */
-.portfolio-title:hover {
-    background-color: #f7f7f7; /* Slightly different shade when hovering over the title */
+/* Placeholder for the image */
+.portfolio-title::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0;
+    top: 100%;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    transition: height 0.3s ease; /* Smooth transition for height */
+    z-index: -1; /* Ensure it's below the text content */
 }
 
 /* Responsive adjustments for the portfolio grid */
@@ -403,93 +490,4 @@ iframe {
 
 .button:hover {
     background-color: #0056b3; /* Darker blue on hover */
-}
-
-/* Experience Highlights Timeline Styles */
-#experience-highlights {
-    background-color: #f0e8d9;
-    padding: 15px;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.timeline {
-    position: relative;
-    padding-left: 30px; /* Adjust left padding to accommodate the dates */
-    margin-left: 20px; /* Adjust if needed */
-    border-left: 2px solid #c0392b; /* Deep red line for the timeline */
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.timeline-date {
-    position: absolute;
-    width: 250px; /* Width of date elements */
-    left: 50%; /* Centering the date */
-    transform: translateX(-50%); /* Perfect center alignment */
-    text-align: center;
-    font-weight: bold;
-    color: #c0392b; /* Color for the date text */
-    background-color: #f0e8d9; /* Background color of the date element */
-    padding: 0 5px; /* Padding to cover the timeline border */
-    z-index: 1; /* To ensure it's above the timeline border */
-}
-
-/* 
-.timeline-icon {
-    width: 10px;
-    height: 10px;
-    background-color: #c0392b;
-    border-radius: 50%;
-    position: absolute;
-    left: -15px; 
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-} 
-*/
-
-.timeline-content {
-    margin-left: 10px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-    top: -5px; /* Adjust this if necessary */
-}
-
-.timeline-content h3 {
-    font-size: 18px;
-    color: #e17055; /* Terracotta for subheadings */
-    margin-bottom: 5px;
-}
-
-.timeline-content p {
-    color: #666;
-    font-size: 0.9em;
-    line-height: 1.6;
-}
-
-/* New Styles for Interrupting Dates */
-.timeline-date::before,
-.timeline-date::after {
-    content: '';
-    position: absolute;
-    height: 2px; /* Same as timeline border */
-    width: 20px; /* Width should be enough to cover the border and align with the date background */
-    background-color: #f0e8d9; /* Background color to cover the line */
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.timeline-date::before {
-    left: -30px; /* Adjust as needed to cover the line behind the date */
-}
-
-.timeline-date::after {
-    right: -30px; /* Adjust as needed to cover the line behind the date */
 }

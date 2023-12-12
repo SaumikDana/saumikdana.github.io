@@ -58,6 +58,17 @@
     </p>
     </section>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.portfolio-title').forEach(title => {
+            title.addEventListener('mouseover', function() {
+                const imagePath = this.getAttribute('data-image-src');
+                this.style.setProperty('--image-src', `url(${imagePath})`);
+            });
+        });
+    });
+    </script>
+    
     <!-- Portfolio Section -->
     <section id="portfolio">
     <h2>Check out my Projects</h2>
