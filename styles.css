@@ -422,12 +422,12 @@ iframe {
 
 .timeline-item {
     position: relative;
-    margin-bottom: 40px; /* Increased space for dates */
+    margin-bottom: 20px;
 }
 
 .timeline-date {
     position: absolute;
-    width: 150px; /* Width of date elements */
+    width: 250px; /* Width of date elements */
     left: 50%; /* Centering the date */
     transform: translateX(-50%); /* Perfect center alignment */
     text-align: center;
