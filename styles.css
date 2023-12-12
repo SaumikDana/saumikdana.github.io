@@ -427,7 +427,7 @@ iframe {
 
 .timeline-date {
     position: absolute;
-    width: 80px; /* Width of date elements */
+    width: 150px; /* Width of date elements */
     left: 50%; /* Centering the date */
     transform: translateX(-50%); /* Perfect center alignment */
     text-align: center;
