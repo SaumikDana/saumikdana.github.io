@@ -415,8 +415,8 @@ iframe {
 
 .timeline {
     position: relative;
-    padding-left: 30px;
-    margin-left: 20px;
+    padding-left: 30px; /* Adjust left padding to accommodate the dates */
+    margin-left: 20px; /* Adjust if needed */
     border-left: 2px solid #c0392b; /* Deep red line for the timeline */
 }
 
@@ -427,45 +427,15 @@ iframe {
 
 .timeline-date {
     position: absolute;
-    width: 80px; /* Adjust as needed */
+    width: 80px; /* Width of date elements */
+    left: 50%; /* Centering the date */
+    transform: translateX(-50%); /* Perfect center alignment */
     text-align: center;
     font-weight: bold;
-    color: #c0392b; /* Use a color that fits the design */
-    background-color: #f0e8d9; /* Match the background color */
-    z-index: 1; /* Ensure the date appears above the line */
-}
-
-.timeline-date::before,
-.timeline-date::after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: -2px; /* Align with the timeline border */
-    height: 10px; /* Height of the break */
-    width: 2px; /* Width of the timeline border */
-    background: #f0e8d9; /* Match the background color */
-}
-
-.timeline-date::before {
-    bottom: 100%;
-    z-index: 2; /* Above the timeline border */
-}
-
-.timeline-date::after {
-    top: 100%;
-    z-index: 2; /* Above the timeline border */
-}
-
-.timeline-date-top {
-    bottom: 100%; /* Place above the timeline */
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.timeline-date-bottom {
-    top: 100%; /* Place below the timeline */
-    left: 50%;
-    transform: translateX(-50%);
+    color: #c0392b; /* Color for the date text */
+    background-color: #f0e8d9; /* Background color of the date element */
+    padding: 0 5px; /* Padding to cover the timeline border */
+    z-index: 1; /* To ensure it's above the timeline border */
 }
 
 .timeline-icon {
@@ -474,10 +444,10 @@ iframe {
     background-color: #c0392b; /* Deep red for icons */
     border-radius: 50%;
     position: absolute;
-    left: -15px; /* Center on the timeline border */
+    left: -15px; /* Positioning the icon to the left */
     top: 50%;
     transform: translateY(-50%);
-    z-index: 1; /* Below the dates */
+    z-index: 2; /* Above the timeline and dates */
 }
 
 .timeline-content {
@@ -500,4 +470,24 @@ iframe {
     color: #666;
     font-size: 0.9em;
     line-height: 1.6;
+}
+
+/* New Styles for Interrupting Dates */
+.timeline-date::before,
+.timeline-date::after {
+    content: '';
+    position: absolute;
+    height: 2px; /* Same as timeline border */
+    width: 20px; /* Width should be enough to cover the border and align with the date background */
+    background-color: #f0e8d9; /* Background color to cover the line */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.timeline-date::before {
+    left: -30px; /* Adjust as needed to cover the line behind the date */
+}
+
+.timeline-date::after {
+    right: -30px; /* Adjust as needed to cover the line behind the date */
 }
