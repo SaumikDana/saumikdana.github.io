@@ -498,3 +498,12 @@ iframe {
 .button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
+
+.portfolio-title a,
+.portfolio-title a:link,
+.portfolio-title a:visited,
+.portfolio-title a:hover,
+.portfolio-title a:active {
+    color: #ffffff; /* Ensures the text is white */
+    text-decoration: none; /* Optional: Removes underline from links */
+}
