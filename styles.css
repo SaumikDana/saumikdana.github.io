@@ -405,32 +405,53 @@ iframe {
     background-color: #0056b3; /* Darker blue on hover */
 }
 
-/* Experience Highlights Section Styles */
+/* Experience Highlights Timeline Styles */
 #experience-highlights {
-    background-color: #f0e8d9; /* Light cream background to match the rest of the site */
+    background-color: #f0e8d9;
     padding: 15px;
     margin-bottom: 20px;
+    position: relative;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+    margin-left: 20px;
+    border-left: 2px solid #c0392b; /* Deep red line for the timeline */
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-icon {
+    width: 10px;
+    height: 10px;
+    background-color: #c0392b; /* Deep red for icons */
+    border-radius: 50%;
+    position: absolute;
+    left: -5px;
+    top: 0;
+    z-index: 100;
+}
+
+.timeline-content {
+    margin-left: 20px;
+    padding: 10px;
+    background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Consistent with main section styling */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#experience-highlights h2 {
-    color: #e74c3c; /* Bright red for section titles */
-    margin-bottom: 15px;
-}
-
-.highlight-item {
-    margin-bottom: 10px;
-}
-
-.highlight-item h3 {
+.timeline-content h3 {
     font-size: 18px;
     color: #e17055; /* Terracotta for subheadings */
     margin-bottom: 5px;
 }
 
-.highlight-item p {
-    color: #666; /* Dark gray for description */
+.timeline-content p {
+    color: #666;
     font-size: 0.9em;
     line-height: 1.6;
 }
