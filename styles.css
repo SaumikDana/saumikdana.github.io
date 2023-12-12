@@ -422,7 +422,27 @@ iframe {
 
 .timeline-item {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 40px; /* Increased space for dates */
+}
+
+.timeline-date {
+    position: absolute;
+    width: 80px; /* Adjust as needed */
+    text-align: center;
+    font-weight: bold;
+    color: #c0392b; /* Use a color that fits the design */
+}
+
+.timeline-date-top {
+    bottom: 100%; /* Place above the timeline */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-date-bottom {
+    top: 100%; /* Place below the timeline */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .timeline-icon {
@@ -432,7 +452,8 @@ iframe {
     border-radius: 50%;
     position: absolute;
     left: -5px;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 100;
 }
 
@@ -442,6 +463,8 @@ iframe {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: -5px; /* Adjust this if necessary */
 }
 
 .timeline-content h3 {
