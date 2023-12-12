@@ -431,6 +431,29 @@ iframe {
     text-align: center;
     font-weight: bold;
     color: #c0392b; /* Use a color that fits the design */
+    background-color: #f0e8d9; /* Match the background color */
+    z-index: 10; /* Above the timeline line */
+}
+
+.timeline-date::before,
+.timeline-date::after {
+    content: '';
+    display: block;
+    width: 2px; /* match the border width of the timeline */
+    height: 10px; /* this controls the break size in the line */
+    background: #f0e8d9; /* match the background color of the section */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9; /* Below the date but above the timeline line */
+}
+
+.timeline-date::before {
+    bottom: 100%;
+}
+
+.timeline-date::after {
+    top: 100%;
 }
 
 .timeline-date-top {
@@ -454,7 +477,7 @@ iframe {
     left: -5px;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 100;
+    z-index: 5; /* Below the dates */
 }
 
 .timeline-content {
