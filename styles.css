@@ -508,10 +508,13 @@ iframe {
     text-decoration: none; /* Optional: Removes underline from links */
 }
 
+/* ========================================= */
+/* 2 row 2 column format */
 .image-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Creates two columns */
-    gap: 10px; /* Space between images */
+    grid-template-columns: repeat(2, 1fr); /* Creates two columns */
+    grid-gap: 10px; /* Space between images */
+    margin-bottom: 20px; /* Space below the entire grid */
 }
 
 .image-row {
@@ -520,6 +523,7 @@ iframe {
 }
 
 .custom-image {
-    width: 45%; /* Makes the image take full width of the column */
+    width: calc(50% - 5px); /* Makes the image take full width of the column, accounting for grid-gap */
     height: auto; /* Maintains aspect ratio */
+    display: block; /* Ensures no inline spacing issues */
 }
