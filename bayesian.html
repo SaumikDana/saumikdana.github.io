@@ -11,16 +11,34 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
+    /* New styles for flexbox layout */
+    .main-content {
+        display: flex;
+        flex-wrap: wrap; /* Ensure content wraps on small screens */
+        align-items: flex-start; /* Align items to the start of the flex container */
+        justify-content: center; /* Center the content horizontally */
+        gap: 20px; /* Space between image and text */
+    }
     .custom-image {
         width: 100%;
+        max-width: 1000px; 
         margin-bottom: 0; /* Removes space below the image */
         padding-bottom: 0; /* Removes padding below the image */
-    }     
-    .custom-image1 {
-        width: 60%;
-        margin-bottom: 0; /* Removes space below the image */
-        padding-bottom: 0; /* Removes padding below the image */
-    }     
+    }
+    .text-content {
+        flex: 1; /* Allows text to grow and fill available space */
+        max-width: 600px; /* Maximum width of the text block */
+    }
+    @media (max-width: 768px) {
+        /* Responsive design for smaller screens */
+        .main-content {
+            flex-direction: column; /* Stack items vertically */
+        }
+        .custom-image,
+        .text-content {
+            max-width: 100%; /* Full width on small screens */
+        }
+    }    
     </style>  
 </head>
 <body>
@@ -43,30 +61,40 @@
     but also accounted for uncertainties in the data.</p>
     
     <h2>Bayesian Inference in Time Series Analysis</h2>
+
+    <div class="main-content">
+    <div>
+    <img src="bayesmcmc.png" alt="PhD Work" class="custom-image">
+    </div>
+    <div class="text-content">    
     <ul>
     <li><strong>Concept:</strong> Bayesian inference updates the probability of a model parameter's value based on observed time series data.</li>
     <li><strong>Process:</strong> It combines prior knowledge about the parameter (prior probability) with the likelihood of observing the data given the parameter values to produce an updated probability (posterior probability).</li>
     <li><strong>Bayes' Theorem:</strong> The process is governed by the formula \( P(\text{Parameter}|\text{Time Series}) = \frac{P(\text{Time Series}|\text{Parameter}) \times P(\text{Parameter})}{P(\text{Time Series})} \).</li>
     <li><strong>Application:</strong> This approach is particularly valuable in time series analysis for incorporating prior knowledge and handling complex, dynamic data.</li>
     </ul>
-    <div class="image-section">
-    <img src="bayesmcmc.png" alt="PhD Work" class="custom-image1">
     </div>
-    
+    </div>
+
     <h2>Markov Chain Monte Carlo (MCMC) in Bayesian Time Series Analysis</h2>
+
+    <div class="main-content">
+    <div>
+    <img src="mcmc_target.png" alt="PhD Work" class="custom-image">
+    </div>
+    <div class="text-content">        
     <ul>
     <li><strong>Purpose:</strong> MCMC is used to approximate the posterior distribution of a parameter when it's too complex to calculate directly in the context of time series data.</li>
     <li><strong>Method:</strong> It generates a series of samples through a Markov chain process, where the distribution of these samples converges to the posterior distribution of the parameter.</li>
     <li><strong>Algorithms:</strong> Includes techniques like Metropolis-Hastings and Gibbs sampling, tailored to explore the parameter space efficiently.</li>
     <li><strong>Utility:</strong> The samples from MCMC provide a way to estimate and understand the posterior distribution, allowing for predictions and uncertainty quantification in time series models.</li>
     </ul>
-    <div class="image-section">
-    <img src="mcmc_target.png" alt="PhD Work" class="custom-image1">
     </div>
-    
+    </div>
+
     <h2>Metropolis-Hastings</h2>
     <div class="image-section">
-    <img src="metropolis_hastings.png" alt="PhD Work" class="custom-image1">
+    <img src="metropolis_hastings.png" alt="PhD Work" class="custom-image">
     </div>
     
     <h2>MCMC Sampling Evolution History</h2>
