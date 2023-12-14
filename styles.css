@@ -507,3 +507,19 @@ iframe {
     color: #ffffff; /* Ensures the text is white */
     text-decoration: none; /* Optional: Removes underline from links */
 }
+
+.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates two columns */
+    gap: 10px; /* Space between images */
+}
+
+.image-row {
+    display: flex;
+    justify-content: space-between; /* Distributes space evenly between images */
+}
+
+.custom-image {
+    width: 45%; /* Makes the image take full width of the column */
+    height: auto; /* Maintains aspect ratio */
+}
