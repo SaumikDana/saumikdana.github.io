@@ -9,11 +9,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
     <style>
+    /* New styles for flexbox layout */
+    .main-content {
+        display: flex;
+        flex-wrap: wrap; /* Ensure content wraps on small screens */
+        align-items: flex-start; /* Align items to the start of the flex container */
+        justify-content: center; /* Center the content horizontally */
+        gap: 20px; /* Space between image and text */
+    }
+
     .custom-image {
-        width: 60%;
+        width: 50%; /* Full width of its parent */
+        max-width: 600px; /* Maximum width of the image */
         margin-bottom: 0; /* Removes space below the image */
         padding-bottom: 0; /* Removes padding below the image */
-    }     
+    }
+
+    .text-content {
+        flex: 1; /* Allows text to grow and fill available space */
+        max-width: 600px; /* Maximum width of the text block */
+    }
+
+    @media (max-width: 768px) {
+        /* Responsive design for smaller screens */
+        .main-content {
+            flex-direction: column; /* Stack items vertically */
+        }
+        .custom-image,
+        .text-content {
+            max-width: 100%; /* Full width on small screens */
+        }
+    }
+    
     </style>  
 </head>
 <body>
@@ -26,33 +53,29 @@
     <img src="stock_picking.webp" alt="Road Trips" class="profile-pic-right">
     </header>
     <nav>
-    <!-- <a href="workexperience.html" class="tablinks">Work Experience</a> -->
-    <!-- <a href="geoscientific.html" class="tablinks">Large Dataset Simulations</a>
-    <a href="restfulapi.html" class="tablinks">FastAPI, Flask, AWS Elastic BeanStalk, Docker and Kubernetes</a>
-    <a href="bayesian.html" class="tablinks">Bayesian/MCMC for Time Series</a> -->
-    <!-- <a href="greencard.html" class="tablinks">My race to Green Card</a> -->
-    <!-- <a href="stock_prediction.html" class="tablinks">Building a fusion startup's first stock price predictor</a> -->
+    <!-- Navigation links can be uncommented and used as needed -->
     <a href="fintech.html" class="tablinks">Financial Engineering Concepts</a>
-    <!-- <a href="stock_picking.html" class="tablinks">Five-Factor Strategy for Stock Picking</a> -->
-    <!-- <a href="deeplearning.html" class="tablinks">Deep Learning for Image Registration</a> -->
     </nav>
     
     <main>
-
-    <div class="image-section">
+    <div class="main-content">
+    <div>
     <img src="strategy.png" alt="PhD Work" class="custom-image">
     </div>
+    <div class="text-content">
     <p>Strategic framework for selecting stocks before earnings releases, 
-        focusing on options volume, put/call ratio, implied volatility, historical price movements, 
-        and financial health. High options volume may signal investor interest, 
-        while a favorable put/call ratio indicates bullish sentiment. 
-        Elevated implied volatility often forecasts significant price shifts, 
-        making it a critical pre-earnings indicator. 
-        Analyzing a stock’s historical response to earnings can predict its potential movement. 
-        Lastly, robust financial health is crucial to ensure the company has a strong foundation 
-        regardless of short-term market reactions to earnings. This holistic approach aims to balance the immediate market sentiment 
+    focusing on options volume, put/call ratio, implied volatility, historical price movements, 
+    and financial health. High options volume may signal investor interest, 
+    while a favorable put/call ratio indicates bullish sentiment. 
+    Elevated implied volatility often forecasts significant price shifts, 
+    making it a critical pre-earnings indicator. 
+    Analyzing a stock’s historical response to earnings can predict its potential movement. 
+    Lastly, robust financial health is crucial to ensure the company has a strong foundation 
+    regardless of short-term market reactions to earnings. This holistic approach aims to balance the immediate market sentiment 
     with the underlying financial stability of a stock for informed decision-making 
     prior to earnings announcements.</p>    
+    </div>
+    </div>
     </main>
 
     <footer>
