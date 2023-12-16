@@ -48,123 +48,115 @@
         padding-left: 20px;
     }
 
-    .side-by-side-container {
+    .side-by-side-layout {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        align-items: flex-start;
         gap: 20px;
     }
 
-    .side-by-side-container .text-section, 
-    .side-by-side-container .image-section {
+    .image-container {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
 
-    .side-by-side-container .image-section img {
+    .text-container {
+        flex: 2;
+    }
+
+    .custom-image1, .custom-image2 {
         width: 100%;
         height: auto;
     }
-
-    .custom-image1 {
-        width: 45%;
-        margin-top: 0;
-        margin-bottom: 20px; /* Removes space below the image */
-        padding-bottom: 0; /* Removes padding below the image */
-    }       
-
-    .custom-image2 {
-        width: 50%;
-        margin-top: 0;
-        margin-bottom: 20px; /* Removes space below the image */
-        padding-bottom: 0; /* Removes padding below the image */
-    }       
 
     </style>
 </head>
 <body>
     <header>
-    <img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
-    <div class="header-text">
-    <h1>Point Cloud Processing with PointNet</h1>
-    <a href="https://github.com/SaumikDana/DL_CV_Images" target="_blank" class="github-link">GitHub Repository</a>
-    </div>
-    <img src="montage2.webp" alt="PointNet" class="profile-pic-right">
+        <img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
+        <div class="header-text">
+            <h1>Point Cloud Processing with PointNet</h1>
+            <a href="https://github.com/SaumikDana/DL_CV_Images" target="_blank" class="github-link">GitHub Repository</a>
+        </div>
+        <img src="montage2.webp" alt="PointNet" class="profile-pic-right">
     </header>
     <nav>
     </nav>
     <main>
-    <p>
-    During my recent stint at a surgical navigation startup, 
-    while the company was cobbling a product demo, which I was heavily involved in, 
-    I started looking at point clouds, and I embarked on a personal project to 
-    leverage deep learning for point cloud processing. 
-    </p>
+        <p>
+            During my recent stint at a surgical navigation startup, 
+            while the company was cobbling a product demo, which I was heavily involved in, 
+            I started looking at point clouds, and I embarked on a personal project to 
+            leverage deep learning for point cloud processing. 
+        </p>
 
-    <section>
-    <h2>Problems with CNNs</h2>
-    
-    <div class="image-section">
-    <img src="fail_cnn.png" alt="PhD Work" class="custom-image1">
-    </div>
-            
-    <blockquote>
-    "Just like many other famous technologies in deep learning, 
-    the main challenge of a technology in deep leaning is probably invariance. 
-    Invariance is tightly related to efficiency, both in training speed and data. 
-    For example, CNN has translational invariance or equivariance, 
-    which means if we translate an object in an image from place A to place B, 
-    the learned object feature is also translated to place B. 
-    Thank to this property, we need not translate an object from places to places 
-    for data augmentation. However, CNN cannot be rotation invariance. 
-    That ‘s why we have to rotate the input images for data augmentation during training. 
-    In point clouds, other than the above two invariances, 
-    we have to consider one more: permutation invariance, 
-    in which the learned point cloud features are consistent 
-    no matter how the points are stored in the input file. 
-    Therefore, the three invariance challenges are: 
-    translation invariance, rotation invariance, and permutation invariance."
-    </blockquote>
+        <section class="side-by-side-layout">
+            <div class="image-container">
+                <img src="fail_cnn.png" alt="PhD Work" class="custom-image1">
+                <img src="fail_cnn_tmi.png" alt="PhD Work" class="custom-image2">
+            </div>
+            <div class="text-container">
+                <h2>Problems with CNNs</h2>
+                <blockquote>
+                    "Just like many other famous technologies in deep learning, 
+                    the main challenge of a technology in deep leaning is probably invariance. 
+                    Invariance is tightly related to efficiency, both in training speed and data. 
+                    For example, CNN has translational invariance or equivariance, 
+                    which means if we translate an object in an image from place A to place B, 
+                    the learned object feature is also translated to place B. 
+                    Thank to this property, we need not translate an object from places to places 
+                    for data augmentation. However, CNN cannot be rotation invariance. 
+                    That ‘s why we have to rotate the input images for data augmentation during training. 
+                    In point clouds, other than the above two invariances, 
+                    we have to consider one more: permutation invariance, 
+                    in which the learned point cloud features are consistent 
+                    no matter how the points are stored in the input file. 
+                    Therefore, the three invariance challenges are: 
+                    translation invariance, rotation invariance, and permutation invariance."
+                </blockquote>
+            </div>
+        </section>
 
-    <div class="image-section">
-    <img src="fail_cnn_tmi.png" alt="PhD Work" class="custom-image2">
-    </div>
-    
-    <section>
-    <h2>PointNet Architecture</h2>
-    <div class="text-section">
-    <img src="base_arch.png" alt="PointNet Basic Architecture" class="pointnet-image">
-    </div>
-    <div class="text-section">
-    <img src="DL_PCD.png" alt="Deep Learning on PCD"  class="pointnet-image">
-    </div>                    
-    </section>
+        <section>
+            <h2>PointNet Architecture</h2>
+            <div class="text-section">
+                <img src="base_arch.png" alt="PointNet Basic Architecture" class="pointnet-image">
+            </div>
+            <div class="text-section">
+                <img src="DL_PCD.png" alt="Deep Learning on PCD"  class="pointnet-image">
+            </div>                    
+        </section>
 
-    Given the properties of point clouds, which the CNNs cannot satify, an architecture called PointNet
-    was devised by researchers at Stanford in 2017. Multiple versions have been spawned off 
-    this core architecture to perform tasks like segmentation, classification and more 
-    recently registration. 
-    
-    <section>
-    <h2>Datasets</h2>
-    <ul>
-    <li><strong>3DMatch:</strong> <a href="https://3dmatch.cs.princeton.edu/" target="_blank">3DMatch Dataset</a>
-    - Focused on 3D reconstruction and matching. 
-    It is a collection of 3D scans used to benchmark algorithms 
-    for 3D surface reconstruction and to align 3D scans 
-    in the field of computer vision. The primary goal of 3DMatch 
-    is to facilitate the development and testing of algorithms 
-    that can match and align 3D data from different sources or viewpoints.</li>
-    <li><strong>ShapeNet:</strong> <a href="https://shapenet.org/" target="_blank">ShapeNet</a>
-    - Large-scale, richly-annotated dataset of 3D shapes. 
-    It's designed for various tasks like object recognition and segmentation 
-    in the realm of computer vision and AI.</li>
-    </ul>    
-    </section>
+        <section>
+            <p>
+                Given the properties of point clouds, which the CNNs cannot satisfy, an architecture called PointNet
+                was devised by researchers at Stanford in 2017. Multiple versions have been spawned off 
+                this core architecture to perform tasks like segmentation, classification, and more 
+                recently registration. 
+            </p>
+        </section>
 
+        <section>
+            <h2>Datasets</h2>
+            <ul>
+                <li><strong>3DMatch:</strong> <a href="https://3dmatch.cs.princeton.edu/" target="_blank">3DMatch Dataset</a>
+                - Focused on 3D reconstruction and matching. 
+                It is a collection of 3D scans used to benchmark algorithms 
+                for 3D surface reconstruction and to align 3D scans 
+                in the field of computer vision. The primary goal of 3DMatch 
+                is to facilitate the development and testing of algorithms 
+                that can match and align 3D data from different sources or viewpoints.</li>
+                <li><strong>ShapeNet:</strong> <a href="https://shapenet.org/" target="_blank">ShapeNet</a>
+                - Large-scale, richly-annotated dataset of 3D shapes. 
+                It's designed for various tasks like object recognition and segmentation 
+                in the realm of computer vision and AI.</li>
+            </ul>    
+        </section>
     </main>
     <footer>
-    <p>Copyright © 2023 by Saumik Dana</p>
+        <p>Copyright © 2023 by Saumik Dana</p>
     </footer>
 </body>
-
 </html>
