@@ -89,7 +89,7 @@ nav a.active {
 }
 
 main section {
-    background-color: #f0e8d9; /* Light cream background to match the rest of the site */
+    background-color: #ffffff; /* Changed to white background */
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -286,7 +286,7 @@ iframe {
 /* ====================================================*/
 /* Experience Highlights Timeline Styles */
 #experience-highlights {
-    background-color: #f0e8d9;
+    background-color:  #ffffff; /* Changed to white background */
     padding: 15px;
     margin-bottom: 20px;
     position: relative;
