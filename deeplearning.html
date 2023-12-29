@@ -131,28 +131,56 @@
     was devised by researchers at Stanford in 2017. Multiple versions have been spawned off 
     this core architecture to perform tasks like segmentation, classification, and more 
     recently registration. 
-    </p>    
-    </div>
-    </section>
-
-    <!-- <section>
-    <h2>PointNet Architecture</h2>
-    <div class="text-section">
-    <img src="base_arch.png" alt="PointNet Basic Architecture" class="pointnet-image">
-    </div>
-    <div class="text-section">
-    <img src="DL_PCD.png" alt="Deep Learning on PCD"  class="pointnet-image">
-    </div>                    
-    </section>
-
-    <section>
-    <p>
-    Given the properties of point clouds, which the CNNs cannot satisfy, an architecture called PointNet
-    was devised by researchers at Stanford in 2017. Multiple versions have been spawned off 
-    this core architecture to perform tasks like segmentation, classification, and more 
-    recently registration. 
     </p>
-    </section> -->
+    <p>
+    PointNetLK (PointNet Lucas-Kanade) is an adaptation and combination of the PointNet architecture 
+    with the Lucas-Kanade algorithm for the task of 3D point cloud registration. 
+    PointNet is a deep neural network designed to process point clouds (sets of points in a 3D space), 
+    and the Lucas-Kanade method is a classical algorithm for image registration, 
+    typically used for aligning images and tracking motion. 
+    When adapted for 3D point cloud registration, 
+    the goal is to align two sets of 3D points (point clouds) from different perspectives or times. 
+    Here's an overall algorithmic framework for PointNetLK applied to 3D point cloud registration:
+    <ul>
+    <li><strong>Input Preparation:</strong>
+    <ul>
+    <li>Obtain two point clouds, a source and a target, that you want to align.</li>
+    <li>Preprocess the point clouds if necessary (e.g., downsampling, denoising).</li>
+    </ul>
+    </li>
+    <li><strong>Feature Extraction with PointNet:</strong>
+    <ul>
+    <li><strong>Source and Target Features:</strong> Pass both the source and target point clouds through a PointNet architecture to extract features.</li>
+    <li><strong>Feature Representation:</strong> Obtain a global feature representation for each point cloud, capturing the distribution of points and their spatial relationships.</li>
+    </ul>
+    </li>
+    <li><strong>Lucas-Kanade Iterative Alignment:</strong>
+    <ul>
+    <li><strong>Initial Parameters:</strong> Start with an initial guess of the transformation (e.g., identity if no prior knowledge).</li>
+    <li><strong>Iterative Process:</strong>
+    <ul>
+    <li><strong>Warping:</strong> Apply the current estimate of the transformation to the source point cloud to align it with the target.</li>
+    <li><strong>Error Computation:</strong> Compute the difference between the warped source and the target in the feature space provided by PointNet.</li>
+    <li><strong>Parameter Update:</strong> Use the Lucas-Kanade method to update the transformation parameters to minimize this error.</li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li><strong>Convergence Check:</strong>
+    <ul>
+    <li><strong>Termination Criteria:</strong> Check if the transformation parameters have converged or if a maximum number of iterations has been reached.</li>
+    <li><strong>Output:</strong> If converged, return the final transformation parameters that best align the source to the target.</li>
+    </ul>
+    </li>
+    <li><strong>Transformation Application:</strong>
+    <ul>
+    <li>Apply Final Transformation: Use the final estimated transformation to warp the source point cloud fully into the coordinate system of the target point cloud.</li>
+    </ul>
+    </li>
+    </ul>
+    </p>
+    </div>
+    </section>
 
     <section>
     <h2>Datasets</h2>
