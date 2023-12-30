@@ -511,17 +511,17 @@ iframe {
 /* ========================================= */
 .image-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Fewer columns for larger images */
-    grid-gap: 10px;
+    grid-template-columns: repeat(3, 1fr); /* Maintains three columns */
+    grid-gap: 20px; /* Increased gap for better spacing */
     margin-bottom: 20px;
 }
 
 .image-row {
-    display: block; /* Adjusted from flex to block */
+    display: block; /* Adjusted for potentially better sizing */
 }
 
 .custom-image {
-    width: 100%; /* Full column width */
-    height: auto;
+    width: 100%; /* Full width of the column */
+    height: auto; /* Maintains aspect ratio */
     display: block;
 }
