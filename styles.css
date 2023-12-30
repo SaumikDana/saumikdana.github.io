@@ -512,7 +512,7 @@ iframe {
 /* 2 row 2 column format */
 .image-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Creates two columns */
+    grid-template-columns: repeat(3, 1fr); /* Creates two columns */
     grid-gap: 10px; /* Space between images */
     margin-bottom: 20px; /* Space below the entire grid */
 }
