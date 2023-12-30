@@ -509,21 +509,19 @@ iframe {
 }
 
 /* ========================================= */
-/* 2 row 2 column format */
 .image-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Creates two columns */
-    grid-gap: 10px; /* Space between images */
-    margin-bottom: 20px; /* Space below the entire grid */
+    grid-template-columns: repeat(2, 1fr); /* Fewer columns for larger images */
+    grid-gap: 10px;
+    margin-bottom: 20px;
 }
 
 .image-row {
-    display: flex;
-    justify-content: space-between; /* Distributes space evenly between images */
+    display: block; /* Adjusted from flex to block */
 }
 
 .custom-image {
-    width: calc(50% - 5px); /* Makes the image take full width of the column, accounting for grid-gap */
-    height: auto; /* Maintains aspect ratio */
-    display: block; /* Ensures no inline spacing issues */
+    width: 100%; /* Full column width */
+    height: auto;
+    display: block;
 }
