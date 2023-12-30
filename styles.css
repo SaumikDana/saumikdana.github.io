@@ -512,7 +512,7 @@ iframe {
 .image-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Maintains two columns */
-    grid-gap: 20px; /* Increased gap for better spacing */
+    grid-gap: 10px; /* Increased gap for better spacing */
     margin-bottom: 20px;
 }
 
