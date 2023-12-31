@@ -525,3 +525,21 @@ iframe {
     height: auto; /* Maintains aspect ratio */
     display: block;
 }
+
+/* ========================================= */
+.cv-link {
+    display: inline-block;
+    background-color: #4a8ada; /* Choose a color that fits the site's theme */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cv-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
