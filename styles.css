@@ -520,16 +520,24 @@ iframe {
 }
 
 /* ========================================= */
+.social-logo {
+    height: 30px; /* Sets a uniform height for all logos */
+    width: 30px; /* Sets a uniform width for all logos */
+    margin-right: 10px; /* Adds spacing between logos and text */
+    vertical-align: middle; /* Aligns logos vertically with adjacent text */
+}
+
 .cv-link {
     display: inline-block;
-    background-color: #4a8ada; /* Choose a color that fits the site's theme */
+    background-color: #4a8ada; /* Background color */
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    vertical-align: middle; /* Aligns button vertically with adjacent logos */
 }
 
 .cv-link:hover {
