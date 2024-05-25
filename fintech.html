@@ -8,12 +8,44 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-    <style>
-    .custom-image {
-        width: 100%;
-        margin-bottom: 0; /* Removes space below the image */
-        padding-bottom: 0; /* Removes padding below the image */
-    }     
+    </style>
+        <style>
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 20px;
+        }
+        .custom-image {
+            width: 100%;
+            max-width: 1000px; 
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .text-content {
+            flex: 1;
+            max-width: 600px;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .custom-image,
+            .text-content {
+                max-width: 100%;
+            }
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(4, auto);
+            gap: 10px;
+        }
+        .image-grid img {
+            width: 100%;
+            height: auto;
+        }
     </style>  
 </head>
 <body>
