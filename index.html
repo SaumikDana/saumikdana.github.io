@@ -4,22 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saumik Dana | PhD Data Scientist & Quant Developer | Portfolio</title>
-    <meta name="description" content="Saumik Dana - Experienced Data Scientist and Quant Developer with PhD from UT Austin. Specializing in machine learning, Bayesian inference, and financial analytics. View portfolio and achievements.">
+    <title>Saumik Dana | PhD Quantitative Researcher & Volatility Trading Specialist | Portfolio</title>
+    <meta name="description" content="Saumik Dana - Experienced Quantitative Researcher and Volatility Trading Specialist with PhD from UT Austin. Specializing in options trading strategies, index rebalancing, and financial analytics at Zebra Capital Management.">
     <meta name="author" content="Saumik Dana">
-    <meta name="keywords" content="Saumik Dana, Data Scientist, Quant Developer, PhD, UT Austin, Machine Learning, Bayesian Analysis, Financial Analytics, Asset Management">
+    <meta name="keywords" content="Saumik Dana, Quantitative Researcher, Volatility Trading, Options Trading, Index Rebalancing, PhD, UT Austin, Machine Learning, Bayesian Analysis, Financial Analytics, Asset Management, Zebra Capital">
     
     <!-- Open Graph Tags -->
-    <meta property="og:title" content="Saumik Dana | Data Scientist & Quant Developer">
-    <meta property="og:description" content="Experienced Data Scientist and Quant Developer specializing in machine learning, Bayesian inference, and financial analytics.">
+    <meta property="og:title" content="Saumik Dana | Quantitative Researcher & Volatility Trading Specialist">
+    <meta property="og:description" content="Experienced Quantitative Researcher specializing in volatility trading, options strategies, and index rebalancing at Zebra Capital Management.">
     <meta property="og:image" content="https://saumikdana.github.io/saumik.jpg">
     <meta property="og:url" content="https://saumikdana.github.io">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Saumik Dana | Data Scientist & Quant Developer">
-    <meta name="twitter:description" content="Experienced Data Scientist and Quant Developer specializing in machine learning, Bayesian inference, and financial analytics.">
+    <meta name="twitter:title" content="Saumik Dana | Quantitative Researcher & Volatility Trading Specialist">
+    <meta name="twitter:description" content="Experienced Quantitative Researcher specializing in volatility trading, options strategies, and index rebalancing.">
     <meta name="twitter:image" content="https://saumikdana.github.io/saumik.jpg">
     
     <link rel="stylesheet" href="styles.css">
@@ -39,7 +39,7 @@
         "https://github.com/SaumikDana",
         "https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en"
       ],
-      "jobTitle": "Quantitative Developer",
+      "jobTitle": "Quantitative Researcher",
       "worksFor": {
         "@type": "Organization",
         "name": "Zebra Capital Management LLC"
@@ -49,7 +49,7 @@
         "name": "University of Texas at Austin"
       },
       "image": "https://saumikdana.github.io/saumik.jpg",
-      "description": "Data Scientist and Quant Developer specializing in machine learning, Bayesian inference, and financial analytics",
+      "description": "Quantitative Researcher specializing in volatility trading, options strategies, and index rebalancing",
       "education": {
         "@type": "EducationalOccupancy",
         "degree": "PhD",
@@ -58,7 +58,7 @@
       "hasOccupation": [
         {
           "@type": "Occupation",
-          "name": "Quantitative Developer",
+          "name": "Quantitative Researcher",
           "startDate": "2024-02"
         },
         {
@@ -72,11 +72,289 @@
     </script>
     
     <style>
+    body {
+        font-family: 'EB Garamond', serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+    
+    header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        border-radius: 0 0 20px 20px;
+    }
+    
+    .profile-pic, .profile-pic-right {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    
+    .header-text {
+        flex-grow: 1;
+        padding: 0 2rem;
+    }
+    
+    .header-text h1 {
+        font-size: 3rem;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .social-links {
+        margin-top: 1rem;
+    }
+    
+    .social-logo {
+        width: 40px;
+        height: 40px;
+        margin: 0 10px;
+        transition: transform 0.3s ease;
+    }
+    
+    .social-logo:hover {
+        transform: scale(1.1);
+    }
+    
+    main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    #news-ticker {
+        background: #28a745;
+        color: white;
+        padding: 1rem;
+        margin: 2rem 0;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    #ticker-content {
+        animation: scroll 15s linear infinite;
+        white-space: nowrap;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+    
+    @keyframes scroll {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+    
+    section {
+        background: white;
+        margin: 2rem 0;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    section h2 {
+        color: #667eea;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .portfolio-item {
+        background-size: cover;
+        background-position: center;
+        height: 200px;
+        border-radius: 15px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .portfolio-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+    
+    .portfolio-title {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        color: white;
+        padding: 2rem 1rem 1rem;
+        margin: 0;
+    }
+    
+    .portfolio-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    
+    .timeline {
+        position: relative;
+        padding-left: 2rem;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: #667eea;
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+        padding-left: 2rem;
+    }
+    
+    .timeline-icon {
+        position: absolute;
+        left: -1.5rem;
+        top: 0.5rem;
+        width: 1rem;
+        height: 1rem;
+        background: #667eea;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 0 0 3px #667eea;
+    }
+    
+    .timeline-date {
+        color: #667eea;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .timeline-content h3 {
+        margin: 0 0 0.5rem 0;
+        color: #333;
+    }
+    
+    .achievement-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .achievement-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+    
+    .achievement-card:hover {
+        transform: scale(1.05);
+    }
+    
+    .achievement-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .skill-category {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+    }
+    
+    .skill-category h4 {
+        margin: 0 0 1rem 0;
+        color: #667eea;
+    }
+    
+    .skill-category ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .skill-category li {
+        padding: 0.3rem 0;
+        color: #555;
+    }
+    
     .side-by-side-images img {
         display: inline-block;
-        width: 40%; /* Slightly less than 50% to accommodate margins/padding */
-        vertical-align: top; /* Align images at the top */
-        margin-right: 2%; /* Space between images, adjust as needed */
+        width: 40%;
+        vertical-align: top;
+        margin-right: 2%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    footer {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        header {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .header-text h1 {
+            font-size: 2rem;
+        }
+        
+        .profile-pic, .profile-pic-right {
+            width: 100px;
+            height: 100px;
+        }
+        
+        main {
+            padding: 1rem;
+        }
+        
+        .timeline {
+            padding-left: 1rem;
+        }
+        
+        .timeline-item {
+            padding-left: 1rem;
+        }
     }
     </style>
 </head>
@@ -84,9 +362,10 @@
 <body>
 
     <header>
-    <img src="saumik.jpg" alt="Saumik Dana - Data Scientist and Engineer" class="profile-pic">
+    <img src="saumik.jpg" alt="Saumik Dana - Quantitative Researcher and Volatility Trading Specialist" class="profile-pic">
     <div class="header-text">
     <h1>Saumik Dana</h1>
+    <p style="font-size: 1.2rem; margin: 0.5rem 0;">Quantitative Researcher & Volatility Trading Specialist</p>
     <div class="social-links">
     <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" rel="noopener noreferrer">
     <img src="linkedin-logo.png" alt="Saumik Dana on LinkedIn" class="social-logo">
@@ -94,9 +373,6 @@
     <a href="https://github.com/SaumikDana" target="_blank" rel="noopener noreferrer">
     <img src="github-logo.png" alt="Saumik Dana on GitHub" class="social-logo">
     </a>
-<!--     <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">
-    <img src="google-scholar-logo.png" alt="Saumik Dana on Google Scholar" class="social-logo">
-    </a>     -->
     </div>        
     </div>
     <img src="montage4.webp" alt="Saumik Dana's Road Trips" class="profile-pic-right">
@@ -106,95 +382,202 @@
 
     <div id="news-ticker">
     <div id="ticker-content">
-    <span>LATEST UPDATE: I HAVE BUILT VERSION 1 OF DERIVATIVES-BASED STOCK PICKER! - </span>
+    <span>LATEST UPDATE: ACHIEVING 40%+ CAGR ON SINGLE STOCK OPTIONS WITH SHARPE RATIOS EXCEEDING 1.5 ON INDEX OPTIONS! - </span>
     </div>
     </div>
         
     <section>
     <h2>About Me</h2>
     <p> 
-    I am currently serving as a volatility trading quant at a buy side firm. I hold a PhD in Engineering Mechanics from University of Texas at Austin. I am a US permanent resident.
-    </p>
+    I am a volatility trading and index rebalancing quant at a CT based buy side firm. I hold a PhD from University of Texas at Austin. I am a US permanent resident.
+    </section>
+
+    <section id="key-achievements">
+    <h2>Key Achievements</h2>
+    <div class="achievement-grid">
+        <div class="achievement-card">
+            <span class="achievement-number">40%+</span>
+            <span>CAGR on Single Stock Options</span>
+        </div>
+        <div class="achievement-card">
+            <span class="achievement-number">1.5+</span>
+            <span>Sharpe Ratios on Index Options</span>
+        </div>
+        <div class="achievement-card">
+            <span class="achievement-number">300</span>
+            <span>Basis Points Alpha Generation</span>
+        </div>
+        <div class="achievement-card">
+            <span class="achievement-number">95%</span>
+            <span>Code Performance Optimization</span>
+        </div>
+        <div class="achievement-card">
+            <span class="achievement-number">$8.2M</span>
+            <span>Series A Funding Secured</span>
+        </div>
+        <div class="achievement-card">
+            <span class="achievement-number">50+</span>
+            <span>Technical Indicators Engineered</span>
+        </div>
+    </div>
     </section>
 
     <section id="portfolio">
-    <h2>Check out my Projects</h2>
+    <h2>Featured Projects & Expertise</h2>
     <div class="portfolio-grid">
 
-<!--     <div class="portfolio-item" style="background-image: url('geoscientific.webp');">
-    <h3 class="portfolio-title">
-    <a href="geoscientific.html" class="portfolio-link">Large Dataset Simulations</a>
-    </h3>
-    </div>
- -->
     <div class="portfolio-item" style="background-image: url('montage3.webp');">
     <h3 class="portfolio-title">
     <a href="bayesian.html" class="portfolio-link">Bayesian/MCMC for Time Series</a>
     </h3>
     </div>
-<!-- 
-    <div class="portfolio-item" style="background-image: url('stock_prediction.webp');">
+
+    <div class="portfolio-item" style="background-image: url('stock_picking.webp');">
     <h3 class="portfolio-title">
-    <a href="stock_prediction.html" class="portfolio-link">Diversifying Fusion SaaS to FinTech</a>
-    </h3>
-    </div>
- -->
-    <div class="portfolio-item" style="background-image: url('stock_picking.webp');"> -->
-    <h3 class="portfolio-title">
-    <a href="stock_picking.html" class="portfolio-link">Informed Stock Selection</a>
+    <a href="stock_picking.html" class="portfolio-link">Options Trading Strategies</a>
     </h3>
     </div>
 
-<!--     <div class="portfolio-item" style="background-image: url('montage5.webp');">
+    <div class="portfolio-item" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <h3 class="portfolio-title">
-    <a href="restfulapi.html" class="portfolio-link">Cloud Computing</a>
+    <span class="portfolio-link">Index Rebalancing Systems</span>
     </h3>
     </div>
- -->
-<!--     <div class="portfolio-item" style="background-image: url('montage2.webp');">
-    <h3 class="portfolio-title">
-    <a href="deeplearning.html" class="portfolio-link">Deep Learning for Image Registration</a>
-    </h3>
-    </div> -->
 
+    <div class="portfolio-item" style="background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+    <h3 class="portfolio-title">
+    <span class="portfolio-link">Sector Rotation Strategies</span>
+    </h3>
+    </div>
+
+    <div class="portfolio-item" style="background-image: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+    <h3 class="portfolio-title">
+    <span class="portfolio-link">WM/Reuters FX Trading</span>
+    </h3>
+    </div>
+
+    <div class="portfolio-item" style="background-image: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+    <h3 class="portfolio-title">
+    <span class="portfolio-link">Volatility Surface Modeling</span>
+    </h3>
+    </div>
+
+    </div>
+    </section>
+
+    <section id="technical-skills">
+    <h2>Technical Expertise</h2>
+    <div class="skills-grid">
+        <div class="skill-category">
+            <h4>Programming & Tools</h4>
+            <ul>
+                <li>Python (Advanced)</li>
+                <li>SQL & SQLAlchemy</li>
+                <li>Azure Artifacts</li>
+                <li>Poetry Package Manager</li>
+                <li>Git & Version Control</li>
+            </ul>
+        </div>
+        <div class="skill-category">
+            <h4>Financial Analytics</h4>
+            <ul>
+                <li>Options Trading Strategies</li>
+                <li>Volatility Modeling (SVI, SSVI)</li>
+                <li>Delta Hedging</li>
+                <li>Risk Management</li>
+                <li>Portfolio Optimization</li>
+            </ul>
+        </div>
+        <div class="skill-category">
+            <h4>Machine Learning</h4>
+            <ul>
+                <li>XGBoost & Random Forest</li>
+                <li>Genetic Algorithms</li>
+                <li>SHAP Feature Importance</li>
+                <li>Monte Carlo Simulations</li>
+                <li>Bayesian Inference</li>
+            </ul>
+        </div>
+        <div class="skill-category">
+            <h4>Mathematical Methods</h4>
+            <ul>
+                <li>Black-Scholes PDE</li>
+                <li>Convex Optimization</li>
+                <li>MCMC Methods</li>
+                <li>Time Series Analysis</li>
+                <li>Statistical Modeling</li>
+            </ul>
+        </div>
     </div>
     </section>
 
     <!-- Experience Highlights Section -->
     <section id="experience-highlights">
-    <h2>Experience Highlights</h2>
+    <h2>Professional Experience</h2>
     <div class="timeline">
 
     <!-- Timeline Item 0: Zebra Capital -->
     <div class="timeline-item">
-    <div class="timeline-date timeline-date-top">Feb 2024-Present</div>
+    <div class="timeline-date timeline-date-top">Feb 2024 - Present</div>
     <div class="timeline-icon"></div>
     <div class="timeline-content">
     <h3>Consultant, Asset Management Firm</h3>
-    <p>Building a Sharpe maximizing multi-asset ETF rebalancing strategy and streamlining deployment ready options trading strategies.</p>
+    <p><strong>Index Rebalancing:</strong> Implemented sophisticated rebalancing systems for geopolitical risk filtering with convex QP S&P 500 tracking error minimization. Delivered consistent 100-300bps alpha with 10-20% Sortino ratio outperformance.</p>
+    <p><strong>Options Trading:</strong> Built comprehensive Python backtesting framework achieving Sharpe ratios exceeding 1.5 on index options and 40%+ CAGR on single stock options. Optimized code performance by 95% through vectorized operations.</p>
+    <p><strong>Sector Rotation:</strong> Developed greenfield sector rotation system for 11 SPDR ETFs with 50+ engineered features and bi-objective beta-neutral alpha maximizing optimizer.</p>
     </div>
     </div>
     
     <!-- Timeline Item 1: VISIE Inc. -->
     <div class="timeline-item">
-    <div class="timeline-date timeline-date-top">Aug 2023-Nov 2023</div>
+    <div class="timeline-date timeline-date-top">Aug 2023 - Nov 2023</div>
     <div class="timeline-icon"></div>
     <div class="timeline-content">
     <h3>Computational Engineer, VISIE Inc.</h3>
-    <p>Secured $8.2M in Series A funding by enhancing precision in robotic control systems.</p>
+    <p>Implemented Python code to control robotic arm of surgical navigation prototype. Played instrumental role in securing <strong>$8.2M Series A investment</strong> by enhancing precision in robotic control systems.</p>
     </div>
     </div>
     
     <!-- Timeline Item 2: Sapientai LLC -->
     <div class="timeline-item">
-    <div class="timeline-date timeline-date-top">Aug 2022-Mar 2023</div>
+    <div class="timeline-date timeline-date-top">Aug 2022 - Mar 2023</div>
     <div class="timeline-icon"></div>
     <div class="timeline-content">
     <h3>Computational Lead, Sapientai LLC</h3>
-    <p>Pioneered stock price prediction PDE discovery, diversifying SaaS offerings.</p>
+    <p>Adapted fusion analytics algorithm for stock price prediction and PDE discovery. Implemented robust ML framework using Random Forest and XGBoost to validate model accuracy and refine predictions.</p>
     </div>
     </div>
     
+    </div>
+    </section>
+
+    <section id="education">
+    <h2>Education</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-date">PhD</div>
+            <div class="timeline-icon"></div>
+            <div class="timeline-content">
+                <h3>University of Texas at Austin</h3>
+                <p>Doctor of Philosophy in Engineering Mechanics</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">M.Eng</div>
+            <div class="timeline-icon"></div>
+            <div class="timeline-content">
+                <h3>Indian Institute of Science</h3>
+                <p>Master of Engineering in Mechanical Engineering</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">B.Eng</div>
+            <div class="timeline-icon"></div>
+            <div class="timeline-content">
+                <h3>University of Mumbai</h3>
+                <p>Bachelor of Engineering in Mechanical Engineering</p>
+            </div>
+        </div>
     </div>
     </section>
     
@@ -211,7 +594,7 @@
     </main>
 
     <footer>
-    <p>Copyright © 2023 by Saumik Dana</p>
+    <p>Copyright © 2025 by Saumik Dana</p>
     </footer>
 
     <!-- Add sitemap reference -->
