@@ -158,6 +158,33 @@
     color: #555;
 }
 
+.applications-list {
+    background: #fff9e6;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border-left: 4px solid #f39c12;
+}
+
+.applications-list h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+}
+
+.applications-list ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.applications-list li {
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.4;
+}
+
 .stats-display {
     background: #f0f8ff;
     padding: 15px;
@@ -281,6 +308,13 @@
         binomial: {
             name: 'Binomial Distribution',
             description: 'Models the number of successes in n independent trials with probability p.',
+            applications: [
+                'Quality control: Number of defective items in a batch',
+                'Medical trials: Success rate of treatments',
+                'Marketing: Click-through rates in advertising campaigns',
+                'Sports: Number of wins in a season',
+                'Finance: Number of profitable trades out of total trades'
+            ],
             parameters: [
                 {name: 'n', label: 'Number of trials (n)', min: 1, max: 50, default: 20, step: 1},
                 {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.3, step: 0.01}
@@ -298,6 +332,13 @@
         poisson: {
             name: 'Poisson Distribution',
             description: 'Models the number of events occurring with constant average rate λ.',
+            applications: [
+                'Call centers: Number of calls received per hour',
+                'Website traffic: Page views per minute',
+                'Manufacturing: Number of defects per unit time',
+                'Biology: Number of mutations in DNA sequences',
+                'Queuing theory: Customer arrivals at service points'
+            ],
             parameters: [
                 {name: 'lambda', label: 'Average rate (λ)', min: 0.1, max: 20, default: 3, step: 0.1}
             ],
@@ -314,6 +355,13 @@
         geometric: {
             name: 'Geometric Distribution',
             description: 'Models the number of trials until the first success occurs.',
+            applications: [
+                'Sales: Number of calls until first sale',
+                'Testing: Number of tests until first failure',
+                'Gaming: Number of attempts until winning',
+                'Network reliability: Time until first packet loss',
+                'Job search: Number of applications until job offer'
+            ],
             parameters: [
                 {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.2, step: 0.01}
             ],
@@ -330,6 +378,13 @@
         negativeBinomial: {
             name: 'Negative Binomial Distribution',
             description: 'Models the number of trials until the r-th success occurs.',
+            applications: [
+                'Insurance: Number of claims until r-th major claim',
+                'Reliability: Number of cycles until r-th component failure',
+                'Epidemiology: Number of tests until r-th positive case',
+                'Marketing: Number of contacts until r-th conversion',
+                'Sports: Number of games until r-th win'
+            ],
             parameters: [
                 {name: 'r', label: 'Number of successes (r)', min: 1, max: 20, default: 3, step: 1},
                 {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.3, step: 0.01}
@@ -347,6 +402,13 @@
         hypergeometric: {
             name: 'Hypergeometric Distribution',
             description: 'Models sampling without replacement from a finite population.',
+            applications: [
+                'Quality control: Defective items in sample without replacement',
+                'Card games: Number of specific cards in a hand',
+                'Survey sampling: Responses from specific demographics',
+                'Biology: Species counts in ecological samples',
+                'Lottery systems: Matching numbers without replacement'
+            ],
             parameters: [
                 {name: 'N', label: 'Population size (N)', min: 10, max: 100, default: 50, step: 1},
                 {name: 'K', label: 'Successes in population (K)', min: 1, max: 49, default: 20, step: 1},
@@ -370,6 +432,13 @@
         uniform: {
             name: 'Uniform Distribution',
             description: 'Assigns equal probability to each outcome in a finite range.',
+            applications: [
+                'Random number generation: Fair dice or coin tosses',
+                'Simulation modeling: Equally likely scenarios',
+                'Cryptography: Random key generation',
+                'Game design: Fair selection mechanisms',
+                'Statistical sampling: Equal probability selection'
+            ],
             parameters: [
                 {name: 'a', label: 'Lower bound (a)', min: 0, max: 20, default: 1, step: 1},
                 {name: 'b', label: 'Upper bound (b)', min: 2, max: 50, default: 10, step: 1}
@@ -420,9 +489,19 @@
         const dist = distributions[currentDistribution];
         
         // Update info
+        const applicationsHTML = `
+            <div class="applications-list">
+                <h4>Common Applications:</h4>
+                <ul>
+                    ${dist.applications.map(app => `<li>${app}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        
         document.getElementById('distInfo').innerHTML = `
             <h3>${dist.name}</h3>
             <p>${dist.description}</p>
+            ${applicationsHTML}
         `;
 
         // Update parameter controls
