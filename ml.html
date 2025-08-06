@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <style>
 .grid-container {
     display: grid;
@@ -34,10 +35,170 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* Probability Distributions Section Styles */
+.probability-section {
+    margin: 40px 0;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.probability-section h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-family: 'EB Garamond', serif;
+}
+
+.distribution-selector {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.distribution-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.dist-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #667eea;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-family: 'EB Garamond', serif;
+}
+
+.dist-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+.dist-btn.active {
+    background: #4c51bf;
+    box-shadow: 0 4px 12px rgba(76, 81, 191, 0.4);
+}
+
+.visualization-area {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.controls {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e1e8ed;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-family: 'EB Garamond', serif;
+}
+
+.control-group input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #e1e8ed;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.control-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.chart-container {
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    height: 500px;
+}
+
+.distribution-info {
+    background: #e8f4f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #667eea;
+}
+
+.distribution-info h3 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-family: 'EB Garamond', serif;
+}
+
+.distribution-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.stats-display {
+    background: #f0f8ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.stats-display h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-family: 'EB Garamond', serif;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
 /* For mobile responsiveness */
 @media (max-width: 768px) {
     .video-row video {
         max-width: 100%;
+    }
+    
+    .visualization-area {
+        grid-template-columns: 1fr;
+    }
+    
+    .distribution-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .dist-btn {
+        width: 200px;
+    }
+    
+    .chart-container {
+        height: 400px;
     }
 }
 </style>  
@@ -50,6 +211,7 @@
 </div>
 <img src="ml_images/ml.webp" alt="Machine Learning Trading Visual" class="profile-pic-right">
 </header>
+
 <div class="video-row">
 <video controls><source src="gd_cg_comparison_quadratic.mp4" type="video/mp4"></video>
 <video controls><source src="gd_cg_comparison_himmelblau.mp4" type="video/mp4"></video>
@@ -57,8 +219,345 @@
 <video controls><source src="gd_cg_comparison_rastrigin.mp4" type="video/mp4"></video>
 <video controls><source src="gd_cg_comparison_rosenbrock.mp4" type="video/mp4"></video>
 </div>
+
+<!-- New Probability Distributions Section -->
+<div class="probability-section">
+    <h2>Discrete Probability Distributions</h2>
+    
+    <div class="distribution-selector">
+        <div class="distribution-buttons">
+            <button class="dist-btn active" onclick="selectDistribution('binomial')">Binomial</button>
+            <button class="dist-btn" onclick="selectDistribution('poisson')">Poisson</button>
+            <button class="dist-btn" onclick="selectDistribution('geometric')">Geometric</button>
+            <button class="dist-btn" onclick="selectDistribution('negativeBinomial')">Negative Binomial</button>
+            <button class="dist-btn" onclick="selectDistribution('hypergeometric')">Hypergeometric</button>
+            <button class="dist-btn" onclick="selectDistribution('uniform')">Uniform</button>
+        </div>
+    </div>
+
+    <div class="visualization-area">
+        <div class="controls">
+            <div class="distribution-info" id="distInfo">
+                <h3>Binomial Distribution</h3>
+                <p>Models the number of successes in n independent trials.</p>
+            </div>
+            
+            <div id="parameterControls">
+                <!-- Parameters will be dynamically inserted here -->
+            </div>
+
+            <div class="stats-display" id="statsDisplay">
+                <h4>Statistics</h4>
+                <div class="stat-item">
+                    <span>Mean (μ):</span>
+                    <span id="meanValue">-</span>
+                </div>
+                <div class="stat-item">
+                    <span>Variance (σ²):</span>
+                    <span id="varianceValue">-</span>
+                </div>
+                <div class="stat-item">
+                    <span>Std Dev (σ):</span>
+                    <span id="stddevValue">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="distributionChart"></canvas>
+        </div>
+    </div>
+</div>
+
 <footer>
 <p>Copyright © 2023 by Saumik Dana</p>
 </footer>
+
+<script>
+    let currentChart = null;
+    let currentDistribution = 'binomial';
+
+    const distributions = {
+        binomial: {
+            name: 'Binomial Distribution',
+            description: 'Models the number of successes in n independent trials with probability p.',
+            parameters: [
+                {name: 'n', label: 'Number of trials (n)', min: 1, max: 50, default: 20, step: 1},
+                {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.3, step: 0.01}
+            ],
+            pmf: (k, params) => {
+                const {n, p} = params;
+                if (k > n || k < 0) return 0;
+                return combination(n, k) * Math.pow(p, k) * Math.pow(1-p, n-k);
+            },
+            range: (params) => Array.from({length: params.n + 1}, (_, i) => i),
+            mean: (params) => params.n * params.p,
+            variance: (params) => params.n * params.p * (1 - params.p)
+        },
+
+        poisson: {
+            name: 'Poisson Distribution',
+            description: 'Models the number of events occurring with constant average rate λ.',
+            parameters: [
+                {name: 'lambda', label: 'Average rate (λ)', min: 0.1, max: 20, default: 3, step: 0.1}
+            ],
+            pmf: (k, params) => {
+                const {lambda} = params;
+                if (k < 0) return 0;
+                return (Math.pow(Math.E, -lambda) * Math.pow(lambda, k)) / factorial(k);
+            },
+            range: (params) => Array.from({length: Math.min(50, Math.max(20, Math.ceil(params.lambda * 3)))}, (_, i) => i),
+            mean: (params) => params.lambda,
+            variance: (params) => params.lambda
+        },
+
+        geometric: {
+            name: 'Geometric Distribution',
+            description: 'Models the number of trials until the first success occurs.',
+            parameters: [
+                {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.2, step: 0.01}
+            ],
+            pmf: (k, params) => {
+                const {p} = params;
+                if (k < 1) return 0;
+                return Math.pow(1-p, k-1) * p;
+            },
+            range: (params) => Array.from({length: Math.min(50, Math.ceil(10/params.p))}, (_, i) => i + 1),
+            mean: (params) => 1 / params.p,
+            variance: (params) => (1 - params.p) / (params.p * params.p)
+        },
+
+        negativeBinomial: {
+            name: 'Negative Binomial Distribution',
+            description: 'Models the number of trials until the r-th success occurs.',
+            parameters: [
+                {name: 'r', label: 'Number of successes (r)', min: 1, max: 20, default: 3, step: 1},
+                {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.3, step: 0.01}
+            ],
+            pmf: (k, params) => {
+                const {r, p} = params;
+                if (k < r) return 0;
+                return combination(k-1, r-1) * Math.pow(p, r) * Math.pow(1-p, k-r);
+            },
+            range: (params) => Array.from({length: Math.min(100, Math.ceil(params.r/params.p * 3))}, (_, i) => i + params.r),
+            mean: (params) => params.r / params.p,
+            variance: (params) => (params.r * (1 - params.p)) / (params.p * params.p)
+        },
+
+        hypergeometric: {
+            name: 'Hypergeometric Distribution',
+            description: 'Models sampling without replacement from a finite population.',
+            parameters: [
+                {name: 'N', label: 'Population size (N)', min: 10, max: 100, default: 50, step: 1},
+                {name: 'K', label: 'Successes in population (K)', min: 1, max: 49, default: 20, step: 1},
+                {name: 'n', label: 'Sample size (n)', min: 1, max: 30, default: 10, step: 1}
+            ],
+            pmf: (k, params) => {
+                const {N, K, n} = params;
+                if (k < Math.max(0, n - (N - K)) || k > Math.min(n, K)) return 0;
+                return (combination(K, k) * combination(N-K, n-k)) / combination(N, n);
+            },
+            range: (params) => {
+                const minK = Math.max(0, params.n - (params.N - params.K));
+                const maxK = Math.min(params.n, params.K);
+                return Array.from({length: maxK - minK + 1}, (_, i) => i + minK);
+            },
+            mean: (params) => (params.n * params.K) / params.N,
+            variance: (params) => (params.n * params.K * (params.N - params.K) * (params.N - params.n)) / 
+                                 (params.N * params.N * (params.N - 1))
+        },
+
+        uniform: {
+            name: 'Uniform Distribution',
+            description: 'Assigns equal probability to each outcome in a finite range.',
+            parameters: [
+                {name: 'a', label: 'Lower bound (a)', min: 0, max: 20, default: 1, step: 1},
+                {name: 'b', label: 'Upper bound (b)', min: 2, max: 50, default: 10, step: 1}
+            ],
+            pmf: (k, params) => {
+                const {a, b} = params;
+                if (k < a || k > b) return 0;
+                return 1 / (b - a + 1);
+            },
+            range: (params) => Array.from({length: params.b - params.a + 1}, (_, i) => i + params.a),
+            mean: (params) => (params.a + params.b) / 2,
+            variance: (params) => ((params.b - params.a + 1) * (params.b - params.a + 1) - 1) / 12
+        }
+    };
+
+    function factorial(n) {
+        if (n <= 1) return 1;
+        let result = 1;
+        for (let i = 2; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    function combination(n, k) {
+        if (k > n || k < 0) return 0;
+        if (k === 0 || k === n) return 1;
+        
+        k = Math.min(k, n - k); // Take advantage of symmetry
+        let result = 1;
+        for (let i = 0; i < k; i++) {
+            result = result * (n - i) / (i + 1);
+        }
+        return result;
+    }
+
+    function selectDistribution(dist) {
+        // Update active button
+        document.querySelectorAll('.dist-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        currentDistribution = dist;
+        updateControls();
+        updateVisualization();
+    }
+
+    function updateControls() {
+        const dist = distributions[currentDistribution];
+        
+        // Update info
+        document.getElementById('distInfo').innerHTML = `
+            <h3>${dist.name}</h3>
+            <p>${dist.description}</p>
+        `;
+
+        // Update parameter controls
+        const controlsHTML = dist.parameters.map(param => `
+            <div class="control-group">
+                <label for="${param.name}">${param.label}</label>
+                <input type="number" 
+                       id="${param.name}" 
+                       min="${param.min}" 
+                       max="${param.max}" 
+                       step="${param.step}" 
+                       value="${param.default}"
+                       onchange="updateVisualization()">
+            </div>
+        `).join('');
+        
+        document.getElementById('parameterControls').innerHTML = controlsHTML;
+    }
+
+    function getParameters() {
+        const dist = distributions[currentDistribution];
+        const params = {};
+        
+        dist.parameters.forEach(param => {
+            const element = document.getElementById(param.name);
+            params[param.name] = parseFloat(element.value);
+        });
+        
+        return params;
+    }
+
+    function updateVisualization() {
+        const dist = distributions[currentDistribution];
+        const params = getParameters();
+        
+        // Validate parameters for hypergeometric
+        if (currentDistribution === 'hypergeometric') {
+            if (params.K > params.N) {
+                document.getElementById('K').value = params.N;
+                params.K = params.N;
+            }
+            if (params.n > params.N) {
+                document.getElementById('n').value = params.N;
+                params.n = params.N;
+            }
+        }
+        
+        // Validate parameters for uniform
+        if (currentDistribution === 'uniform' && params.a >= params.b) {
+            document.getElementById('b').value = params.a + 1;
+            params.b = params.a + 1;
+        }
+
+        const range = dist.range(params);
+        const probabilities = range.map(k => dist.pmf(k, params));
+        
+        // Update statistics
+        const mean = dist.mean(params);
+        const variance = dist.variance(params);
+        const stddev = Math.sqrt(variance);
+        
+        document.getElementById('meanValue').textContent = mean.toFixed(3);
+        document.getElementById('varianceValue').textContent = variance.toFixed(3);
+        document.getElementById('stddevValue').textContent = stddev.toFixed(3);
+
+        // Update chart
+        if (currentChart) {
+            currentChart.destroy();
+        }
+
+        const ctx = document.getElementById('distributionChart').getContext('2d');
+        currentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: range.map(k => k.toString()),
+                datasets: [{
+                    label: 'Probability',
+                    data: probabilities,
+                    backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 2,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: dist.name,
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Value (k)',
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Probability P(X = k)',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        beginAtZero: true
+                    }
+                },
+                animation: {
+                    duration: 750,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        updateControls();
+        updateVisualization();
+    });
+</script>
+
 </body>
 </html>
