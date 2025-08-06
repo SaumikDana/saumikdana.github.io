@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.patches import Circle
-from scipy.optimize import minimize
+from scipy.optimize import minimize, line_search
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -187,13 +187,139 @@ class AdaGradOptimizer:
         self.G += grad ** 2
         return x - self.lr * grad / (np.sqrt(self.G) + self.epsilon)
 
+class FletcherReevesConjugateGradient:
+    """Fletcher-Reeves Conjugate Gradient Method"""
+    def __init__(self):
+        self.name = "Fletcher-Reeves CG"
+        self.d_prev = None
+        self.grad_prev = None
+        self.first_step = True
+        
+    def step(self, x, grad_func, func=None, **kwargs):
+        grad = grad_func(x)
+        
+        if self.first_step:
+            # First iteration: use steepest descent
+            d = -grad
+            self.first_step = False
+        else:
+            # Compute Fletcher-Reeves beta
+            beta_FR = np.dot(grad, grad) / np.dot(self.grad_prev, self.grad_prev)
+            d = -grad + beta_FR * self.d_prev
+        
+        # Simple line search: try different step sizes
+        step_sizes = [0.01, 0.05, 0.1, 0.2, 0.5]
+        best_x = x
+        best_f = func(x) if func else np.inf
+        
+        for alpha in step_sizes:
+            x_new = x + alpha * d
+            f_new = func(x_new) if func else grad_func(x_new).dot(grad_func(x_new))
+            if f_new < best_f:
+                best_f = f_new
+                best_x = x_new
+        
+        # Store for next iteration
+        self.d_prev = d.copy()
+        self.grad_prev = grad.copy()
+        
+        return best_x
+
+class PolakRibiereConjugateGradient:
+    """Polak-Ribiere Conjugate Gradient Method"""
+    def __init__(self):
+        self.name = "Polak-Ribiere CG"
+        self.d_prev = None
+        self.grad_prev = None
+        self.first_step = True
+        
+    def step(self, x, grad_func, func=None, **kwargs):
+        grad = grad_func(x)
+        
+        if self.first_step:
+            # First iteration: use steepest descent
+            d = -grad
+            self.first_step = False
+        else:
+            # Compute Polak-Ribiere beta
+            grad_diff = grad - self.grad_prev
+            beta_PR = max(0, np.dot(grad, grad_diff) / np.dot(self.grad_prev, self.grad_prev))
+            d = -grad + beta_PR * self.d_prev
+        
+        # Simple line search: try different step sizes
+        step_sizes = [0.01, 0.05, 0.1, 0.2, 0.5]
+        best_x = x
+        best_f = func(x) if func else np.inf
+        
+        for alpha in step_sizes:
+            x_new = x + alpha * d
+            f_new = func(x_new) if func else grad_func(x_new).dot(grad_func(x_new))
+            if f_new < best_f:
+                best_f = f_new
+                best_x = x_new
+        
+        # Store for next iteration
+        self.d_prev = d.copy()
+        self.grad_prev = grad.copy()
+        
+        return best_x
+
+class HestenesStiefelConjugateGradient:
+    """Hestenes-Stiefel Conjugate Gradient Method"""
+    def __init__(self):
+        self.name = "Hestenes-Stiefel CG"
+        self.d_prev = None
+        self.grad_prev = None
+        self.first_step = True
+        
+    def step(self, x, grad_func, func=None, **kwargs):
+        grad = grad_func(x)
+        
+        if self.first_step:
+            # First iteration: use steepest descent
+            d = -grad
+            self.first_step = False
+        else:
+            # Compute Hestenes-Stiefel beta
+            grad_diff = grad - self.grad_prev
+            beta_HS = np.dot(grad, grad_diff) / np.dot(self.d_prev, grad_diff)
+            # Ensure beta is non-negative
+            beta_HS = max(0, beta_HS)
+            d = -grad + beta_HS * self.d_prev
+        
+        # Simple line search: try different step sizes
+        step_sizes = [0.01, 0.05, 0.1, 0.2, 0.5]
+        best_x = x
+        best_f = func(x) if func else np.inf
+        
+        for alpha in step_sizes:
+            x_new = x + alpha * d
+            f_new = func(x_new) if func else grad_func(x_new).dot(grad_func(x_new))
+            if f_new < best_f:
+                best_f = f_new
+                best_x = x_new
+        
+        # Store for next iteration
+        self.d_prev = d.copy()
+        self.grad_prev = grad.copy()
+        
+        return best_x
+
 def run_optimization(optimizer, visualizer, start_point, max_iterations=1000):
     """Run optimization and return the path"""
     path = [start_point.copy()]
     x = start_point.copy()
     
     for i in range(max_iterations):
-        x_new = optimizer.step(x, visualizer.grad_f)
+        # Pass the function to CG methods if available
+        if hasattr(optimizer, 'step'):
+            if 'CG' in optimizer.name:
+                x_new = optimizer.step(x, visualizer.grad_f, func=visualizer.f)
+            else:
+                x_new = optimizer.step(x, visualizer.grad_f)
+        else:
+            x_new = optimizer.step(x, visualizer.grad_f)
+        
         path.append(x_new.copy())
         
         # Check for convergence
@@ -203,7 +329,7 @@ def run_optimization(optimizer, visualizer, start_point, max_iterations=1000):
         x = x_new
         
         # Prevent divergence
-        if np.linalg.norm(x) > 10:
+        if np.linalg.norm(x) > 20:
             break
     
     return np.array(path)
@@ -221,11 +347,9 @@ def create_contour_plot(visualizer, xlim=(-3, 3), ylim=(-3, 3)):
     
     return X, Y, Z
 
-def animate_optimization(function_type='quadratic', start_point=None):
+def animate_optimization(function_type='quadratic', start_point=None, include_cg=True):
     """Create animation comparing all optimization methods"""
     visualizer = GradientDescentVisualizer(function_type)
-
-
 
     if start_point is None:
         if function_type == 'quadratic':
@@ -251,8 +375,6 @@ def animate_optimization(function_type='quadratic', start_point=None):
     else:
         xlim, ylim = (-3, 3), (-3, 3)
 
-
-
     # Initialize optimizers
     optimizers = [
         BatchGradientDescent(learning_rate=0.1),
@@ -264,6 +386,14 @@ def animate_optimization(function_type='quadratic', start_point=None):
         AdaGradOptimizer(learning_rate=0.5)
     ]
     
+    # Add conjugate gradient methods if requested
+    if include_cg:
+        optimizers.extend([
+            FletcherReevesConjugateGradient(),
+            PolakRibiereConjugateGradient(),
+            HestenesStiefelConjugateGradient()
+        ])
+    
     # Run optimizations
     paths = {}
     for opt in optimizers:
@@ -272,10 +402,15 @@ def animate_optimization(function_type='quadratic', start_point=None):
             opt.velocity = None
         if hasattr(opt, 'm'):
             opt.m = None
-            opt.v = None
+            if hasattr(opt, 'v'):
+                opt.v = None
             opt.t = 0
         if hasattr(opt, 'G'):
             opt.G = None
+        if hasattr(opt, 'first_step'):
+            opt.first_step = True
+            opt.d_prev = None
+            opt.grad_prev = None
         
         path = run_optimization(opt, visualizer, start_point)
         paths[opt.name] = path
@@ -286,22 +421,34 @@ def animate_optimization(function_type='quadratic', start_point=None):
     X, Y, Z = create_contour_plot(visualizer, xlim, ylim)
     
     # Plot contours
-    contour = ax.contour(X, Y, Z, levels=20, alpha=0.2, colors='gray')
+    contour = ax.contour(X, Y, Z, levels=10, alpha=0.1, colors='gray')
     
     # Plot minimum
     ax.plot(visualizer.minimum[0], visualizer.minimum[1], 'k*', 
-            markersize=6, label='Global Minimum')
+            markersize=5, label='Global Minimum')
     
-    # Colors for different optimizers (high contrast)
-    colors = ['#FF0000', '#0000FF', '#00FF00', '#FF8000', '#8000FF', '#FFD700', '#FF1493']
+    # Colors for different optimizers (maximum contrast)
+    gd_colors = ['#FF0000',  # Bright Red
+                 '#0000FF',  # Bright Blue  
+                 '#00FF00',  # Bright Green
+                 '#FF8000',  # Bright Orange
+                 '#FF00FF',  # Bright Magenta
+                 '#FFFF00',  # Bright Yellow
+                 '#00FFFF']  # Bright Cyan
+    
+    cg_colors = ['#000000',  # Pure Black
+                 '#8B0000',  # Dark Red
+                 '#483D8B']  # Dark Slate Blue
+    
+    colors = gd_colors + (cg_colors if include_cg else [])
     
     # Initialize line objects
     lines = {}
     points = {}
     for i, (name, path) in enumerate(paths.items()):
-        line, = ax.plot([], [], color=colors[i], linewidth=1, 
+        line, = ax.plot([], [], color=colors[i], linewidth=linewidth, 
                        label=name, alpha=0.8)
-        point, = ax.plot([], [], 'o', color=colors[i], markersize=4)
+        point, = ax.plot([], [], 'o', color=colors[i], markersize=3)
         lines[name] = line
         points[name] = point
     
@@ -309,8 +456,15 @@ def animate_optimization(function_type='quadratic', start_point=None):
     ax.set_ylim(ylim)
     ax.set_xlabel('x1')
     ax.set_ylabel('x2')
-    ax.set_title(f'Gradient Descent Variants on {function_type.title()} Function')
-    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax.set_title(f'Gradient Descent and Conjugate Gradient on {function_type.title()} Function')
+    
+    # Create two-column legend to handle more methods
+    handles, labels = ax.get_legend_handles_labels()
+    if include_cg:
+        ax.legend(handles, labels, bbox_to_anchor=(1.05, 1), loc='upper left', ncol=1)
+    else:
+        ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    
     ax.grid(True, alpha=0.3)
     
     # Animation function
@@ -337,48 +491,23 @@ def animate_optimization(function_type='quadratic', start_point=None):
     plt.tight_layout()
     return fig, anim, paths
 
-def plot_convergence_comparison(paths, visualizer):
-    """Plot convergence curves for all optimizers"""
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
-    
-    colors = ['blue', 'red', 'green', 'orange', 'purple', 'brown', 'pink']
-    
-    for i, (name, path) in enumerate(paths.items()):
-        # Calculate function values
-        func_values = [visualizer.f(point) for point in path]
-        distances = [np.linalg.norm(point - visualizer.minimum) for point in path]
-        
-        ax1.semilogy(func_values, color=colors[i], label=name, linewidth=2)
-        ax2.semilogy(distances, color=colors[i], label=name, linewidth=2)
-    
-    ax1.set_xlabel('Iteration')
-    ax1.set_ylabel('Function Value (log scale)')
-    ax1.set_title('Convergence: Function Value')
-    ax1.legend()
-    ax1.grid(True, alpha=0.3)
-    
-    ax2.set_xlabel('Iteration')
-    ax2.set_ylabel('Distance to Minimum (log scale)')
-    ax2.set_title('Convergence: Distance to Minimum')
-    ax2.legend()
-    ax2.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
-    return fig
 
-
-# Example usage - just show animations
+# Example usage
 if __name__ == "__main__":
 
-    interval = 250
+    interval = 300  # Slower animation for better observation
     tol = 1e-6
-    frames=500
+    frames = 200
+    linewidth=1
 
-    # Choose which function to animate ('quadratic', 'rosenbrock', or 'himmelblau' or 'beale' or 'rastrigin')
-    function_to_animate = 'rastrigin'  
+    functions = ['quadratic', 'rosenbrock', 'himmelblau', 'beale', 'rastrigin']
+
+    for function_to_animate in functions:  
     
-    # Create and show only the animation
-    fig_anim, anim, paths = animate_optimization(function_to_animate)
-    plt.show()
-    
-    anim.save(f'gradient_descent_{function_to_animate}.mp4', writer='ffmpeg', fps=10)
+        # Create and show animation with both GD and CG methods
+        fig_anim, anim, paths = animate_optimization(function_to_animate, include_cg=True)
+            
+        plt.show()
+        
+        # Save animation
+        anim.save(f'gd_cg_comparison_{function_to_animate}.mp4', writer='ffmpeg', fps=8)
