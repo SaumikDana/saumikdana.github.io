@@ -1,94 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simplified Portfolio - Saumik Dana</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simplified Portfolio - Saumik Dana</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+<style>
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+}
+.custom-image {
+    width: 80%;
+    max-width: 800px; 
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.text-content {
+    flex: 1;
+    max-width: 600px;
+}
+@media (max-width: 768px) {
     .main-content {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 20px;
+        flex-direction: column;
     }
-    .custom-image {
-        width: 80%;
-        max-width: 800px; 
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
+    .custom-image,
     .text-content {
-        flex: 1;
-        max-width: 600px;
+        max-width: 100%;
     }
-    @media (max-width: 768px) {
-        .main-content {
-            flex-direction: column;
-        }
-        .custom-image,
-        .text-content {
-            max-width: 100%;
-        }
-    }
-    .image-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(4, auto);
-        gap: 10px;
-    }
-    .image-grid img {
-        width: 100%;
-        height: auto;
-    }
-    </style>  
+}
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, auto);
+    gap: 10px;
+}
+.image-grid img {
+    width: 100%;
+    height: auto;
+}
+</style>  
 </head>
 <body>
-    <header>
-    <img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
-    <div class="header-text">
-    <h1>Investment Concepts</h1>
-    </div>
-    <img src="mltrading.webp" alt="Machine Learning Trading Visual" class="profile-pic-right">
-    <nav>
-    <a href="tos.html" class="tablinks">No Arbitrage Concept</a>
-    </nav>  
-    </header>
-    <main>
-    
-    <div class="image-grid">
-    <img src="greek_price.png" alt="Image 1">
-    <img src="smile_skew.png" alt="Image 2">
-    </div>
-    
-    <div class="image-grid">
-    <img src="options_delta.png" alt="Image 1">
-    <img src="options_moneyness.png" alt="Image 2">
-    </div>
-    
-    <div class="image-grid">
-    <img src="smile_skew_delta.png" alt="Image 1">
-    <img src="fintech_firms.png" alt="Image 2">
-    </div>
+<header>
+<img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
+<div class="header-text">
+<h1>Investment Concepts</h1>
+</div>
+<img src="mltrading.webp" alt="Machine Learning Trading Visual" class="profile-pic-right">
+<nav>
+<a href="tos.html" class="tablinks">No Arbitrage Concept</a>
+</nav>  
+</header>
+<main>
 
-    <div class="main-content">
-    <img src="straddle_strangle.png" alt="Straddle Strangle" class="custom-image">
-    </div>
-        
-    <div class="image-grid">
-    <img src="condor.png" alt="Image 1">
-    <img src="butterfly.png" alt="Image 2">
-    </div>
-        
-    </main>    
+<div class="image-grid">
+<img src="greek_price.png" alt="Image 1">
+<img src="smile_skew.png" alt="Image 2">
+</div>
 
-    <footer>
-    <p>Copyright © 2023 by Saumik Dana</p>
-    </footer>
+<div class="image-grid">
+<img src="options_delta.png" alt="Image 1">
+<img src="options_moneyness.png" alt="Image 2">
+</div>
+
+<div class="image-grid">
+<img src="smile_skew_delta.png" alt="Image 1">
+<img src="fintech_firms.png" alt="Image 2">
+</div>
+
+<div class="main-content">
+<img src="straddle_strangle.png" alt="Straddle Strangle" class="custom-image">
+</div>
+    
+<div class="image-grid">
+<img src="condor.png" alt="Image 1">
+<img src="butterfly.png" alt="Image 2">
+</div>
+    
+</main>    
+
+<footer>
+<p>Copyright © 2023 by Saumik Dana</p>
+</footer>
 
 </body>
 </html>
