@@ -1,372 +1,1246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Gambler's Ruin & Expected Steps — Interactive Notes</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-<style>
-  :root{
-    --bg:#0b0e13; --card:#121826; --ink:#eaf0ff; --muted:#9db0d3;
-    --accent:#7aa2ff; --accent2:#12d1c1; --danger:#ff6b6b;
-  }
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;}
-  a{color:var(--accent)}
-  .wrap{max-width:980px;margin:0 auto;padding:28px 18px 80px}
-  h1,h2,h3{line-height:1.2;margin:24px 0 10px}
-  h1{font-size:clamp(28px,4vw,40px);letter-spacing:.2px}
-  h2{font-size:clamp(22px,3vw,28px)}
-  h3{font-size:clamp(18px,2.6vw,22px)}
-  p{margin:12px 0}
-  .card{background:var(--card);border:1px solid rgba(255,255,255,.07);
-        border-radius:14px;padding:18px 18px;box-shadow:0 6px 24px rgba(0,0,0,.25); margin:16px 0}
-  .muted{color:var(--muted)}
-  .grid{display:grid;gap:16px}
-  @media (min-width:880px){ .grid.two{grid-template-columns:1fr 1fr} }
-  code,pre{background:#0f1420;border:1px solid rgba(255,255,255,.09);color:#d5e2ff}
-  pre{padding:14px;border-radius:10px;overflow:auto}
-  .tag{display:inline-block;font-size:12px;padding:4px 8px;border:1px solid rgba(255,255,255,.1);border-radius:999px;margin-right:6px;color:var(--muted)}
-  .pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:6px 12px;background:linear-gradient(90deg, rgba(122,162,255,.15), rgba(18,209,193,.15));border:1px solid rgba(122,162,255,.35)}
-  .kbd{display:inline-block;border:1px solid rgba(255,255,255,.2);border-bottom-width:3px;border-radius:6px;padding:2px 6px;font-weight:700}
-  .hr{height:1px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent); margin:24px 0}
-  .btn{cursor:pointer; background:linear-gradient(90deg,var(--accent),var(--accent2));
-       color:#061122;border:none;border-radius:12px;padding:10px 14px;font-weight:700;box-shadow:0 8px 18px rgba(18,209,193,.25)}
-  .btn:disabled{opacity:.5;cursor:not-allowed}
-  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  label{font-size:13px;color:var(--muted)}
-  input[type="number"], input[type="text"], select{
-    background:#0f1420;color:var(--ink);border:1px solid rgba(255,255,255,.15);
-    padding:8px 10px;border-radius:10px;min-width:90px
-  }
-  canvas{border-radius:12px;background:#0f1420;border:1px solid rgba(255,255,255,.08)}
-  details{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 12px}
-  details[open]{background:#0f1420}
-  summary{cursor:pointer;color:var(--muted);font-weight:600}
-  .warn{color:var(--danger);font-weight:700}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Equation Framework: Gambler's Ruin</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            chtml: {
+                displayAlign: 'center',
+                displayIndent: '0em'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- MathJax for LaTeX rendering -->
-<script>
-window.MathJax = {
-  tex: {inlineMath: [['\\(','\\)'],['$','$']], displayMath: [['\\[','\\]']]},
-  svg: {fontCache: 'global'}
-};
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+        body {
+            font-family: 'Computer Modern', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e8e8e8;
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(20, 30, 50, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid #4a9eff;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(74, 158, 255, 0.1) 25%, transparent 25%), 
+                        linear-gradient(-45deg, rgba(74, 158, 255, 0.1) 25%, transparent 25%);
+            background-size: 60px 60px;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #4a9eff;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(74, 158, 255, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.4rem;
+            color: #b0c4de;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .master-section {
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.15) 0%, rgba(106, 182, 255, 0.05) 100%);
+            border: 3px solid #4a9eff;
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .master-section::before {
+            content: '⚡';
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #0a0a0f;
+            padding: 0 1rem;
+            font-size: 2rem;
+        }
+
+        .master-title {
+            font-size: 2.5rem;
+            color: #4a9eff;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .section {
+            background: rgba(30, 30, 50, 0.6);
+            border: 1px solid #2a4a6b;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 2.5rem 0;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #6bb6ff;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #2a4a6b;
+            padding-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .equation-block {
+            background: rgba(10, 10, 20, 0.9);
+            border: 2px solid #3a5a7b;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .equation-large {
+            font-size: 1.4rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(74, 158, 255, 0.08);
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .generator-definition {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .application-card {
+            background: rgba(20, 30, 50, 0.8);
+            border: 1px solid #2a4a6b;
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .application-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4a9eff, #6bb6ff, #87ceeb);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-8px);
+            border-color: #4a9eff;
+            box-shadow: 0 15px 35px rgba(74, 158, 255, 0.25);
+        }
+
+        .application-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .app-title {
+            color: #6bb6ff;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .derivation-flow {
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            counter-reset: step;
+        }
+
+        .flow-step {
+            background: rgba(74, 158, 255, 0.1);
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            counter-increment: step;
+        }
+
+        .flow-step::before {
+            content: counter(step);
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #4a9eff;
+            color: #0a0a0f;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .interactive-demo {
+            background: rgba(20, 30, 50, 0.6);
+            border: 1px solid #2a4a6b;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .control-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .control-group {
+            background: rgba(10, 10, 20, 0.8);
+            border: 1px solid #3a5a7b;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .control-label {
+            color: #b0c4de;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+            margin: 0.5rem 0;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4a9eff, #6bb6ff);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 16px rgba(74, 158, 255, 0.6);
+        }
+
+        .value-display {
+            background: rgba(74, 158, 255, 0.15);
+            border: 1px solid #4a9eff;
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            color: #4a9eff;
+            font-weight: 700;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .chart-container {
+            background: rgba(10, 10, 20, 0.9);
+            border: 2px solid #3a5a7b;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            height: 500px;
+            position: relative;
+        }
+
+        .variants-showcase {
+            background: linear-gradient(135deg, rgba(106, 182, 255, 0.1) 0%, rgba(135, 206, 235, 0.05) 100%);
+            border: 2px solid #6bb6ff;
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .variants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .variant-card {
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid #2a4a6b;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .variant-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .variant-card:hover::after {
+            left: 100%;
+        }
+
+        .variant-card:hover {
+            transform: scale(1.02);
+            border-color: #4a9eff;
+            box-shadow: 0 12px 30px rgba(74, 158, 255, 0.2);
+        }
+
+        .variant-number {
+            background: #4a9eff;
+            color: #0a0a0f;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .variant-title {
+            color: #6bb6ff;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .modification-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .mod-tag {
+            background: rgba(74, 158, 255, 0.2);
+            color: #4a9eff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(74, 158, 255, 0.3);
+        }
+
+        .key-insight {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .key-insight::before {
+            content: '💡';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #0a0a0f;
+            padding: 0 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .time-analysis {
+            background: rgba(255, 165, 0, 0.1);
+            border: 2px solid rgba(255, 165, 0, 0.4);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .cases-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .case-card {
+            background: rgba(20, 30, 50, 0.9);
+            border: 1px solid #2a4a6b;
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .case-title {
+            color: #ffa500;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cases-comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .MathJax {
+            color: #e8e8e8 !important;
+        }
+
+        .mjx-chtml {
+            color: #e8e8e8 !important;
+        }
+    </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Gambler’s Ruin & Expected Steps — with Interactive Tools</h1>
-  <p class="muted">Everything below matches your write-up, but now it’s web-friendly and interactive. Equations render via MathJax; you can also compute and simulate.</p>
-
-  <div class="card">
-    <h2>Gambler's Ruin Problem</h2>
-    <p>The Gambler's Ruin problem is a classic problem in probability theory that can be seen as an example of a random walk.</p>
-    <p>In this problem, a gambler starts with a certain bankroll \((N)\) and plays a game with a certain probability of winning \((p)\). The gambler's ruin is the event that the gambler eventually loses all of their money.</p>
-    <p>The probability of the gambler's ruin, given they start with \(i\) dollars, can be found by solving a difference equation, which leads to the formula:</p>
-    <div class="card">
-      \[
-      P(\text{ruin}\mid i) =
-      \begin{cases}
-      \dfrac{(q/p)^i - (q/p)^N}{1 - (q/p)^N}, & p \neq 0.5, \\
-      1 - \dfrac{i}{N}, & p = 0.5
-      \end{cases}
-      \]
-      where \(q = 1-p\).
+    <div class="header">
+        <h1>Master Equation Framework</h1>
+        <div class="subtitle">The Universal Foundation for Gambler's Ruin Analysis</div>
     </div>
 
-    <h3>Derivation (sketch)</h3>
-    <p>Let \(P_i\) be the probability of ruin when starting with \(i\) dollars. Condition on the first step:</p>
-    <div class="card">
-      \[
-      P_i = p\,P_{i+1} + q\,P_{i-1}, \qquad P_0=1,\;P_N=0.
-      \]
-      \[
-      p\,P_{i+1} - P_i + q\,P_{i-1}=0
-      \xRightarrow{\;P_i=\lambda^i\;} p\lambda^2-\lambda+q=0
-      \]
-      Roots: \(\lambda_1=1,\,\lambda_2=q/p\). Solve constants via the boundaries to get the stated formulas;
-      the \(p=0.5\) case uses a repeated root and yields \(P_i=1-\tfrac{i}{N}\).
-    </div>
-  </div>
+    <div class="container">
+        <!-- Master Equation Foundation -->
+        <div class="master-section">
+            <h2 class="master-title">The Universal Master Equation</h2>
+            
+            <div class="generator-definition">
+                <h3 style="color: #ffd700; margin-bottom: 1.5rem; text-align: center;">Discrete Generator on Interior States</h3>
+                <div class="equation-large">
+                    $$(\mathcal{L}f)(i) = p(i)\big[f(i+\Delta_i)-f(i)\big] + q(i)\big[f(i-\Delta_i)-f(i)\big]$$
+                </div>
+                <div style="text-align: center; margin: 1.5rem 0; font-size: 1.1rem;">
+                    where $q(i) = 1-p(i)$ and $\Delta_i$ is the (possibly state-dependent) stake/jump size
+                </div>
+            </div>
 
-  <div class="card">
-    <h2>General Master Equation (Single Framework)</h2>
-    <p>Most variants are obtained by changing only the <em>coefficients</em> \(p(i)\), the <em>jump size</em> \(\Delta_i\), and/or the <em>boundary conditions</em>.</p>
-    <div class="card">
-      \[
-      (\mathcal{L}f)(i) = p(i)\big[f(i+\Delta_i)-f(i)\big] + q(i)\big[f(i-\Delta_i)-f(i)\big],\quad q(i)=1-p(i).
-      \]
-    </div>
-    <p>Here \(f\) is the quantity of interest:</p>
-    <ul>
-      <li>\(f(i)=P(i)\): ruin (hitting) probability, \(\;\mathcal{L}P=0\) with Dirichlet boundaries.</li>
-      <li>\(f(i)=T(i)\): expected time to absorption, \(\;\mathcal{L}T=-1\) with \(T\) fixed on absorbing states.</li>
-    </ul>
-    <div class="grid two">
-      <div class="card">
-        <span class="tag">Ruin probability</span>
-        \[
-          \mathcal{L}P(i)=0,\qquad P(0)=1,\;P(N)=0.
-        \]
-      </div>
-      <div class="card">
-        <span class="tag">Expected time</span>
-        \[
-          \mathcal{L}T(i)=-1,\qquad T(0)=T(N)=0.
-        \]
-      </div>
-    </div>
-  </div>
+            <div class="key-insight">
+                <strong>Universal Framework:</strong> All variants are obtained by changing only the <em>coefficients</em> $p(i)$, the <em>jump size</em> $\Delta_i$, and/or the <em>boundary conditions</em>. The function $f$ represents any functional we want to solve for:
+                <ul style="margin: 1rem 0; padding-left: 2rem;">
+                    <li>$f(i) = P(i)$ for <strong>probability of ruin</strong> (hit state 0 before $N$)</li>
+                    <li>$f(i) = T(i)$ for <strong>expected time to absorption</strong></li>
+                    <li>Other functionals by adjusting the right-hand side and boundaries</li>
+                </ul>
+            </div>
 
-  <div class="card">
-    <h2>Seven Essential Variants and How They Modify the Master Equation</h2>
-    <p class="muted">Flags show what changes: <span class="tag">coefficients</span> \(p(i)\), <span class="tag">jump size</span> \(\Delta_i\), <span class="tag">boundaries</span>.</p>
-
-    <details open><summary><strong>1. Classic Fair</strong> — <span class="tag">coefficients</span> <span class="tag">boundaries</span></summary>
-      <p><strong>Problem:</strong> Unit stake, \(p=0.5\). <strong>Result:</strong> \(P_i=1-\frac{i}{N}\), \(T_i=i(N-i)\).</p>
-    </details>
-
-    <details><summary><strong>2. Unfair (Casino Edge)</strong> — <span class="tag">coefficients</span> <span class="tag">boundaries</span></summary>
-      <p><strong>Problem:</strong> \(p<0.5\). <strong>Result:</strong> \(P_i=\frac{r^i-r^N}{1-r^N}\), \(r=\frac{q}{p}>1\).
-      \(\;T_i = \frac{i}{q-p}-\frac{N}{q-p}\cdot\frac{1-r^i}{1-r^N}\).</p>
-    </details>
-
-    <details><summary><strong>3. Martingale Strategy</strong> — <span class="tag">coefficients</span> <span class="tag">jump size</span> <span class="tag">boundaries</span></summary>
-      <p>Ruin probability same as constant stake with same \(p\); variance/time differ.</p>
-    </details>
-
-    <details><summary><strong>4. Bold Play</strong> — <span class="tag">coefficients</span> <span class="tag">jump size</span> <span class="tag">boundaries</span></summary>
-      <p>\(\Delta_i=\min(i,N-i)\). For \(p>0.5\) maximizes success; for \(p<0.5\) minimizes time to ruin.</p>
-    </details>
-
-    <details><summary><strong>5. Parrondo’s Paradox</strong> — <span class="tag">coefficients</span> <span class="tag">boundaries</span></summary>
-      <p>Alternating two losing games can yield \(p_{\mathrm{eff}}>0.5\).</p>
-    </details>
-
-    <details><summary><strong>6. Stock Price Model</strong> — <span class="tag">coefficients</span> <span class="tag">boundaries</span></summary>
-      <p>Diffusion limit: \(\mathcal{L}f=\mu f'(x)+\tfrac12\sigma^2 f''(x)\). Barrier-hitting probability matches diffusion formula.</p>
-    </details>
-
-    <details><summary><strong>7. Population Genetics</strong> — <span class="tag">coefficients</span> <span class="tag">boundaries</span></summary>
-      <p>Neutral: fixation = \(i/N\). With selection, biased-ruin formula applies with \(p(i)\) from selection.</p>
-    </details>
-  </div>
-
-  <div class="card">
-    <h2>Expected Steps to Hit \(+k\) from \(0\): Two Standard Cases</h2>
-    <p class="pill">Same master operator, but now we solve \(\mathcal{L}T=-1\) (Poisson equation).</p>
-
-    <div class="grid two">
-      <div class="card">
-        <h3>Case A — One-sided (semi-infinite)</h3>
-        <p><strong>Problem:</strong> Start at \(0\); stop when first hitting \(+k\); no left boundary.</p>
-        <p><strong>Result (requires \(p>0.5\)): </strong> \(\;\displaystyle T(0)=\frac{k}{p-q}\), else \(T(0)=\infty\).</p>
-        <details><summary>Derivation (click)</summary>
-          <p>Solve \(pT(i+1)-T(i)+qT(i-1)=-1\). Homogeneous roots \(1,r=q/p\). Particular \(T_p=-\frac{i}{p-q}\).
-          Boundedness as \(i\to-\infty\) forces the \(r^i\) term out; impose \(T(k)=0\) to get \(T(i)=\frac{k-i}{p-q}\).</p>
-        </details>
-      </div>
-
-      <div class="card">
-        <h3>Case B — Two-sided (finite interval)</h3>
-        <p><strong>Problem:</strong> Start at \(0\); stop on hitting \(\{-k,+k\}\).</p>
-        <p><strong>Result:</strong>
-        \[
-        T(0)=
-        \begin{cases}
-          k^2,& p=\tfrac12,\\[6pt]
-          \dfrac{k}{\,q-p\,}\,\dfrac{r^{\,k}-1}{\,r^{\,k}+1\,},& p\neq\tfrac12,\; r=\tfrac{q}{p}.
-        \end{cases}
-        \]</p>
-      </div>
-    </div>
-
-    <div class="hr"></div>
-
-    <h3>Quick Calculator</h3>
-    <div class="grid two">
-      <div class="card">
-        <h4>Case A (one-sided)</h4>
-        <div class="row">
-          <label>k <input type="number" id="kA" value="10" min="1" step="1"></label>
-          <label>p <input type="number" id="pA" value="0.6" min="0" max="1" step="0.01"></label>
-          <button class="btn" id="calcA">Compute</button>
+            <div class="applications-grid">
+                <div class="application-card">
+                    <div class="app-title">Ruin Probability</div>
+                    <div class="equation-block">
+                        $$\mathcal{L}P(i) = 0$$
+                        $$P(0) = 1, \quad P(N) = 0$$
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="app-title">Expected Time</div>
+                    <div class="equation-block">
+                        $$\mathcal{L}T(i) = -1$$
+                        $$T(0) = T(N) = 0$$
+                    </div>
+                </div>
+            </div>
         </div>
-        <p id="outA" class="muted">Result appears here.</p>
-      </div>
 
-      <div class="card">
-        <h4>Case B (two-sided)</h4>
-        <div class="row">
-          <label>k <input type="number" id="kB" value="10" min="1" step="1"></label>
-          <label>p <input type="number" id="pB" value="0.5" min="0" max="1" step="0.01"></label>
-          <button class="btn" id="calcB">Compute</button>
+        <!-- Classical Derivation from Master Equation -->
+        <div class="section">
+            <h2 class="section-title">🔧 Classical Case: Deriving from the Master Equation</h2>
+            
+            <div class="derivation-flow">
+                <div class="flow-step">
+                    <h3 style="color: #6bb6ff; margin-bottom: 1rem;">Apply Master Equation to Classical Case</h3>
+                    <p>For the classical gambler's ruin: $p(i) \equiv p$, $\Delta_i = 1$, absorbing boundaries at 0 and $N$</p>
+                    <div class="equation-block">
+                        $$(\mathcal{L}P)(i) = p[P(i+1)-P(i)] + q[P(i-1)-P(i)] = 0$$
+                    </div>
+                    <p>This simplifies to the fundamental recursion:</p>
+                    <div class="equation-block">
+                        $$pP_{i+1} - P_i + qP_{i-1} = 0$$
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <h3 style="color: #6bb6ff; margin-bottom: 1rem;">Characteristic Equation Method</h3>
+                    <p>Assume $P_i = \lambda^i$ and substitute:</p>
+                    <div class="equation-block">
+                        $$p\lambda^2 - \lambda + q = 0$$
+                    </div>
+                    <p>Solving: $\lambda = \frac{1 \pm \sqrt{1-4pq}}{2p} = \frac{1 \pm |p-q|}{2p}$</p>
+                    <div class="equation-block">
+                        $$\lambda_1 = 1, \quad \lambda_2 = \frac{q}{p}$$
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <h3 style="color: #6bb6ff; margin-bottom: 1rem;">General Solution & Boundary Conditions</h3>
+                    <p><strong>Case 1:</strong> $p \neq \frac{1}{2}$ (distinct roots)</p>
+                    <div class="equation-block">
+                        $$P_i = A + B\left(\frac{q}{p}\right)^i$$
+                    </div>
+                    
+                    <p>Applying $P_0 = 1$ and $P_N = 0$:</p>
+                    <div class="equation-block">
+                        $$P_i = \frac{\left(\frac{q}{p}\right)^i - \left(\frac{q}{p}\right)^N}{1 - \left(\frac{q}{p}\right)^N}$$
+                    </div>
+
+                    <p><strong>Case 2:</strong> $p = \frac{1}{2}$ (repeated root)</p>
+                    <div class="equation-block">
+                        $$P_i = A + Bi \quad \Rightarrow \quad P_i = 1 - \frac{i}{N}$$
+                    </div>
+                </div>
+            </div>
+
+            <div class="equation-block" style="background: linear-gradient(135deg, rgba(74, 158, 255, 0.15), rgba(106, 182, 255, 0.05)); border: 2px solid #4a9eff;">
+                <h3 style="color: #4a9eff; margin-bottom: 1rem;">Final Classical Solution</h3>
+                <div class="equation-large">
+                    $$P_i = \begin{cases}
+                    \dfrac{\left(\frac{q}{p}\right)^i - \left(\frac{q}{p}\right)^N}{1 - \left(\frac{q}{p}\right)^N} & \text{if } p \neq \frac{1}{2} \\[12pt]
+                    1 - \dfrac{i}{N} & \text{if } p = \frac{1}{2}
+                    \end{cases}$$
+                </div>
+            </div>
         </div>
-        <p id="outB" class="muted">Result appears here.</p>
-      </div>
+
+        <!-- Interactive Visualization -->
+        <div class="section">
+            <h2 class="section-title">📊 Interactive Master Equation Explorer</h2>
+            
+            <div class="interactive-demo">
+                <div class="control-panel">
+                    <div class="control-group">
+                        <label class="control-label">Win Probability (p)</label>
+                        <input type="range" class="slider" id="pSlider" min="0.01" max="0.99" step="0.01" value="0.5">
+                        <div class="value-display" id="pValue">0.50</div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Target Amount (N)</label>
+                        <input type="range" class="slider" id="nSlider" min="5" max="50" step="1" value="20">
+                        <div class="value-display" id="nValue">20</div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Starting Position (i)</label>
+                        <input type="range" class="slider" id="iSlider" min="1" max="19" step="1" value="10">
+                        <div class="value-display" id="iValue">10</div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Current Case</label>
+                        <div class="value-display" id="caseDisplay">Fair Game</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="masterChart"></canvas>
+                </div>
+
+                <div class="key-insight">
+                    <div id="insightText">
+                        Adjust parameters to see how the Master Equation generates different probability curves. 
+                        Notice the transition from concave (p > 0.5) to linear (p = 0.5) to convex (p < 0.5) shapes.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seven Essential Variants -->
+        <div class="variants-showcase">
+            <h2 style="color: #6bb6ff; font-size: 2.5rem; text-align: center; margin-bottom: 2rem;">Seven Essential Variants from the Master Equation</h2>
+            
+            <div class="variants-grid">
+                <div class="variant-card">
+                    <div class="variant-number">1</div>
+                    <div class="variant-title">Classic Fair Game</div>
+                    <div class="modification-tags">
+                        <span class="mod-tag">p(i) ≡ 0.5</span>
+                        <span class="mod-tag">Δᵢ = 1</span>
+                        <span class="mod-tag">Absorbing 0,N</span>
+                    </div>
+                    <div class="equation-block">
+                        $$P_i = 1 - \frac{i}{N}$$
+                        $$T_i = i(N-i)$$
+                    </div>
+                    <p style="color: #b0c4de;">Linear ruin probability, quadratic expected time.</p>
+                </div>
+
+                <div class="variant-card">
+                    <div class="variant-number">2</div>
+                    <div class="variant-title">Unfair (Casino Edge)</div>
+                    <div class="modification-tags">
+                        <span class="mod-tag">p(i) ≡ p < 0.5</span>
+                        <span class="mod-tag">Δᵢ = 1</span>
+                        <span class="mod-tag">Absorbing 0,N</span>
+                    </div>
+                    <div class="equation-block">
+                        $$P_i = \frac{r^i - r^N}{1 - r^N}, \quad r = \frac{q}{p}$$
+                    </div>
+                    <p style="color: #b0c4de;">Exponential growth in ruin probability as casino edge increases.</p>
+                </div>
+
+                <div class="variant-card">
+                    <div class="variant-number">3</div>
+                    <div class="variant-title">Martingale Strategy</div>
+                    <div class="modification-tags">
+                        <span class="mod-tag">p(i) ≡ p</span>
+                        <span class="mod-tag">Δᵢ history-dependent</span>
+                        <span class="mod-tag">Double after loss</span>
+                    </div>
+                    <div class="equation-block">
+                        $$P_{\text{ruin}} = \text{same as constant stake!}$$
+                    </div>
+                    <p style="color: #ff6b6b;">Surprising result: ruin probability unchanged, but variance and time differ dramatically.</p>
+                </div>
+
+                <div class="variant-card">
+                    <div class="variant-number">4</div>
+                    <div class="variant-title">Bold Play Strategy</div>
+                    <div class="modification-tags">
+                        <span class="mod-tag">p(i) ≡ p</span>
+                        <span class="mod-tag">Δᵢ = min(i, N-i)</span>
+                        <span class="mod-tag">Maximum bet</span>
+                    </div>
+                    <div class="equation-block">
+                        $$\text{Optimal for } p > 0.5$$
+                        $$\text{Catastrophic for } p < 0.5$$
+                    </div>
+                    <p style="color: #4a9eff;">Jump size modification completely changes the game dynamics.</p>
+                </div>
+
+                <div class="variant-card">
+                    <div class="variant-number">5</div>
+                    <div class="variant-title">Parrondo's Paradox</div>
+                    <div class="modification-tags">
+                        <span class="mod-tag">p(i) alternating</span>
+                        <span class="mod-tag">Two losing games</span>
+                        <span class="mod-tag">Combination wins</span>
+                    </div>
+                    <div class="equation-block">
+                        $$p_{\text{eff}} > 0.5 \text{ possible}$$
+                    </div>
+                    <p style="color: #50ff50;">Counterintuitive: coefficient modification can turn losing games into winners!</p>
+                </div>
+
+                <div class="variant-card">
+                    <div class="variant-number">6</div>
+                    <div class="variant-title">Stock Price Model</div>
+                    <div class="modification-tags">
+                        <span class="mod-tag">Continuous limit</span>
+                        <span class="mod-tag">Drift μ</span>
+                        <span class="mod-tag">Volatility σ</span>
+                    </div>
+                    <div class="equation-block">
+                        $\mathcal{L}f = \mu f'(x) + \frac{1}{2}\sigma^2 f''(x)$
+                        $\alpha = \frac{2\mu}{\sigma^2}$
+                    </div>
+                    <p style="color: #b0c4de;">Continuous limit of master equation yields barrier option pricing.</p>
+                </div>
+
+                <div class="variant-card">
+                    <div class="variant-number">7</div>
+                    <div class="variant-title">Population Genetics</div>
+                    <div class="modification-tags">
+                        <span class="mod-tag">p(i) = 0.5 + s·φ(i)</span>
+                        <span class="mod-tag">Selection pressure</span>
+                        <span class="mod-tag">Genetic drift</span>
+                    </div>
+                    <div class="equation-block">
+                        $\text{Neutral: } P_{\text{fix}} = \frac{i}{N}$
+                        $\text{Selection: biased formula}$
+                    </div>
+                    <p style="color: #ffb347;">Coefficient modification models evolutionary forces in finite populations.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expected Time Analysis from Master Equation -->
+        <div class="section">
+            <h2 class="section-title">⏱️ Expected Time Analysis via Master Equation</h2>
+            
+            <div class="time-analysis">
+                <h3 style="color: #ffa500; margin-bottom: 1.5rem; text-align: center;">Master Equation for Expected Time</h3>
+                
+                <div class="equation-block">
+                    $\mathcal{L}T(i) = -1 \quad \text{on interior states}$
+                    $T = \text{given on boundary}$
+                </div>
+
+                <p style="margin: 1.5rem 0;">For the classical case with $p(i) \equiv p$ and $\Delta_i = 1$:</p>
+                <div class="equation-block">
+                    $pT(i+1) - T(i) + qT(i-1) = -1$
+                </div>
+
+                <div class="cases-comparison">
+                    <div class="case-card">
+                        <div class="case-title">Case A: One-Sided Target</div>
+                        <p style="margin: 1rem 0;"><strong>Problem:</strong> Start at 0, stop when hitting +k</p>
+                        <p style="margin: 1rem 0;"><strong>Boundary:</strong> T(k) = 0, boundedness as i → -∞</p>
+                        
+                        <div class="derivation-flow" style="margin: 1.5rem 0;">
+                            <div class="flow-step">
+                                <p><strong>Homogeneous solution:</strong> $T_h(i) = A + Br^i$ with $r = \frac{q}{p}$</p>
+                            </div>
+                            <div class="flow-step">
+                                <p><strong>Particular solution:</strong> Try $T_p(i) = \alpha i$</p>
+                                <p>Substituting: $\alpha(p-q) = -1 \Rightarrow \alpha = -\frac{1}{p-q}$</p>
+                            </div>
+                            <div class="flow-step">
+                                <p><strong>General solution:</strong> $T(i) = A + Br^i - \frac{i}{p-q}$</p>
+                                <p>If $p > q$: boundedness forces $B = 0$</p>
+                                <p>From $T(k) = 0$: $A = \frac{k}{p-q}$</p>
+                            </div>
+                        </div>
+
+                        <div class="equation-block" style="background: rgba(255, 165, 0, 0.1); border-color: #ffa500;">
+                            $\boxed{\mathbb{E}_0[\tau_{+k}] = \begin{cases}
+                            \frac{k}{p-q} & \text{if } p > q \\
+                            \infty & \text{if } p \leq \frac{1}{2}
+                            \end{cases}}$
+                        </div>
+                    </div>
+
+                    <div class="case-card">
+                        <div class="case-title">Case B: Two-Sided Target</div>
+                        <p style="margin: 1rem 0;"><strong>Problem:</strong> Start at 0, stop when hitting ±k</p>
+                        <p style="margin: 1rem 0;"><strong>Boundary:</strong> T(-k) = T(+k) = 0</p>
+
+                        <div class="derivation-flow" style="margin: 1.5rem 0;">
+                            <div class="flow-step">
+                                <p><strong>Shift coordinates:</strong> $j = i + k$, so we have interval [0, 2k]</p>
+                                <p>Start at $j = k$, boundaries at 0 and 2k</p>
+                            </div>
+                            <div class="flow-step">
+                                <p><strong>Solve on finite interval:</strong> Same method but with two boundary conditions</p>
+                            </div>
+                        </div>
+
+                        <div class="equation-block" style="background: rgba(255, 165, 0, 0.1); border-color: #ffa500;">
+                            $\boxed{T(0) = \begin{cases}
+                            k^2 & \text{if } p = \frac{1}{2} \\[6pt]
+                            \frac{k}{q-p} \cdot \frac{r^k-1}{r^k+1} & \text{if } p \neq \frac{1}{2}
+                            \end{cases}}$
+                        </div>
+
+                        <div class="key-insight">
+                            <strong>Key Distinction:</strong> The famous $k^2$ result applies to the <em>two-sided</em> case with fair games. 
+                            For one-sided targets (most common interpretation), the answer is $\frac{k}{p-q}$ when $p > q$.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Variant Comparator -->
+        <div class="section">
+            <h2 class="section-title">🔬 Variant Comparison Tool</h2>
+            
+            <div class="interactive-demo">
+                <div class="control-panel">
+                    <div class="control-group">
+                        <label class="control-label">Variant Type</label>
+                        <select id="variantSelect" style="width: 100%; padding: 0.5rem; background: rgba(10,10,20,0.8); border: 1px solid #3a5a7b; border-radius: 6px; color: #e8e8e8;">
+                            <option value="classic">Classic Fair</option>
+                            <option value="unfair">Casino Edge</option>
+                            <option value="bold">Bold Play</option>
+                            <option value="martingale">Martingale</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">House Edge (%)</label>
+                        <input type="range" class="slider" id="edgeSlider" min="0" max="20" step="0.5" value="0">
+                        <div class="value-display" id="edgeValue">0.0%</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Bankroll</label>
+                        <input type="range" class="slider" id="bankrollSlider" min="5" max="100" step="5" value="50">
+                        <div class="value-display" id="bankrollValue">50</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+
+                <div id="variantExplanation" class="key-insight">
+                    Select different variants above to see how modifications to the Master Equation create dramatically different behaviors.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continuity and Limits -->
+        <div class="section">
+            <h2 class="section-title">🔄 Continuity and Limit Analysis</h2>
+            
+            <div class="key-insight">
+                <h3 style="color: #ffd700; margin-bottom: 1rem;">L'Hôpital's Rule Verification</h3>
+                <p>The transition from biased to fair game is smooth:</p>
+                <div class="equation-block">
+                    $\lim_{p \to 1/2} \frac{\left(\frac{q}{p}\right)^i - \left(\frac{q}{p}\right)^N}{1 - \left(\frac{q}{p}\right)^N} = 1 - \frac{i}{N}$
+                </div>
+                
+                <p>This can be verified using L'Hôpital's rule or by expanding around $p = 1/2$:</p>
+                <div class="equation-block">
+                    $\frac{q}{p} = \frac{1-p}{p} = \frac{1}{p} - 1 \approx 2(1-p) \text{ near } p = 1/2$
+                </div>
+            </div>
+
+            <div class="derivation-flow">
+                <div class="flow-step">
+                    <h3 style="color: #6bb6ff;">Taylor expansion approach</h3>
+                    <p>Let $\epsilon = p - 1/2$, so $p = 1/2 + \epsilon$ and $q = 1/2 - \epsilon$:</p>
+                    <div class="equation-block">
+                        $\frac{q}{p} = \frac{1/2 - \epsilon}{1/2 + \epsilon} = \frac{1-2\epsilon}{1+2\epsilon} \approx (1-2\epsilon)(1-2\epsilon) = 1-4\epsilon$
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <h3 style="color: #6bb6ff;">Exponential limit</h3>
+                    <p>As $\epsilon \to 0$:</p>
+                    <div class="equation-block">
+                        $(1-4\epsilon)^i \approx e^{-4\epsilon i} \approx 1 - 4\epsilon i$
+                    </div>
+                    <p>Substituting back recovers the linear formula.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="hr"></div>
+    <script>
+        class MasterEquationVisualizer {
+            constructor() {
+                this.initializeElements();
+                this.setupCharts();
+                this.updateDisplay();
+                this.setupEventListeners();
+            }
 
-    <h3>Mini Simulator (visual intuition)</h3>
-    <p class="muted">Simulates a single walk starting at 0 until it hits the boundary shown. Use it to “feel” drift vs. no drift.</p>
-    <div class="grid two">
-      <div class="card">
-        <h4>Case A: hit \(+k\) (no left boundary)</h4>
-        <div class="row">
-          <label>k <input type="number" id="simkA" value="25" min="1" step="1"></label>
-          <label>p <input type="number" id="simpA" value="0.6" min="0" max="1" step="0.01"></label>
-          <button class="btn" id="runA">Run</button>
-        </div>
-        <p id="simAmsg" class="muted"></p>
-        <canvas id="canvasA" width="450" height="160"></canvas>
-      </div>
+            initializeElements() {
+                this.elements = {
+                    pSlider: document.getElementById('pSlider'),
+                    pValue: document.getElementById('pValue'),
+                    nSlider: document.getElementById('nSlider'),
+                    nValue: document.getElementById('nValue'),
+                    iSlider: document.getElementById('iSlider'),
+                    iValue: document.getElementById('iValue'),
+                    caseDisplay: document.getElementById('caseDisplay'),
+                    insightText: document.getElementById('insightText'),
+                    variantSelect: document.getElementById('variantSelect'),
+                    edgeSlider: document.getElementById('edgeSlider'),
+                    edgeValue: document.getElementById('edgeValue'),
+                    bankrollSlider: document.getElementById('bankrollSlider'),
+                    bankrollValue: document.getElementById('bankrollValue'),
+                    variantExplanation: document.getElementById('variantExplanation')
+                };
+            }
 
-      <div class="card">
-        <h4>Case B: hit \(\{-k,+k\}\)</h4>
-        <div class="row">
-          <label>k <input type="number" id="simkB" value="25" min="1" step="1"></label>
-          <label>p <input type="number" id="simpB" value="0.5" min="0" max="1" step="0.01"></label>
-          <button class="btn" id="runB">Run</button>
-        </div>
-        <p id="simBmsg" class="muted"></p>
-        <canvas id="canvasB" width="450" height="160"></canvas>
-      </div>
-    </div>
-  </div>
+            setupEventListeners() {
+                this.elements.pSlider.addEventListener('input', () => this.updateDisplay());
+                this.elements.nSlider.addEventListener('input', () => this.updateDisplay());
+                this.elements.iSlider.addEventListener('input', () => this.updateDisplay());
+                this.elements.variantSelect.addEventListener('change', () => this.updateVariantComparison());
+                this.elements.edgeSlider.addEventListener('input', () => this.updateVariantComparison());
+                this.elements.bankrollSlider.addEventListener('input', () => this.updateVariantComparison());
+            }
 
-  <div class="card">
-    <h2>Copy-paste LaTeX (for reference)</h2>
-    <p class="muted">Exact LaTeX for your write-up (already reflected above).</p>
-    <details>
-      <summary>Show LaTeX</summary>
-      <pre><code>% Your LaTeX content is the same as in the conversation; paste from your document if needed.</code></pre>
-    </details>
-  </div>
+            calculateRuinProbability(i, N, p) {
+                if (Math.abs(p - 0.5) < 0.001) {
+                    return 1 - i / N;
+                } else {
+                    const q = 1 - p;
+                    const r = q / p;
+                    if (Math.abs(r - 1) < 1e-10) return 1 - i / N;
+                    
+                    const numerator = Math.pow(r, i) - Math.pow(r, N);
+                    const denominator = 1 - Math.pow(r, N);
+                    return numerator / denominator;
+                }
+            }
 
-  <p class="muted">Tip: Press <span class="kbd">Cmd</span>/<span class="kbd">Ctrl</span> + <span class="kbd">L</span> to highlight the URL and copy this page link for your notes.</p>
-</div>
+            updateDisplay() {
+                const p = parseFloat(this.elements.pSlider.value);
+                const N = parseInt(this.elements.nSlider.value);
+                const i = parseInt(this.elements.iSlider.value);
 
-<script>
-/* ---------- Calculators ---------- */
-function fmt(x){ return (Math.abs(x) > 1e5 || Math.abs(x) < 1e-4) ? x.toExponential(6) : x.toFixed(6); }
+                this.elements.pValue.textContent = p.toFixed(2);
+                this.elements.nValue.textContent = N.toString();
+                this.elements.iValue.textContent = i.toString();
 
-document.getElementById('calcA').addEventListener('click', () => {
-  const k = Math.max(1, Math.floor(Number(document.getElementById('kA').value)));
-  const p = Number(document.getElementById('pA').value);
-  const q = 1 - p;
-  const out = document.getElementById('outA');
-  if (!(p > 0 && p < 1)){ out.innerHTML = '<span class="warn">Enter 0 &lt; p &lt; 1.</span>'; return; }
-  if (p <= 0.5){ out.innerHTML = 'No rightward drift ⇒ expected time is <strong>infinite</strong> (without a left boundary).'; return; }
-  const T = k / (p - q);
-  out.innerHTML = `T(0) = k / (p - q) = <strong>${fmt(T)}</strong>`;
-});
+                this.elements.iSlider.max = N - 1;
+                if (parseInt(this.elements.iSlider.value) >= N) {
+                    this.elements.iSlider.value = N - 1;
+                    this.elements.iValue.textContent = (N - 1).toString();
+                }
 
-document.getElementById('calcB').addEventListener('click', () => {
-  const k = Math.max(1, Math.floor(Number(document.getElementById('kB').value)));
-  const p = Number(document.getElementById('pB').value);
-  const q = 1 - p, r = q / p;
-  const out = document.getElementById('outB');
-  if (!(p > 0 && p < 1)){ out.innerHTML = '<span class="warn">Enter 0 &lt; p &lt; 1.</span>'; return; }
-  if (Math.abs(p - 0.5) < 1e-12){
-    out.innerHTML = `T(0) = k² = <strong>${k*k}</strong>`;
-    return;
-  }
-  const T = (k / (q - p)) * ((Math.pow(r, k) - 1) / (Math.pow(r, k) + 1));
-  out.innerHTML = `T(0) = (k/(q-p)) * ((r^k - 1)/(r^k + 1)) = <strong>${fmt(T)}</strong> <span class="muted">(r = q/p)</span>`;
-});
+                let caseText, insightText;
+                if (Math.abs(p - 0.5) < 0.01) {
+                    caseText = "Fair Game";
+                    insightText = "Linear decay: P(i) = 1 - i/N. The Master Equation with p(i) ≡ 0.5 yields the characteristic equation with repeated root λ = 1.";
+                } else if (p < 0.5) {
+                    caseText = "House Edge";
+                    insightText = "Convex curve: Casino advantage with q/p = " + ((1-p)/p).toFixed(3) + " > 1. Exponential terms dominate, making ruin increasingly likely.";
+                } else {
+                    caseText = "Player Edge";
+                    insightText = "Concave curve: Player advantage with q/p = " + ((1-p)/p).toFixed(3) + " < 1. Exponential decay helps the player.";
+                }
 
-/* ---------- Mini simulators ---------- */
-function drawAxes(ctx, width, height, kLeft, kRight, x0, scaleX) {
-  ctx.clearRect(0,0,width,height);
-  ctx.strokeStyle = 'rgba(255,255,255,.15)';
-  ctx.lineWidth = 1;
-  // midline
-  ctx.beginPath(); ctx.moveTo(0, height/2); ctx.lineTo(width, height/2); ctx.stroke();
-  // marks
-  ctx.fillStyle = 'rgba(255,255,255,.45)';
-  ctx.fillText('0', x0, height/2 - 6);
-  ctx.fillStyle = 'rgba(122,162,255,.9)';
-  ctx.fillRect(x0 + kRight*scaleX - 1, 4, 2, height-8);
-  ctx.fillStyle = 'rgba(18,209,193,.9)';
-  ctx.fillRect(x0 + kLeft*scaleX - 1, 4, 2, height-8);
-}
+                this.elements.caseDisplay.textContent = caseText;
+                this.elements.insightText.textContent = insightText;
+                this.updateMainChart(p, N);
+            }
 
-function simulateToRight(k, p, maxSteps=20000){
-  let pos=0, steps=0;
-  while (pos<k && steps<maxSteps){
-    const u = Math.random();
-    pos += (u<p ? +1 : -1);
-    steps++;
-    if (pos < -1e6) break; // safety
-  }
-  return {steps, hit: pos>=k};
-}
+            setupCharts() {
+                const ctx1 = document.getElementById('masterChart').getContext('2d');
+                this.mainChart = new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Ruin Probability P(i)',
+                            data: [],
+                            borderColor: '#4a9eff',
+                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.1,
+                            pointBackgroundColor: '#4a9eff',
+                            pointBorderColor: '#6bb6ff',
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#e8e8e8',
+                                    font: { size: 14, weight: 'bold' }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#4a9eff',
+                                bodyColor: '#e8e8e8',
+                                borderColor: '#4a9eff',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'P(' + context.label + ') = ' + (context.parsed.y * 100).toFixed(1) + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Starting Position (i)',
+                                    color: '#e8e8e8',
+                                    font: { size: 14, weight: 'bold' }
+                                },
+                                ticks: { color: '#b0c4de' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Probability of Ruin',
+                                    color: '#e8e8e8',
+                                    font: { size: 14, weight: 'bold' }
+                                },
+                                ticks: {
+                                    color: '#b0c4de',
+                                    callback: function(value) {
+                                        return (value * 100).toFixed(0) + '%';
+                                    }
+                                },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                min: 0,
+                                max: 1
+                            }
+                        },
+                        animation: { duration: 800, easing: 'easeInOutQuart' }
+                    }
+                });
 
-function simulateTwoSided(k, p, maxSteps=20000){
-  let pos=0, steps=0, hitRight=false, hitLeft=false;
-  while (pos<k && pos>-k && steps<maxSteps){
-    const u = Math.random();
-    pos += (u<p ? +1 : -1);
-    steps++;
-  }
-  if (pos>=k) hitRight=true;
-  if (pos<=-k) hitLeft=true;
-  return {steps, hitRight, hitLeft};
-}
+                const ctx2 = document.getElementById('comparisonChart').getContext('2d');
+                this.comparisonChart = new Chart(ctx2, {
+                    type: 'line',
+                    data: { labels: [], datasets: [] },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#e8e8e8',
+                                    font: { size: 12, weight: 'bold' }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#4a9eff',
+                                bodyColor: '#e8e8e8',
+                                borderColor: '#4a9eff',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: { display: true, text: 'Starting Position', color: '#e8e8e8' },
+                                ticks: { color: '#b0c4de' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            },
+                            y: {
+                                title: { display: true, text: 'Ruin Probability', color: '#e8e8e8' },
+                                ticks: { 
+                                    color: '#b0c4de',
+                                    callback: function(value) {
+                                        return (value * 100).toFixed(0) + '%';
+                                    }
+                                },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                min: 0,
+                                max: 1
+                            }
+                        }
+                    }
+                });
+            }
 
-function animateWalk(canvas, kRight, kLeft, p, twoSided=false){
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height;
-  const scaleX = Math.max(2, Math.floor(W / (2*Math.max(kRight, kLeft||kRight) + 6)));
-  const x0 = Math.floor(W/2);
-  drawAxes(ctx,W,H,-(kLeft||0),kRight,x0,scaleX);
+            updateMainChart(p, N) {
+                const labels = [];
+                const data = [];
 
-  let pos = 0, t = 0;
-  ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(x0, H/2);
-  const id = setInterval(() => {
-    const u = Math.random();
-    pos += (u < p ? +1 : -1);
-    t++;
-    const x = x0 + pos*scaleX, y = H/2 + (Math.sin(t/5)*8);
-    ctx.lineTo(x,y); ctx.stroke();
+                for (let i = 1; i < N; i++) {
+                    labels.push(i);
+                    data.push(this.calculateRuinProbability(i, N, p));
+                }
 
-    const stopA = (!twoSided && pos>=kRight) || (!twoSided && Math.abs(pos)>1e5);
-    const stopB = (twoSided && (pos>=kRight || pos<=-kLeft));
-    if (stopA || stopB || t>5000){ clearInterval(id); }
-  }, 16);
-}
+                this.mainChart.data.labels = labels;
+                this.mainChart.data.datasets[0].data = data;
+                this.mainChart.update('active');
+            }
 
-/* Hook up Case A sim */
-document.getElementById('runA').addEventListener('click', () => {
-  const k = Math.max(1, Math.floor(Number(document.getElementById('simkA').value)));
-  const p = Number(document.getElementById('simpA').value); const q = 1-p;
-  const canvas = document.getElementById('canvasA');
-  const msg = document.getElementById('simAmsg');
-  if (!(p>0 && p<1)){ msg.textContent = 'Enter 0 < p < 1.'; return; }
-  if (p<=0.5){ msg.innerHTML = 'No rightward drift ⇒ expected time is <strong>infinite</strong>; sim may take long.'; }
-  else { msg.innerHTML = `Expected T(0) ≈ k/(p-q) = <strong>${fmt(k/(p-q))}</strong>`; }
-  animateWalk(canvas, k, null, p, false);
-});
+            updateVariantComparison() {
+                const variant = this.elements.variantSelect.value;
+                const edge = parseFloat(this.elements.edgeSlider.value);
+                const N = parseInt(this.elements.bankrollSlider.value);
 
-/* Hook up Case B sim */
-document.getElementById('runB').addEventListener('click', () => {
-  const k = Math.max(1, Math.floor(Number(document.getElementById('simkB').value)));
-  const p = Number(document.getElementById('simpB').value);
-  const canvas = document.getElementById('canvasB');
-  const msg = document.getElementById('simBmsg');
-  if (!(p>0 && p<1)){ msg.textContent = 'Enter 0 < p < 1.'; return; }
-  const q = 1-p, r = q/p;
-  if (Math.abs(p-0.5)<1e-12) msg.innerHTML = `Expected T(0) = k² = <strong>${k*k}</strong>`;
-  else msg.innerHTML = `Expected T(0) = (k/(q-p)) * ((r^k - 1)/(r^k + 1)) = <strong>${fmt((k/(q-p))*((Math.pow(r,k)-1)/(Math.pow(r,k)+1)))}</strong>`;
-  animateWalk(canvas, k, k, p, true);
-});
-</script>
+                this.elements.edgeValue.textContent = edge.toFixed(1) + '%';
+                this.elements.bankrollValue.textContent = N.toString();
+
+                const p = 0.5 - edge / 100;
+                const labels = [];
+                for (let i = 1; i < N; i++) {
+                    labels.push(i);
+                }
+
+                let datasets = [];
+                let explanation = '';
+
+                switch (variant) {
+                    case 'classic':
+                        datasets.push({
+                            label: 'Fair Game (p=0.5)',
+                            data: labels.map(i => 1 - i / N),
+                            borderColor: '#4a9eff',
+                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderWidth: 3
+                        });
+                        explanation = 'Classic fair game: Linear ruin probability P(i) = 1 - i/N. This comes from the Master Equation with p(i) ≡ 0.5, yielding a repeated root in the characteristic equation.';
+                        break;
+
+                    case 'unfair':
+                        datasets.push({
+                            label: 'House Edge ' + edge + '%',
+                            data: labels.map(i => this.calculateRuinProbability(i, N, p)),
+                            borderColor: '#ff6b6b',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            borderWidth: 3
+                        });
+                        datasets.push({
+                            label: 'Fair Game (comparison)',
+                            data: labels.map(i => 1 - i / N),
+                            borderColor: '#4a9eff',
+                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderWidth: 2,
+                            borderDash: [5, 5]
+                        });
+                        explanation = 'Casino edge modifies p(i) ≡ ' + p.toFixed(3) + ' < 0.5. The ratio q/p = ' + ((1-p)/p).toFixed(3) + ' > 1 creates exponential growth in ruin probability.';
+                        break;
+
+                    case 'bold':
+                        const boldData = labels.map(i => {
+                            if (p >= 0.5) {
+                                return Math.pow(1-p, Math.ceil(Math.log2(N/i)));
+                            } else {
+                                return 1 - Math.pow(p, Math.ceil(Math.log2(N/i)));
+                            }
+                        });
+                        
+                        datasets.push({
+                            label: 'Bold Play',
+                            data: boldData,
+                            borderColor: '#ffa500',
+                            backgroundColor: 'rgba(255, 165, 0, 0.1)',
+                            borderWidth: 3
+                        });
+                        datasets.push({
+                            label: 'Conservative (comparison)',
+                            data: labels.map(i => this.calculateRuinProbability(i, N, p)),
+                            borderColor: '#4a9eff',
+                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderWidth: 2,
+                            borderDash: [5, 5]
+                        });
+                        explanation = 'Bold play modifies Δᵢ = min(i, N-i). This maximizes stakes, leading to faster resolution. Optimal when p > 0.5, catastrophic when p < 0.5.';
+                        break;
+
+                    case 'martingale':
+                        datasets.push({
+                            label: 'Martingale',
+                            data: labels.map(i => this.calculateRuinProbability(i, N, p)),
+                            borderColor: '#9370db',
+                            backgroundColor: 'rgba(147, 112, 219, 0.1)',
+                            borderWidth: 3
+                        });
+                        datasets.push({
+                            label: 'Constant Stake (same!)',
+                            data: labels.map(i => this.calculateRuinProbability(i, N, p)),
+                            borderColor: '#4a9eff',
+                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderWidth: 2,
+                            borderDash: [5, 5]
+                        });
+                        explanation = 'Martingale strategy modifies Δᵢ (doubling after losses) but surprisingly yields identical ruin probabilities! The Master Equation shows that only the coefficients p(i) and boundaries matter.';
+                        break;
+                }
+
+                this.comparisonChart.data.labels = labels;
+                this.comparisonChart.data.datasets = datasets;
+                this.comparisonChart.update('active');
+
+                this.elements.variantExplanation.innerHTML = '<strong>' + variant.charAt(0).toUpperCase() + variant.slice(1) + ' Strategy:</strong> ' + explanation;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                new MasterEquationVisualizer();
+                
+                const sections = document.querySelectorAll('.section, .master-section, .variants-showcase');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('fade-in');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                sections.forEach(section => {
+                    observer.observe(section);
+                });
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
