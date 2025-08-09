@@ -99,11 +99,8 @@
         }
 
         .generator-definition {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid rgba(255, 215, 0, 0.4);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
+            padding: 1rem 0;
+            margin: 1rem 0;
         }
 
         /* Clean section styling */
@@ -124,11 +121,8 @@
         }
 
         .equation-block {
-            background: rgba(10, 10, 20, 0.9);
-            border: 2px solid #3a5a7b;
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
+            padding: 0.5rem 0;
+            margin: 0.5rem 0;
             text-align: center;
             position: relative;
             overflow-x: auto;
@@ -136,11 +130,8 @@
 
         .equation-large {
             font-size: 1.4rem;
-            margin: 1.5rem 0;
-            padding: 1.5rem;
-            background: rgba(74, 158, 255, 0.08);
-            border: 1px solid rgba(74, 158, 255, 0.3);
-            border-radius: 10px;
+            margin: 0.5rem 0;
+            padding: 0.5rem 0;
         }
 
         .applications-grid {
@@ -151,10 +142,7 @@
         }
 
         .application-card {
-            background: rgba(20, 30, 50, 0.8);
-            border: 1px solid #2a4a6b;
-            border-radius: 10px;
-            padding: 2rem;
+            padding: 2rem 0;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -173,9 +161,7 @@
         }
 
         .application-card:hover {
-            transform: translateY(-8px);
-            border-color: #4a9eff;
-            box-shadow: 0 15px 35px rgba(74, 158, 255, 0.25);
+            transform: translateY(-4px);
         }
 
         .application-card:hover::before {
@@ -195,10 +181,7 @@
         }
 
         .flow-step {
-            background: rgba(74, 158, 255, 0.1);
-            border: 1px solid rgba(74, 158, 255, 0.3);
-            border-radius: 8px;
-            padding: 1.5rem;
+            padding: 1.5rem 0;
             margin: 1.5rem 0;
             position: relative;
             counter-increment: step;
@@ -222,11 +205,7 @@
         }
 
         .interactive-demo {
-            background: rgba(20, 30, 50, 0.6);
-            border: 1px solid #2a4a6b;
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
+            margin: 0.5rem 0;
         }
 
         .control-panel {
@@ -237,10 +216,7 @@
         }
 
         .control-group {
-            background: rgba(10, 10, 20, 0.8);
-            border: 1px solid #3a5a7b;
-            border-radius: 8px;
-            padding: 1rem;
+            padding: 1rem 0;
         }
 
         .control-label {
@@ -288,11 +264,8 @@
         }
 
         .chart-container {
-            background: rgba(10, 10, 20, 0.9);
-            border: 2px solid #3a5a7b;
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
+            padding: 0.5rem 0;
+            margin: 0.5rem 0;
             height: 500px;
             position: relative;
         }
@@ -313,10 +286,7 @@
         }
 
         .variant-card {
-            background: rgba(30, 30, 50, 0.8);
-            border: 1px solid #2a4a6b;
-            border-radius: 12px;
-            padding: 2rem;
+            padding: 2rem 0;
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
@@ -338,9 +308,7 @@
         }
 
         .variant-card:hover {
-            transform: scale(1.02);
-            border-color: #4a9eff;
-            box-shadow: 0 12px 30px rgba(74, 158, 255, 0.2);
+            transform: scale(1.01);
         }
 
         .variant-number {
@@ -382,10 +350,7 @@
         }
 
         .key-insight {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            border-radius: 10px;
-            padding: 1.5rem;
+            padding: 1.5rem 0;
             margin: 1.5rem 0;
             position: relative;
         }
@@ -394,17 +359,14 @@
             content: '💡';
             position: absolute;
             top: -12px;
-            left: 20px;
+            left: 0px;
             background: #0a0a0f;
             padding: 0 0.5rem;
             font-size: 1.5rem;
         }
 
         .time-analysis {
-            background: rgba(255, 165, 0, 0.1);
-            border: 2px solid rgba(255, 165, 0, 0.4);
-            border-radius: 12px;
-            padding: 2.5rem;
+            padding: 2.5rem 0;
             margin: 2.5rem 0;
         }
 
@@ -416,10 +378,7 @@
         }
 
         .case-card {
-            background: rgba(20, 30, 50, 0.9);
-            border: 1px solid #2a4a6b;
-            border-radius: 10px;
-            padding: 2rem;
+            padding: 2rem 0;
         }
 
         .case-title {
@@ -565,13 +524,13 @@
                 </div>
             </div>
 
-            <div class="equation-block" style="background: linear-gradient(135deg, rgba(74, 158, 255, 0.15), rgba(106, 182, 255, 0.05)); border: 2px solid #4a9eff;">
+            <div class="equation-block" style="border-left: 4px solid #4a9eff; padding-left: 1rem;">
                 <h3 style="color: #4a9eff; margin-bottom: 1rem;">Final Classical Solution</h3>
                 <div class="equation-large">
-                    $$P_i = \begin{cases}
+                    $P_i = \begin{cases}
                     \dfrac{\left(\frac{q}{p}\right)^i - \left(\frac{q}{p}\right)^N}{1 - \left(\frac{q}{p}\right)^N} & \text{if } p \neq \frac{1}{2} \\[12pt]
                     1 - \dfrac{i}{N} & \text{if } p = \frac{1}{2}
-                    \end{cases}$$
+                    \end{cases}$
                 </div>
             </div>
         </div>
@@ -764,7 +723,7 @@
                             </div>
                         </div>
 
-                        <div class="equation-block" style="background: rgba(255, 165, 0, 0.1); border-color: #ffa500;">
+                        <div class="equation-block" style="border-left: 4px solid #ffa500; padding-left: 1rem;">
                             $\boxed{\mathbb{E}_0[\tau_{+k}] = \begin{cases}
                             \frac{k}{p-q} & \text{if } p > q \\
                             \infty & \text{if } p \leq \frac{1}{2}
@@ -787,7 +746,7 @@
                             </div>
                         </div>
 
-                        <div class="equation-block" style="background: rgba(255, 165, 0, 0.1); border-color: #ffa500;">
+                        <div class="equation-block" style="border-left: 4px solid #ffa500; padding-left: 1rem;">
                             $\boxed{T(0) = \begin{cases}
                             k^2 & \text{if } p = \frac{1}{2} \\[6pt]
                             \frac{k}{q-p} \cdot \frac{r^k-1}{r^k+1} & \text{if } p \neq \frac{1}{2}
