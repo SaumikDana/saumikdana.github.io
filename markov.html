@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master Equation Framework: Gambler's Ruin</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
@@ -86,42 +85,31 @@
             padding: 2rem;
         }
 
-        .master-section {
-            background: linear-gradient(135deg, rgba(74, 158, 255, 0.15) 0%, rgba(106, 182, 255, 0.05) 100%);
-            border: 3px solid #4a9eff;
-            border-radius: 16px;
-            padding: 3rem;
+        /* Simplified master equation section */
+        .master-equation {
+            text-align: center;
             margin: 3rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .master-section::before {
-            content: '⚡';
-            position: absolute;
-            top: -15px;
-            left: 30px;
-            background: #0a0a0f;
-            padding: 0 1rem;
-            font-size: 2rem;
         }
 
         .master-title {
             font-size: 2.5rem;
             color: #4a9eff;
-            text-align: center;
             margin-bottom: 2rem;
             font-weight: 700;
         }
 
-        .section {
-            background: rgba(30, 30, 50, 0.6);
-            border: 1px solid #2a4a6b;
+        .generator-definition {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.4);
             border-radius: 12px;
-            padding: 2.5rem;
-            margin: 2.5rem 0;
-            backdrop-filter: blur(10px);
-            position: relative;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Clean section styling */
+        .section {
+            margin: 3rem 0;
+            padding: 0;
         }
 
         .section-title {
@@ -153,14 +141,6 @@
             background: rgba(74, 158, 255, 0.08);
             border: 1px solid rgba(74, 158, 255, 0.3);
             border-radius: 10px;
-        }
-
-        .generator-definition {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid rgba(255, 215, 0, 0.4);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
         }
 
         .applications-grid {
@@ -210,11 +190,7 @@
         }
 
         .derivation-flow {
-            background: rgba(20, 20, 40, 0.8);
-            border-radius: 12px;
-            padding: 2rem;
             margin: 2rem 0;
-            position: relative;
             counter-reset: step;
         }
 
@@ -321,12 +297,12 @@
             position: relative;
         }
 
-        .variants-showcase {
-            background: linear-gradient(135deg, rgba(106, 182, 255, 0.1) 0%, rgba(135, 206, 235, 0.05) 100%);
-            border: 2px solid #6bb6ff;
-            border-radius: 16px;
-            padding: 3rem;
-            margin: 3rem 0;
+        /* Clean variants section */
+        .variants-title {
+            color: #6bb6ff;
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 3rem 0 2rem 0;
         }
 
         .variants-grid {
@@ -500,7 +476,7 @@
 
     <div class="container">
         <!-- Master Equation Foundation -->
-        <div class="master-section">
+        <div class="master-equation">
             <h2 class="master-title">The Universal Master Equation</h2>
             
             <div class="generator-definition">
@@ -541,7 +517,7 @@
             </div>
         </div>
 
-        <!-- Classical Derivation from Master Equation -->
+        <!-- Classical Derivation -->
         <div class="section">
             <h2 class="section-title">🔧 Classical Case: Deriving from the Master Equation</h2>
             
@@ -644,115 +620,113 @@
         </div>
 
         <!-- Seven Essential Variants -->
-        <div class="variants-showcase">
-            <h2 style="color: #6bb6ff; font-size: 2.5rem; text-align: center; margin-bottom: 2rem;">Seven Essential Variants from the Master Equation</h2>
-            
-            <div class="variants-grid">
-                <div class="variant-card">
-                    <div class="variant-number">1</div>
-                    <div class="variant-title">Classic Fair Game</div>
-                    <div class="modification-tags">
-                        <span class="mod-tag">p(i) ≡ 0.5</span>
-                        <span class="mod-tag">Δᵢ = 1</span>
-                        <span class="mod-tag">Absorbing 0,N</span>
-                    </div>
-                    <div class="equation-block">
-                        $$P_i = 1 - \frac{i}{N}$$
-                        $$T_i = i(N-i)$$
-                    </div>
-                    <p style="color: #b0c4de;">Linear ruin probability, quadratic expected time.</p>
+        <h2 class="variants-title">Seven Essential Variants from the Master Equation</h2>
+        
+        <div class="variants-grid">
+            <div class="variant-card">
+                <div class="variant-number">1</div>
+                <div class="variant-title">Classic Fair Game</div>
+                <div class="modification-tags">
+                    <span class="mod-tag">p(i) ≡ 0.5</span>
+                    <span class="mod-tag">Δᵢ = 1</span>
+                    <span class="mod-tag">Absorbing 0,N</span>
                 </div>
+                <div class="equation-block">
+                    $$P_i = 1 - \frac{i}{N}$$
+                    $$T_i = i(N-i)$$
+                </div>
+                <p style="color: #b0c4de;">Linear ruin probability, quadratic expected time.</p>
+            </div>
 
-                <div class="variant-card">
-                    <div class="variant-number">2</div>
-                    <div class="variant-title">Unfair (Casino Edge)</div>
-                    <div class="modification-tags">
-                        <span class="mod-tag">p(i) ≡ p < 0.5</span>
-                        <span class="mod-tag">Δᵢ = 1</span>
-                        <span class="mod-tag">Absorbing 0,N</span>
-                    </div>
-                    <div class="equation-block">
-                        $$P_i = \frac{r^i - r^N}{1 - r^N}, \quad r = \frac{q}{p}$$
-                    </div>
-                    <p style="color: #b0c4de;">Exponential growth in ruin probability as casino edge increases.</p>
+            <div class="variant-card">
+                <div class="variant-number">2</div>
+                <div class="variant-title">Unfair (Casino Edge)</div>
+                <div class="modification-tags">
+                    <span class="mod-tag">p(i) ≡ p < 0.5</span>
+                    <span class="mod-tag">Δᵢ = 1</span>
+                    <span class="mod-tag">Absorbing 0,N</span>
                 </div>
+                <div class="equation-block">
+                    $$P_i = \frac{r^i - r^N}{1 - r^N}, \quad r = \frac{q}{p}$$
+                </div>
+                <p style="color: #b0c4de;">Exponential growth in ruin probability as casino edge increases.</p>
+            </div>
 
-                <div class="variant-card">
-                    <div class="variant-number">3</div>
-                    <div class="variant-title">Martingale Strategy</div>
-                    <div class="modification-tags">
-                        <span class="mod-tag">p(i) ≡ p</span>
-                        <span class="mod-tag">Δᵢ history-dependent</span>
-                        <span class="mod-tag">Double after loss</span>
-                    </div>
-                    <div class="equation-block">
-                        $$P_{\text{ruin}} = \text{same as constant stake!}$$
-                    </div>
-                    <p style="color: #ff6b6b;">Surprising result: ruin probability unchanged, but variance and time differ dramatically.</p>
+            <div class="variant-card">
+                <div class="variant-number">3</div>
+                <div class="variant-title">Martingale Strategy</div>
+                <div class="modification-tags">
+                    <span class="mod-tag">p(i) ≡ p</span>
+                    <span class="mod-tag">Δᵢ history-dependent</span>
+                    <span class="mod-tag">Double after loss</span>
                 </div>
+                <div class="equation-block">
+                    $$P_{\text{ruin}} = \text{same as constant stake!}$$
+                </div>
+                <p style="color: #ff6b6b;">Surprising result: ruin probability unchanged, but variance and time differ dramatically.</p>
+            </div>
 
-                <div class="variant-card">
-                    <div class="variant-number">4</div>
-                    <div class="variant-title">Bold Play Strategy</div>
-                    <div class="modification-tags">
-                        <span class="mod-tag">p(i) ≡ p</span>
-                        <span class="mod-tag">Δᵢ = min(i, N-i)</span>
-                        <span class="mod-tag">Maximum bet</span>
-                    </div>
-                    <div class="equation-block">
-                        $$\text{Optimal for } p > 0.5$$
-                        $$\text{Catastrophic for } p < 0.5$$
-                    </div>
-                    <p style="color: #4a9eff;">Jump size modification completely changes the game dynamics.</p>
+            <div class="variant-card">
+                <div class="variant-number">4</div>
+                <div class="variant-title">Bold Play Strategy</div>
+                <div class="modification-tags">
+                    <span class="mod-tag">p(i) ≡ p</span>
+                    <span class="mod-tag">Δᵢ = min(i, N-i)</span>
+                    <span class="mod-tag">Maximum bet</span>
                 </div>
+                <div class="equation-block">
+                    $$\text{Optimal for } p > 0.5$$
+                    $$\text{Catastrophic for } p < 0.5$$
+                </div>
+                <p style="color: #4a9eff;">Jump size modification completely changes the game dynamics.</p>
+            </div>
 
-                <div class="variant-card">
-                    <div class="variant-number">5</div>
-                    <div class="variant-title">Parrondo's Paradox</div>
-                    <div class="modification-tags">
-                        <span class="mod-tag">p(i) alternating</span>
-                        <span class="mod-tag">Two losing games</span>
-                        <span class="mod-tag">Combination wins</span>
-                    </div>
-                    <div class="equation-block">
-                        $$p_{\text{eff}} > 0.5 \text{ possible}$$
-                    </div>
-                    <p style="color: #50ff50;">Counterintuitive: coefficient modification can turn losing games into winners!</p>
+            <div class="variant-card">
+                <div class="variant-number">5</div>
+                <div class="variant-title">Parrondo's Paradox</div>
+                <div class="modification-tags">
+                    <span class="mod-tag">p(i) alternating</span>
+                    <span class="mod-tag">Two losing games</span>
+                    <span class="mod-tag">Combination wins</span>
                 </div>
+                <div class="equation-block">
+                    $$p_{\text{eff}} > 0.5 \text{ possible}$$
+                </div>
+                <p style="color: #50ff50;">Counterintuitive: coefficient modification can turn losing games into winners!</p>
+            </div>
 
-                <div class="variant-card">
-                    <div class="variant-number">6</div>
-                    <div class="variant-title">Stock Price Model</div>
-                    <div class="modification-tags">
-                        <span class="mod-tag">Continuous limit</span>
-                        <span class="mod-tag">Drift μ</span>
-                        <span class="mod-tag">Volatility σ</span>
-                    </div>
-                    <div class="equation-block">
-                        $\mathcal{L}f = \mu f'(x) + \frac{1}{2}\sigma^2 f''(x)$
-                        $\alpha = \frac{2\mu}{\sigma^2}$
-                    </div>
-                    <p style="color: #b0c4de;">Continuous limit of master equation yields barrier option pricing.</p>
+            <div class="variant-card">
+                <div class="variant-number">6</div>
+                <div class="variant-title">Stock Price Model</div>
+                <div class="modification-tags">
+                    <span class="mod-tag">Continuous limit</span>
+                    <span class="mod-tag">Drift μ</span>
+                    <span class="mod-tag">Volatility σ</span>
                 </div>
+                <div class="equation-block">
+                    $\mathcal{L}f = \mu f'(x) + \frac{1}{2}\sigma^2 f''(x)$
+                    $\alpha = \frac{2\mu}{\sigma^2}$
+                </div>
+                <p style="color: #b0c4de;">Continuous limit of master equation yields barrier option pricing.</p>
+            </div>
 
-                <div class="variant-card">
-                    <div class="variant-number">7</div>
-                    <div class="variant-title">Population Genetics</div>
-                    <div class="modification-tags">
-                        <span class="mod-tag">p(i) = 0.5 + s·φ(i)</span>
-                        <span class="mod-tag">Selection pressure</span>
-                        <span class="mod-tag">Genetic drift</span>
-                    </div>
-                    <div class="equation-block">
-                        $\text{Neutral: } P_{\text{fix}} = \frac{i}{N}$
-                        $\text{Selection: biased formula}$
-                    </div>
-                    <p style="color: #ffb347;">Coefficient modification models evolutionary forces in finite populations.</p>
+            <div class="variant-card">
+                <div class="variant-number">7</div>
+                <div class="variant-title">Population Genetics</div>
+                <div class="modification-tags">
+                    <span class="mod-tag">p(i) = 0.5 + s·φ(i)</span>
+                    <span class="mod-tag">Selection pressure</span>
+                    <span class="mod-tag">Genetic drift</span>
                 </div>
+                <div class="equation-block">
+                    $\text{Neutral: } P_{\text{fix}} = \frac{i}{N}$
+                    $\text{Selection: biased formula}$
+                </div>
+                <p style="color: #ffb347;">Coefficient modification models evolutionary forces in finite populations.</p>
             </div>
         </div>
 
-        <!-- Expected Time Analysis from Master Equation -->
+        <!-- Expected Time Analysis -->
         <div class="section">
             <h2 class="section-title">⏱️ Expected Time Analysis via Master Equation</h2>
             
@@ -1231,7 +1205,7 @@
             setTimeout(() => {
                 new MasterEquationVisualizer();
                 
-                const sections = document.querySelectorAll('.section, .master-section, .variants-showcase');
+                const sections = document.querySelectorAll('.section, .master-equation');
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
