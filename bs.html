@@ -4,12 +4,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Black–Scholes–Merton: Assumptions and Where They’re Used</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
   <meta name="description" content="A concise table linking each Black–Scholes–Merton assumption to the exact step of the derivation where it is used and why it matters." />
+  <!-- Load MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
   <style>
+    /* same CSS as before... */
     :root {
       --bg: #ffffff;
       --fg: #0f172a;
@@ -35,67 +42,17 @@
       color: var(--fg);
       font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
     }
-    .wrap {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 32px 20px 64px;
-    }
-    header h1 {
-      margin: 0 0 6px;
-      font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem);
-      letter-spacing: -0.02em;
-    }
-    header p {
-      margin: 0 0 22px;
-      color: var(--muted);
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
-      box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 8px 24px rgba(0,0,0,0.05);
-    }
-    .table-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-    }
-    thead th {
-      text-align: left;
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--fg);
-      border-bottom: 2px solid var(--border);
-      padding: 12px 10px;
-      background: transparent;
-    }
-    tbody td {
-      vertical-align: top;
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--border);
-    }
-    code, kbd {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.95em;
-      background: color-mix(in oklab, var(--border) 60%, transparent);
-      padding: 0 0.25em;
-      border-radius: 6px;
-    }
-    .note {
-      margin-top: 16px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    footer {
-      margin-top: 28px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 32px 20px 64px; }
+    header h1 { margin: 0 0 6px; font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); letter-spacing: -0.02em; }
+    header p { margin: 0 0 22px; color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 8px 24px rgba(0,0,0,0.05); }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    thead th { text-align: left; font-weight: 700; font-size: 0.95rem; color: var(--fg); border-bottom: 2px solid var(--border); padding: 12px 10px; }
+    tbody td { vertical-align: top; padding: 12px 10px; border-bottom: 1px solid var(--border); }
+    code, kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; background: color-mix(in oklab, var(--border) 60%, transparent); padding: 0 0.25em; border-radius: 6px; }
+    .note { margin-top: 16px; color: var(--muted); font-size: 0.95rem; }
+    footer { margin-top: 28px; color: var(--muted); font-size: 0.9rem; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
   </style>
@@ -118,58 +75,60 @@
         </thead>
         <tbody>
           <tr>
-            <td><strong>Stock price follows GBM</strong> <code>dS_t = \mu S_t\,dt + \sigma S_t\,dW_t</code> with constant <code>\mu,\sigma</code></td>
-            <td>Starting point; plug into Itô’s Lemma for <code>V(S,t)</code></td>
-            <td>Continuous paths, proportional volatility, lognormal prices &rarr; tractable and realistic enough for the model</td>
+            <td><strong>Stock price follows GBM</strong> \(dS_t = \mu S_t\,dt + \sigma S_t\,dW_t\) with constant \(\mu,\sigma\)</td>
+            <td>Starting point; plug into Itô’s Lemma for \(V(S,t)\)</td>
+            <td>Continuous paths, proportional volatility, lognormal prices → tractable and realistic enough for the model</td>
           </tr>
           <tr>
             <td><strong>No transaction costs, taxes, bid–ask spreads</strong></td>
-            <td>Forming and continuously rebalancing <code>\Pi = V - V_S S</code></td>
+            <td>Forming and continuously rebalancing \(\Pi = V - V_S S\)</td>
             <td>Prevents hedging frictions; exact term-by-term cancellation relies on costless trading</td>
           </tr>
           <tr>
             <td><strong>Continuous trading</strong></td>
-            <td>Maintain <code>\Delta = V_S</code> at every instant</td>
-            <td>Without continuous rebalancing, the random <code>dW_t</code> exposure reappears</td>
+            <td>Maintain \(\Delta = V_S\) at every instant</td>
+            <td>Without continuous rebalancing, the random \(dW_t\) exposure reappears</td>
           </tr>
           <tr>
             <td><strong>Short selling allowed</strong></td>
-            <td>Setting <code>\Delta = V_S</code> (which can be negative)</td>
+            <td>Setting \(\Delta = V_S\) (which can be negative)</td>
             <td>You must be able to short the stock to hedge options with negative delta</td>
           </tr>
           <tr>
-            <td><strong>Constant risk-free rate <code>r</code></strong></td>
-            <td>Riskless-return step: <code>d\Pi = r\,\Pi\,dt</code></td>
+            <td><strong>Constant risk-free rate \(r\)</strong></td>
+            <td>Riskless-return step: \(d\Pi = r\,\Pi\,dt\)</td>
             <td>Simplifies discounting/replication; yields constant-coefficient PDE</td>
           </tr>
           <tr>
             <td><strong>No dividends</strong> (in basic form)</td>
-            <td>In the PDE drift term <code>r S V_S</code></td>
-            <td>If dividends with yield <code>q</code> exist, replace <code>r</code> with <code>r - q</code> in the PDE</td>
+            <td>In the PDE drift term \(r S V_S\)</td>
+            <td>If dividends with yield \(q\) exist, replace \(r\) with \(r - q\) in the PDE</td>
           </tr>
           <tr>
             <td><strong>No arbitrage</strong></td>
-            <td>Equating riskless growth: <code>d\Pi = r\,\Pi\,dt</code></td>
+            <td>Equating riskless growth: \(d\Pi = r\,\Pi\,dt\)</td>
             <td>Forces any riskless portfolio to earn exactly the risk-free rate; pins down the PDE</td>
           </tr>
           <tr>
             <td><strong>Complete market</strong> (every payoff can be replicated)</td>
             <td>Implicit in replication/hedging argument</td>
-            <td>Guarantees the hedged portfolio matches the option’s cash flows &rarr; unique price</td>
+            <td>Guarantees the hedged portfolio matches the option’s cash flows → unique price</td>
           </tr>
         </tbody>
       </table>
 
       <p class="note">
-        <strong>Resulting PDE:</strong>
-        <code>V_t + (1/2)\sigma^2 S^2 V_{SS} + r S V_S - r V = 0</code> with terminal condition
-        <code>V(S,T)=\text{payoff}(S_T)</code> (e.g., <code>\max(S-K,0)</code> for a call).
+        <strong>Resulting PDE:</strong><br/>
+        \[
+        V_t + \frac12\sigma^2 S^2 V_{SS} + r S V_S - r V = 0
+        \]
+        with terminal condition \(V(S,T)=\text{payoff}(S_T)\) (e.g., \(\max(S-K,0)\) for a call).
       </p>
     </section>
 
     <footer>
-      Tip: To include continuous dividends at yield <code>q</code>, use the same derivation but replace
-      <code>r S V_S</code> with <code>(r - q) S V_S</code> in the PDE.
+      Tip: To include continuous dividends at yield \(q\), use the same derivation but replace
+      \(r S V_S\) with \((r - q) S V_S\) in the PDE.
     </footer>
   </main>
 </body>
