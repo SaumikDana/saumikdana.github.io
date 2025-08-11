@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Black–Scholes–Merton: Assumptions and Where They’re Used</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Black–Scholes–Merton: Assumptions and Where They're Used</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
@@ -20,51 +19,182 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
   <style>
-    /* same CSS as before... */
     :root {
       --bg: #ffffff;
-      --fg: #0f172a;
-      --muted: #475569;
+      --fg: #1f2937;
+      --muted: #6b7280;
       --accent: #2563eb;
-      --border: #e2e8f0;
+      --border: #e5e7eb;
       --card: #ffffff;
+      --card-border: #d1d5db;
+      --code-bg: #f3f4f6;
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0b1220;
-        --fg: #e5e7eb;
-        --muted: #9aa4b2;
-        --accent: #60a5fa;
-        --border: #1f2937;
-        --card: #0f172a;
-      }
+
+    * { 
+      box-sizing: border-box; 
     }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
+    
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+    }
+    
     body {
       background: var(--bg);
       color: var(--fg);
       font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
     }
-    .wrap { max-width: 1000px; margin: 0 auto; padding: 32px 20px 64px; }
-    header h1 { margin: 0 0 6px; font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); letter-spacing: -0.02em; }
-    header p { margin: 0 0 22px; color: var(--muted); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 8px 24px rgba(0,0,0,0.05); }
-    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; min-width: 760px; }
-    thead th { text-align: left; font-weight: 700; font-size: 0.95rem; color: var(--fg); border-bottom: 2px solid var(--border); padding: 12px 10px; }
-    tbody td { vertical-align: top; padding: 12px 10px; border-bottom: 1px solid var(--border); }
-    code, kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.95em; background: color-mix(in oklab, var(--border) 60%, transparent); padding: 0 0.25em; border-radius: 6px; }
-    .note { margin-top: 16px; color: var(--muted); font-size: 0.95rem; }
-    footer { margin-top: 28px; color: var(--muted); font-size: 0.9rem; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    
+    .wrap { 
+      max-width: 1000px; 
+      margin: 0 auto; 
+      padding: 32px 20px 64px; 
+    }
+    
+    header h1 { 
+      margin: 0 0 6px; 
+      font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); 
+      letter-spacing: -0.02em;
+      color: var(--fg);
+      font-weight: 700;
+    }
+    
+    header p { 
+      margin: 0 0 22px; 
+      color: var(--muted); 
+      font-size: 1.1rem;
+    }
+    
+    .card { 
+      background: var(--card); 
+      border: 1px solid var(--card-border); 
+      border-radius: 14px; 
+      padding: 24px; 
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05); 
+    }
+    
+    .table-wrap { 
+      overflow-x: auto; 
+      -webkit-overflow-scrolling: touch; 
+    }
+    
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      min-width: 760px; 
+    }
+    
+    thead th { 
+      text-align: left; 
+      font-weight: 700; 
+      font-size: 0.95rem; 
+      color: var(--fg); 
+      border-bottom: 2px solid var(--border); 
+      padding: 16px 12px; 
+      background: #f9fafb;
+    }
+    
+    tbody td { 
+      vertical-align: top; 
+      padding: 16px 12px; 
+      border-bottom: 1px solid var(--border); 
+      line-height: 1.5;
+    }
+    
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+    
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    code, kbd { 
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
+      font-size: 0.9em; 
+      background: var(--code-bg); 
+      padding: 2px 6px; 
+      border-radius: 4px;
+      color: #374151;
+    }
+    
+    .note { 
+      margin-top: 20px; 
+      color: var(--muted); 
+      font-size: 0.95rem; 
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+    }
+    
+    footer { 
+      margin-top: 28px; 
+      color: var(--muted); 
+      font-size: 0.9rem; 
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    
+    a { 
+      color: var(--accent); 
+      text-decoration: none; 
+    }
+    
+    a:hover { 
+      text-decoration: underline; 
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    /* Math styling */
+    .MathJax {
+      color: var(--fg) !important;
+    }
+
+    .mjx-chtml {
+      color: var(--fg) !important;
+    }
+
+    /* Table styling improvements */
+    td:first-child {
+      font-weight: 500;
+    }
+
+    td:nth-child(2) {
+      font-style: italic;
+    }
+
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+      .wrap {
+        padding: 20px 16px 40px;
+      }
+      
+      .card {
+        padding: 16px;
+      }
+      
+      table {
+        font-size: 0.9rem;
+      }
+      
+      thead th,
+      tbody td {
+        padding: 12px 8px;
+      }
+    }
   </style>
 </head>
 <body>
   <main class="wrap">
     <header>
-      <h1>Black–Scholes–Merton: Assumptions &amp; Where They’re Used</h1>
+      <h1>Black–Scholes–Merton: Assumptions &amp; Where They're Used</h1>
       <p>A quick mapping from each assumption to the exact step in the derivation and why it matters.</p>
     </header>
 
@@ -73,14 +203,14 @@
         <thead>
           <tr>
             <th scope="col">Assumption</th>
-            <th scope="col">Where it’s used in derivation</th>
-            <th scope="col">Why it’s needed</th>
+            <th scope="col">Where it's used in derivation</th>
+            <th scope="col">Why it's needed</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>Stock price follows GBM</strong> \(dS_t = \mu S_t\,dt + \sigma S_t\,dW_t\) with constant \(\mu,\sigma\)</td>
-            <td>Starting point; plug into Itô’s Lemma for \(V(S,t)\)</td>
+            <td>Starting point; plug into Itô's Lemma for \(V(S,t)\)</td>
             <td>Continuous paths, proportional volatility, lognormal prices → tractable and realistic enough for the model</td>
           </tr>
           <tr>
@@ -116,7 +246,7 @@
           <tr>
             <td><strong>Complete market</strong> (every payoff can be replicated)</td>
             <td>Implicit in replication/hedging argument</td>
-            <td>Guarantees the hedged portfolio matches the option’s cash flows → unique price</td>
+            <td>Guarantees the hedged portfolio matches the option's cash flows → unique price</td>
           </tr>
         </tbody>
       </table>
@@ -131,7 +261,7 @@
     </section>
 
     <footer>
-      Tip: To include continuous dividends at yield \(q\), use the same derivation but replace
+      <strong>Tip:</strong> To include continuous dividends at yield \(q\), use the same derivation but replace
       \(r S V_S\) with \((r - q) S V_S\) in the PDE.
     </footer>
   </main>
