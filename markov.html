@@ -32,20 +32,20 @@
 
         body {
             font-family: 'Computer Modern', 'Times New Roman', serif;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e8e8e8;
+            background: #ffffff;
+            color: #2c3e50;
             line-height: 1.7;
             overflow-x: hidden;
             min-height: 100vh;
         }
 
         .header {
-            background: rgba(20, 30, 50, 0.9);
-            backdrop-filter: blur(15px);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
             padding: 4rem 2rem;
             text-align: center;
-            border-bottom: 3px solid #4a9eff;
+            border-bottom: 3px solid #2980b9;
             position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header::before {
@@ -55,25 +55,25 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(74, 158, 255, 0.1) 25%, transparent 25%), 
-                        linear-gradient(-45deg, rgba(74, 158, 255, 0.1) 25%, transparent 25%);
+            background: linear-gradient(45deg, rgba(41, 128, 185, 0.05) 25%, transparent 25%), 
+                        linear-gradient(-45deg, rgba(41, 128, 185, 0.05) 25%, transparent 25%);
             background-size: 60px 60px;
-            opacity: 0.3;
+            opacity: 0.7;
         }
 
         .header h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            color: #4a9eff;
+            color: #2980b9;
             margin-bottom: 1rem;
-            text-shadow: 0 4px 20px rgba(74, 158, 255, 0.4);
+            text-shadow: 0 2px 4px rgba(41, 128, 185, 0.3);
             position: relative;
             z-index: 1;
         }
 
         .header .subtitle {
             font-size: 1.4rem;
-            color: #b0c4de;
+            color: #34495e;
             font-style: italic;
             position: relative;
             z-index: 1;
@@ -93,7 +93,7 @@
 
         .master-title {
             font-size: 2.5rem;
-            color: #4a9eff;
+            color: #2980b9;
             margin-bottom: 2rem;
             font-weight: 700;
         }
@@ -111,9 +111,9 @@
 
         .section-title {
             font-size: 2rem;
-            color: #6bb6ff;
+            color: #3498db;
             margin-bottom: 2rem;
-            border-bottom: 2px solid #2a4a6b;
+            border-bottom: 2px solid #bdc3c7;
             padding-bottom: 0.8rem;
             display: flex;
             align-items: center;
@@ -142,10 +142,14 @@
         }
 
         .application-card {
-            padding: 2rem 0;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .application-card::before {
@@ -155,13 +159,14 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #4a9eff, #6bb6ff, #87ceeb);
+            background: linear-gradient(90deg, #2980b9, #3498db, #5dade2);
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
 
         .application-card:hover {
             transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         .application-card:hover::before {
@@ -169,7 +174,7 @@
         }
 
         .app-title {
-            color: #6bb6ff;
+            color: #3498db;
             font-size: 1.3rem;
             margin-bottom: 1rem;
             font-weight: 600;
@@ -181,8 +186,11 @@
         }
 
         .flow-step {
-            padding: 1.5rem 0;
+            padding: 1.5rem;
             margin: 1.5rem 0;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
             position: relative;
             counter-increment: step;
         }
@@ -192,8 +200,8 @@
             position: absolute;
             top: -12px;
             left: 20px;
-            background: #4a9eff;
-            color: #0a0a0f;
+            background: #2980b9;
+            color: white;
             width: 24px;
             height: 24px;
             border-radius: 50%;
@@ -213,6 +221,10 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
             margin: 1.5rem 0;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
         }
 
         .control-group {
@@ -220,7 +232,7 @@
         }
 
         .control-label {
-            color: #b0c4de;
+            color: #34495e;
             font-weight: 600;
             margin-bottom: 0.5rem;
             display: block;
@@ -230,7 +242,7 @@
             width: 100%;
             height: 6px;
             border-radius: 3px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #e9ecef;
             outline: none;
             -webkit-appearance: none;
             margin: 0.5rem 0;
@@ -241,38 +253,42 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #4a9eff, #6bb6ff);
+            background: linear-gradient(135deg, #2980b9, #3498db);
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4);
+            box-shadow: 0 2px 8px rgba(41, 128, 185, 0.4);
             transition: all 0.2s ease;
         }
 
         .slider::-webkit-slider-thumb:hover {
             transform: scale(1.15);
-            box-shadow: 0 6px 16px rgba(74, 158, 255, 0.6);
+            box-shadow: 0 4px 12px rgba(41, 128, 185, 0.6);
         }
 
         .value-display {
-            background: rgba(74, 158, 255, 0.15);
-            border: 1px solid #4a9eff;
+            background: rgba(41, 128, 185, 0.1);
+            border: 1px solid #2980b9;
             border-radius: 6px;
             padding: 0.4rem 0.8rem;
-            color: #4a9eff;
+            color: #2980b9;
             font-weight: 700;
             text-align: center;
             font-family: 'Courier New', monospace;
         }
 
         .chart-container {
-            padding: 0.5rem 0;
-            margin: 0.5rem 0;
+            padding: 1rem;
+            margin: 1rem 0;
             height: 500px;
             position: relative;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         /* Clean variants section */
         .variants-title {
-            color: #6bb6ff;
+            color: #3498db;
             font-size: 2.5rem;
             text-align: center;
             margin: 3rem 0 2rem 0;
@@ -286,10 +302,14 @@
         }
 
         .variant-card {
-            padding: 2rem 0;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .variant-card::after {
@@ -299,7 +319,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(41, 128, 185, 0.1), transparent);
             transition: left 0.6s ease;
         }
 
@@ -308,12 +328,13 @@
         }
 
         .variant-card:hover {
-            transform: scale(1.01);
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         .variant-number {
-            background: #4a9eff;
-            color: #0a0a0f;
+            background: #2980b9;
+            color: white;
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -326,7 +347,7 @@
         }
 
         .variant-title {
-            color: #6bb6ff;
+            color: #3498db;
             font-size: 1.4rem;
             margin-bottom: 1rem;
             font-weight: 600;
@@ -340,18 +361,21 @@
         }
 
         .mod-tag {
-            background: rgba(74, 158, 255, 0.2);
-            color: #4a9eff;
+            background: rgba(41, 128, 185, 0.1);
+            color: #2980b9;
             padding: 0.3rem 0.8rem;
             border-radius: 15px;
             font-size: 0.85rem;
             font-weight: 500;
-            border: 1px solid rgba(74, 158, 255, 0.3);
+            border: 1px solid rgba(41, 128, 185, 0.3);
         }
 
         .key-insight {
-            padding: 1.5rem 0;
+            padding: 1.5rem;
             margin: 1.5rem 0;
+            background: #f0f8ff;
+            border-left: 4px solid #2980b9;
+            border-radius: 4px;
             position: relative;
         }
 
@@ -359,15 +383,18 @@
             content: '💡';
             position: absolute;
             top: -12px;
-            left: 0px;
-            background: #0a0a0f;
+            left: 20px;
+            background: white;
             padding: 0 0.5rem;
             font-size: 1.5rem;
         }
 
         .time-analysis {
-            padding: 2.5rem 0;
+            padding: 2.5rem;
             margin: 2.5rem 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
         }
 
         .cases-comparison {
@@ -378,11 +405,15 @@
         }
 
         .case-card {
-            padding: 2rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .case-title {
-            color: #ffa500;
+            color: #e67e22;
             font-size: 1.3rem;
             margin-bottom: 1rem;
             font-weight: 600;
@@ -419,11 +450,27 @@
         }
 
         .MathJax {
-            color: #e8e8e8 !important;
+            color: #2c3e50 !important;
         }
 
         .mjx-chtml {
-            color: #e8e8e8 !important;
+            color: #2c3e50 !important;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            background: white;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
     </style>
 </head>
@@ -439,7 +486,7 @@
             <h2 class="master-title">The Universal Master Equation</h2>
             
             <div class="generator-definition">
-                <h3 style="color: #ffd700; margin-bottom: 1.5rem; text-align: center;">Discrete Generator on Interior States</h3>
+                <h3 style="color: #e67e22; margin-bottom: 1.5rem; text-align: center;">Discrete Generator on Interior States</h3>
                 <div class="equation-large">
                     $$(\mathcal{L}f)(i) = p(i)\big[f(i+\Delta_i)-f(i)\big] + q(i)\big[f(i-\Delta_i)-f(i)\big]$$
                 </div>
@@ -482,7 +529,7 @@
             
             <div class="derivation-flow">
                 <div class="flow-step">
-                    <h3 style="color: #6bb6ff; margin-bottom: 1rem;">Apply Master Equation to Classical Case</h3>
+                    <h3 style="color: #3498db; margin-bottom: 1rem;">Apply Master Equation to Classical Case</h3>
                     <p>For the classical gambler's ruin: $p(i) \equiv p$, $\Delta_i = 1$, absorbing boundaries at 0 and $N$</p>
                     <div class="equation-block">
                         $$(\mathcal{L}P)(i) = p[P(i+1)-P(i)] + q[P(i-1)-P(i)] = 0$$
@@ -494,7 +541,7 @@
                 </div>
 
                 <div class="flow-step">
-                    <h3 style="color: #6bb6ff; margin-bottom: 1rem;">Characteristic Equation Method</h3>
+                    <h3 style="color: #3498db; margin-bottom: 1rem;">Characteristic Equation Method</h3>
                     <p>Assume $P_i = \lambda^i$ and substitute:</p>
                     <div class="equation-block">
                         $$p\lambda^2 - \lambda + q = 0$$
@@ -506,7 +553,7 @@
                 </div>
 
                 <div class="flow-step">
-                    <h3 style="color: #6bb6ff; margin-bottom: 1rem;">General Solution & Boundary Conditions</h3>
+                    <h3 style="color: #3498db; margin-bottom: 1rem;">General Solution & Boundary Conditions</h3>
                     <p><strong>Case 1:</strong> $p \neq \frac{1}{2}$ (distinct roots)</p>
                     <div class="equation-block">
                         $$P_i = A + B\left(\frac{q}{p}\right)^i$$
@@ -524,8 +571,8 @@
                 </div>
             </div>
 
-            <div class="equation-block" style="border-left: 4px solid #4a9eff; padding-left: 1rem;">
-                <h3 style="color: #4a9eff; margin-bottom: 1rem;">Final Classical Solution</h3>
+            <div class="equation-block" style="border-left: 4px solid #2980b9; padding-left: 1rem; background: #f0f8ff; border-radius: 4px; padding: 1rem;">
+                <h3 style="color: #2980b9; margin-bottom: 1rem;">Final Classical Solution</h3>
                 <div class="equation-large">
                     $P_i = \begin{cases}
                     \dfrac{\left(\frac{q}{p}\right)^i - \left(\frac{q}{p}\right)^N}{1 - \left(\frac{q}{p}\right)^N} & \text{if } p \neq \frac{1}{2} \\[12pt]
@@ -594,7 +641,7 @@
                     $$P_i = 1 - \frac{i}{N}$$
                     $$T_i = i(N-i)$$
                 </div>
-                <p style="color: #b0c4de;">Linear ruin probability, quadratic expected time.</p>
+                <p style="color: #7f8c8d;">Linear ruin probability, quadratic expected time.</p>
             </div>
 
             <div class="variant-card">
@@ -608,7 +655,7 @@
                 <div class="equation-block">
                     $$P_i = \frac{r^i - r^N}{1 - r^N}, \quad r = \frac{q}{p}$$
                 </div>
-                <p style="color: #b0c4de;">Exponential growth in ruin probability as casino edge increases.</p>
+                <p style="color: #7f8c8d;">Exponential growth in ruin probability as casino edge increases.</p>
             </div>
 
             <div class="variant-card">
@@ -622,7 +669,7 @@
                 <div class="equation-block">
                     $$P_{\text{ruin}} = \text{same as constant stake!}$$
                 </div>
-                <p style="color: #ff6b6b;">Surprising result: ruin probability unchanged, but variance and time differ dramatically.</p>
+                <p style="color: #e74c3c;">Surprising result: ruin probability unchanged, but variance and time differ dramatically.</p>
             </div>
 
             <div class="variant-card">
@@ -637,7 +684,7 @@
                     $$\text{Optimal for } p > 0.5$$
                     $$\text{Catastrophic for } p < 0.5$$
                 </div>
-                <p style="color: #4a9eff;">Jump size modification completely changes the game dynamics.</p>
+                <p style="color: #3498db;">Jump size modification completely changes the game dynamics.</p>
             </div>
 
             <div class="variant-card">
@@ -651,7 +698,7 @@
                 <div class="equation-block">
                     $$p_{\text{eff}} > 0.5 \text{ possible}$$
                 </div>
-                <p style="color: #50ff50;">Counterintuitive: coefficient modification can turn losing games into winners!</p>
+                <p style="color: #27ae60;">Counterintuitive: coefficient modification can turn losing games into winners!</p>
             </div>
 
             <div class="variant-card">
@@ -666,7 +713,7 @@
                     $\mathcal{L}f = \mu f'(x) + \frac{1}{2}\sigma^2 f''(x)$
                     $\alpha = \frac{2\mu}{\sigma^2}$
                 </div>
-                <p style="color: #b0c4de;">Continuous limit of master equation yields barrier option pricing.</p>
+                <p style="color: #7f8c8d;">Continuous limit of master equation yields barrier option pricing.</p>
             </div>
 
             <div class="variant-card">
@@ -681,7 +728,7 @@
                     $\text{Neutral: } P_{\text{fix}} = \frac{i}{N}$
                     $\text{Selection: biased formula}$
                 </div>
-                <p style="color: #ffb347;">Coefficient modification models evolutionary forces in finite populations.</p>
+                <p style="color: #f39c12;">Coefficient modification models evolutionary forces in finite populations.</p>
             </div>
         </div>
 
@@ -690,7 +737,7 @@
             <h2 class="section-title">⏱️ Expected Time Analysis via Master Equation</h2>
             
             <div class="time-analysis">
-                <h3 style="color: #ffa500; margin-bottom: 1.5rem; text-align: center;">Master Equation for Expected Time</h3>
+                <h3 style="color: #e67e22; margin-bottom: 1.5rem; text-align: center;">Master Equation for Expected Time</h3>
                 
                 <div class="equation-block">
                     $\mathcal{L}T(i) = -1 \quad \text{on interior states}$
@@ -723,7 +770,7 @@
                             </div>
                         </div>
 
-                        <div class="equation-block" style="border-left: 4px solid #ffa500; padding-left: 1rem;">
+                        <div class="equation-block" style="border-left: 4px solid #e67e22; padding-left: 1rem; background: #fef9e7; border-radius: 4px; padding: 1rem;">
                             $\boxed{\mathbb{E}_0[\tau_{+k}] = \begin{cases}
                             \frac{k}{p-q} & \text{if } p > q \\
                             \infty & \text{if } p \leq \frac{1}{2}
@@ -746,7 +793,7 @@
                             </div>
                         </div>
 
-                        <div class="equation-block" style="border-left: 4px solid #ffa500; padding-left: 1rem;">
+                        <div class="equation-block" style="border-left: 4px solid #e67e22; padding-left: 1rem; background: #fef9e7; border-radius: 4px; padding: 1rem;">
                             $\boxed{T(0) = \begin{cases}
                             k^2 & \text{if } p = \frac{1}{2} \\[6pt]
                             \frac{k}{q-p} \cdot \frac{r^k-1}{r^k+1} & \text{if } p \neq \frac{1}{2}
@@ -770,7 +817,7 @@
                 <div class="control-panel">
                     <div class="control-group">
                         <label class="control-label">Variant Type</label>
-                        <select id="variantSelect" style="width: 100%; padding: 0.5rem; background: rgba(10,10,20,0.8); border: 1px solid #3a5a7b; border-radius: 6px; color: #e8e8e8;">
+                        <select id="variantSelect">
                             <option value="classic">Classic Fair</option>
                             <option value="unfair">Casino Edge</option>
                             <option value="bold">Bold Play</option>
@@ -806,7 +853,7 @@
             <h2 class="section-title">🔄 Continuity and Limit Analysis</h2>
             
             <div class="key-insight">
-                <h3 style="color: #ffd700; margin-bottom: 1rem;">L'Hôpital's Rule Verification</h3>
+                <h3 style="color: #e67e22; margin-bottom: 1rem;">L'Hôpital's Rule Verification</h3>
                 <p>The transition from biased to fair game is smooth:</p>
                 <div class="equation-block">
                     $\lim_{p \to 1/2} \frac{\left(\frac{q}{p}\right)^i - \left(\frac{q}{p}\right)^N}{1 - \left(\frac{q}{p}\right)^N} = 1 - \frac{i}{N}$
@@ -820,7 +867,7 @@
 
             <div class="derivation-flow">
                 <div class="flow-step">
-                    <h3 style="color: #6bb6ff;">Taylor expansion approach</h3>
+                    <h3 style="color: #3498db;">Taylor expansion approach</h3>
                     <p>Let $\epsilon = p - 1/2$, so $p = 1/2 + \epsilon$ and $q = 1/2 - \epsilon$:</p>
                     <div class="equation-block">
                         $\frac{q}{p} = \frac{1/2 - \epsilon}{1/2 + \epsilon} = \frac{1-2\epsilon}{1+2\epsilon} \approx (1-2\epsilon)(1-2\epsilon) = 1-4\epsilon$
@@ -828,7 +875,7 @@
                 </div>
 
                 <div class="flow-step">
-                    <h3 style="color: #6bb6ff;">Exponential limit</h3>
+                    <h3 style="color: #3498db;">Exponential limit</h3>
                     <p>As $\epsilon \to 0$:</p>
                     <div class="equation-block">
                         $(1-4\epsilon)^i \approx e^{-4\epsilon i} \approx 1 - 4\epsilon i$
@@ -931,13 +978,13 @@
                         datasets: [{
                             label: 'Ruin Probability P(i)',
                             data: [],
-                            borderColor: '#4a9eff',
-                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderColor: '#2980b9',
+                            backgroundColor: 'rgba(41, 128, 185, 0.1)',
                             borderWidth: 3,
                             fill: true,
                             tension: 0.1,
-                            pointBackgroundColor: '#4a9eff',
-                            pointBorderColor: '#6bb6ff',
+                            pointBackgroundColor: '#2980b9',
+                            pointBorderColor: '#3498db',
                             pointRadius: 4,
                             pointHoverRadius: 6
                         }]
@@ -948,15 +995,15 @@
                         plugins: {
                             legend: {
                                 labels: {
-                                    color: '#e8e8e8',
+                                    color: '#2c3e50',
                                     font: { size: 14, weight: 'bold' }
                                 }
                             },
                             tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleColor: '#4a9eff',
-                                bodyColor: '#e8e8e8',
-                                borderColor: '#4a9eff',
+                                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                titleColor: '#2980b9',
+                                bodyColor: '#2c3e50',
+                                borderColor: '#2980b9',
                                 borderWidth: 1,
                                 callbacks: {
                                     label: function(context) {
@@ -970,26 +1017,26 @@
                                 title: {
                                     display: true,
                                     text: 'Starting Position (i)',
-                                    color: '#e8e8e8',
+                                    color: '#2c3e50',
                                     font: { size: 14, weight: 'bold' }
                                 },
-                                ticks: { color: '#b0c4de' },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                ticks: { color: '#7f8c8d' },
+                                grid: { color: 'rgba(0, 0, 0, 0.1)' }
                             },
                             y: {
                                 title: {
                                     display: true,
                                     text: 'Probability of Ruin',
-                                    color: '#e8e8e8',
+                                    color: '#2c3e50',
                                     font: { size: 14, weight: 'bold' }
                                 },
                                 ticks: {
-                                    color: '#b0c4de',
+                                    color: '#7f8c8d',
                                     callback: function(value) {
                                         return (value * 100).toFixed(0) + '%';
                                     }
                                 },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                grid: { color: 'rgba(0, 0, 0, 0.1)' },
                                 min: 0,
                                 max: 1
                             }
@@ -1008,33 +1055,33 @@
                         plugins: {
                             legend: {
                                 labels: {
-                                    color: '#e8e8e8',
+                                    color: '#2c3e50',
                                     font: { size: 12, weight: 'bold' }
                                 }
                             },
                             tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleColor: '#4a9eff',
-                                bodyColor: '#e8e8e8',
-                                borderColor: '#4a9eff',
+                                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                titleColor: '#2980b9',
+                                bodyColor: '#2c3e50',
+                                borderColor: '#2980b9',
                                 borderWidth: 1
                             }
                         },
                         scales: {
                             x: {
-                                title: { display: true, text: 'Starting Position', color: '#e8e8e8' },
-                                ticks: { color: '#b0c4de' },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                title: { display: true, text: 'Starting Position', color: '#2c3e50' },
+                                ticks: { color: '#7f8c8d' },
+                                grid: { color: 'rgba(0, 0, 0, 0.1)' }
                             },
                             y: {
-                                title: { display: true, text: 'Ruin Probability', color: '#e8e8e8' },
+                                title: { display: true, text: 'Ruin Probability', color: '#2c3e50' },
                                 ticks: { 
-                                    color: '#b0c4de',
+                                    color: '#7f8c8d',
                                     callback: function(value) {
                                         return (value * 100).toFixed(0) + '%';
                                     }
                                 },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                grid: { color: 'rgba(0, 0, 0, 0.1)' },
                                 min: 0,
                                 max: 1
                             }
@@ -1079,8 +1126,8 @@
                         datasets.push({
                             label: 'Fair Game (p=0.5)',
                             data: labels.map(i => 1 - i / N),
-                            borderColor: '#4a9eff',
-                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderColor: '#2980b9',
+                            backgroundColor: 'rgba(41, 128, 185, 0.1)',
                             borderWidth: 3
                         });
                         explanation = 'Classic fair game: Linear ruin probability P(i) = 1 - i/N. This comes from the Master Equation with p(i) ≡ 0.5, yielding a repeated root in the characteristic equation.';
@@ -1090,15 +1137,15 @@
                         datasets.push({
                             label: 'House Edge ' + edge + '%',
                             data: labels.map(i => this.calculateRuinProbability(i, N, p)),
-                            borderColor: '#ff6b6b',
-                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
                             borderWidth: 3
                         });
                         datasets.push({
                             label: 'Fair Game (comparison)',
                             data: labels.map(i => 1 - i / N),
-                            borderColor: '#4a9eff',
-                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderColor: '#2980b9',
+                            backgroundColor: 'rgba(41, 128, 185, 0.1)',
                             borderWidth: 2,
                             borderDash: [5, 5]
                         });
@@ -1117,15 +1164,15 @@
                         datasets.push({
                             label: 'Bold Play',
                             data: boldData,
-                            borderColor: '#ffa500',
-                            backgroundColor: 'rgba(255, 165, 0, 0.1)',
+                            borderColor: '#f39c12',
+                            backgroundColor: 'rgba(243, 156, 18, 0.1)',
                             borderWidth: 3
                         });
                         datasets.push({
                             label: 'Conservative (comparison)',
                             data: labels.map(i => this.calculateRuinProbability(i, N, p)),
-                            borderColor: '#4a9eff',
-                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderColor: '#2980b9',
+                            backgroundColor: 'rgba(41, 128, 185, 0.1)',
                             borderWidth: 2,
                             borderDash: [5, 5]
                         });
@@ -1136,15 +1183,15 @@
                         datasets.push({
                             label: 'Martingale',
                             data: labels.map(i => this.calculateRuinProbability(i, N, p)),
-                            borderColor: '#9370db',
-                            backgroundColor: 'rgba(147, 112, 219, 0.1)',
+                            borderColor: '#9b59b6',
+                            backgroundColor: 'rgba(155, 89, 182, 0.1)',
                             borderWidth: 3
                         });
                         datasets.push({
                             label: 'Constant Stake (same!)',
                             data: labels.map(i => this.calculateRuinProbability(i, N, p)),
-                            borderColor: '#4a9eff',
-                            backgroundColor: 'rgba(74, 158, 255, 0.1)',
+                            borderColor: '#2980b9',
+                            backgroundColor: 'rgba(41, 128, 185, 0.1)',
                             borderWidth: 2,
                             borderDash: [5, 5]
                         });
