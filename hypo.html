@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypothesis Testing Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        
+        .step {
+            background: #ecf0f1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .formula {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+        
+        .examples {
+            background: #e8f5e8;
+            border: 1px solid #27ae60;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .rule-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .interpretation {
+            background: #e1ecf4;
+            border: 1px solid #2980b9;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .insights {
+            background: #f8f9fa;
+            border: 2px solid #6c757d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        ul {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .math {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+        
+        .decision-criteria {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .criteria-box {
+            background: #ffffff;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+        }
+        
+        .reject {
+            border-color: #e74c3c;
+            background: #fdf2f2;
+        }
+        
+        .fail-reject {
+            border-color: #27ae60;
+            background: #f2fdf2;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            .decision-criteria {
+                flex-direction: column;
+            }
+            .criteria-box {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hypothesis Testing</h1>
+        
+        <p>Hypothesis testing follows the same conceptual framework regardless of the specific situation:</p>
+        
+        <div class="step">
+            <h2>Step 1: Set Up Your Hypothesis</h2>
+            <p>Choose any hypothesis you want to test that makes a specific numerical claim:</p>
+            <div class="formula">
+                <em>H</em>₀: parameter = specific value
+            </div>
+            <p>From this hypothesis, you get <span class="math">μ₀</span> (or the claimed value).</p>
+            
+            <div class="examples">
+                <strong>Examples:</strong>
+                <ul>
+                    <li><em>H</em>₀: <span class="math">μ</span> = 50 → <span class="math">μ₀</span> = 50</li>
+                    <li><em>H</em>₀: <span class="math">p</span> = 0.3 → <span class="math">p₀</span> = 0.3</li>
+                    <li><em>H</em>₀: <span class="math">β₁</span> = 0 → claimed slope = 0</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h2>Step 2: Collect Your Data</h2>
+            <p>Gather sample data and calculate your sample statistic (mean, proportion, slope, etc.).</p>
+        </div>
+        
+        <div class="step">
+            <h2>Step 3: Calculate Test Statistic</h2>
+            <p>Compute either a <em>t</em>-statistic OR a <em>z</em>-statistic using the general formula:</p>
+            <div class="formula">
+                Test Statistic = (Sample Estimate - Hypothesized Value) / Standard Error of Estimate
+            </div>
+            
+            <div class="rule-box">
+                <h3>Choose your test statistic:</h3>
+                
+                <h4>Use <em>z</em>-statistic when:</h4>
+                <ul>
+                    <li>You know the population standard deviation (<span class="math">σ</span>)</li>
+                    <li>Large sample size</li>
+                </ul>
+                <div class="formula">
+                    <em>z</em> = (<span class="math">x̄</span> - <span class="math">μ₀</span>) / (<span class="math">σ</span>/√<em>n</em>)
+                </div>
+                
+                <h4>Use <em>t</em>-statistic when:</h4>
+                <ul>
+                    <li>You don't know the population standard deviation</li>
+                    <li>You estimate it with sample standard deviation (<em>s</em>)</li>
+                </ul>
+                <div class="formula">
+                    <em>t</em> = (<span class="math">x̄</span> - <span class="math">μ₀</span>) / (<em>s</em>/√<em>n</em>)
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h2>Step 4: Compare to Appropriate Distribution</h2>
+            <div class="rule-box">
+                <strong>The Rule:</strong>
+                <ul>
+                    <li><em>t</em>-statistic → Compare to <em>t</em>-distribution</li>
+                    <li><em>z</em>-statistic → Compare to normal distribution</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h2>Step 5: Look Up P-Value in Tables</h2>
+            <p>Use your test statistic and appropriate parameters:</p>
+            
+            <h3>For <em>t</em>-statistic:</h3>
+            <ul>
+                <li>Need: <em>t</em>-value and degrees of freedom</li>
+                <li>Look up in <em>t</em>-distribution table</li>
+                <li>Degrees of freedom depends on test type</li>
+            </ul>
+            
+            <h3>For <em>z</em>-statistic:</h3>
+            <ul>
+                <li>Need: <em>z</em>-value only</li>
+                <li>Look up in standard normal table</li>
+            </ul>
+            
+            <p><strong>The table directly gives you the <em>p</em>-value.</strong></p>
+        </div>
+        
+        <div class="step">
+            <h2>Step 6: Interpret P-Value</h2>
+            <p>The <em>p</em>-value answers: <em>"If my hypothesis were true, what's the probability of getting a test statistic this extreme or more extreme?"</em></p>
+            
+            <div class="formula">
+                P-value = P(getting result this extreme or more | <em>H</em>₀ is true)
+            </div>
+            
+            <div class="interpretation">
+                <strong>Interpretation:</strong>
+                <ul>
+                    <li><strong>Low <em>p</em>-value</strong> (close to 0): Data is inconsistent with hypothesis → <span class="highlight">Reject</span> <em>H</em>₀</li>
+                    <li><strong>High <em>p</em>-value</strong> (close to 1): Data is consistent with hypothesis → <span class="highlight">Don't reject</span> <em>H</em>₀</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h2>Step 7: Make Decision</h2>
+            <p>Compare <em>p</em>-value to significance level <span class="math">α</span> (commonly <span class="math">α</span> = 0.05):</p>
+            
+            <div class="decision-criteria">
+                <div class="criteria-box reject">
+                    <strong>If <em>p</em> ≤ <span class="math">α</span>:</strong><br>
+                    <span class="highlight">Reject</span> <em>H</em>₀<br>
+                    (statistically significant)
+                </div>
+                <div class="criteria-box fail-reject">
+                    <strong>If <em>p</em> > <span class="math">α</span>:</strong><br>
+                    <span class="highlight">Fail to reject</span> <em>H</em>₀<br>
+                    (not statistically significant)
+                </div>
+            </div>
+        </div>
+        
+        <div class="insights">
+            <h2>Key Insights</h2>
+            <ol>
+                <li><strong>Universal Process:</strong> Same framework applies to any hypothesis about any parameter</li>
+                
+                <li><strong>One Test Statistic:</strong> You calculate either <em>t</em> OR <em>z</em>, never both</li>
+                
+                <li><strong>Tables Do the Work:</strong> You don't calculate <em>p</em>-values by hand</li>
+                
+                <li><strong>P-value Scale:</strong> 0 ≤ <em>p</em> ≤ 1
+                    <ul>
+                        <li><em>p</em> ≈ 0: Data very inconsistent with <em>H</em>₀</li>
+                        <li><em>p</em> ≈ 1: Data very consistent with <em>H</em>₀</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Conservative Approach:</strong> We assume <em>H</em>₀ is true until strong evidence suggests otherwise</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
