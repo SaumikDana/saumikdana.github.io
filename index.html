@@ -22,7 +22,6 @@
     <meta name="twitter:description" content="Experienced Quantitative Researcher specializing in volatility trading, options strategies, and index rebalancing.">
     <meta name="twitter:image" content="https://saumikdana.github.io/saumik.jpg">
     
-    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
@@ -89,7 +88,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        max-width: 1200px;
+        max-width: 95%;
         margin: 0 auto;
         border-radius: 0 0 20px 20px;
     }
@@ -130,9 +129,9 @@
     }
     
     main {
-        max-width: 1200px;
+        max-width: 95%;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 2rem 1rem;
     }
     
     #news-ticker {
@@ -258,7 +257,7 @@
     
     .achievement-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 1.5rem;
         margin-top: 1.5rem;
     }
@@ -333,6 +332,7 @@
         header {
             flex-direction: column;
             text-align: center;
+            max-width: 98%;
         }
         
         .header-text h1 {
@@ -345,7 +345,8 @@
         }
         
         main {
-            padding: 1rem;
+            max-width: 98%;
+            padding: 1rem 0.5rem;
         }
         
         .timeline {
@@ -355,6 +356,24 @@
         .timeline-item {
             padding-left: 1rem;
         }
+        
+        .achievement-grid {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+        
+        section {
+            padding: 1.5rem;
+        }
+    }
+    
+    @media (min-width: 1400px) {
+        header {
+            max-width: 98%;
+        }
+        
+        main {
+            max-width: 98%;
+        }
     }
     </style>
 </head>
@@ -362,20 +381,20 @@
 <body>
 
     <header>
-    <img src="saumik.jpg" alt="Saumik Dana - " class="profile-pic">
+    <img src="https://via.placeholder.com/150/667eea/ffffff?text=SD" alt="Saumik Dana" class="profile-pic">
     <div class="header-text">
     <h1>Saumik Dana</h1>
-    <p style="font-size: 1.2rem; margin: 0.5rem 0;"></p>
+    <p style="font-size: 1.2rem; margin: 0.5rem 0;">Quantitative Researcher & Volatility Trading Specialist</p>
     <div class="social-links">
     <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" rel="noopener noreferrer">
-    <img src="linkedin-logo.png" alt="Saumik Dana on LinkedIn" class="social-logo">
+    <img src="https://via.placeholder.com/40/0077b5/ffffff?text=LI" alt="LinkedIn" class="social-logo">
     </a>
     <a href="https://github.com/SaumikDana" target="_blank" rel="noopener noreferrer">
-    <img src="github-logo.png" alt="Saumik Dana on GitHub" class="social-logo">
+    <img src="https://via.placeholder.com/40/333/ffffff?text=GH" alt="GitHub" class="social-logo">
     </a>
     </div>        
     </div>
-    <img src="montage4.webp" alt="Saumik Dana's Road Trips" class="profile-pic-right">
+    <img src="https://via.placeholder.com/150/764ba2/ffffff?text=RT" alt="Road Trips" class="profile-pic-right">
     </header>
 
     <main>
@@ -520,15 +539,15 @@
     <h2>Personal Projects</h2>
     <div class="portfolio-grid">
 
-    <div class="portfolio-item" style="background-image: url('montage3.webp');">
+    <div class="portfolio-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <h3 class="portfolio-title">
-    <a href="bayesian.html" class="portfolio-link">Bayesian/MCMC for Time Series</a>
+    <a href="#" class="portfolio-link">Bayesian/MCMC for Time Series</a>
     </h3>
     </div>
 
-    <div class="portfolio-item" style="background-image: url('stock_picking.webp');">
+    <div class="portfolio-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
     <h3 class="portfolio-title">
-    <a href="stock_picking.html" class="portfolio-link">Stock Picking</a>
+    <a href="#" class="portfolio-link">Stock Picking</a>
     </h3>
     </div>
 
@@ -540,8 +559,8 @@
     <h2>Shenanigans</h2>
     <p>
     <div class="side-by-side-images">
-    <img src="montage_grid.png" alt="Beer Montage">
-    <img src="montage.png" alt="Driver's View Montage">
+    <img src="https://via.placeholder.com/400x300/28a745/ffffff?text=Beer+Montage" alt="Beer Montage">
+    <img src="https://via.placeholder.com/400x300/dc3545/ffffff?text=Driver's+View" alt="Driver's View Montage">
     </div>                
     </p>
     </section>
@@ -551,9 +570,6 @@
     <footer>
     <p>Copyright © 2025 by Saumik Dana</p>
     </footer>
-
-    <!-- Add sitemap reference -->
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 
 </body>
 </html>
