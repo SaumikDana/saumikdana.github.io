@@ -46,9 +46,9 @@
     }
     
     .wrap { 
-      max-width: 1000px; 
+      max-width: 95%; 
       margin: 0 auto; 
-      padding: 32px 20px 64px; 
+      padding: 32px 16px 64px; 
     }
     
     header h1 { 
@@ -173,7 +173,8 @@
     /* Responsive improvements */
     @media (max-width: 768px) {
       .wrap {
-        padding: 20px 16px 40px;
+        max-width: 98%;
+        padding: 20px 12px 40px;
       }
       
       .card {
@@ -187,6 +188,28 @@
       thead th,
       tbody td {
         padding: 12px 8px;
+      }
+    }
+
+    @media (min-width: 1400px) {
+      .wrap {
+        max-width: 98%;
+      }
+    }
+
+    /* Enhanced table layout for wide screens */
+    @media (min-width: 1200px) {
+      table {
+        min-width: 100%;
+      }
+      
+      thead th,
+      tbody td {
+        padding: 18px 16px;
+      }
+      
+      tbody td {
+        font-size: 1rem;
       }
     }
   </style>
