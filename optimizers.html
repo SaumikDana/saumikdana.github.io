@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simplified Portfolio - Saumik Dana</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+    gap: 10px; /* Space between images */
+}
+.grid-item{
+    width: 100%;
+}
+
+.video-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.video-row video {
+    width: 100%;
+    max-width: 800px; /* Much larger videos */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Probability Distributions Section Styles */
+.probability-section {
+    margin: 40px 0;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.probability-section h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-family: 'EB Garamond', serif;
+}
+
+.distribution-selector {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.distribution-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.dist-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #667eea;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-family: 'EB Garamond', serif;
+}
+
+.dist-btn:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+.dist-btn.active {
+    background: #4c51bf;
+    box-shadow: 0 4px 12px rgba(76, 81, 191, 0.4);
+}
+
+.visualization-area {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.controls {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e1e8ed;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-family: 'EB Garamond', serif;
+}
+
+.control-group input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #e1e8ed;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.control-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.chart-container {
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    height: 500px;
+}
+
+.distribution-info {
+    background: #e8f4f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #667eea;
+}
+
+.distribution-info h3 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-family: 'EB Garamond', serif;
+}
+
+.distribution-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.applications-list {
+    background: #fff9e6;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border-left: 4px solid #f39c12;
+}
+
+.applications-list h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+}
+
+.applications-list ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.applications-list li {
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.4;
+}
+
+.stats-display {
+    background: #f0f8ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.stats-display h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-family: 'EB Garamond', serif;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .video-row video {
+        max-width: 100%;
+    }
+    
+    .visualization-area {
+        grid-template-columns: 1fr;
+    }
+    
+    .distribution-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .dist-btn {
+        width: 200px;
+    }
+    
+    .chart-container {
+        height: 400px;
+    }
+}
+</style>  
+</head>
+<body>
+<header>
+<img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
+<div class="header-text">
+<h1>Optimizers</h1>
+</div>
+<img src="ml_images/ml.webp" alt="Machine Learning Trading Visual" class="profile-pic-right">
+</header>
+<div class="video-row">
+<video controls><source src="gd_cg_comparison_quadratic.mp4" type="video/mp4"></video>
+<video controls><source src="gd_cg_comparison_himmelblau.mp4" type="video/mp4"></video>
+<video controls><source src="gd_cg_comparison_beale.mp4" type="video/mp4"></video>
+<video controls><source src="gd_cg_comparison_rastrigin.mp4" type="video/mp4"></video>
+<video controls><source src="gd_cg_comparison_rosenbrock.mp4" type="video/mp4"></video>
+</div>
+
+
+<footer>
+<p>Copyright © 2023 by Saumik Dana</p>
+</footer>
+
+</body>
+</html>
