@@ -33,31 +33,6 @@ class GradientDescentVisualizer:
             ])
             self.minimum = np.array([a, a**2])
             
-        elif self.function_type == 'himmelblau':
-            # Himmelblau's function: f(x,y) = (x^2+y-11)^2 + (x+y^2-7)^2
-            self.f = lambda x: (x[0]**2 + x[1] - 11)**2 + (x[0] + x[1]**2 - 7)**2
-            self.grad_f = lambda x: np.array([
-                4*x[0]*(x[0]**2 + x[1] - 11) + 2*(x[0] + x[1]**2 - 7),
-                2*(x[0]**2 + x[1] - 11) + 4*x[1]*(x[0] + x[1]**2 - 7)
-            ])
-            # One of the minima
-            self.minimum = np.array([3.0, 2.0])
-
-        elif self.function_type == 'beale':
-            # Beale function: very narrow valley, tests optimizer robustness
-            self.f = lambda x: ((1.5 - x[0] + x[0]*x[1])**2 + 
-                            (2.25 - x[0] + x[0]*x[1]**2)**2 + 
-                            (2.625 - x[0] + x[0]*x[1]**3)**2)
-            self.grad_f = lambda x: np.array([
-                2*(1.5 - x[0] + x[0]*x[1])*(-1 + x[1]) + 
-                2*(2.25 - x[0] + x[0]*x[1]**2)*(-1 + x[1]**2) + 
-                2*(2.625 - x[0] + x[0]*x[1]**3)*(-1 + x[1]**3),
-                2*(1.5 - x[0] + x[0]*x[1])*(x[0]) + 
-                2*(2.25 - x[0] + x[0]*x[1]**2)*(2*x[0]*x[1]) + 
-                2*(2.625 - x[0] + x[0]*x[1]**3)*(3*x[0]*x[1]**2)
-            ])
-            self.minimum = np.array([3.0, 0.5])
-
         elif self.function_type == 'rastrigin':
             # Rastrigin function: highly multimodal with many local minima
             A = 10
@@ -170,23 +145,6 @@ class RMSpropOptimizer:
         self.v = self.gamma * self.v + (1 - self.gamma) * (grad ** 2)
         return x - self.lr * grad / (np.sqrt(self.v) + self.epsilon)
 
-class AdaGradOptimizer:
-    """AdaGrad Optimizer"""
-    def __init__(self, learning_rate=0.1, epsilon=1e-8):
-        self.lr = learning_rate
-        self.epsilon = epsilon
-        self.G = None
-        self.name = "AdaGrad"
-        
-    def step(self, x, grad_func, **kwargs):
-        grad = grad_func(x)
-        
-        if self.G is None:
-            self.G = np.zeros_like(x)
-        
-        self.G += grad ** 2
-        return x - self.lr * grad / (np.sqrt(self.G) + self.epsilon)
-
 class FletcherReevesConjugateGradient:
     """Fletcher-Reeves Conjugate Gradient Method"""
     def __init__(self):
@@ -264,47 +222,6 @@ class PolakRibiereConjugateGradient:
         
         return best_x
 
-class HestenesStiefelConjugateGradient:
-    """Hestenes-Stiefel Conjugate Gradient Method"""
-    def __init__(self):
-        self.name = "Hestenes-Stiefel CG"
-        self.d_prev = None
-        self.grad_prev = None
-        self.first_step = True
-        
-    def step(self, x, grad_func, func=None, **kwargs):
-        grad = grad_func(x)
-        
-        if self.first_step:
-            # First iteration: use steepest descent
-            d = -grad
-            self.first_step = False
-        else:
-            # Compute Hestenes-Stiefel beta
-            grad_diff = grad - self.grad_prev
-            beta_HS = np.dot(grad, grad_diff) / np.dot(self.d_prev, grad_diff)
-            # Ensure beta is non-negative
-            beta_HS = max(0, beta_HS)
-            d = -grad + beta_HS * self.d_prev
-        
-        # Simple line search: try different step sizes
-        step_sizes = [0.01, 0.05, 0.1, 0.2, 0.5]
-        best_x = x
-        best_f = func(x) if func else np.inf
-        
-        for alpha in step_sizes:
-            x_new = x + alpha * d
-            f_new = func(x_new) if func else grad_func(x_new).dot(grad_func(x_new))
-            if f_new < best_f:
-                best_f = f_new
-                best_x = x_new
-        
-        # Store for next iteration
-        self.d_prev = d.copy()
-        self.grad_prev = grad.copy()
-        
-        return best_x
-
 def run_optimization(optimizer, visualizer, start_point, max_iterations=1000):
     """Run optimization and return the path"""
     path = [start_point.copy()]
@@ -356,20 +273,12 @@ def animate_optimization(function_type='quadratic', start_point=None, include_cg
             start_point = np.array([2.5, 2.0])
         elif function_type == 'rosenbrock':
             start_point = np.array([-1.0, 1.0])
-        elif function_type == 'beale':
-            start_point = np.array([1.0, 1.0])
-        elif function_type == 'rastrigin':
+        else: # rastrigin
             start_point = np.array([3.0, 3.0])
-        else: # himmelblau
-            start_point = np.array([0.0, 0.0])
 
     # Set up contour plot
     if function_type == 'rosenbrock':
         xlim, ylim = (-2, 2), (-1, 3)
-    elif function_type == 'himmelblau':
-        xlim, ylim = (-5, 5), (-5, 5)
-    elif function_type == 'beale':
-        xlim, ylim = (-1, 5), (-1, 2)
     elif function_type == 'rastrigin':
         xlim, ylim = (-5, 5), (-5, 5)
     else:
@@ -382,16 +291,14 @@ def animate_optimization(function_type='quadratic', start_point=None, include_cg
         MiniBatchGradientDescent(learning_rate=0.1, noise_scale=0.05),
         MomentumGD(learning_rate=0.05, momentum=0.9),
         AdamOptimizer(learning_rate=0.1),
-        RMSpropOptimizer(learning_rate=0.1),
-        AdaGradOptimizer(learning_rate=0.5)
+        RMSpropOptimizer(learning_rate=0.1)
     ]
     
     # Add conjugate gradient methods if requested
     if include_cg:
         optimizers.extend([
             FletcherReevesConjugateGradient(),
-            PolakRibiereConjugateGradient(),
-            HestenesStiefelConjugateGradient()
+            PolakRibiereConjugateGradient()
         ])
     
     # Run optimizations
@@ -433,12 +340,10 @@ def animate_optimization(function_type='quadratic', start_point=None, include_cg
                  '#00FF00',  # Bright Green
                  '#FF8000',  # Bright Orange
                  '#FF00FF',  # Bright Magenta
-                 '#FFFF00',  # Bright Yellow
-                 '#00FFFF']  # Bright Cyan
+                 '#FFFF00']  # Bright Yellow
     
     cg_colors = ['#000000',  # Pure Black
-                 '#8B0000',  # Dark Red
-                 '#483D8B']  # Dark Slate Blue
+                 '#8B0000']  # Dark Red
     
     colors = gd_colors + (cg_colors if include_cg else [])
     
@@ -456,14 +361,11 @@ def animate_optimization(function_type='quadratic', start_point=None, include_cg
     ax.set_ylim(ylim)
     ax.set_xlabel('x1')
     ax.set_ylabel('x2')
-    ax.set_title(f'Gradient Descent and Conjugate Gradient on {function_type.title()} Function')
+    ax.set_title(f'Optimization Methods Comparison on {function_type.title()} Function')
     
-    # Create two-column legend to handle more methods
+    # Create legend
     handles, labels = ax.get_legend_handles_labels()
-    if include_cg:
-        ax.legend(handles, labels, bbox_to_anchor=(1.05, 1), loc='upper left', ncol=1)
-    else:
-        ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax.legend(handles, labels, bbox_to_anchor=(1.05, 1), loc='upper left')
     
     ax.grid(True, alpha=0.3)
     
@@ -484,7 +386,7 @@ def animate_optimization(function_type='quadratic', start_point=None, include_cg
         
         return list(lines.values()) + list(points.values())
     
-    # Create animation (much slower for detailed observation)
+    # Create animation
     anim = animation.FuncAnimation(fig, animate, frames=frames,
                                  interval=interval, blit=True, repeat=False)
     
@@ -498,9 +400,10 @@ if __name__ == "__main__":
     interval = 300  # Slower animation for better observation
     tol = 1e-6
     frames = 200
-    linewidth=1
+    linewidth = 1
 
-    functions = ['quadratic', 'rosenbrock', 'himmelblau', 'beale', 'rastrigin']
+    # Keep only the most informative functions
+    functions = ['quadratic', 'rosenbrock', 'rastrigin']
 
     for function_to_animate in functions:  
     
