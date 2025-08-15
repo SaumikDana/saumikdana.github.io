@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Optimization Mathematical Formulations</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-size: 1.5em;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 30px;
+            font-size: 1.3em;
+        }
+        
+        .notation {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .variant-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .variant-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12, #e74c3c);
+        }
+        
+        .variant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .variant-number {
+            display: inline-block;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .math-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 5px solid #3498db;
+            position: relative;
+        }
+        
+        .math-block::before {
+            content: 'Mathematics';
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #3498db;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .key-change {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .key-change::before {
+            content: '🔑';
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .general-form {
+            background: linear-gradient(135deg, #dff0d8, #c3e6cb);
+            border: 2px solid #28a745;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .constraint-analysis {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border: 2px solid #9c27b0;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .objective {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+        
+        .constraint {
+            background: linear-gradient(135deg, #e17055, #d63031);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+        
+        .parameter {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border: 3px solid #f39c12;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .summary-box::before {
+            content: '💡';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #f39c12;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 1.5em;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <h1 class="floating">Mathematical Formulations of Portfolio Optimization Variants</h1>
+        
+        <div class="notation">
+            <h2>📊 Notation</h2>
+            <p><strong>w</strong> ∈ ℝⁿ: portfolio weights vector (n = 12 assets)</p>
+            <p><strong>α</strong> ∈ ℝⁿ: expected returns (alpha) vector</p>
+            <p><strong>β</strong> ∈ ℝⁿ: beta coefficients vector</p>
+            <p><strong>Σ</strong> ∈ ℝⁿˣⁿ: covariance matrix</p>
+            <p><strong>λ</strong>: risk aversion parameter</p>
+            <p><strong>1</strong>: vector of ones</p>
+        <div class="variant-card">
+            <h3><span class="variant-number">7</span>Fed Policy Benchmark Tracker</h3>
+            
+            <div class="math-block">
+                <strong>Objective:</strong><br>
+                minimize&nbsp;&nbsp;&nbsp;||w - <span class="highlight">w_fed(t)</span>||²
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                1'w = 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fully invested)<br>
+                -0.2 ≤ wᵢ ≤ 0.5&nbsp;&nbsp;&nbsp;(position limits), ∀i<br>
+                <em>No beta constraint</em>
+            </div>
+            
+            <div class="math-block">
+                <strong>Where w_fed(t) is the dynamic Fed Policy benchmark:</strong><br>
+                w_fed,i(t) = f(RiskFreeRate(t), RateRegime(t), βᵢ, sector_i)<br><br>
+                <strong>Fed Policy Logic:</strong><br>
+                • High rates → ↓ duration (TLT), ↑ financials (XLF)<br>
+                • Rising rates → ↓ growth (QQQ), ↑ value<br>
+                • Rate momentum → ↑ volatility protection (VIX)<br>
+                • Inflation regime → ↑ commodities (GLD, USO, DBA)
+            </div>
+            
+            <div class="key-change">
+                <span class="objective">Dynamic benchmark</span> based on real FRED economic data (3M Treasury: 4.37%)
+            </div>
+        </div>
+
+        <div class="variant-card">
+            <h3><span class="variant-number">8</span>60/40 Traditional Tracker</h3>
+            
+            <div class="math-block">
+                <strong>Objective:</strong><br>
+                minimize&nbsp;&nbsp;&nbsp;||w - <span class="highlight">w_60/40</span>||²
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                1'w = 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fully invested)<br>
+                -0.1 ≤ wᵢ ≤ 0.8&nbsp;&nbsp;&nbsp;(position limits), ∀i<br>
+                <em>No beta constraint</em>
+            </div>
+            
+            <div class="math-block">
+                <strong>Where w_60/40 is the classic benchmark:</strong><br>
+                w_60/40 = [0.6, 0, 0, 0, 0, 0, 0.4, 0, 0, 0, 0, 0]<br>
+                (60% SPY, 40% TLT, 0% others)
+            </div>
+            
+            <div class="key-change">
+                <span class="constraint">Traditional allocation</span> - pure 60% equity / 40% bonds replication
+            </div>
+        </div>
+
+        <div class="variant-card">
+            <h3><span class="variant-number">1</span>Base Case</h3>
+            
+            <div class="math-block">
+                <strong>Objective:</strong><br>
+                maximize&nbsp;&nbsp;&nbsp;α'w - 0.5 · w'Σw
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                β'w = 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(beta neutrality)<br>
+                1'w = 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fully invested)<br>
+                -0.3 ≤ wᵢ ≤ 0.3&nbsp;&nbsp;&nbsp;(position limits), ∀i
+            </div>
+        </div>
+
+        <div class="variant-card">
+            <h3><span class="variant-number">2</span>Low Risk Aversion</h3>
+            
+            <div class="math-block">
+                <strong>Objective:</strong><br>
+                maximize&nbsp;&nbsp;&nbsp;α'w - <span class="highlight">0.1</span> · w'Σw
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                β'w = 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(beta neutrality)<br>
+                1'w = 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fully invested)<br>
+                -0.3 ≤ wᵢ ≤ 0.3&nbsp;&nbsp;&nbsp;(position limits), ∀i
+            </div>
+            
+            <div class="key-change">
+                <span class="parameter">λ = 0.1</span> (reduced risk penalty by 80%)
+            </div>
+        </div>
+
+        <div class="variant-card">
+            <h3><span class="variant-number">3</span>High Risk Aversion</h3>
+            
+            <div class="math-block">
+                <strong>Objective:</strong><br>
+                maximize&nbsp;&nbsp;&nbsp;α'w - <span class="highlight">2.0</span> · w'Σw
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                β'w = 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(beta neutrality)<br>
+                1'w = 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fully invested)<br>
+                -0.3 ≤ wᵢ ≤ 0.3&nbsp;&nbsp;&nbsp;(position limits), ∀i
+            </div>
+            
+            <div class="key-change">
+                <span class="parameter">λ = 2.0</span> (increased risk penalty by 300%)
+            </div>
+        </div>
+
+        <div class="variant-card">
+            <h3><span class="variant-number">4</span>Tight Position Limits</h3>
+            
+            <div class="math-block">
+                <strong>Objective:</strong><br>
+                maximize&nbsp;&nbsp;&nbsp;α'w - 0.5 · w'Σw
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                β'w = 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(beta neutrality)<br>
+                1'w = 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fully invested)<br>
+                <span class="highlight">-0.15 ≤ wᵢ ≤ 0.15</span>&nbsp;&nbsp;&nbsp;(tighter position limits), ∀i
+            </div>
+            
+            <div class="key-change">
+                <span class="constraint">Position bounds</span> reduced from ±30% to ±15%
+            </div>
+        </div>
+
+        <div class="variant-card">
+            <h3><span class="variant-number">5</span>Positive Beta Target</h3>
+            
+            <div class="math-block">
+                <strong>Objective:</strong><br>
+                maximize&nbsp;&nbsp;&nbsp;α'w - 0.5 · w'Σw
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                <span class="highlight">β'w = 0.5</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(positive market exposure)<br>
+                1'w = 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fully invested)<br>
+                -0.3 ≤ wᵢ ≤ 0.3&nbsp;&nbsp;&nbsp;(position limits), ∀i
+            </div>
+            
+            <div class="key-change">
+                <span class="constraint">Beta target</span> changed from 0 to +0.5
+            </div>
+        </div>
+
+        <div class="variant-card">
+            <h3><span class="variant-number">6</span>Boosted High-Beta Assets (Alpha Boost)</h3>
+            
+            <div class="math-block">
+                <strong>Objective:</strong><br>
+                maximize&nbsp;&nbsp;&nbsp;<span class="highlight">α̃'w</span> - 0.5 · w'Σw
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                β'w = 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(beta neutrality)<br>
+                1'w = 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fully invested)<br>
+                -0.3 ≤ wᵢ ≤ 0.3&nbsp;&nbsp;&nbsp;(position limits), ∀i
+            </div>
+            
+            <div class="math-block">
+                <strong>Where α̃ is the modified expected returns vector:</strong><br>
+                α̃ᵢ = {<br>
+                &nbsp;&nbsp;2αᵢ&nbsp;&nbsp;if i ∈ {QQQ, EEM, VIX}&nbsp;&nbsp;(boosted assets)<br>
+                &nbsp;&nbsp;αᵢ&nbsp;&nbsp;&nbsp;otherwise&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(unchanged)<br>
+                }
+            </div>
+            
+            <div class="key-change">
+                <span class="objective">Expected returns</span> doubled for 3 high-volatility assets
+            </div>
+        </div>
+
+        <div class="general-form">
+            <h2>🎯 General Form</h2>
+            <p>All variants follow the general quadratic programming structure:</p>
+            
+            <div class="math-block">
+                <strong>Minimize:</strong><br>
+                ½w'Pw + q'w
+            </div>
+            
+            <div class="math-block">
+                <strong>Subject to:</strong><br>
+                Aw = b&nbsp;&nbsp;&nbsp;&nbsp;(equality constraints)<br>
+                Gw ≤ h&nbsp;&nbsp;&nbsp;&nbsp;(inequality constraints)
+            </div>
+            
+            <p><strong>Where:</strong></p>
+            <ul>
+                <li><strong>P</strong> = 2λΣ (Hessian matrix)</li>
+                <li><strong>q</strong> = -α (linear term)</li>
+                <li><strong>A</strong> contains equality constraint matrices (beta, sum)</li>
+                <li><strong>b</strong> contains equality constraint targets</li>
+                <li><strong>G</strong> contains inequality constraint matrices (position bounds)</li>
+                <li><strong>h</strong> contains inequality constraint limits</li>
+            </ul>
+        </div>
+
+        <div class="constraint-analysis">
+            <h2>🔍 Constraint Analysis</h2>
+            
+            <h3>Active Constraints by Variant</h3>
+            <ol>
+                <li><strong>Base Case:</strong> Usually beta and sum constraints active, some position limits may bind</li>
+                <li><strong>Low Risk Aversion:</strong> Position limits more likely to bind (concentrated positions)</li>
+                <li><strong>High Risk Aversion:</strong> Fewer position limits bind (diversified solution)</li>
+                <li><strong>Tight Limits:</strong> Position limits frequently bind, forcing diversification</li>
+                <li><strong>Positive Beta:</strong> Beta constraint drives toward high-β assets</li>
+                <li><strong>Alpha Boost:</strong> Boosted assets likely to hit position limits</li>
+            </ol>
+            
+            <h3>Lagrangian Form</h3>
+            <div class="math-block">
+                For any variant, the Lagrangian is:<br>
+                L(w,λ₁,λ₂,μ) = α'w - λ·w'Σw - λ₁(β'w - β_target) - λ₂(1'w - 1) - μ'(w - w_max) - ν'(w_min - w)
+            </div>
+            
+            <div class="math-block">
+                <strong>KKT Conditions:</strong><br>
+                ∇_w L = α - 2λΣw - λ₁β - λ₂1 - μ + ν = 0<br>
+                λ₁(β'w - β_target) = 0<br>
+                λ₂(1'w - 1) = 0<br>
+                μᵢ(wᵢ - w_max) = 0, ∀i<br>
+                νᵢ(w_min - wᵢ) = 0, ∀i<br>
+                μᵢ, νᵢ ≥ 0, ∀i
+            </div>
+        </div>
+
+        <h2 📈 Expected Solution Characteristics</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Variant</th>
+                    <th>Objective Type</th>
+                    <th>Risk Concentration</th>
+                    <th>Position Binding</th>
+                    <th>Beta Exposure</th>
+                    <th>Alpha Capture</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Base</strong></td>
+                    <td>Alpha Max</td>
+                    <td>Moderate</td>
+                    <td>Some limits</td>
+                    <td>β = 0.000</td>
+                    <td>11.23%</td>
+                </tr>
+                <tr>
+                    <td><strong>Low Risk</strong></td>
+                    <td>Alpha Max</td>
+                    <td>High</td>
+                    <td>Many limits</td>
+                    <td>β = 0.000</td>
+                    <td>11.28%</td>
+                </tr>
+                <tr>
+                    <td><strong>High Risk</strong></td>
+                    <td>Alpha Max</td>
+                    <td>Low</td>
+                    <td>Few limits</td>
+                    <td>β = 0.000</td>
+                    <td>9.02%</td>
+                </tr>
+                <tr>
+                    <td><strong>Tight Limits</strong></td>
+                    <td>Alpha Max</td>
+                    <td>Forced Low</td>
+                    <td>All limits</td>
+                    <td>β = 0.000</td>
+                    <td>6.44%</td>
+                </tr>
+                <tr>
+                    <td><strong>Fed Policy</strong></td>
+                    <td>Tracking</td>
+                    <td>Diversified</td>
+                    <td>No limits</td>
+                    <td>β = 0.699</td>
+                    <td>3.94%</td>
+                </tr>
+                <tr>
+                    <td><strong>60/40 Tracker</strong></td>
+                    <td>Tracking</td>
+                    <td>Concentrated</td>
+                    <td>No limits</td>
+                    <td>β = 0.480</td>
+                    <td>1.60%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="video-container" style="background: linear-gradient(135deg, #e8f5e8, #c8e6c8); border: 3px solid #28a745; border-radius: 15px; padding: 25px; margin: 30px 0; text-align: center;">
+            <h2 style="color: #155724; margin-bottom: 20px;">🎬 Portfolio Optimization Animation</h2>
+            <p style="color: #155724; margin-bottom: 20px; font-size: 1.1em;">
+                Watch how different mathematical formulations affect the optimization process and final portfolio allocations:
+            </p>
+            <video controls style="width: 100%; max-width: 900px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+                <source src="portfolio_variants_comparison.mp4" type="video/mp4">
+                Your browser does not support the video tag. Please download the video file directly.
+            </video>
+            <p style="color: #155724; margin-top: 15px; font-style: italic;">
+                The animation shows all 6 variants side-by-side, demonstrating how changes in λ (risk aversion), 
+                position limits, beta targets, and expected returns reshape the optimization path and final solution.
+            </p>
+        </div>
+
+        <div class="summary-box">
+            <h2>🎯 Key Mathematical Insights</h2>
+            
+            <h3>Core Structure (Quadratic Programming)</h3>
+            <p>All variants solve: <code>maximize α'w - λ·w'Σw subject to constraints</code></p>
+            
+            <h3>Key Mathematical Differences:</h3>
+            <ol>
+                <li><strong>Risk Aversion Variants (2,3):</strong> Only change λ parameter
+                    <ul>
+                        <li>Low: λ = 0.1 → emphasizes α'w term → 11.28% alpha, 18.45% risk</li>
+                        <li>High: λ = 2.0 → emphasizes w'Σw penalty → 9.02% alpha, 12.14% risk</li>
+                    </ul>
+                </li>
+                <li><strong>Constraint Variants (4):</strong> Modify constraint sets
+                    <ul>
+                        <li>Tight limits: shrink feasible region → forces diversification → 6.44% alpha</li>
+                    </ul>
+                </li>
+                <li><strong>Benchmark Tracking Variants (7,8):</strong> Completely different objective function
+                    <ul>
+                        <li>Fed Policy: Dynamic allocation based on rate environment → β = 0.699</li>
+                        <li>60/40: Static replication → β = 0.480</li>
+                        <li>Both achieve perfect tracking error = 0.000</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>Why This Matters:</h3>
+            <ul>
+                <li><strong>Alpha Maximization:</strong> Exploits expected returns but hits position limits trying to capture VIX's 12% alpha</li>
+                <li><strong>Benchmark Tracking:</strong> Ignores alpha opportunities to maintain allocation discipline</li>
+                <li><strong>Economic Intuition:</strong> Fed Policy responds to 4.37% rate environment with reduced duration exposure</li>
+                <li><strong>Risk Management:</strong> Tracking variants achieve lower volatility through diversification vs alpha concentration</li>
+            </ul>
+            
+            <p><em>Each mathematical change creates different optimal solutions and solver paths, giving you intuition about which problem components drive portfolio decisions!</em></p>
+        </div>
+    </div>
+</body>
+</html>
