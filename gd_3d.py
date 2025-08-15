@@ -5,15 +5,6 @@ from mpl_toolkits.mplot3d import Axes3D
 import warnings
 warnings.filterwarnings('ignore')
 
-# Try to import ECOS
-try:
-    import ecos
-    import cvxpy as cp
-    ECOS_AVAILABLE = True
-except ImportError:
-    ECOS_AVAILABLE = False
-    print("ECOS/CVXPY not available. Install with: pip install ecos cvxpy")
-
 class GradientDescent3DVisualizer:
     def __init__(self, function_type='styblinski_tang_3d'):
         """
@@ -155,76 +146,8 @@ class NesterovMomentum3D:
         self.velocity = self.momentum * self.velocity + self.lr * grad
         return x - self.velocity
 
-class ECOSSolver:
-    """ECOS Solver wrapper - works best on convex problems"""
-    def __init__(self):
-        self.name = "ECOS"
-        self.path = []
-        self.solved = False
-        
-    def solve_once(self, start_point, target_func, grad_func, max_iters=25):
-        """Solve using ECOS with linearization for non-convex problems"""
-        if not ECOS_AVAILABLE:
-            print("ECOS not available, skipping...")
-            return [start_point]
-            
-        try:
-            # For non-convex functions, use successive convex approximation
-            path = [start_point.copy()]
-            current_point = start_point.copy()
-            
-            for i in range(max_iters):
-                x = cp.Variable(3)
-                
-                # Linear approximation around current point
-                grad = grad_func(current_point)
-                f_val = target_func(current_point)
-                
-                # Linear objective: f(x0) + grad^T(x - x0)
-                objective = cp.Minimize(f_val + grad @ (x - current_point))
-                
-                # Trust region constraint
-                radius = max(0.05, 0.8 * np.exp(-i/3))
-                constraints = [cp.norm(x - current_point) <= radius]
-                
-                # Box constraints to keep within reasonable bounds
-                constraints.extend([
-                    x >= -15,
-                    x <= 15
-                ])
-                
-                prob = cp.Problem(objective, constraints)
-                prob.solve(solver=cp.ECOS, verbose=False)
-                
-                if prob.status == 'optimal':
-                    new_point = x.value
-                    path.append(new_point.copy())
-                    
-                    # Check convergence
-                    if np.linalg.norm(new_point - current_point) < 1e-4:
-                        break
-                        
-                    current_point = new_point.copy()
-                else:
-                    break
-            
-            self.solved = True
-            return path
-            
-        except Exception as e:
-            print(f"ECOS solver failed: {e}")
-            return [start_point]
-    
-    def step(self, x, grad_func, **kwargs):
-        # This method won't be used as ECOS solves all at once
-        return x
-
 def run_optimization_3d(optimizer, visualizer, start_point, max_iterations=250):
     """Run optimization and return the path"""
-    
-    # Special handling for ECOS
-    if hasattr(optimizer, 'solve_once'):
-        return np.array(optimizer.solve_once(start_point, visualizer.f, visualizer.grad_f, max_iterations))
     
     # Standard iterative optimization
     path = [start_point.copy()]
@@ -268,10 +191,6 @@ def animate_optimization_3d(function_type='styblinski_tang_3d', start_point=None
         RMSpropOptimizer3D(learning_rate=0.06)
     ]
     
-    # Add ECOS
-    if ECOS_AVAILABLE:
-        optimizers.append(ECOSSolver())
-    
     # Run optimizations
     paths = {}
     for opt in optimizers:
@@ -304,7 +223,7 @@ def animate_optimization_3d(function_type='styblinski_tang_3d', start_point=None
               edgecolors='black', linewidth=1, alpha=0.8)
     
     # Colors for different optimizers
-    colors = ['#FF0000', '#00AA00', '#0000FF', '#FF8000', '#FF00FF', '#000000']
+    colors = ['#FF0000', '#00AA00', '#0000FF', '#FF8000', '#FF00FF']
     
     # Initialize line objects
     lines = {}
@@ -337,7 +256,7 @@ def animate_optimization_3d(function_type='styblinski_tang_3d', start_point=None
     ax.set_xlabel('X', fontsize=12)
     ax.set_ylabel('Y', fontsize=12)
     ax.set_zlabel('Z', fontsize=12)
-    ax.set_title(f'3D Optimization: {function_type.replace("_", " ").title()}', fontsize=14)
+    ax.set_title(f'3D Unconstrained Optimization: {function_type.replace("_", " ").title()}', fontsize=14)
     ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=10)
     
     # Set a good viewing angle
@@ -404,9 +323,7 @@ if __name__ == "__main__":
             final_value = visualizer.f(final_point)
             distance_to_optimum = np.linalg.norm(final_point - visualizer.minimum)
             print(f"  {name:12s}: {len(path):3d} iters, f={final_value:8.3f}, dist={distance_to_optimum:6.3f}")
-        
-        plt.show()
-        
+                
         # Save animation with higher quality (more FPS = more detail)
         try:
             anim.save(f'detailed_3d_{function_to_animate}.mp4', writer='ffmpeg', fps=15, bitrate=3000)
