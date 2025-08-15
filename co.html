@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimization Solver Comparison: ECOS vs OSQP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #1f77b4, #ff7f0e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .solver-landscape {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .solver-landscape img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .solver-landscape img:hover {
+            transform: scale(1.02);
+        }
+
+        .algorithm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .algorithm-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .algorithm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .algorithm-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .ecos-card {
+            border-left: 5px solid #1f77b4;
+        }
+
+        .osqp-card {
+            border-left: 5px solid #ff7f0e;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .video-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .video-container h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .video-container video {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .comparison-video {
+            grid-column: 1 / -1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .key-insights {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .key-insights h3 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .insight-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .insight-item h4 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .portfolio-details {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .portfolio-details h3 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .asset-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .asset-item .symbol {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .asset-item .beta {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .constraints-box {
+            background: #f39c12;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .constraints-box h3 {
+            margin-bottom: 15px;
+        }
+
+        .constraints-box ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .constraints-box li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .constraints-box li::before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Optimization Solver Comparison</h1>
+            <p>Exploring the fundamental differences between Interior Point (ECOS) and Active Set (OSQP) methods through beta-neutral portfolio optimization</p>
+        </header>
+
+        <section class="section">
+            <h2>🎯 The Solver Landscape</h2>
+            <p>Optimization solvers can be categorized by their algorithmic approach and the order of derivative information they use. This landscape shows where popular solvers sit in this space:</p>
+            
+            <div class="solver-landscape">
+                <img src="co.png" alt="Optimization Solver Landscape" />
+            </div>
+            
+            <p><strong>Key Insight:</strong> ECOS (Interior Point) and OSQP (Active Set) represent fundamentally different philosophies for handling constraints during optimization.</p>
+        </section>
+
+        <section class="section">
+            <h2>🔬 The Three Constraint Philosophies</h2>
+            <div class="algorithm-grid">
+                <div class="algorithm-card ecos-card">
+                    <h3>🚫 Interior Point (ECOS)</h3>
+                    <p><strong>"Never Touch the Boundary"</strong></p>
+                    <ul>
+                        <li>✨ Maintains strict feasibility throughout</li>
+                        <li>🛡️ Uses barrier functions to repel from constraints</li>
+                        <li>📈 Smooth, monotonic convergence</li>
+                        <li>🎯 Conservative but reliable approach</li>
+                    </ul>
+                </div>
+                
+                <div class="algorithm-card osqp-card">
+                    <h3>🤝 Active Set (OSQP)</h3>
+                    <p><strong>"Walk Along the Boundary"</strong></p>
+                    <ul>
+                        <li>🎢 Identifies and moves along constraint boundaries</li>
+                        <li>⚖️ May temporarily violate some constraints</li>
+                        <li>🔄 Opportunistic exploration then correction</li>
+                        <li>💡 Exploits constraint structure</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>💼 Real-World Application: Beta-Neutral Portfolio</h2>
+            
+            <div class="portfolio-details">
+                <h3>📊 Portfolio Optimization Problem</h3>
+                <p>We demonstrate the solver differences using a realistic quantitative finance problem: constructing a market-neutral portfolio that maximizes alpha while maintaining zero market exposure.</p>
+                
+                <h4>📈 Assets in the Portfolio:</h4>
+                <div class="assets-grid">
+                    <div class="asset-item">
+                        <div class="symbol">SPY</div>
+                        <div class="beta">β = 1.00</div>
+                        <div>S&P 500 ETF</div>
+                    </div>
+                    <div class="asset-item">
+                        <div class="symbol">QQQ</div>
+                        <div class="beta">β = 1.25</div>
+                        <div>Nasdaq ETF</div>
+                    </div>
+                    <div class="asset-item">
+                        <div class="symbol">IWM</div>
+                        <div class="beta">β = 1.15</div>
+                        <div>Russell 2000</div>
+                    </div>
+                    <div class="asset-item">
+                        <div class="symbol">TLT</div>
+                        <div class="beta">β = -0.30</div>
+                        <div>Treasury Bonds</div>
+                    </div>
+                    <div class="asset-item">
+                        <div class="symbol">GLD</div>
+                        <div class="beta">β = -0.15</div>
+                        <div>Gold ETF</div>
+                    </div>
+                    <div class="asset-item">
+                        <div class="symbol">VIX</div>
+                        <div class="beta">β = -2.50</div>
+                        <div>Volatility ETF</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="constraints-box">
+                <h3>⚡ Optimization Constraints</h3>
+                <ul>
+                    <li><strong>Beta Neutrality:</strong> Portfolio beta = 0 (no market exposure)</li>
+                    <li><strong>Full Investment:</strong> Sum of weights = 1 (100% capital deployed)</li>
+                    <li><strong>Position Limits:</strong> -50% ≤ weight ≤ 50% (risk management)</li>
+                    <li><strong>Objective:</strong> Maximize expected alpha minus risk penalty</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎬 Solver Animations</h2>
+            
+            <div class="video-grid">
+                <div class="video-container">
+                    <h3>🔵 ECOS - Interior Point Method</h3>
+                    <video controls preload="metadata">
+                        <source src="portfolio_ecos_interior.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p><em>Notice the smooth objective function improvement and consistent constraint satisfaction</em></p>
+                </div>
+                
+                <div class="video-container">
+                    <h3>🟠 OSQP - Active Set Method</h3>
+                    <video controls preload="metadata">
+                        <source src="portfolio_osqp_active_set.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p><em>Observe the "dip and rise" objective pattern as constraints are prioritized differently</em></p>
+                </div>
+                
+                <div class="video-container comparison-video">
+                    <h3>⚖️ Side-by-Side Comparison</h3>
+                    <video controls preload="metadata">
+                        <source src="portfolio_ecos_vs_osqp.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p><em>Direct comparison of constraint violation patterns and convergence behavior</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="key-insights">
+                <h3>🧠 Key Insights from the Animations</h3>
+                <div class="insights-grid">
+                    <div class="insight-item">
+                        <h4>🎯 ECOS Behavior</h4>
+                        <p>Maintains strict feasibility throughout, smooth monotonic improvement, reaches stability earlier (~iteration 30)</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>🎢 OSQP Pattern</h4>
+                        <p>Shows "dip and rise" objective pattern, larger constraint violations during exploration, longer convergence time</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>📊 Constraint Handling</h4>
+                        <p>ECOS: simultaneous constraint satisfaction<br>OSQP: strategic constraint prioritization</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>🏆 Final Outcome</h4>
+                        <p>Both reach nearly identical optimal portfolios, but via fundamentally different paths</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎓 Educational Takeaways</h2>
+            <div class="algorithm-grid">
+                <div class="algorithm-card">
+                    <h3>🏛️ When to Use Interior Point (ECOS)</h3>
+                    <ul>
+                        <li>🔒 <strong>Regulated environments</strong> where constraint violations are unacceptable</li>
+                        <li>📊 <strong>Convex problems</strong> with well-behaved constraints</li>
+                        <li>⚡ <strong>Large-scale problems</strong> where global convergence properties matter</li>
+                        <li>🛡️ <strong>Risk-averse applications</strong> requiring guaranteed feasibility</li>
+                    </ul>
+                </div>
+                
+                <div class="algorithm-card">
+                    <h3>🔬 When to Use Active Set (OSQP)</h3>
+                    <ul>
+                        <li>🎯 <strong>Exploratory optimization</strong> to understand constraint trade-offs</li>
+                        <li>📐 <strong>Problems with clear constraint structure</strong> (LP, QP)</li>
+                        <li>🔄 <strong>Iterative design processes</strong> where constraint violations provide insight</li>
+                        <li>💡 <strong>Applications requiring constraint sensitivity analysis</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔧 Technical Implementation</h2>
+            <p>The animations were generated using:</p>
+            <ul>
+                <li><strong>CVXPY:</strong> Convex optimization modeling framework</li>
+                <li><strong>ECOS:</strong> Embedded Conic Solver for interior point methods</li>
+                <li><strong>OSQP:</strong> Operator Splitting Quadratic Program solver</li>
+                <li><strong>Matplotlib:</strong> Animation framework for visualization</li>
+                <li><strong>NumPy:</strong> Numerical computing for portfolio calculations</li>
+            </ul>
+            
+            <p>Each solver's path was simulated to reflect their actual algorithmic behavior, with ECOS maintaining barrier margins and OSQP implementing active set identification strategies.</p>
+        </section>
+
+        <footer class="footer">
+            <p>🎯 <strong>Optimization is about navigating constraint landscapes.</strong></p>
+            <p>Different algorithms encode different philosophies about this navigation - from cautious boundary avoidance to strategic boundary exploitation.</p>
+            <br>
+            <p><em>Understanding these differences helps choose the right tool for the right problem.</em></p>
+        </footer>
+    </div>
+</body>
+</html>
