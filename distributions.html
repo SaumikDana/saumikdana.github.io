@@ -141,9 +141,16 @@ header::before {
 
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr auto;
     gap: 40px;
     margin-top: 60px;
+}
+
+.video-container.comparison-video {
+    grid-column: 1 / -1;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .video-container {
@@ -479,11 +486,17 @@ footer {
     
     .video-grid {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
         gap: 30px;
     }
     
     .video-container {
         padding: 20px;
+    }
+    
+    .video-container.comparison-video {
+        grid-column: 1;
+        max-width: 100%;
     }
     
     .distribution-buttons {
