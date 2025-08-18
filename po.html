@@ -132,6 +132,22 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
+        .constraint-item.disabled {
+            opacity: 0.4;
+            position: relative;
+        }
+        
+        .constraint-item.disabled::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: #dc3545;
+            z-index: 1;
+        }
+        
         .constraint-title {
             font-weight: 600;
             margin-bottom: 10px;
@@ -396,15 +412,15 @@
                     $$\ell_i \cdot w_i^{base} \leq w_i \leq u_i \cdot w_i^{base} \quad \forall i$$
                 </div>
                 
-                <div class="constraint-item" style="opacity: 0.4; text-decoration: line-through;">
+                <div class="constraint-item disabled">
                     <div class="constraint-title">5. Portfolio Beta Constraints</div>
-                    $\beta_L \leq \sum_{i=1}^n \beta_i w_i \leq \beta_U$
+                    $$\beta_L \leq \sum_{i=1}^n \beta_i w_i \leq \beta_U$$
                     <small style="color: #dc3545; font-weight: bold;">(DISABLED: beta_bounds = None)</small>
                 </div>
                 
-                <div class="constraint-item" style="opacity: 0.4; text-decoration: line-through;">
+                <div class="constraint-item disabled">
                     <div class="constraint-title">6. Sector Allocation</div>
-                    $\left|\sum_{i \in S} w_i - \theta_S\right| \leq \delta \theta_S \quad \forall \text{ sectors } S$
+                    $$\left|\sum_{i \in S} w_i - \theta_S\right| \leq \delta \theta_S \quad \forall \text{ sectors } S$$
                     <small style="color: #dc3545; font-weight: bold;">(DISABLED: sect_max_diff = None)</small>
                 </div>
                 
