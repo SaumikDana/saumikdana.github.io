@@ -1,1 +1,424 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematical Formulation - Inflation Tracking Optimization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            opacity: 0.8;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .section {
+            margin: 35px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section-title {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+        
+        .objective-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .objective-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .math-block {
+            font-size: 1.3em;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .vector-first-section {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            border-left: 5px solid #ff6b6b;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        
+        .step-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ff6b6b;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .math-item {
+            margin: 12px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .constraints-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .constraint-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .constraint-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #fdcb6e;
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            margin: 20px 0;
+            color: #ff6b6b;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .tips-highlight {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Mathematical Formulation</h1>
+        <p class="subtitle">Inflation Tracking Portfolio Optimization with Vector-First Matrix Construction</p>
+        
+        <!-- Decision Variable -->
+        <div class="section">
+            <div class="section-title">Decision Variable</div>
+            <div class="math-item">
+                <strong>Portfolio Weights:</strong> \(w \in \mathbb{R}^n\) = portfolio weights vector
+            </div>
+        </div>
+        
+        <!-- Objective Function -->
+        <div class="objective-box">
+            <div class="objective-title">Objective Function</div>
+            <div class="math-block">
+                $$\min \frac{1}{2} \|R_{6m} w - r_{6m}^{bench}\|_2^2 + \frac{1}{2} \|R_{12m} w - r_{12m}^{bench}\|_2^2 + \lambda \|w - w_{prev}\|_1$$
+            </div>
+        </div>
+        
+        <!-- Vector-First Construction -->
+        <div class="vector-first-section">
+            <div class="section-title">📊 Matrix and Vector Construction (Vector-First Approach)</div>
+            
+            <!-- Step 1: Raw Input Data -->
+            <div class="step-box">
+                <div class="step-title">Step 1: Raw Input Data</div>
+                <div style="display: flex; gap: 20px; margin: 20px 0; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px; background: white; border-radius: 8px; padding: 15px; border: 1px solid #e9ecef; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="font-weight: bold; margin-bottom: 10px;">📈 data_bench (TIPS yields)</div>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8em;">
+                            <tr><th style="padding: 5px; border: 1px solid #dee2e6; background: #f8f9fa;">Date</th><th style="padding: 5px; border: 1px solid #dee2e6; background: #f8f9fa;">T10YIE</th></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">2024-01-01</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.0234</td></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">2024-01-02</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.0241</td></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">...</td><td style="padding: 5px; border: 1px solid #dee2e6;">...</td></tr>
+                            <tr style="background: #e3f2fd;"><td style="padding: 5px; border: 1px solid #dee2e6;">2024-01-08</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.0237</td></tr>
+                            <tr style="background: #e3f2fd;"><td style="padding: 5px; border: 1px solid #dee2e6;">2024-01-09</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.0245</td></tr>
+                        </table>
+                        <small>📅 126/252 trading days needed for lookback</small>
+                    </div>
+                    
+                    <div style="flex: 1; min-width: 250px; background: white; border-radius: 8px; padding: 15px; border: 1px solid #e9ecef; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="font-weight: bold; margin-bottom: 10px;">📊 data_tr (Stock returns)</div>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8em;">
+                            <tr><th style="padding: 5px; border: 1px solid #dee2e6; background: #f8f9fa;">Date</th><th style="padding: 5px; border: 1px solid #dee2e6; background: #f8f9fa;">gvkey</th><th style="padding: 5px; border: 1px solid #dee2e6; background: #f8f9fa;">tr</th></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">2024-01-08</td><td style="padding: 5px; border: 1px solid #dee2e6;">001001</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.015</td></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">2024-01-08</td><td style="padding: 5px; border: 1px solid #dee2e6;">001002</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.009</td></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">2024-01-08</td><td style="padding: 5px; border: 1px solid #dee2e6;">001003</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.021</td></tr>
+                        </table>
+                        <small>🔍 Thousands of rows, filtered by baseline</small>
+                    </div>
+                    
+                    <div style="flex: 1; min-width: 200px; background: white; border-radius: 8px; padding: 15px; border: 1px solid #e9ecef; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="font-weight: bold; margin-bottom: 10px;">🎯 baseline (Universe filter)</div>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8em;">
+                            <tr><th style="padding: 5px; border: 1px solid #dee2e6; background: #f8f9fa;">gvkey</th><th style="padding: 5px; border: 1px solid #dee2e6; background: #f8f9fa;">wgt</th></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">001001</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.40</td></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">001002</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.35</td></tr>
+                            <tr><td style="padding: 5px; border: 1px solid #dee2e6;">001003</td><td style="padding: 5px; border: 1px solid #dee2e6;">0.25</td></tr>
+                        </table>
+                        <small>⚡ Only selected stocks from data_tr</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <div class="step-title">Step 2: Build Benchmark Vector FIRST (Establishes Master Calendar)</div>
+                <div style="background: #f0f8ff; border: 2px solid #3498db; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <h4>🎯 TIPS Yield Vector Construction</h4>
+                    <div class="tips-highlight">
+                        🏛️ <strong>TIPS Benchmark:</strong> Treasury Inflation-Protected Securities (10-Year Breakeven Inflation Rate)
+                    </div>
+                    <p><strong>Input:</strong> data_bench, rebal_date=2024-01-22, lookback_days=126</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <code>lookback_dates = last 126 trading days before 2024-01-22</code>
+                        <div style="text-align: center; font-size: 1.5em; color: #feca57; margin: 10px 0;">↓</div>
+                        <table style="margin: 10px 0; width: 100%; border-collapse: collapse;">
+                            <tr style="background: #fff3cd; font-weight: bold;">
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">Index</th><th style="padding: 8px; border: 1px solid #dee2e6;">Date</th><th style="padding: 8px; border: 1px solid #dee2e6;">TIPS Yield</th>
+                            </tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">[0]</td><td style="padding: 8px; border: 1px solid #dee2e6;">2024-01-08</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.0237</td></tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">[1]</td><td style="padding: 8px; border: 1px solid #dee2e6;">2024-01-09</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.0245</td></tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">[2]</td><td style="padding: 8px; border: 1px solid #dee2e6;">2024-01-10</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.0239</td></tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">...</td><td style="padding: 8px; border: 1px solid #dee2e6;">...</td><td style="padding: 8px; border: 1px solid #dee2e6;">...</td></tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">[125]</td><td style="padding: 8px; border: 1px solid #dee2e6;">2024-01-22</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.0241</td></tr>
+                        </table>
+                    </div>
+                    
+                    <p><strong>✨ Output:</strong></p>
+                    <li>\(r_{6m}^{bench} \in \mathbb{R}^{126}\) = Last 126 trading days of TIPS yields before rebalance date</li>
+                    <li>\(r_{12m}^{bench} \in \mathbb{R}^{252}\) = Last 252 trading days of TIPS yields before rebalance date</li>
+                </div>
+            </div>
+            
+            <div style="text-align: center; font-size: 2em; margin: 20px 0; color: #e67e22;">⬇️ CRITICAL: Vector establishes the "Master Calendar"</div>
+            
+            <div class="step-box">
+                <div class="step-title">Step 3: Build Stock Matrix Using Same Dates (Forced Alignment)</div>
+                <div style="background: #fef9e7; border: 2px solid #f39c12; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <h4>📊 Stock Return Matrix Construction</h4>
+                    <p><strong>Input:</strong> data_tr, baseline, required_dates (from TIPS vector!)</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <p><strong>1. Filter universe:</strong> baseline selects only 3 stocks from available data_tr</p>
+                        <p><strong>2. Initialize matrix:</strong> (126 dates × 3 stocks) filled with zeros</p>
+                        <p><strong>3. Fill column by column using EXACT same dates as TIPS vector:</strong></p>
+                        
+                        <table style="margin: 20px 0; width: 100%; border-collapse: collapse;">
+                            <tr style="background: #fff3cd; font-weight: bold;">
+                                <th style="padding: 8px; border: 1px solid #dee2e6;">Date</th><th style="padding: 8px; border: 1px solid #dee2e6;">001001 (Stock A)</th><th style="padding: 8px; border: 1px solid #dee2e6;">001002 (Stock B)</th><th style="padding: 8px; border: 1px solid #dee2e6;">001003 (Stock C)</th>
+                            </tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">2024-01-08</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.015</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.009</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.021</td></tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">2024-01-09</td><td style="padding: 8px; border: 1px solid #dee2e6;">-0.012</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.018</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.005</td></tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">2024-01-10</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.008</td><td style="padding: 8px; border: 1px solid #dee2e6;">-0.003</td><td style="padding: 8px; border: 1px solid #dee2e6; background: #f8d7da; color: #721c24; font-weight: bold;">0.000</td></tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">...</td><td style="padding: 8px; border: 1px solid #dee2e6;">...</td><td style="padding: 8px; border: 1px solid #dee2e6;">...</td><td style="padding: 8px; border: 1px solid #dee2e6;">...</td></tr>
+                            <tr><td style="padding: 8px; border: 1px solid #dee2e6;">2024-01-22</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.006</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.016</td><td style="padding: 8px; border: 1px solid #dee2e6;">0.012</td></tr>
+                        </table>
+                    </div>
+                    
+                    <li>\(R_{6m} \in \mathbb{R}^{126 \times n}\) = Stock returns matrix using exact same 126 dates as benchmark vector</li>
+                    <li>\(R_{12m} \in \mathbb{R}^{252 \times n}\) = Stock returns matrix using exact same 252 dates as benchmark vector</li>
+                    <li>Missing stock data on any date → filled with zeros</li>
+                    <li>Only stocks in baseline universe included (filtered from larger data_tr)</li>
+                </div>
+            </div>
+            
+            <div class="step-box">
+                <div class="step-title">Step 4: Perfect Alignment Guaranteed</div>
+                <div class="highlight">
+                    <li>Row \(i\) of \(R_{6m}\) corresponds to element \(i\) of \(r_{6m}^{bench}\) (same trading date)</li>
+                    <li>Row \(i\) of \(R_{12m}\) corresponds to element \(i\) of \(r_{12m}^{bench}\) (same trading date)</li>
+                    
+                    <div style="margin: 20px 0; text-align: center;">
+                        <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                            <div style="flex: 1; min-width: 150px;">
+                                <h4>TIPS Vector (126,)</h4>
+                                <div style="background: rgba(78, 205, 196, 0.3); padding: 15px; border-radius: 8px;">
+                                    <div>[0] → 0.0237</div>
+                                    <div>[1] → 0.0245</div>
+                                    <div>[2] → 0.0239</div>
+                                    <div>...</div>
+                                    <div>[125] → 0.0241</div>
+                                </div>
+                            </div>
+                            
+                            <div style="font-size: 2em; color: #feca57;">×</div>
+                            
+                            <div style="flex: 1; min-width: 200px;">
+                                <h4>Stock Matrix (126, 3)</h4>
+                                <div style="background: rgba(255, 107, 107, 0.3); padding: 15px; border-radius: 8px;">
+                                    <div>Row [0] → [0.015, 0.009, 0.021]</div>
+                                    <div>Row [1] → [-0.012, 0.018, 0.005]</div>
+                                    <div>Row [2] → [0.008, -0.003, 0.000]</div>
+                                    <div>...</div>
+                                    <div>Row [125] → [0.006, 0.016, 0.012]</div>
+                                </div>
+                            </div>
+                            
+                            <div style="font-size: 2em; color: #feca57;">@</div>
+                            
+                            <div style="flex: 1; min-width: 100px;">
+                                <h4>Weights (3,)</h4>
+                                <div style="background: rgba(254, 202, 87, 0.3); padding: 15px; border-radius: 8px;">
+                                    <div>w₁</div>
+                                    <div>w₂</div>
+                                    <div>w₃</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 1.2em; background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                            <strong>Optimization:</strong> minimize ||Matrix @ weights - TIPS_vector||²<br>
+                            <span style="color: #4ecdc4;">✅ Perfect alignment: both have same 126 dates in same order</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Parameters -->
+        <div class="section">
+            <div class="section-title">Parameters</div>
+            <div class="math-item">
+                <li>\(\lambda\) = turnover penalty parameter</li>
+                <li>\(w_{prev}\) = previous period weights</li>
+            </div>
+        </div>
+        
+        <!-- Constraints -->
+        <div class="section">
+            <div class="section-title">Constraints</div>
+            <div class="constraints-grid">
+                <div class="constraint-item">
+                    <div class="constraint-title">1. Fully Invested</div>
+                    $$\sum_{i=1}^n w_i = 1$$
+                </div>
+                
+                <div class="constraint-item">
+                    <div class="constraint-title">2. Long-Only</div>
+                    $$w_i \geq w_{min} \quad \forall i$$
+                </div>
+                
+                <div class="constraint-item">
+                    <div class="constraint-title">3. Position Limits</div>
+                    $$w_i \leq w_{max} \quad \forall i$$
+                </div>
+                
+                <div class="constraint-item">
+                    <div class="constraint-title">4. Baseline Multiplier Bounds</div>
+                    $$\ell_i \cdot w_i^{base} \leq w_i \leq u_i \cdot w_i^{base} \quad \forall i$$
+                </div>
+                
+                <div class="constraint-item" style="opacity: 0.4; text-decoration: line-through;">
+                    <div class="constraint-title">5. Portfolio Beta Constraints</div>
+                    $\beta_L \leq \sum_{i=1}^n \beta_i w_i \leq \beta_U$
+                    <small style="color: #dc3545; font-weight: bold;">(DISABLED: beta_bounds = None)</small>
+                </div>
+                
+                <div class="constraint-item" style="opacity: 0.4; text-decoration: line-through;">
+                    <div class="constraint-title">6. Sector Allocation</div>
+                    $\left|\sum_{i \in S} w_i - \theta_S\right| \leq \delta \theta_S \quad \forall \text{ sectors } S$
+                    <small style="color: #dc3545; font-weight: bold;">(DISABLED: sect_max_diff = None)</small>
+                </div>
+                
+                <div class="constraint-item">
+                    <div class="constraint-title">7. Turnover Constraint</div>
+                    $$\|w - w_{prev}\|_1 \leq T_{cap}$$
+                    <small>(if enabled)</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight">
+            <strong>🎯 Key Innovation:</strong> The vector-first approach ensures that benchmark vectors establish the "master calendar" of trading dates, forcing stock matrices to align perfectly. This guarantees robust optimization across changing stock universes and missing data scenarios.
+        </div>
+    </div>
+</body>
+</html>
