@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematical Framework for Portfolio Optimization</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            font-weight: 400;
+        }
+        
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+        
+        h4 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .math-block {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow-x: auto;
+        }
+        
+        .math-block::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            clip-path: polygon(100% 0%, 0% 0%, 100% 100%);
+        }
+        
+        .constraint-box {
+            background: linear-gradient(135deg, #e8f5e8, #f0f9ff);
+            border: 2px solid #4ade80;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .constraint-box h4 {
+            color: #047857;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .constraint-box h4::before {
+            content: "⚡";
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .property-card {
+            background: linear-gradient(135deg, #fff, #f8fafc);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .property-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .property-card h4::before {
+            content: "🔷";
+            margin-right: 8px;
+        }
+        
+        .algorithm-steps {
+            background: linear-gradient(135deg, #fef7cd, #fef3c7);
+            border-left: 4px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .algorithm-steps h4 {
+            color: #92400e;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .algorithm-steps h4::before {
+            content: "🔄";
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .algorithm-steps ol {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .algorithm-steps li {
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a78bfa 0%, #f472b6 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .variable {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        
+        .note {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 1px solid #60a5fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .note::before {
+            content: "ℹ️";
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .note p {
+            margin: 0;
+            color: #1e40af;
+            font-weight: 500;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .toc h3 {
+            color: #334155;
+            margin-top: 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toc h3::before {
+            content: "📚";
+            margin-right: 10px;
+        }
+        
+        .toc ol {
+            columns: 2;
+            column-gap: 30px;
+            list-style: none;
+            padding: 0;
+            counter-reset: toc-counter;
+        }
+        
+        .toc li {
+            counter-increment: toc-counter;
+            margin: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            break-inside: avoid;
+        }
+        
+        .toc li::before {
+            content: counter(toc-counter);
+            position: absolute;
+            left: 0;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .toc a {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .toc a:hover {
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .toc ol {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mathematical Framework for Portfolio Optimization</h1>
+        
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+                <li><a href="#problem-formulation">Problem Formulation</a></li>
+                <li><a href="#constraint-set">Constraint Set</a></li>
+                <li><a href="#complete-program">Complete Mathematical Program</a></li>
+                <li><a href="#properties">Key Mathematical Properties</a></li>
+                <li><a href="#solution-method">Numerical Solution Method</a></li>
+                <li><a href="#risk-model">Risk Model Integration</a></li>
+                <li><a href="#convergence">Convergence and Stability</a></li>
+            </ol>
+        </div>
+
+        <h2 id="problem-formulation">Problem Formulation</h2>
+        
+        <p>The portfolio optimization problem is formulated as a <span class="highlight">constrained quadratic optimization</span> with the following mathematical structure:</p>
+
+        <h3>Decision Variables</h3>
+        <div class="math-block">
+            $$\mathbf{w} = [w_1, w_2, \ldots, w_n]^T \in \mathbb{R}^n \text{ (portfolio weights vector)}$$
+            $$n = \text{number of assets/strategies}$$
+        </div>
+
+        <h3>Objective Function</h3>
+        <p><strong>Maximize Sharpe Ratio:</strong></p>
+        <div class="math-block">
+            $$\max S(\mathbf{w}) = \frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}}$$
+        </div>
+
+        <p>Since optimizers typically minimize, we solve:</p>
+        <div class="math-block">
+            $$\min f(\mathbf{w}) = -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}}$$
+        </div>
+
+        <div class="note">
+            <p><strong>Where:</strong><br>
+            <span class="variable">μ</span> = [μ₁, μ₂, ..., μₙ]ᵀ (expected returns vector)<br>
+            <span class="variable">Σ</span> ∈ ℝⁿˣⁿ (covariance matrix, positive semidefinite)
+            </p>
+        </div>
+
+        <h2 id="constraint-set">Constraint Set</h2>
+
+        <div class="constraint-box">
+            <h4>1. Budget Constraint (Equality)</h4>
+            <div class="math-block">
+                $$g_1(\mathbf{w}) = \sum_{i=1}^{n} w_i - 1 = 0$$
+                $$\text{Matrix form: } \mathbf{1}^T\mathbf{w} = 1 \text{ where } \mathbf{1} = [1,1,\ldots,1]^T$$
+            </div>
+        </div>
+
+        <div class="constraint-box">
+            <h4>2. VaR Constraint (Inequality)</h4>
+            <div class="math-block">
+                $$g_2(\mathbf{w}) = \text{VaR}_{\max} - \sum_{i=1}^{n} w_i \cdot \text{VaR}_i \geq 0$$
+                $$\text{Matrix form: } \text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0$$
+            </div>
+            <p>Where <span class="variable">v</span> = [VaR₁, VaR₂, ..., VaRₙ]ᵀ is the vector of individual asset VaR estimates.</p>
+        </div>
+
+        <div class="constraint-box">
+            <h4>3. Concentration Constraint (Inequality)</h4>
+            <div class="math-block">
+                $$g_3(\mathbf{w}) = w_{\max} - \max(w_i) \geq 0 \quad \forall i \in \{1,\ldots,n\}$$
+            </div>
+        </div>
+
+        <div class="constraint-box">
+            <h4>4. Non-negativity Constraints (Box Constraints)</h4>
+            <div class="math-block">
+                $$0 \leq w_i \leq w_{\max} \quad \forall i \in \{1,\ldots,n\}$$
+            </div>
+        </div>
+
+        <h2 id="complete-program">Complete Mathematical Program</h2>
+
+        <div class="math-block">
+            $$\begin{align}
+            \text{minimize} \quad & f(\mathbf{w}) = -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} \\
+            \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \quad \text{(budget)} \\
+            & \text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0 \quad \text{(VaR limit)} \\
+            & w_i \leq w_{\max} \quad \forall i \quad \text{(concentration)} \\
+            & w_i \geq 0 \quad \forall i \quad \text{(long-only)}
+            \end{align}$$
+        </div>
+
+        <h2 id="properties">Key Mathematical Properties</h2>
+
+        <div class="properties-grid">
+            <div class="property-card">
+                <h4>Objective Function Properties</h4>
+                <ul>
+                    <li><strong>Non-convex:</strong> The Sharpe ratio is a ratio of linear/quadratic functions</li>
+                    <li><strong>Homogeneous of degree 0:</strong> S(λw) = S(w) for λ > 0</li>
+                    <li><strong>Gradient:</strong></li>
+                </ul>
+                <div class="math-block">
+                    $$\nabla f(\mathbf{w}) = -\frac{[\boldsymbol{\mu}\sigma_p - (\boldsymbol{\mu}^T\mathbf{w})\boldsymbol{\Sigma}\mathbf{w}/\sigma_p]}{\sigma_p^2}$$
+                </div>
+                <p>Where σₚ = √(wᵀΣw) is portfolio volatility.</p>
+            </div>
+
+            <div class="property-card">
+                <h4>Feasible Region</h4>
+                <ul>
+                    <li><strong>Compact:</strong> Bounded by box constraints and simplex constraint</li>
+                    <li><strong>Convex:</strong> All constraints are linear except for concentration constraint</li>
+                    <li><strong>Non-empty:</strong> Assuming VaR_max > min(vᵢ) and w_max ≥ 1/n</li>
+                </ul>
+            </div>
+
+            <div class="property-card">
+                <h4>Optimality Conditions (KKT)</h4>
+                <p>At the optimal solution w*, there exist Lagrange multipliers λ*, γ*, δ* such that:</p>
+                
+                <p><strong>Stationarity:</strong></p>
+                <div class="math-block">
+                    $$\nabla f(\mathbf{w}^*) + \lambda^*\mathbf{1} + \gamma^*\mathbf{v} + \sum_i \delta_i^*\mathbf{e}_i = 0$$
+                </div>
+                
+                <p><strong>Complementary Slackness:</strong></p>
+                <div class="math-block">
+                    $$\gamma^*(\text{VaR}_{\max} - \mathbf{v}^T\mathbf{w}^*) = 0$$
+                    $$\delta_i^*(w_{\max} - w_i^*) = 0 \quad \forall i$$
+                </div>
+            </div>
+        </div>
+
+        <h2 id="solution-method">Numerical Solution Method</h2>
+
+        <h3>Sequential Quadratic Programming (SQP)</h3>
+        <p>The SLSQP algorithm approximates the problem at each iteration k:</p>
+
+        <div class="algorithm-steps">
+            <h4>SQP Algorithm Steps</h4>
+            <ol>
+                <li><strong>Quadratic Model:</strong>
+                    <div class="math-block">
+                        $$\min \nabla f(\mathbf{w}_k)^T\mathbf{d} + \frac{1}{2}\mathbf{d}^T\mathbf{B}_k\mathbf{d}$$
+                    </div>
+                </li>
+                <li><strong>Linearized Constraints:</strong>
+                    <div class="math-block">
+                        $$\nabla g(\mathbf{w}_k)^T\mathbf{d} + g(\mathbf{w}_k) = 0 \quad \text{(equality)}$$
+                        $$\nabla h(\mathbf{w}_k)^T\mathbf{d} + h(\mathbf{w}_k) \geq 0 \quad \text{(inequality)}$$
+                    </div>
+                </li>
+                <li><strong>Update:</strong> w_{k+1} = w_k + α_k d_k (with line search)</li>
+            </ol>
+        </div>
+
+        <h2 id="risk-model">Risk Model Integration</h2>
+
+        <h3>VaR Approximation</h3>
+        <p>The portfolio VaR constraint uses <span class="highlight">linear aggregation</span>:</p>
+        <div class="math-block">
+            $$\text{VaR}_p \approx \sum_i w_i \cdot \text{VaR}_i$$
+        </div>
+
+        <div class="note">
+            <p><strong>Assumptions:</strong><br>
+            • <strong>Diversification benefit:</strong> Ignored for computational tractability<br>
+            • <strong>Marginal VaR:</strong> Each asset's contribution is proportional to its weight
+            </p>
+        </div>
+
+        <h3>Alternative Formulations</h3>
+        <p>For more accuracy, could use:</p>
+        <ul>
+            <li><strong>Monte Carlo VaR:</strong> VaRₚ = quantile(portfolio returns distribution)</li>
+            <li><strong>Parametric VaR:</strong> VaRₚ = -μₚ + z_α σₚ (for normal returns)</li>
+        </ul>
+
+        <h2 id="convergence">Convergence and Stability</h2>
+
+        <div class="properties-grid">
+            <div class="property-card">
+                <h4>Convergence Criteria</h4>
+                <ul>
+                    <li><strong>Gradient norm:</strong> ||∇L(w*)|| < ε₁</li>
+                    <li><strong>Constraint violation:</strong> max(|g(w*)|, max(0,-h(w*))) < ε₂</li>
+                    <li><strong>Function tolerance:</strong> |f(w_k) - f(w_{k-1})| < ε₃</li>
+                </ul>
+            </div>
+
+            <div class="property-card">
+                <h4>Numerical Considerations</h4>
+                <ul>
+                    <li><strong>Matrix conditioning:</strong> Ensure Σ is well-conditioned (regularization if needed)</li>
+                    <li><strong>Scaling:</strong> Normalize variables for better numerical stability</li>
+                    <li><strong>Multiple starts:</strong> Try different initial points to avoid local minima</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="note">
+            <p>This framework provides the mathematical foundation for the portfolio optimization, ensuring both theoretical rigor and practical implementability.</p>
+        </div>
+    </div>
+</body>
+</html>, '
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            font-weight: 400;
+        }
+        
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+        
+        h4 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .math-block {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow-x: auto;
+        }
+        
+        .math-block::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            clip-path: polygon(100% 0%, 0% 0%, 100% 100%);
+        }
+        
+        .constraint-box {
+            background: linear-gradient(135deg, #e8f5e8, #f0f9ff);
+            border: 2px solid #4ade80;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .constraint-box h4 {
+            color: #047857;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .constraint-box h4::before {
+            content: "⚡";
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .property-card {
+            background: linear-gradient(135deg, #fff, #f8fafc);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .property-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .property-card h4::before {
+            content: "🔷";
+            margin-right: 8px;
+        }
+        
+        .algorithm-steps {
+            background: linear-gradient(135deg, #fef7cd, #fef3c7);
+            border-left: 4px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .algorithm-steps h4 {
+            color: #92400e;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .algorithm-steps h4::before {
+            content: "🔄";
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .algorithm-steps ol {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .algorithm-steps li {
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a78bfa 0%, #f472b6 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .variable {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        
+        .note {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 1px solid #60a5fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .note::before {
+            content: "ℹ️";
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .note p {
+            margin: 0;
+            color: #1e40af;
+            font-weight: 500;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .toc h3 {
+            color: #334155;
+            margin-top: 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toc h3::before {
+            content: "📚";
+            margin-right: 10px;
+        }
+        
+        .toc ol {
+            columns: 2;
+            column-gap: 30px;
+            list-style: none;
+            padding: 0;
+            counter-reset: toc-counter;
+        }
+        
+        .toc li {
+            counter-increment: toc-counter;
+            margin: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            break-inside: avoid;
+        }
+        
+        .toc li::before {
+            content: counter(toc-counter);
+            position: absolute;
+            left: 0;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .toc a {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .toc a:hover {
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .toc ol {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mathematical Framework for Portfolio Optimization</h1>
+        
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+                <li><a href="#problem-formulation">Problem Formulation</a></li>
+                <li><a href="#constraint-set">Constraint Set</a></li>
+                <li><a href="#complete-program">Complete Mathematical Program</a></li>
+                <li><a href="#properties">Key Mathematical Properties</a></li>
+                <li><a href="#solution-method">Numerical Solution Method</a></li>
+                <li><a href="#risk-model">Risk Model Integration</a></li>
+                <li><a href="#convergence">Convergence and Stability</a></li>
+            </ol>
+        </div>
+
+        <h2 id="problem-formulation">Problem Formulation</h2>
+        
+        <p>The portfolio optimization problem is formulated as a <span class="highlight">constrained quadratic optimization</span> with the following mathematical structure:</p>
+
+        <h3>Decision Variables</h3>
+        <div class="math-block">
+            $$\mathbf{w} = [w_1, w_2, \ldots, w_n]^T \in \mathbb{R}^n \text{ (portfolio weights vector)}$$
+            $$n = \text{number of assets/strategies}$$
+        </div>
+
+        <h3>Objective Function</h3>
+        <p><strong>Maximize Sharpe Ratio:</strong></p>
+        <div class="math-block">
+            $$\max S(\mathbf{w}) = \frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}}$$
+        </div>
+
+        <p>Since optimizers typically minimize, we solve:</p>
+        <div class="math-block">
+            $$\min f(\mathbf{w}) = -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}}$$
+        </div>
+
+        <div class="note">
+            <p><strong>Where:</strong><br>
+            <span class="variable">μ</span> = [μ₁, μ₂, ..., μₙ]ᵀ (expected returns vector)<br>
+            <span class="variable">Σ</span> ∈ ℝⁿˣⁿ (covariance matrix, positive semidefinite)
+            </p>
+        </div>
+
+        <h2 id="constraint-set">Constraint Set</h2>
+
+        <div class="constraint-box">
+            <h4>1. Budget Constraint (Equality)</h4>
+            <div class="math-block">
+                $$g_1(\mathbf{w}) = \sum_{i=1}^{n} w_i - 1 = 0$$
+                $$\text{Matrix form: } \mathbf{1}^T\mathbf{w} = 1 \text{ where } \mathbf{1} = [1,1,\ldots,1]^T$$
+            </div>
+        </div>
+
+        <div class="constraint-box">
+            <h4>2. VaR Constraint (Inequality)</h4>
+            <div class="math-block">
+                $$g_2(\mathbf{w}) = \text{VaR}_{\max} - \sum_{i=1}^{n} w_i \cdot \text{VaR}_i \geq 0$$
+                $$\text{Matrix form: } \text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0$$
+            </div>
+            <p>Where <span class="variable">v</span> = [VaR₁, VaR₂, ..., VaRₙ]ᵀ is the vector of individual asset VaR estimates.</p>
+        </div>
+
+        <div class="constraint-box">
+            <h4>3. Concentration Constraint (Inequality)</h4>
+            <div class="math-block">
+                $$g_3(\mathbf{w}) = w_{\max} - \max(w_i) \geq 0 \quad \forall i \in \{1,\ldots,n\}$$
+            </div>
+        </div>
+
+        <div class="constraint-box">
+            <h4>4. Non-negativity Constraints (Box Constraints)</h4>
+            <div class="math-block">
+                $$0 \leq w_i \leq w_{\max} \quad \forall i \in \{1,\ldots,n\}$$
+            </div>
+        </div>
+
+        <h2 id="complete-program">Complete Mathematical Program</h2>
+
+        <div class="math-block">
+            $$\begin{align}
+            \text{minimize} \quad & f(\mathbf{w}) = -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} \\
+            \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \quad \text{(budget)} \\
+            & \text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0 \quad \text{(VaR limit)} \\
+            & w_i \leq w_{\max} \quad \forall i \quad \text{(concentration)} \\
+            & w_i \geq 0 \quad \forall i \quad \text{(long-only)}
+            \end{align}$$
+        </div>
+
+        <h2 id="properties">Key Mathematical Properties</h2>
+
+        <div class="properties-grid">
+            <div class="property-card">
+                <h4>Objective Function Properties</h4>
+                <ul>
+                    <li><strong>Non-convex:</strong> The Sharpe ratio is a ratio of linear/quadratic functions</li>
+                    <li><strong>Homogeneous of degree 0:</strong> S(λw) = S(w) for λ > 0</li>
+                    <li><strong>Gradient:</strong></li>
+                </ul>
+                <div class="math-block">
+                    $$\nabla f(\mathbf{w}) = -\frac{[\boldsymbol{\mu}\sigma_p - (\boldsymbol{\mu}^T\mathbf{w})\boldsymbol{\Sigma}\mathbf{w}/\sigma_p]}{\sigma_p^2}$$
+                </div>
+                <p>Where σₚ = √(wᵀΣw) is portfolio volatility.</p>
+            </div>
+
+            <div class="property-card">
+                <h4>Feasible Region</h4>
+                <ul>
+                    <li><strong>Compact:</strong> Bounded by box constraints and simplex constraint</li>
+                    <li><strong>Convex:</strong> All constraints are linear except for concentration constraint</li>
+                    <li><strong>Non-empty:</strong> Assuming VaR_max > min(vᵢ) and w_max ≥ 1/n</li>
+                </ul>
+            </div>
+
+            <div class="property-card">
+                <h4>Optimality Conditions (KKT)</h4>
+                <p>At the optimal solution w*, there exist Lagrange multipliers λ*, γ*, δ* such that:</p>
+                
+                <p><strong>Stationarity:</strong></p>
+                <div class="math-block">
+                    $$\nabla f(\mathbf{w}^*) + \lambda^*\mathbf{1} + \gamma^*\mathbf{v} + \sum_i \delta_i^*\mathbf{e}_i = 0$$
+                </div>
+                
+                <p><strong>Complementary Slackness:</strong></p>
+                <div class="math-block">
+                    $$\gamma^*(\text{VaR}_{\max} - \mathbf{v}^T\mathbf{w}^*) = 0$$
+                    $$\delta_i^*(w_{\max} - w_i^*) = 0 \quad \forall i$$
+                </div>
+            </div>
+        </div>
+
+        <h2 id="solution-method">Numerical Solution Method</h2>
+
+        <h3>Sequential Quadratic Programming (SQP)</h3>
+        <p>The SLSQP algorithm approximates the problem at each iteration k:</p>
+
+        <div class="algorithm-steps">
+            <h4>SQP Algorithm Steps</h4>
+            <ol>
+                <li><strong>Quadratic Model:</strong>
+                    <div class="math-block">
+                        $$\min \nabla f(\mathbf{w}_k)^T\mathbf{d} + \frac{1}{2}\mathbf{d}^T\mathbf{B}_k\mathbf{d}$$
+                    </div>
+                </li>
+                <li><strong>Linearized Constraints:</strong>
+                    <div class="math-block">
+                        $$\nabla g(\mathbf{w}_k)^T\mathbf{d} + g(\mathbf{w}_k) = 0 \quad \text{(equality)}$$
+                        $$\nabla h(\mathbf{w}_k)^T\mathbf{d} + h(\mathbf{w}_k) \geq 0 \quad \text{(inequality)}$$
+                    </div>
+                </li>
+                <li><strong>Update:</strong> w_{k+1} = w_k + α_k d_k (with line search)</li>
+            </ol>
+        </div>
+
+        <h2 id="risk-model">Risk Model Integration</h2>
+
+        <h3>VaR Approximation</h3>
+        <p>The portfolio VaR constraint uses <span class="highlight">linear aggregation</span>:</p>
+        <div class="math-block">
+            $$\text{VaR}_p \approx \sum_i w_i \cdot \text{VaR}_i$$
+        </div>
+
+        <div class="note">
+            <p><strong>Assumptions:</strong><br>
+            • <strong>Diversification benefit:</strong> Ignored for computational tractability<br>
+            • <strong>Marginal VaR:</strong> Each asset's contribution is proportional to its weight
+            </p>
+        </div>
+
+        <h3>Alternative Formulations</h3>
+        <p>For more accuracy, could use:</p>
+        <ul>
+            <li><strong>Monte Carlo VaR:</strong> VaRₚ = quantile(portfolio returns distribution)</li>
+            <li><strong>Parametric VaR:</strong> VaRₚ = -μₚ + z_α σₚ (for normal returns)</li>
+        </ul>
+
+        <h2 id="convergence">Convergence and Stability</h2>
+
+        <div class="properties-grid">
+            <div class="property-card">
+                <h4>Convergence Criteria</h4>
+                <ul>
+                    <li><strong>Gradient norm:</strong> ||∇L(w*)|| < ε₁</li>
+                    <li><strong>Constraint violation:</strong> max(|g(w*)|, max(0,-h(w*))) < ε₂</li>
+                    <li><strong>Function tolerance:</strong> |f(w_k) - f(w_{k-1})| < ε₃</li>
+                </ul>
+            </div>
+
+            <div class="property-card">
+                <h4>Numerical Considerations</h4>
+                <ul>
+                    <li><strong>Matrix conditioning:</strong> Ensure Σ is well-conditioned (regularization if needed)</li>
+                    <li><strong>Scaling:</strong> Normalize variables for better numerical stability</li>
+                    <li><strong>Multiple starts:</strong> Try different initial points to avoid local minima</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="note">
+            <p>This framework provides the mathematical foundation for the portfolio optimization, ensuring both theoretical rigor and practical implementability.</p>
+        </div>
+    </div>
+</body>
+</html>], ['\\(', '\\)']],
+                displayMath: [['$', '$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                tags: 'ams'
+            },
+            options: {
+                ignoreHtmlClass: "tex2jax_ignore",
+                processHtmlClass: "tex2jax_process"
+            },
+            startup: {
+                ready: () => {
+                    MathJax.startup.defaultReady();
+                    console.log('MathJax is loaded and ready!');
+                }
+            }
+        };
+    </script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            font-weight: 400;
+        }
+        
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+        
+        h4 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .math-block {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow-x: auto;
+        }
+        
+        .math-block::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            clip-path: polygon(100% 0%, 0% 0%, 100% 100%);
+        }
+        
+        .constraint-box {
+            background: linear-gradient(135deg, #e8f5e8, #f0f9ff);
+            border: 2px solid #4ade80;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .constraint-box h4 {
+            color: #047857;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .constraint-box h4::before {
+            content: "⚡";
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .property-card {
+            background: linear-gradient(135deg, #fff, #f8fafc);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .property-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .property-card h4::before {
+            content: "🔷";
+            margin-right: 8px;
+        }
+        
+        .algorithm-steps {
+            background: linear-gradient(135deg, #fef7cd, #fef3c7);
+            border-left: 4px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .algorithm-steps h4 {
+            color: #92400e;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .algorithm-steps h4::before {
+            content: "🔄";
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .algorithm-steps ol {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .algorithm-steps li {
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a78bfa 0%, #f472b6 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .variable {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        
+        .note {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 1px solid #60a5fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .note::before {
+            content: "ℹ️";
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .note p {
+            margin: 0;
+            color: #1e40af;
+            font-weight: 500;
+        }
+        
+        .toc {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .toc h3 {
+            color: #334155;
+            margin-top: 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toc h3::before {
+            content: "📚";
+            margin-right: 10px;
+        }
+        
+        .toc ol {
+            columns: 2;
+            column-gap: 30px;
+            list-style: none;
+            padding: 0;
+            counter-reset: toc-counter;
+        }
+        
+        .toc li {
+            counter-increment: toc-counter;
+            margin: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            break-inside: avoid;
+        }
+        
+        .toc li::before {
+            content: counter(toc-counter);
+            position: absolute;
+            left: 0;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .toc a {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .toc a:hover {
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .toc ol {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mathematical Framework for Portfolio Optimization</h1>
+        
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ol>
+                <li><a href="#problem-formulation">Problem Formulation</a></li>
+                <li><a href="#constraint-set">Constraint Set</a></li>
+                <li><a href="#complete-program">Complete Mathematical Program</a></li>
+                <li><a href="#properties">Key Mathematical Properties</a></li>
+                <li><a href="#solution-method">Numerical Solution Method</a></li>
+                <li><a href="#risk-model">Risk Model Integration</a></li>
+                <li><a href="#convergence">Convergence and Stability</a></li>
+            </ol>
+        </div>
+
+        <h2 id="problem-formulation">Problem Formulation</h2>
+        
+        <p>The portfolio optimization problem is formulated as a <span class="highlight">constrained quadratic optimization</span> with the following mathematical structure:</p>
+
+        <h3>Decision Variables</h3>
+        <div class="math-block">
+            $$\mathbf{w} = [w_1, w_2, \ldots, w_n]^T \in \mathbb{R}^n \text{ (portfolio weights vector)}$$
+            $$n = \text{number of assets/strategies}$$
+        </div>
+
+        <h3>Objective Function</h3>
+        <p><strong>Maximize Sharpe Ratio:</strong></p>
+        <div class="math-block">
+            $$\max S(\mathbf{w}) = \frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}}$$
+        </div>
+
+        <p>Since optimizers typically minimize, we solve:</p>
+        <div class="math-block">
+            $$\min f(\mathbf{w}) = -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}}$$
+        </div>
+
+        <div class="note">
+            <p><strong>Where:</strong><br>
+            <span class="variable">μ</span> = [μ₁, μ₂, ..., μₙ]ᵀ (expected returns vector)<br>
+            <span class="variable">Σ</span> ∈ ℝⁿˣⁿ (covariance matrix, positive semidefinite)
+            </p>
+        </div>
+
+        <h2 id="constraint-set">Constraint Set</h2>
+
+        <div class="constraint-box">
+            <h4>1. Budget Constraint (Equality)</h4>
+            <div class="math-block">
+                $$g_1(\mathbf{w}) = \sum_{i=1}^{n} w_i - 1 = 0$$
+                $$\text{Matrix form: } \mathbf{1}^T\mathbf{w} = 1 \text{ where } \mathbf{1} = [1,1,\ldots,1]^T$$
+            </div>
+        </div>
+
+        <div class="constraint-box">
+            <h4>2. VaR Constraint (Inequality)</h4>
+            <div class="math-block">
+                $$g_2(\mathbf{w}) = \text{VaR}_{\max} - \sum_{i=1}^{n} w_i \cdot \text{VaR}_i \geq 0$$
+                $$\text{Matrix form: } \text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0$$
+            </div>
+            <p>Where <span class="variable">v</span> = [VaR₁, VaR₂, ..., VaRₙ]ᵀ is the vector of individual asset VaR estimates.</p>
+        </div>
+
+        <div class="constraint-box">
+            <h4>3. Concentration Constraint (Inequality)</h4>
+            <div class="math-block">
+                $$g_3(\mathbf{w}) = w_{\max} - \max(w_i) \geq 0 \quad \forall i \in \{1,\ldots,n\}$$
+            </div>
+        </div>
+
+        <div class="constraint-box">
+            <h4>4. Non-negativity Constraints (Box Constraints)</h4>
+            <div class="math-block">
+                $$0 \leq w_i \leq w_{\max} \quad \forall i \in \{1,\ldots,n\}$$
+            </div>
+        </div>
+
+        <h2 id="complete-program">Complete Mathematical Program</h2>
+
+        <div class="math-block">
+            $$\begin{align}
+            \text{minimize} \quad & f(\mathbf{w}) = -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} \\
+            \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \quad \text{(budget)} \\
+            & \text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0 \quad \text{(VaR limit)} \\
+            & w_i \leq w_{\max} \quad \forall i \quad \text{(concentration)} \\
+            & w_i \geq 0 \quad \forall i \quad \text{(long-only)}
+            \end{align}$$
+        </div>
+
+        <h2 id="properties">Key Mathematical Properties</h2>
+
+        <div class="properties-grid">
+            <div class="property-card">
+                <h4>Objective Function Properties</h4>
+                <ul>
+                    <li><strong>Non-convex:</strong> The Sharpe ratio is a ratio of linear/quadratic functions</li>
+                    <li><strong>Homogeneous of degree 0:</strong> S(λw) = S(w) for λ > 0</li>
+                    <li><strong>Gradient:</strong></li>
+                </ul>
+                <div class="math-block">
+                    $$\nabla f(\mathbf{w}) = -\frac{[\boldsymbol{\mu}\sigma_p - (\boldsymbol{\mu}^T\mathbf{w})\boldsymbol{\Sigma}\mathbf{w}/\sigma_p]}{\sigma_p^2}$$
+                </div>
+                <p>Where σₚ = √(wᵀΣw) is portfolio volatility.</p>
+            </div>
+
+            <div class="property-card">
+                <h4>Feasible Region</h4>
+                <ul>
+                    <li><strong>Compact:</strong> Bounded by box constraints and simplex constraint</li>
+                    <li><strong>Convex:</strong> All constraints are linear except for concentration constraint</li>
+                    <li><strong>Non-empty:</strong> Assuming VaR_max > min(vᵢ) and w_max ≥ 1/n</li>
+                </ul>
+            </div>
+
+            <div class="property-card">
+                <h4>Optimality Conditions (KKT)</h4>
+                <p>At the optimal solution w*, there exist Lagrange multipliers λ*, γ*, δ* such that:</p>
+                
+                <p><strong>Stationarity:</strong></p>
+                <div class="math-block">
+                    $$\nabla f(\mathbf{w}^*) + \lambda^*\mathbf{1} + \gamma^*\mathbf{v} + \sum_i \delta_i^*\mathbf{e}_i = 0$$
+                </div>
+                
+                <p><strong>Complementary Slackness:</strong></p>
+                <div class="math-block">
+                    $$\gamma^*(\text{VaR}_{\max} - \mathbf{v}^T\mathbf{w}^*) = 0$$
+                    $$\delta_i^*(w_{\max} - w_i^*) = 0 \quad \forall i$$
+                </div>
+            </div>
+        </div>
+
+        <h2 id="solution-method">Numerical Solution Method</h2>
+
+        <h3>Sequential Quadratic Programming (SQP)</h3>
+        <p>The SLSQP algorithm approximates the problem at each iteration k:</p>
+
+        <div class="algorithm-steps">
+            <h4>SQP Algorithm Steps</h4>
+            <ol>
+                <li><strong>Quadratic Model:</strong>
+                    <div class="math-block">
+                        $$\min \nabla f(\mathbf{w}_k)^T\mathbf{d} + \frac{1}{2}\mathbf{d}^T\mathbf{B}_k\mathbf{d}$$
+                    </div>
+                </li>
+                <li><strong>Linearized Constraints:</strong>
+                    <div class="math-block">
+                        $$\nabla g(\mathbf{w}_k)^T\mathbf{d} + g(\mathbf{w}_k) = 0 \quad \text{(equality)}$$
+                        $$\nabla h(\mathbf{w}_k)^T\mathbf{d} + h(\mathbf{w}_k) \geq 0 \quad \text{(inequality)}$$
+                    </div>
+                </li>
+                <li><strong>Update:</strong> w_{k+1} = w_k + α_k d_k (with line search)</li>
+            </ol>
+        </div>
+
+        <h2 id="risk-model">Risk Model Integration</h2>
+
+        <h3>VaR Approximation</h3>
+        <p>The portfolio VaR constraint uses <span class="highlight">linear aggregation</span>:</p>
+        <div class="math-block">
+            $$\text{VaR}_p \approx \sum_i w_i \cdot \text{VaR}_i$$
+        </div>
+
+        <div class="note">
+            <p><strong>Assumptions:</strong><br>
+            • <strong>Diversification benefit:</strong> Ignored for computational tractability<br>
+            • <strong>Marginal VaR:</strong> Each asset's contribution is proportional to its weight
+            </p>
+        </div>
+
+        <h3>Alternative Formulations</h3>
+        <p>For more accuracy, could use:</p>
+        <ul>
+            <li><strong>Monte Carlo VaR:</strong> VaRₚ = quantile(portfolio returns distribution)</li>
+            <li><strong>Parametric VaR:</strong> VaRₚ = -μₚ + z_α σₚ (for normal returns)</li>
+        </ul>
+
+        <h2 id="convergence">Convergence and Stability</h2>
+
+        <div class="properties-grid">
+            <div class="property-card">
+                <h4>Convergence Criteria</h4>
+                <ul>
+                    <li><strong>Gradient norm:</strong> ||∇L(w*)|| < ε₁</li>
+                    <li><strong>Constraint violation:</strong> max(|g(w*)|, max(0,-h(w*))) < ε₂</li>
+                    <li><strong>Function tolerance:</strong> |f(w_k) - f(w_{k-1})| < ε₃</li>
+                </ul>
+            </div>
+
+            <div class="property-card">
+                <h4>Numerical Considerations</h4>
+                <ul>
+                    <li><strong>Matrix conditioning:</strong> Ensure Σ is well-conditioned (regularization if needed)</li>
+                    <li><strong>Scaling:</strong> Normalize variables for better numerical stability</li>
+                    <li><strong>Multiple starts:</strong> Try different initial points to avoid local minima</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="note">
+            <p>This framework provides the mathematical foundation for the portfolio optimization, ensuring both theoretical rigor and practical implementability.</p>
+        </div>
+    </div>
+</body>
+</html>
