@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathematical Framework for Portfolio Optimization</title>
+    <title>Portfolio Optimization Framework - Four Formulations</title>
     <script>
         window.MathJax = {
             tex: {
@@ -97,113 +97,211 @@
             overflow-x: auto;
         }
         
-        .preferred {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            border-left: 4px solid #28a745;
-            position: relative;
-        }
-        
-        .preferred::before {
-            content: "⭐ PREFERRED";
-            position: absolute;
-            top: -10px;
-            right: 10px;
-            background: #28a745;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-        
-        .constraint-box {
-            background: linear-gradient(135deg, #e8f5e8, #f0f9ff);
-            border: 2px solid #4ade80;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            position: relative;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        
-        .eliminated {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            border: 2px solid #ef4444;
-            opacity: 0.7;
-        }
-        
-        .constraint-box h4 {
-            color: #047857;
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-        }
-        
-        .constraint-box h4::before {
-            content: "⚡";
-            margin-right: 8px;
-            font-size: 1.2em;
-        }
-        
-        .eliminated h4 {
-            color: #dc2626;
-        }
-        
-        .eliminated h4::before {
-            content: "🚫";
-        }
-        
-        .comparison-grid {
+        .formulation-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            margin: 20px 0;
+            margin: 30px 0;
         }
         
         .formulation-card {
             background: linear-gradient(135deg, #fff, #f8fafc);
             border: 2px solid #e2e8f0;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        
-        .formulation-card.preferred {
-            border-color: #28a745;
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-        }
-        
-        .properties-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .property-card {
-            background: linear-gradient(135deg, #fff, #f8fafc);
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
         }
         
-        .property-card:hover {
+        .formulation-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
         
-        .property-card h4 {
-            color: #667eea;
-            margin-bottom: 10px;
+        .formulation-card.original {
+            border-color: #dc2626;
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        }
+        
+        .formulation-card.option1 {
+            border-color: #2563eb;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+        
+        .formulation-card.option2 {
+            border-color: #059669;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        }
+        
+        .formulation-card.option3 {
+            border-color: #7c3aed;
+            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+        }
+        
+        .formulation-card h4 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.2em;
+        }
+        
+        .formulation-card.original h4 {
+            color: #dc2626;
+        }
+        
+        .formulation-card.option1 h4 {
+            color: #2563eb;
+        }
+        
+        .formulation-card.option2 h4 {
+            color: #059669;
+        }
+        
+        .formulation-card.option3 h4 {
+            color: #7c3aed;
+        }
+        
+        .formulation-card h4::before {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .formulation-card.original h4::before {
+            content: "🏛️";
+        }
+        
+        .formulation-card.option1 h4::before {
+            content: "⚖️";
+        }
+        
+        .formulation-card.option2 h4::before {
+            content: "🎯";
+        }
+        
+        .formulation-card.option3 h4::before {
+            content: "🔧";
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .pros {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 3px solid #22c55e;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        
+        .cons {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid #ef4444;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        
+        .pros h5, .cons h5 {
+            margin: 0 0 8px 0;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .pros h5 {
+            color: #059669;
+        }
+        
+        .cons h5 {
+            color: #dc2626;
+        }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 15px;
+            font-size: 0.85em;
+        }
+        
+        .architecture-section {
+            background: linear-gradient(135deg, #fef7cd, #fef3c7);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .architecture-section h3 {
+            color: #92400e;
+            margin-top: 0;
             display: flex;
             align-items: center;
         }
         
-        .property-card h4::before {
-            content: "🔷";
-            margin-right: 8px;
+        .architecture-section h3::before {
+            content: "🏗️";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .code-flow {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border: 2px solid #64748b;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .flow-step::before {
+            content: "→";
+            margin-right: 10px;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .comparison-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+        }
+        
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8fafc;
         }
         
         .highlight {
@@ -267,11 +365,11 @@
                 font-size: 2em;
             }
             
-            .comparison-grid {
+            .formulation-grid {
                 grid-template-columns: 1fr;
             }
             
-            .properties-grid {
+            .pros-cons {
                 grid-template-columns: 1fr;
             }
         }
@@ -279,182 +377,305 @@
 </head>
 <body>
     <div class="container">
-        <h1>Mathematical Framework for Portfolio Optimization</h1>
-        
-        <h2>Problem Formulation</h2>
-        
-        <p>The portfolio optimization problem can be formulated in <strong>two different ways</strong>, with the second approach being much more practical:</p>
+        <h1>Portfolio Optimization Framework</h1>
+        <p style="text-align: center; font-size: 1.1em; color: #64748b; margin-bottom: 40px;">
+            <strong>Four Mathematical Formulations</strong> - From Traditional Sharpe to Modern Risk-Adjusted Approaches
+        </p>
 
-        <h3>Decision Variables</h3>
-        <div class="math-block">
-            $$\mathbf{w} = [w_1, w_2, \ldots, w_n]^T \in \mathbb{R}^n \text{ (portfolio weights vector)}$$
-            $$n = \text{number of assets/strategies}$$
-        </div>
-
-        <h3>Objective Functions - Two Approaches</h3>
+        <h2>Problem Overview</h2>
         
-        <div class="comparison-grid">
-            <div class="formulation-card">
-                <h4>❌ Formulation 1: Traditional Sharpe</h4>
-                <div class="math-block">
-                    $$\max S(\mathbf{w}) = \frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}}$$
-                </div>
-                <p><strong>Issues:</strong></p>
-                <ul>
-                    <li>Non-convex optimization</li>
-                    <li>Requires VaR constraint</li>
-                    <li>Slow to solve</li>
-                    <li>Local minima problems</li>
-                </ul>
-            </div>
-
-            <div class="formulation-card preferred">
-                <h4>✅ Formulation 2: Risk-Adjusted Return</h4>
-                <div class="math-block preferred">
-                    $$\max f(\mathbf{w}) = \boldsymbol{\mu}^T\mathbf{w} - \lambda \cdot \mathbf{v}^T\mathbf{w}$$
-                    $$= (\boldsymbol{\mu} - \lambda \mathbf{v})^T\mathbf{w}$$
-                </div>
-                <p><strong>Advantages:</strong></p>
-                <ul>
-                    <li><span class="highlight">Linear program!</span></li>
-                    <li>No VaR constraint needed</li>
-                    <li>Fast global optimum</li>
-                    <li>Interpretable λ parameter</li>
-                </ul>
-            </div>
-        </div>
+        <p>Portfolio optimization seeks to find the <strong>optimal allocation of capital</strong> across different assets or strategies. We present four different mathematical formulations, each with distinct advantages and use cases.</p>
 
         <div class="note">
-            <p><strong>Key Variables:</strong><br>
+            <p><strong>Common Elements Across All Formulations:</strong><br>
+            <span class="variable">w</span> = [w₁, w₂, ..., wₙ]ᵀ (portfolio weights vector)<br>
             <span class="variable">μ</span> = [μ₁, μ₂, ..., μₙ]ᵀ (expected returns vector)<br>
-            <span class="variable">v</span> = [VaR₁, VaR₂, ..., VaRₙ]ᵀ (VaR estimates vector)<br>
-            <span class="variable">λ</span> ≥ 0 (risk aversion parameter - <strong>this replaces VaR_max!</strong>)
+            <span class="variable">Σ</span> = covariance matrix<br>
+            <span class="variable">v</span> = [VaR₁, VaR₂, ..., VaRₙ]ᵀ (VaR estimates vector)
             </p>
         </div>
 
-        <h2>Constraint Set</h2>
+        <h2>Four Optimization Formulations</h2>
 
-        <div class="constraint-box">
-            <h4>1. Budget Constraint (Always Required)</h4>
-            <div class="math-block">
-                $$\sum_{i=1}^{n} w_i = 1 \quad \text{or} \quad \mathbf{1}^T\mathbf{w} = 1$$
-            </div>
-        </div>
-
-        <div class="constraint-box eliminated">
-            <h4>2. VaR Constraint (ELIMINATED in Formulation 2!)</h4>
-            <div class="math-block">
-                $$\text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0$$
-            </div>
-            <p><span class="highlight">This constraint is no longer needed!</span> The λ parameter in the objective function controls risk preference instead.</p>
-        </div>
-
-        <div class="constraint-box">
-            <h4>3. Concentration Constraint</h4>
-            <div class="math-block">
-                $$w_i \leq w_{\max} \quad \forall i \in \{1,\ldots,n\}$$
-            </div>
-        </div>
-
-        <div class="constraint-box">
-            <h4>4. Non-negativity Constraints</h4>
-            <div class="math-block">
-                $$w_i \geq 0 \quad \forall i \in \{1,\ldots,n\}$$
-            </div>
-        </div>
-
-        <h2>Complete Mathematical Programs</h2>
-
-        <div class="comparison-grid">
-            <div class="formulation-card">
-                <h4>❌ Traditional Approach</h4>
+        <div class="formulation-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 30px;">
+            <div class="formulation-card original">
+                <h4>Original: Sharpe with VaR Constraint</h4>
                 <div class="math-block">
-                    $$\begin{align}
+                    $\begin{align}
                     \text{minimize} \quad & -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} \\
                     \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
                     & \text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0 \\
-                    & 0 \leq w_i \leq w_{\max} \quad \forall i
-                    \end{align}$$
-                </div>
-                <p><strong>Type:</strong> Non-convex QCQP</p>
-            </div>
-
-            <div class="formulation-card preferred">
-                <h4>✅ Preferred Approach</h4>
-                <div class="math-block preferred">
-                    $\begin{align}
-                    \text{minimize} \quad & -(\boldsymbol{\mu} - \lambda \mathbf{v})^T\mathbf{w} \\
-                    \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
-                    & 0 \leq w_i \leq w_{\max} \quad \forall i
+                    & 0 \leq w_i \leq w_{\max}
                     \end{align}$
                 </div>
-                <p><strong>Type:</strong> <span class="highlight">Linear Program</span></p>
-                <p><strong>Note:</strong> Negative sign because solvers minimize, but we want to maximize expected return minus risk penalty.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h5>✅ Pros</h5>
+                        <ul>
+                            <li>Traditional Sharpe optimization</li>
+                            <li>Well-understood theory</li>
+                            <li>Regulatory compliance</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h5>❌ Cons</h5>
+                        <ul>
+                            <li>Non-convex optimization</li>
+                            <li>Local minima issues</li>
+                            <li>Requires VaR limit</li>
+                            <li>Slow convergence</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formulation-card option1">
+                <h4>Option 1: Weighted Combination</h4>
+                <div class="math-block">
+                    $\begin{align}
+                    \text{minimize} \quad & -\alpha \cdot \frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} + \beta \cdot \mathbf{v}^T\mathbf{w} \\
+                    \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
+                    & 0 \leq w_i \leq w_{\max}
+                    \end{align}$
+                </div>
+                <p><strong>Parameters:</strong> α (Sharpe weight), β (VaR penalty)</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h5>✅ Pros</h5>
+                        <ul>
+                            <li>Flexible objective weighting</li>
+                            <li>No VaR constraint needed</li>
+                            <li>Balances return and risk</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h5>❌ Cons</h5>
+                        <ul>
+                            <li>Still non-convex</li>
+                            <li>Two parameters to tune</li>
+                            <li>Parameter scaling issues</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <h2>Key Mathematical Properties</h2>
-
-        <div class="properties-grid">
-            <div class="property-card">
-                <h4>Computational Complexity</h4>
-                <ul>
-                    <li><strong>Traditional:</strong> O(n³) per iteration, many iterations</li>
-                    <li><strong>Preferred:</strong> O(n³) total (single solve)</li>
-                    <li><strong>Speedup:</strong> 10-100x faster for large portfolios</li>
-                    <li><strong>Scalability:</strong> Can handle 1000+ assets easily</li>
-                </ul>
+        <div class="formulation-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="formulation-card option2">
+                <h4>Option 2: Sharpe with VaR Penalty</h4>
+                <div class="math-block">
+                    $\begin{align}
+                    \text{minimize} \quad & -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} + \lambda \cdot \mathbf{v}^T\mathbf{w} \\
+                    \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
+                    & 0 \leq w_i \leq w_{\max}
+                    \end{align}$
+                </div>
+                <p><strong>Parameter:</strong> λ (risk aversion/VaR penalty)</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h5>✅ Pros</h5>
+                        <ul>
+                            <li>Intuitive Sharpe + penalty</li>
+                            <li>Single parameter</li>
+                            <li>No VaR constraint</li>
+                            <li>Economic interpretation</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h5>❌ Cons</h5>
+                        <ul>
+                            <li>Non-convex optimization</li>
+                            <li>Local minima possible</li>
+                            <li>Moderate complexity</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="property-card">
-                <h4>Solution Quality</h4>
-                <ul>
-                    <li><strong>Traditional:</strong> Local minima, solution depends on starting point</li>
-                    <li><strong>Preferred:</strong> Global optimum guaranteed</li>
-                    <li><strong>Robustness:</strong> Consistent results across runs</li>
-                    <li><strong>Convergence:</strong> Always converges in finite steps</li>
-                </ul>
-            </div>
-
-            <div class="property-card">
-                <h4>Parameter Interpretation</h4>
-                <ul>
-                    <li><strong>λ = 0:</strong> Pure return maximization</li>
-                    <li><strong>λ → ∞:</strong> Pure risk minimization</li>
-                    <li><strong>λ calibration:</strong> Cross-validation, backtesting</li>
-                    <li><strong>Economic meaning:</strong> Risk aversion coefficient</li>
-                </ul>
+            <div class="formulation-card option3">
+                <h4>Option 3: VaR-Adjusted Sharpe</h4>
+                <div class="math-block">
+                    $\begin{align}
+                    \text{minimize} \quad & -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}} + \lambda \cdot \mathbf{v}^T\mathbf{w}} \\
+                    \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
+                    & 0 \leq w_i \leq w_{\max}
+                    \end{align}$
+                </div>
+                <p><strong>Parameter:</strong> λ (VaR adjustment factor)</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h5>✅ Pros</h5>
+                        <ul>
+                            <li>Modified Sharpe ratio</li>
+                            <li>VaR in denominator</li>
+                            <li>Novel risk measure</li>
+                            <li>Single parameter</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h5>❌ Cons</h5>
+                        <ul>
+                            <li>Non-convex optimization</li>
+                            <li>Less intuitive</li>
+                            <li>Experimental approach</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <h2>Risk Model Integration</h2>
+        <h2>Implementation Architecture</h2>
 
-        <h3>Linear VaR Aggregation</h3>
-        <p>Both formulations use the same VaR approximation:</p>
+        <div class="architecture-section">
+            <h3>Modular Design Pattern</h3>
+            <p>The implementation follows a clean, modular architecture that separates concerns and eliminates code duplication:</p>
+            
+            <div class="code-flow">
+                <div class="flow-step">optimizer(method='original'|'option1'|'option2'|'option3')</div>
+                <div class="flow-step">initialize_solver() → returns (bounds, x0, options)</div>
+                <div class="flow-step">method_function() → returns (objective_fn, constraints)</div>
+                <div class="flow-step">minimize(objective_fn, x0, constraints, bounds, options)</div>
+                <div class="flow-step">return optimal_weights</div>
+            </div>
+
+            <h4>Key Architecture Benefits:</h4>
+            <ul>
+                <li><strong>Single Entry Point:</strong> One <span class="variable">optimizer()</span> function handles all formulations</li>
+                <li><strong>No Code Duplication:</strong> Common setup code extracted to <span class="variable">initialize_solver()</span></li>
+                <li><strong>Clean Separation:</strong> Each formulation isolated in its own function</li>
+                <li><strong>Easy Extension:</strong> Adding new formulations requires only one new function</li>
+                <li><strong>Consistent Interface:</strong> All methods use the same parameter structure</li>
+            </ul>
+        </div>
+
+        <h2>Comparative Analysis</h2>
+
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Original</th>
+                        <th>Option 1</th>
+                        <th>Option 2</th>
+                        <th>Option 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Optimization Type</strong></td>
+                        <td>Non-convex QCQP</td>
+                        <td>Non-convex</td>
+                        <td>Non-convex</td>
+                        <td>Non-convex</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Constraints</strong></td>
+                        <td>Budget + VaR + Weight</td>
+                        <td>Budget + Weight</td>
+                        <td>Budget + Weight</td>
+                        <td>Budget + Weight</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parameters</strong></td>
+                        <td>VaR_max</td>
+                        <td>α, β</td>
+                        <td>λ</td>
+                        <td>λ</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexity</strong></td>
+                        <td>High</td>
+                        <td>High</td>
+                        <td>Medium</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Interpretability</strong></td>
+                        <td>Traditional</td>
+                        <td>Flexible</td>
+                        <td>Intuitive</td>
+                        <td>Novel</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best Use Case</strong></td>
+                        <td>Regulatory compliance</td>
+                        <td>Custom risk-return balance</td>
+                        <td>General purpose</td>
+                        <td>Research/experimental</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Mathematical Properties</h2>
+
+        <h3>Common Constraints</h3>
+        <p>All formulations share these constraints:</p>
         <div class="math-block">
-            $$\text{Portfolio VaR} \approx \sum_i w_i \cdot \text{VaR}_i = \mathbf{v}^T\mathbf{w}$$
+            $$\begin{align}
+            \text{Budget:} \quad & \sum_{i=1}^{n} w_i = 1 \\
+            \text{Long-only:} \quad & w_i \geq 0 \quad \forall i \\
+            \text{Concentration:} \quad & w_i \leq w_{\max} \quad \forall i
+            \end{align}$$
         </div>
 
-        <p><strong>Key Insight:</strong> In the preferred formulation, we optimize:</p>
-        <div class="math-block preferred">
-            $$\text{Expected Return} - \lambda \times \text{Expected VaR}$$
+        <h3>Risk Model</h3>
+        <p>All formulations use <strong>linear VaR aggregation</strong>:</p>
+        <div class="math-block">
+            $$\text{Portfolio VaR} \approx \sum_{i=1}^{n} w_i \cdot \text{VaR}_i = \mathbf{v}^T\mathbf{w}$$
         </div>
-
-        <h2>Implementation Advantages</h2>
 
         <div class="note">
-            <p><strong>Why the VaR-in-objective approach is superior:</strong><br><br>
-            🚀 <strong>No VaR_max needed:</strong> Eliminates arbitrary risk limit selection<br>
-            ⚡ <strong>Linear programming:</strong> Use efficient LP solvers (Gurobi, CPLEX)<br>
-            🎯 <strong>Global optimum:</strong> No local minima concerns<br>
-            📈 <strong>Scalable:</strong> Handles large portfolios efficiently<br>
-            🔧 <strong>Interpretable:</strong> λ parameter has clear economic meaning<br>
-            🔄 <strong>Easy calibration:</strong> Tune λ via backtesting or cross-validation
-            </p>
+            <p><strong>Implementation Note:</strong> The modular architecture allows easy switching between formulations for testing and comparison. Each method can be benchmarked against the others using the same input data to determine the best approach for specific use cases.</p>
         </div>
 
-        <div class="math-block preferred">
-            <p><strong>Bottom Line:</strong> Transform your optimization from a complex non-convex problem to a simple linear program by putting VaR in the objective function instead of the constraints!</p>
+        <h2>Selection Guidelines</h2>
+
+        <div class="formulation-grid">
+            <div class="formulation-card">
+                <h4>🎯 Choose Original If:</h4>
+                <ul>
+                    <li>You need traditional Sharpe ratio optimization</li>
+                    <li>Regulatory requirements specify VaR limits</li>
+                    <li>Small portfolio (&lt;50 assets)</li>
+                    <li>Performance speed isn't critical</li>
+                </ul>
+            </div>
+
+            <div class="formulation-card">
+                <h4>⚖️ Choose Option 1 If:</h4>
+                <ul>
+                    <li>You want explicit control over Sharpe vs VaR weighting</li>
+                    <li>Different market regimes require different balances</li>
+                    <li>You have time to tune two parameters</li>
+                    <li>Maximum flexibility is needed</li>
+                </ul>
+            </div>
+
+            <div class="formulation-card">
+                <h4>🚀 Choose Option 2 If:</h4>
+                <ul>
+                    <li>You want Sharpe-based optimization with VaR control</li>
+                    <li>Single parameter tuning is preferred</li>
+                    <li>General-purpose optimization is needed</li>
+                    <li>Good balance of theory and practicality</li>
+                </ul>
+            </div>
+
+            <div class="formulation-card">
+                <h4>🔬 Choose Option 3 If:</h4>
+                <ul>
+                    <li>You're researching novel risk measures</li>
+                    <li>VaR should directly impact risk measurement</li>
+                    <li>Experimental approaches are acceptable</li>
+                    <li>You want to modify the Sharpe ratio concept</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="note">
+            <p><strong>Recommendation:</strong> Start with <span class="highlight">Option 2 (Sharpe with VaR Penalty)</span> for most practical applications. It provides the best balance of theoretical soundness, interpretability, and implementation simplicity while eliminating the need for arbitrary VaR constraints.</p>
         </div>
     </div>
 </body>
