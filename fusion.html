@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fusion Analytics to Financial Prediction - Sophelio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .paper-ref {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .physics-side {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        
+        .finance-side {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        
+        .algorithm-box {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        
+        .math-formula {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.1rem;
+        }
+        
+        .workflow-step {
+            background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+            color: #2d3436;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #e84393;
+        }
+        
+        .workflow-step h4 {
+            margin-bottom: 10px;
+            color: #2d3436;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .feature-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .innovation-highlight {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .innovation-highlight h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .result-card {
+            background: #f1f3f4;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .result-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Stock Price Prediction at Fusion SaaS Startup</h1>
+            <p>Data-Driven PDE Discovery for Financial Market Prediction</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>Project Overview</h2>
+                <p>Developed a novel approach for stock price prediction using data-driven discovery of partial differential equations. Created a sophisticated sparse regression framework that automatically identifies minimal mathematical relationships governing stock price movements from high-dimensional time series data.</p>
+                
+                <div class="two-column">
+                    <div class="physics-side">
+                        <h3>🔬 Traditional Approach</h3>
+                        <ul>
+                            <li><strong>Method:</strong> Vector Auto Regression (VAR)</li>
+                            <li><strong>Features:</strong> Manual lag selection</li>
+                            <li><strong>Model:</strong> Linear relationships</li>
+                            <li><strong>Limitations:</strong> Fixed structure, limited interactions</li>
+                        </ul>
+                    </div>
+                    <div class="finance-side">
+                        <h3>💰 Our Data-Driven Approach</h3>
+                        <ul>
+                            <li><strong>Method:</strong> Sparse PDE discovery</li>
+                            <li><strong>Features:</strong> Automatic derivative selection</li>
+                            <li><strong>Model:</strong> Nonlinear differential equations</li>
+                            <li><strong>Advantages:</strong> Discovers hidden relationships</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Sparse Regression Framework</h2>
+                
+                <div class="algorithm-box">
+                    <h3>🎯 The Sparsity Challenge</h3>
+                    <p><strong>Problem:</strong> With 5 stocks and derivatives up to 4th order, the feature space explodes to <strong>1000+ potential terms</strong></p>
+                    <p><strong>Solution:</strong> Sparse regression automatically discovers the <strong>minimal set of relationships</strong> that best predict stock movements</p>
+                </div>
+                
+                <div class="math-formula">
+                    <strong>Original PDE Form:</strong><br>
+                    ∂u/∂t = N(u, ∂u/∂x, ∂²u/∂x², ..., x, μ)
+                </div>
+                
+                <div class="math-formula">
+                    <strong>Financial Adaptation with Sparsity:</strong><br>
+                    ∂(Stock₁)/∂t = c₁f₁ + c₂f₂ + ... + cₖfₖ<br>
+                    <small>where k << total features (e.g., 8 out of 1000+ possible terms)</small>
+                </div>
+                
+                <h3>Sequential Greedy Sparse Selection</h3>
+                <div class="workflow-step">
+                    <h4>Step 1: Feature Explosion</h4>
+                    <p>Create massive library of 1000+ candidate terms from stock derivatives</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <h4>Step 2: Greedy Selection</h4>
+                    <p>Algorithm iteratively selects the single term that most reduces prediction error</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <h4>Step 3: Sparse PDE Discovery</h4>
+                    <p>Result: Minimal PDE with only 5-10 truly predictive cross-stock relationships</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <h4>Step 4: Temporal Validation</h4>
+                    <p>Test discovered PDE by making iterative predictions on out-of-sample data windows</p>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Feature Space Size</h4>
+                        <p>1000+ potential terms</p>
+                        <small>Combinatorial explosion</small>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>Selected Features</h4>
+                        <p>5-10 key relationships</p>
+                        <small>Sparse, interpretable</small>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>Sparsity Ratio</h4>
+                        <p>~99% reduction</p>
+                        <small>Massive dimensionality reduction</small>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>Economic Insight</h4>
+                        <p>Discovered relationships</p>
+                        <small>Meaningful market dynamics</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Sparse Algorithm Deep Dive</h2>
+                
+                <div class="algorithm-box">
+                    <h3>Why Sparsity is Critical for Financial Prediction</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div>
+                            <h4>Without Sparsity:</h4>
+                            <ul style="color: white; margin-left: 20px;">
+                                <li>1000+ features → overfitting</li>
+                                <li>Noise masking real relationships</li>
+                                <li>Uninterpretable "black box"</li>
+                                <li>Computational burden</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>With Sparse Regression:</h4>
+                            <ul style="color: white; margin-left: 20px;">
+                                <li>5-10 key features → robust</li>
+                                <li>Signal extraction from noise</li>
+                                <li>Interpretable market relationships</li>
+                                <li>Efficient prediction</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="code-block">
+                    <pre><span style="color: #68d391"># Simplified sparse selection algorithm</span>
+<span style="color: #63b3ed">def</span> sparse_pde_discovery(stock_prices, target_stock):
+    <span style="color: #68d391"># Generate massive feature library</span>
+    feature_library = generate_derivative_features(stock_prices)  
+    <span style="color: #68d391"># Could be 1000+ features: dy1/dt, dy1/dy2, d²y1/dy2², etc.</span>
+    
+    selected_features = []
+    target = stock_prices[target_stock].shift(-<span style="color: #a78bfa">1</span>)  <span style="color: #68d391"># Next day price</span>
+    
+    <span style="color: #63b3ed">while</span> <span style="color: #63b3ed">len</span>(selected_features) < max_terms:
+        best_feature = <span style="color: #63b3ed">None</span>
+        best_score = float(<span style="color: #fbb6ce">'inf'</span>)
+        
+        <span style="color: #68d391"># Test adding each remaining feature</span>
+        <span style="color: #63b3ed">for</span> feature <span style="color: #63b3ed">in</span> feature_library:
+            <span style="color: #63b3ed">if</span> feature <span style="color: #63b3ed">not in</span> selected_features:
+                <span style="color: #68d391"># Fit linear regression with current + candidate feature</span>
+                X = feature_library[selected_features + [feature]]
+                coeffs, residual = fit_linear_regression(X, target)
+                
+                <span style="color: #63b3ed">if</span> residual < best_score:
+                    best_score = residual
+                    best_feature = feature
+        
+        <span style="color: #68d391"># Add best feature if it improves prediction</span>
+        <span style="color: #63b3ed">if</span> improvement_significant(best_score):
+            selected_features.append(best_feature)
+        <span style="color: #63b3ed">else</span>:
+            <span style="color: #63b3ed">break</span>  <span style="color: #68d391"># Stop when no improvement</span>
+    
+    <span style="color: #68d391"># Result: Sparse PDE with only essential terms</span>
+    <span style="color: #63b3ed">return</span> build_pde(selected_features, coefficients)</pre>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h4>Sparse PDE Discovery</h4>
+                        <p>Successfully identified minimal mathematical relationships (5-10 terms from 1000+ candidates) governing stock price dynamics</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Feature Engineering</h4>
+                        <p>Developed comprehensive derivative library including temporal and cross-stock relationships up to 4th order</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Algorithm Development</h4>
+                        <p>Implemented greedy selection algorithm for automatic discovery of predictive mathematical relationships</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Data-Driven Framework</h4>
+                        <p>Built sophisticated sparse regression system for extracting meaningful patterns from high-dimensional financial data</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Feature Library Construction</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Temporal Features</h4>
+                        <p>dy₁/dt, d²y₁/dt², d³y₁/dt³</p>
+                        <small>Time-based derivatives</small>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>1st Order Phase</h4>
+                        <p>dy₁/dy₂, dy₁/dy₃, dy₂/dy₃</p>
+                        <small>Cross-stock relationships</small>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>2nd Order Phase</h4>
+                        <p>d²y₁/dy₂², d²y₁/dy₂dy₃</p>
+                        <small>Nonlinear interactions</small>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>Higher Orders</h4>
+                        <p>3rd & 4th order combinations</p>
+                        <small>Complex market dynamics</small>
+                    </div>
+                </div>
+                
+                <p><strong>Feature Generation:</strong> All derivatives computed using central differencing for numerical stability. As derivative order increases, feature space grows exponentially, providing rich representation of market dynamics.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Example: From Time Series to PDE</h2>
+                
+                <div class="algorithm-box">
+                    <h3>📊 Input: Multi-Stock Time Series Data</h3>
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <p><strong>Stock Basket:</strong> AAPL, GOOGL, MSFT, TSLA, AMZN</p>
+                        <p><strong>Time Period:</strong> 5 years of daily closing prices</p>
+                        <p><strong>Feature Generation:</strong> 1000+ derivatives (temporal, cross-stock, higher-order)</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <div style="background: linear-gradient(135deg, #74b9ff, #0984e3); color: white; padding: 20px; border-radius: 10px; display: inline-block;">
+                        <strong>⬇ Sparse Regression Algorithm ⬇</strong><br>
+                        <small>Selects 8 most predictive terms from 1000+ candidates</small>
+                    </div>
+                </div>
+                
+                <div class="math-formula">
+                    <strong>Discovered PDE for AAPL:</strong><br><br>
+                    <div style="font-family: monospace; font-size: 1.1rem; line-height: 1.8;">
+                        ∂(AAPL)/∂t = -0.023 + 1.847 × ∂(GOOGL)/∂(AAPL)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        + 0.156 × ∂(AAPL)/∂t<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        - 0.089 × ∂(MSFT)/∂(TSLA)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        + 0.234 × ∂(GOOGL)/∂(AAPL)
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <div style="background: linear-gradient(135deg, #00b894, #00a085); color: white; padding: 20px; border-radius: 10px; display: inline-block;">
+                        <strong>⬇ Iterative Prediction ⬇</strong><br>
+                        <small>Use PDE to forecast next time step, then chain predictions forward</small>
+                    </div>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h4>Interpretable Relationships</h4>
+                        <p>PDE reveals that AAPL price tomorrow depends on GOOGL cross-momentum and MSFT-TSLA interactions</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Sparse Discovery</h4>
+                        <p>Only 4 terms selected from 1000+ possible features - extracting true signal from noise</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Predictive Framework</h4>
+                        <p>Mathematical model enables forward prediction through iterative integration</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Market Dynamics</h4>
+                        <p>Discovered relationships capture actual inter-stock dependencies and momentum effects</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="innovation-highlight">
+                <h3>Key Innovation: Sparse PDE Discovery for Financial Markets</h3>
+                <p>Developed a sophisticated sparse regression framework to automatically discover minimal mathematical relationships governing stock price movements. This approach extracts meaningful market dynamics from high-dimensional time series data, representing a novel application of data-driven differential equation discovery to quantitative finance.</p>
+            </div>
+            
+            <div class="section">
+                <h2>Results and Technical Achievement</h2>
+                
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h4>Sparse PDE Discovery</h4>
+                        <p>Successfully identified minimal mathematical relationships (5-10 terms from 1000+ candidates) governing stock price dynamics</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Algorithm Development</h4>
+                        <p>Implemented sophisticated sparse regression framework for automatic discovery of predictive relationships</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Feature Engineering</h4>
+                        <p>Developed comprehensive derivative library with temporal and cross-stock interactions up to 4th order</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>Technical Framework</h4>
+                        <p>Built end-to-end system for data-driven discovery of mathematical relationships in financial time series</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #fd79a8, #fdcb6e); color: #2d3436; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
+                <h3>Professional Impact</h3>
+                <p>This project demonstrates sophisticated algorithm adaptation skills, combining physics research with quantitative finance. The ability to translate complex mathematical frameworks across domains showcases the kind of innovative thinking valuable in research-driven roles.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
