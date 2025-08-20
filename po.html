@@ -441,55 +441,7 @@
                 <li>Warm start: Disabled for stability</li>
             </div>
         </div>
-        
-        <!-- Turnover Management -->
-        <div class="section">
-            <div class="section-title">Adaptive Turnover Management</div>
-            <div class="math-item">
-                <strong>Dynamic Turnover Cap:</strong>
-                <li>Initial cap: 5%</li>
-                <li>Step size: 2.5%</li>
-                <li>Maximum cap: 200%</li>
-                <li>Strategy: Start conservative, relax constraints if infeasible</li>
-            </div>
-            
-            <div style="background: #e8f4fd; border: 2px solid #2196f3; padding: 20px; border-radius: 10px; margin: 20px 0;">
-                <h4>🔄 Turnover Algorithm Flow:</h4>
-                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: center; margin: 15px 0;">
-                    <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; text-align: center; min-width: 120px;">
-                        <strong>Start:</strong><br>
-                        TO cap = 5%
-                    </div>
-                    <div style="font-size: 1.5em; color: #2196f3;">→</div>
-                    <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; text-align: center; min-width: 120px;">
-                        <strong>Solve QP</strong><br>
-                        with constraint
-                    </div>
-                    <div style="font-size: 1.5em; color: #2196f3;">→</div>
-                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border: 1px solid #ffc107; text-align: center; min-width: 120px;">
-                        <strong>Feasible?</strong><br>
-                        Check status
-                    </div>
-                </div>
                 
-                <div style="display: flex; gap: 20px; justify-content: center; margin: 20px 0;">
-                    <div style="text-align: center;">
-                        <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-                            ✅ <strong>YES</strong>
-                        </div>
-                        <div>Accept solution<br>Store turnover</div>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-                            ❌ <strong>NO</strong>
-                        </div>
-                        <div>Increase cap by 2.5%<br>Retry (up to 200%)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <!-- Risk Management -->
         <div class="section">
             <div class="section-title">Risk Management Framework</div>
