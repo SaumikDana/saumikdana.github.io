@@ -577,6 +577,60 @@
       </div>
     </div>
 
+<!-- Performance Results Section -->
+    <div class="section" style="background: linear-gradient(135deg, #e8f5e8, #c8e6c9); border-left: 5px solid #4caf50;">
+      <div class="section-title">📊 Strategy Performance Results</div>
+      
+      <div class="step-box">
+        <div class="step-title">Rolling Portfolio Metrics Dashboard</div>
+        <div style="text-align: center; margin: 20px 0;">
+          <img src="performance_dashboard.png" alt="Performance Dashboard showing Rolling Beta, Tracking Error, and Turnover metrics" 
+               style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" />
+        </div>
+        
+        <div class="math-item" style="background: #f1f8e9; border-left: 3px solid #689f38;">
+          <h4>Key Performance Insights:</h4>
+          <ul>
+            <li><strong>Rolling Beta Analysis:</strong> Strategy maintains variable inflation beta, with notable spikes during crisis periods (2008-2009, 2020). The 252-day beta provides more stable long-term exposure while 126-day beta captures short-term regime shifts.</li>
+            <li><strong>Tracking Error Control:</strong> Annualized tracking error ranges from 5-40%, demonstrating effective inflation tracking. Higher volatility during market stress periods is expected for this type of strategy.</li>
+            <li><strong>Turnover Management:</strong> Excellent adherence to 5% turnover cap across most periods, with one notable exception around 2013 (~11%) likely due to significant inflation regime change.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-title">Sector Evolution Analysis</div>
+        <div style="text-align: center; margin: 20px 0;">
+          <img src="sector_evolution.png" alt="Sector Weight Evolution showing dynamic allocation across GICS sectors over time" 
+               style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" />
+        </div>
+        
+        <div class="math-item" style="background: #fff3e0; border-left: 3px solid #ff9800;">
+          <h4>Sector Allocation Strategy:</h4>
+          <ul>
+            <li><strong>Consumer Staples Dominance (30):</strong> Consistently largest allocation (15-35%), reflecting defensive positioning and pricing power during inflationary periods. Peak allocation during 2009-2011 crisis demonstrates flight-to-quality behavior.</li>
+            <li><strong>Energy Sector Cyclicality (10):</strong> Highly variable allocation (0-12%) driven by oil-inflation correlation. Zero weights during certain periods suggest complex energy-inflation dynamics requiring careful timing.</li>
+            <li><strong>Technology Sector Decline (45):</strong> Reduced allocation over time from ~27% to ~10%, reflecting growth stock vulnerability to inflation and rising rates. Strategy correctly identifies tech's inflation sensitivity.</li>
+            <li><strong>Defensive Sector Focus:</strong> Utilities (55), Health Care (35), and Real Estate (60) maintain steady allocations, providing inflation hedging through regulated pricing mechanisms and essential service characteristics.</li>
+            <li><strong>Industrial Sector Growth (20):</strong> Increasing allocation over time, likely capturing infrastructure benefits and commodity exposure that correlate with inflation expectations.</li>
+            <li><strong>Financial Sector Volatility (40):</strong> Moderate but variable allocation reflecting complex relationship between inflation, interest rates, and financial sector performance.</li>
+          </ul>
+        </div>
+
+        <div class="highlight">
+          <h4>🎯 Strategic Insights from Sector Evolution</h4>
+          <p>The sector allocation patterns reveal a sophisticated understanding of inflation hedging:</p>
+          <ul>
+            <li><strong>Defensive Tilt:</strong> Heavy weighting toward sectors with pricing power and essential products/services</li>
+            <li><strong>Growth Stock Avoidance:</strong> Systematic reduction in growth-sensitive sectors vulnerable to rising rates</li>
+            <li><strong>Regime Awareness:</strong> Dynamic allocation adjusts to changing inflation environments and market cycles</li>
+            <li><strong>Quality Focus:</strong> Concentration in established sectors with predictable cash flows and inflation pass-through ability</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    
     <!-- Risk Management -->
     <div class="section">
       <div class="section-title">Risk Management Framework</div>
