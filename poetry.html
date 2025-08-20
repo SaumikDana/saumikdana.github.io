@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poetry Workflow Demo - CI/CD at Med Tech Startup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .phase {
+            margin-bottom: 50px;
+            border-left: 4px solid #667eea;
+            padding-left: 30px;
+        }
+        
+        .phase h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .phase-icon {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .file-structure {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        
+        .code-block .comment {
+            color: #68d391;
+        }
+        
+        .code-block .keyword {
+            color: #63b3ed;
+        }
+        
+        .code-block .string {
+            color: #fbb6ce;
+        }
+        
+        .workflow-step {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .workflow-step h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .command {
+            background: rgba(0,0,0,0.3);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 5px 0;
+        }
+        
+        .output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 4px solid #68d391;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .before, .after {
+            padding: 25px;
+            border-radius: 10px;
+        }
+        
+        .before {
+            background: linear-gradient(135deg, #fd7f6f, #fc6767);
+            color: white;
+        }
+        
+        .after {
+            background: linear-gradient(135deg, #7bc96f, #5fb3d4);
+            color: white;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #e17055;
+        }
+        
+        .highlight-box h4 {
+            color: #d63031;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Poetry Workflow Demo</h1>
+            <p>CI/CD at Med Tech Startup - Complete Development Cycle</p>
+        </div>
+        
+        <div class="content">
+            <div class="highlight-box">
+                <h4>Project Context</h4>
+                <p>This demonstrates the complete Poetry workflow used at VISIE Inc. for integrating robotic arm control software with existing surgical navigation systems. Shows professional Python package management and CI/CD practices that contributed to securing $8.2M Series A funding.</p>
+            </div>
+            
+            <div class="file-structure">
+                <strong>Initial Project Structure:</strong><br>
+                simple-project/<br>
+                ├── pyproject.toml<br>
+                ├── src/<br>
+                │   ├── __init__.py<br>
+                │   └── calculator.py<br>
+                ├── tests/<br>
+                │   └── test_calculator.py<br>
+                ├── scripts/<br>
+                │   └── demo.py<br>
+                └── poetry.lock <em>(created after first install)</em>
+            </div>
+            
+            <div class="phase">
+                <h2><span class="phase-icon">1</span>Phase 1: First Day - Existing Project</h2>
+                
+                <h3>Initial pyproject.toml</h3>
+                <div class="code-block">
+                    <pre>[tool.poetry]
+name = "simple-project"
+version = "0.1.0"
+description = "Simple calculator project"
+authors = ["Developer &lt;dev@example.com&gt;"]
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+
+[tool.poetry.scripts]
+demo = "scripts.demo:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"</pre>
+                </div>
+                
+                <h3>src/calculator.py</h3>
+                <div class="code-block">
+                    <pre><span class="comment">"""Simple calculator module."""</span>
+
+<span class="keyword">def</span> add(a: float, b: float) -> float:
+    <span class="comment">"""Add two numbers."""</span>
+    <span class="keyword">return</span> a + b
+
+<span class="keyword">def</span> subtract(a: float, b: float) -> float:
+    <span class="comment">"""Subtract two numbers."""</span>
+    <span class="keyword">return</span> a - b</pre>
+                </div>
+                
+                <h3>tests/test_calculator.py</h3>
+                <div class="code-block">
+                    <pre><span class="comment">"""Tests for calculator module."""</span>
+<span class="keyword">import</span> pytest
+<span class="keyword">from</span> src.calculator <span class="keyword">import</span> add, subtract
+
+<span class="keyword">def</span> test_add():
+    <span class="comment">"""Test addition function."""</span>
+    <span class="keyword">assert</span> add(2, 3) == 5
+    <span class="keyword">assert</span> add(-1, 1) == 0
+    <span class="keyword">assert</span> add(0, 0) == 0
+
+<span class="keyword">def</span> test_subtract():
+    <span class="comment">"""Test subtraction function."""</span>
+    <span class="keyword">assert</span> subtract(5, 3) == 2
+    <span class="keyword">assert</span> subtract(1, 1) == 0
+    <span class="keyword">assert</span> subtract(0, 5) == -5</pre>
+                </div>
+                
+                <div class="workflow-step">
+                    <h3>First Day Workflow</h3>
+                    <div class="command"># Clone the project<br>git clone &lt;repo-url&gt;<br>cd simple-project</div>
+                    <div class="command"># Install dependencies (creates poetry.lock)<br>poetry install</div>
+                    <div class="command"># Run tests to make sure everything works<br>poetry run pytest</div>
+                    <div class="command"># Run the demo to see what it does<br>poetry run demo</div>
+                </div>
+                
+                <div class="output">
+                    <strong>Output after `poetry run pytest`:</strong><br>
+                    ===== 4 passed in 0.12s =====
+                </div>
+                
+                <div class="output">
+                    <strong>Output after `poetry run demo`:</strong><br>
+                    === Calculator Demo ===<br>
+                    2 + 3 = 5<br>
+                    5 - 2 = 3<br>
+                    Demo complete!
+                </div>
+            </div>
+            
+            <div class="phase">
+                <h2><span class="phase-icon">2</span>Phase 2: Adding New Functionality</h2>
+                <p style="margin-bottom: 20px;">Now adding multiplication, division, and scientific functions that require numpy.</p>
+                
+                <div class="comparison">
+                    <div class="before">
+                        <h4>BEFORE - Basic Calculator</h4>
+                        <ul>
+                            <li>Only add/subtract functions</li>
+                            <li>No external dependencies</li>
+                            <li>Simple demo output</li>
+                            <li>4 tests total</li>
+                        </ul>
+                    </div>
+                    <div class="after">
+                        <h4>AFTER - Scientific Calculator</h4>
+                        <ul>
+                            <li>Add/subtract + multiply/divide/power/sqrt</li>
+                            <li>Numpy dependency added</li>
+                            <li>Enhanced demo with scientific ops</li>
+                            <li>8 tests total (4 old + 4 new)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Updated pyproject.toml (NEW DEPENDENCIES)</h3>
+                <div class="code-block">
+                    <pre>[tool.poetry]
+name = "simple-project"
+version = <span class="string">"0.2.0"</span>  <span class="comment"># Bumped version</span>
+description = "Simple calculator with scientific functions"
+authors = ["Developer &lt;dev@example.com&gt;"]
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = <span class="string">"^1.24.0"</span>  <span class="comment"># NEW: Added numpy for scientific functions</span>
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0.0"
+
+[tool.poetry.scripts]
+demo = "scripts.demo:main"</pre>
+                </div>
+                
+                <h3>src/scientific.py (NEW FILE)</h3>
+                <div class="code-block">
+                    <pre><span class="comment">"""Scientific calculator functions."""</span>
+<span class="keyword">import</span> numpy as np
+
+<span class="keyword">def</span> multiply(a: float, b: float) -> float:
+    <span class="comment">"""Multiply two numbers."""</span>
+    <span class="keyword">return</span> a * b
+
+<span class="keyword">def</span> divide(a: float, b: float) -> float:
+    <span class="comment">"""Divide two numbers."""</span>
+    <span class="keyword">if</span> b == 0:
+        <span class="keyword">raise</span> ValueError(<span class="string">"Cannot divide by zero"</span>)
+    <span class="keyword">return</span> a / b
+
+<span class="keyword">def</span> power(base: float, exponent: float) -> float:
+    <span class="comment">"""Calculate base raised to exponent."""</span>
+    <span class="keyword">return</span> np.power(base, exponent)
+
+<span class="keyword">def</span> sqrt(x: float) -> float:
+    <span class="comment">"""Calculate square root."""</span>
+    <span class="keyword">if</span> x &lt; 0:
+        <span class="keyword">raise</span> ValueError(<span class="string">"Cannot take square root of negative number"</span>)
+    <span class="keyword">return</span> np.sqrt(x)</pre>
+                </div>
+                
+                <div class="workflow-step">
+                    <h3>Development Workflow (After Adding New Code)</h3>
+                    <div class="command"># 1. Install new dependencies (updates poetry.lock)<br>poetry install</div>
+                    <div class="command"># 2. Run ALL tests (old + new)<br>poetry run pytest</div>
+                    <div class="command"># 3. Run updated demo<br>poetry run demo</div>
+                    <div class="command"># 4. Build package with new functionality<br>poetry build</div>
+                    <div class="command"># 5. Publish to share with team<br>poetry publish</div>
+                </div>
+                
+                <div class="output">
+                    <strong>Output after `poetry install`:</strong><br>
+                    Installing dependencies from lock file<br>
+                    Package operations: 1 install, 0 updates, 0 removals<br>
+                    • Installing numpy (1.24.3)
+                </div>
+                
+                <div class="output">
+                    <strong>Output after `poetry run pytest`:</strong><br>
+                    ===== 8 passed in 0.24s =====
+                </div>
+                
+                <div class="output">
+                    <strong>Output after `poetry run demo`:</strong><br>
+                    === Enhanced Calculator Demo ===<br>
+                    Basic Operations:<br>
+                    2 + 3 = 5<br>
+                    5 - 2 = 3<br>
+                    <br>
+                    Scientific Operations:<br>
+                    4 * 5 = 20<br>
+                    10 / 2 = 5.0<br>
+                    2^3 = 8.0<br>
+                    √16 = 4.0<br>
+                    <br>
+                    Demo complete!
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>Key Points in Professional Workflow</h4>
+                <ul>
+                    <li><strong>poetry.lock Changes:</strong> First time creates lock file, after adding numpy it updates with new dependencies</li>
+                    <li><strong>Testing Strategy:</strong> Old tests still run (ensures no regression), new tests validate new features</li>
+                    <li><strong>Demo Evolution:</strong> Started simple, grew with functionality, imports expanded organically</li>
+                    <li><strong>Team Integration:</strong> build/publish makes enhanced functionality available to entire team</li>
+                </ul>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); color: white; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
+                <h3>Professional Development Impact</h3>
+                <p>This workflow demonstrates the modern Python packaging and CI/CD practices that enabled rapid, reliable integration of robotic control systems with existing surgical navigation software at VISIE Inc., contributing to successful Series A funding.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
