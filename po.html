@@ -555,53 +555,7 @@
             </div>
         </div>
         
-        <!-- Implementation Notes -->
-        <div class="section">
-            <div class="section-title">Key Implementation Features</div>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 25px 0;">
-                <div style="background: #f8f9fa; border: 2px solid #28a745; padding: 20px; border-radius: 10px;">
-                    <h4 style="color: #28a745; margin-bottom: 15px;">🚀 Robust Matrix Construction</h4>
-                    <li>Vector-first approach prevents date misalignment</li>
-                    <li>Handles missing data gracefully (zero-fill)</li>
-                    <li>Supports changing stock universes</li>
-                    <li>Maintains chronological consistency</li>
-                </div>
-                
-                <div style="background: #f8f9fa; border: 2px solid #007bff; padding: 20px; border-radius: 10px;">
-                    <h4 style="color: #007bff; margin-bottom: 15px;">⚡ Adaptive Solver Strategy</h4>
-                    <li>Multiple solver fallbacks (ECOS → OSQP → SCS)</li>
-                    <li>Dynamic constraint relaxation</li>
-                    <li>Convergence monitoring and validation</li>
-                    <li>Numerical stability checks</li>
-                </div>
-                
-                <div style="background: #f8f9fa; border: 2px solid #ffc107; padding: 20px; border-radius: 10px;">
-                    <h4 style="color: #e67e00; margin-bottom: 15px;">🎯 TIPS Inflation Hedging</h4>
-                    <li>Direct tracking of Treasury breakeven inflation</li>
-                    <li>Dual-horizon optimization (6m + 12m)</li>
-                    <li>Equal weighting of short and long-term tracking</li>
-                    <li>Sector rotation based on inflation sensitivity</li>
-                </div>
-                
-                <div style="background: #f8f9fa; border: 2px solid #dc3545; padding: 20px; border-radius: 10px;">
-                    <h4 style="color: #dc3545; margin-bottom: 15px;">🛡️ Risk & Cost Management</h4>
-                    <li>Concentration limits (max 7% per position)</li>
-                    <li>Quality screening (GRR ≥ 1.5)</li>
-                    <li>Transaction cost optimization via turnover penalty</li>
-                    <li>Portfolio rebalancing validation</li>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Footer -->
-        <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 12px;">
-            <h3 style="margin-bottom: 10px;">🎯 Inflation-Tracking Portfolio Optimization</h3>
-            <p style="margin: 0; opacity: 0.9;">A sophisticated quantitative strategy for hedging inflation risk through equity portfolio construction</p>
-        </div>
-
-
-<!-- Strategy Parameters -->
+        <!-- Strategy Parameters -->
         <div class="section">
             <div class="section-title">⚙️ Strategy Parameters</div>
             
@@ -692,6 +646,51 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- Implementation Notes -->
+        <div class="section">
+            <div class="section-title">Key Implementation Features</div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 25px 0;">
+                <div style="background: #f8f9fa; border: 2px solid #28a745; padding: 20px; border-radius: 10px;">
+                    <h4 style="color: #28a745; margin-bottom: 15px;">🚀 Robust Matrix Construction</h4>
+                    <li>Vector-first approach prevents date misalignment</li>
+                    <li>Handles missing data gracefully (zero-fill)</li>
+                    <li>Supports changing stock universes</li>
+                    <li>Maintains chronological consistency</li>
+                </div>
+                
+                <div style="background: #f8f9fa; border: 2px solid #007bff; padding: 20px; border-radius: 10px;">
+                    <h4 style="color: #007bff; margin-bottom: 15px;">⚡ Adaptive Solver Strategy</h4>
+                    <li>Multiple solver fallbacks (ECOS → OSQP → SCS)</li>
+                    <li>Dynamic constraint relaxation</li>
+                    <li>Convergence monitoring and validation</li>
+                    <li>Numerical stability checks</li>
+                </div>
+                
+                <div style="background: #f8f9fa; border: 2px solid #ffc107; padding: 20px; border-radius: 10px;">
+                    <h4 style="color: #e67e00; margin-bottom: 15px;">🎯 TIPS Inflation Hedging</h4>
+                    <li>Direct tracking of Treasury breakeven inflation</li>
+                    <li>Dual-horizon optimization (6m + 12m)</li>
+                    <li>Equal weighting of short and long-term tracking</li>
+                    <li>Sector rotation based on inflation sensitivity</li>
+                </div>
+                
+                <div style="background: #f8f9fa; border: 2px solid #dc3545; padding: 20px; border-radius: 10px;">
+                    <h4 style="color: #dc3545; margin-bottom: 15px;">🛡️ Risk & Cost Management</h4>
+                    <li>Concentration limits (max 7% per position)</li>
+                    <li>Quality screening (GRR ≥ 1.5)</li>
+                    <li>Transaction cost optimization via turnover penalty</li>
+                    <li>Portfolio rebalancing validation</li>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 12px;">
+            <h3 style="margin-bottom: 10px;">🎯 Inflation-Tracking Portfolio Optimization</h3>
+            <p style="margin: 0; opacity: 0.9;">A sophisticated quantitative strategy for hedging inflation risk through equity portfolio construction</p>
+        </div>
+    </div>
 </body>
 </html>
