@@ -101,23 +101,6 @@
             margin: 30px 0;
         }
         
-        .code-block {
-            background: #2d3748;
-            color: #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-        }
-        
-        .code-block pre {
-            margin: 0;
-            white-space: pre;
-            overflow-x: auto;
-        }
-        
         .math-formula {
             background: #f8f9fa;
             border: 2px solid #e9ecef;
@@ -340,41 +323,6 @@
                     </div>
                 </div>
                 
-                <div class="code-block">
-                    <pre><span style="color: #68d391"># Simplified sparse selection algorithm</span>
-<span style="color: #63b3ed">def</span> sparse_pde_discovery(stock_prices, target_stock):
-    <span style="color: #68d391"># Generate massive feature library</span>
-    feature_library = generate_derivative_features(stock_prices)  
-    <span style="color: #68d391"># Could be 1000+ features: dy1/dt, dy1/dy2, d²y1/dy2², etc.</span>
-    
-    selected_features = []
-    target = stock_prices[target_stock].shift(-<span style="color: #a78bfa">1</span>)  <span style="color: #68d391"># Next day price</span>
-    
-    <span style="color: #63b3ed">while</span> <span style="color: #63b3ed">len</span>(selected_features) < max_terms:
-        best_feature = <span style="color: #63b3ed">None</span>
-        best_score = float(<span style="color: #fbb6ce">'inf'</span>)
-        
-        <span style="color: #68d391"># Test adding each remaining feature</span>
-        <span style="color: #63b3ed">for</span> feature <span style="color: #63b3ed">in</span> feature_library:
-            <span style="color: #63b3ed">if</span> feature <span style="color: #63b3ed">not in</span> selected_features:
-                <span style="color: #68d391"># Fit linear regression with current + candidate feature</span>
-                X = feature_library[selected_features + [feature]]
-                coeffs, residual = fit_linear_regression(X, target)
-                
-                <span style="color: #63b3ed">if</span> residual < best_score:
-                    best_score = residual
-                    best_feature = feature
-        
-        <span style="color: #68d391"># Add best feature if it improves prediction</span>
-        <span style="color: #63b3ed">if</span> improvement_significant(best_score):
-            selected_features.append(best_feature)
-        <span style="color: #63b3ed">else</span>:
-            <span style="color: #63b3ed">break</span>  <span style="color: #68d391"># Stop when no improvement</span>
-    
-    <span style="color: #68d391"># Result: Sparse PDE with only essential terms</span>
-    <span style="color: #63b3ed">return</span> build_pde(selected_features, coefficients)</pre>
-                </div>
-                
                 <div class="results-grid">
                     <div class="result-card">
                         <h4>Sparse PDE Discovery</h4>
@@ -450,7 +398,7 @@
                 </div>
                 
                 <div class="math-formula">
-                    <strong>Discovered PDE for AAPL:</strong><br><br>
+                    <strong>Discovered PDE for AAPL: (Just representative)</strong><br><br>
                     <div style="font-family: monospace; font-size: 1.1rem; line-height: 1.8;">
                         ∂(AAPL)/∂t = -0.023 + 1.847 × ∂(GOOGL)/∂(AAPL)<br>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -497,36 +445,7 @@
                 <p>Developed a sophisticated sparse regression framework to automatically discover minimal mathematical relationships governing stock price movements. This approach extracts meaningful market dynamics from high-dimensional time series data, representing a novel application of data-driven differential equation discovery to quantitative finance.</p>
             </div>
             
-            <div class="section">
-                <h2>Results and Technical Achievement</h2>
-                
-                <div class="results-grid">
-                    <div class="result-card">
-                        <h4>Sparse PDE Discovery</h4>
-                        <p>Successfully identified minimal mathematical relationships (5-10 terms from 1000+ candidates) governing stock price dynamics</p>
-                    </div>
-                    
-                    <div class="result-card">
-                        <h4>Algorithm Development</h4>
-                        <p>Implemented sophisticated sparse regression framework for automatic discovery of predictive relationships</p>
-                    </div>
-                    
-                    <div class="result-card">
-                        <h4>Feature Engineering</h4>
-                        <p>Developed comprehensive derivative library with temporal and cross-stock interactions up to 4th order</p>
-                    </div>
-                    
-                    <div class="result-card">
-                        <h4>Technical Framework</h4>
-                        <p>Built end-to-end system for data-driven discovery of mathematical relationships in financial time series</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="background: linear-gradient(135deg, #fd79a8, #fdcb6e); color: #2d3436; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
-                <h3>Professional Impact</h3>
-                <p>This project demonstrates sophisticated algorithm adaptation skills, combining physics research with quantitative finance. The ability to translate complex mathematical frameworks across domains showcases the kind of innovative thinking valuable in research-driven roles.</p>
-            </div>
+
         </div>
     </div>
 </body>
