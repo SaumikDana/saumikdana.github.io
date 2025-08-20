@@ -600,5 +600,99 @@
             <p style="margin: 0; opacity: 0.9;">A sophisticated quantitative strategy for hedging inflation risk through equity portfolio construction</p>
         </div>
     </div>
+
+
+<!-- Strategy Parameters -->
+        <div class="section">
+            <div class="section-title">⚙️ Strategy Parameters</div>
+            
+            <div class="constraints-grid">
+                <div class="constraint-item">
+                    <div class="constraint-title">📅 Rebalancing</div>
+                    <li><strong>Months:</strong> [1, 4, 7, 10] (Quarterly)</li>
+                    <li><strong>Timing:</strong> Last trading day</li>
+                </div>
+                
+                <div class="constraint-item">
+                    <div class="constraint-title">🔄 Turnover</div>
+                    <li><strong>Initial cap:</strong> 5%</li>
+                    <li><strong>Max limit:</strong> 200%</li>
+                    <li><strong>Step:</strong> 2.5%</li>
+                    <li><strong>Penalty (λ):</strong> 1e-4</li>
+                </div>
+                
+                <div class="constraint-item">
+                    <div class="constraint-title">⚖️ Position Limits</div>
+                    <li><strong>Min weight:</strong> 1e-5</li>
+                    <li><strong>Max weight:</strong> 7%</li>
+                    <li><strong>Multiplier bounds:</strong> (0.6, 1.4)</li>
+                </div>
+                
+                <div class="constraint-item">
+                    <div class="constraint-title">🎯 Solver</div>
+                    <li><strong>Primary:</strong> ECOS</li>
+                    <li><strong>Tolerances:</strong> 1e-3</li>
+                    <li><strong>Max iters:</strong> 100k</li>
+                </div>
+                
+                <div class="constraint-item disabled">
+                    <div class="constraint-title">🚫 Disabled</div>
+                    <li><strong>Beta bounds:</strong> None</li>
+                    <li><strong>Sector bands:</strong> None</li>
+                    <li><strong>Warm start:</strong> False</li>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Results -->
+        <div class="section">
+            <div class="section-title">📈 Performance Analysis</div>
+            
+            <!-- Performance Charts -->
+            <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #dee2e6;">
+                <h5 style="margin-bottom: 15px; color: #2c3e50; text-align: center;">Rolling Performance Metrics</h5>
+                <img src="performance_dashboard.png" alt="Rolling Performance Metrics Dashboard" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                <p style="text-align: center; margin-top: 10px; color: #6c757d; font-size: 0.9em;">
+                    Beta spikes during crises, tracking error well-controlled, turnover managed at 5%
+                </p>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #dee2e6;">
+                <h5 style="margin-bottom: 15px; color: #2c3e50; text-align: center;">Sector Weight Evolution</h5>
+                <img src="sector_evolution.png" alt="Sector Weight Evolution Chart" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                <p style="text-align: center; margin-top: 10px; color: #6c757d; font-size: 0.9em;">
+                    Health Care ↗ (15%→25%), Energy ↘ (12%→4%), Tech stable (~10%)
+                </p>
+            </div>
+            
+            <!-- Key Insights -->
+            <div style="background: #e8f4fd; border-left: 5px solid #2196f3; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="color: #1976d2; margin-bottom: 15px;">🎯 Key Performance Insights</h4>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <h6 style="color: #28a745; margin-bottom: 8px;">✅ Tracking Success</h6>
+                        <li>Error mostly < 0.2</li>
+                        <li>Dual-horizon (6m+12m) works</li>
+                        <li>TIPS inflation hedging effective</li>
+                    </div>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <h6 style="color: #ffc107; margin-bottom: 8px;">⚠️ Beta Volatility</h6>
+                        <li>Spikes to 4+ in crises</li>
+                        <li>No beta constraints enabled</li>
+                        <li>High systematic risk exposure</li>
+                    </div>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <h6 style="color: #007bff; margin-bottom: 8px;">🔄 Sector Rotation</h6>
+                        <li>Health Care: inflation winner</li>
+                        <li>Energy: declining despite hedge properties</li>
+                        <li>Strategy favors stable correlations</li>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </body>
 </html>
