@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Two-Level Reality of Regression</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
@@ -88,12 +87,41 @@
             background: linear-gradient(to right, transparent, #3498db, transparent);
             margin: 40px 0;
         }
-        .card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px; margin-bottom: 16px; background: #fff; }
-        code, kbd, samp { background: #f6f8fa; padding: 2px 6px; border-radius: 6px; }
-        .math { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; background: #f6f8fa; padding: 2px 6px; border-radius: 6px; }
-        table { border-collapse: collapse; width: 100%; margin: 8px 0; }
-        th, td { border: 1px solid #e5e7eb; padding: 6px 8px; text-align: right; }
-        th { background: #f9fafb; }
+        .card { 
+            border: 1px solid #e9ecef; 
+            border-radius: 10px; 
+            padding: 20px; 
+            margin: 20px 0; 
+            background: #fff; 
+        }
+        code, kbd, samp { 
+            background: #f8f9fa; 
+            padding: 2px 6px; 
+            border-radius: 6px; 
+        }
+        .math { 
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; 
+            background: #f8f9fa; 
+            padding: 2px 6px; 
+            border-radius: 6px; 
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 20px 0; 
+        }
+        th, td { 
+            border: 1px solid #e9ecef; 
+            padding: 8px 12px; 
+            text-align: right; 
+        }
+        th { 
+            background: #f8f9fa; 
+        }
+        .muted {
+            color: #6c757d;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -231,80 +259,83 @@
         <div class="key-point">
             <p><strong>Key Takeaway:</strong> More data gives us better estimates of the same underlying truth, not a different truth.</p>
         </div>
+
+        <hr class="section-divider">
+
+        <div class="card">
+            <h2>SST, SSE, and R² — Tiny Worked Example</h2>
+            <p>We have three data points: <span class="math">(x_i, y_i) = (1,1), (2,2), (3,2)</span>. We fit the simple OLS model <span class="math">$\hat{y} = \beta_0 + \beta_1 x$</span> and compute SST, SSE, and R² step by step.</p>
+        </div>
+
+        <div class="card">
+            <h3>1) Mean of <span class="math">y</span></h3>
+            <p><span class="math">$\bar{y} = (1 + 2 + 2)/3 = 5/3 \approx 1.6667$</span></p>
+        </div>
+
+        <div class="card">
+            <h3>2) Total variation in <span class="math">y</span> (SST)</h3>
+            <div class="math-block">
+                $SST = \sum (y_i - \bar{y})^2$
+            </div>
+            <div class="math-block">
+                $= (1 - 1.6667)^2 + (2 - 1.6667)^2 + (2 - 1.6667)^2$
+                $= 0.4444 + 0.1111 + 0.1111 = 0.6667$
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>3) Fit OLS line</h3>
+            <p>Centered sums:</p>
+            <ul>
+                <li><span class="math">$\bar{x} = (1 + 2 + 3)/3 = 2$</span></li>
+                <li><span class="math">$\sum (x_i-\bar{x})(y_i-\bar{y}) = 1.0$</span></li>
+                <li><span class="math">$\sum (x_i-\bar{x})^2 = 2$</span></li>
+            </ul>
+            <p>Coefficients:</p>
+            <div class="math-block">
+                $\beta_1 = 1.0 / 2 = 0.5$,&nbsp;&nbsp;&nbsp;&nbsp;
+                $\beta_0 = \bar{y} - \beta_1 \bar{x} = 1.6667 - 0.5 \cdot 2 = 0.6667$
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>x</th>
+                        <th>y</th>
+                        <th>$\hat{y} = 0.6667 + 0.5 \cdot x$</th>
+                        <th>$y - \hat{y}$</th>
+                        <th>$(y - \hat{y})^2$</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>1.0000</td><td>1.1667</td><td>-0.1667</td><td>0.0278</td></tr>
+                    <tr><td>2</td><td>2.0000</td><td>1.6667</td><td> 0.3333</td><td>0.1111</td></tr>
+                    <tr><td>3</td><td>2.0000</td><td>2.1667</td><td>-0.1667</td><td>0.0278</td></tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="4" style="text-align:right;">$SSE = \sum (y - \hat{y})^2$</th>
+                        <th>0.1667</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>4) Unexplained variation (SSE)</h3>
+            <p><span class="math">$SSE = \sum (y_i - \hat{y}_i)^2 = 0.1667$</span></p>
+        </div>
+
+        <div class="card">
+            <h3>5) R² (fraction of variance explained)</h3>
+            <div class="math-block">
+                $R^2 = 1 - \frac{SSE}{SST} = 1 - \frac{0.1667}{0.6667} = 0.75$
+            </div>
+            <p><strong>Interpretation:</strong> the regression explains <strong>75%</strong> of the variance in <span class="math">y</span>.</p>
+            <p class="muted">
+                Notes: If SSE = 0 ⇒ R² = 1 (perfect fit). If SSE ≈ SST ⇒ R² ≈ 0 (no explanatory power).
+                If SSE > SST ⇒ R² < 0 (worse than predicting the mean).
+            </p>
+        </div>
     </div>
-
-
-  <div class="card">
-    <h1>SST, SSE, and R² — Tiny Worked Example</h1>
-    <p>We have three data points: <span class="math">(x_i, y_i) = (1,1), (2,2), (3,2)</span>. We fit the simple OLS model <span class="math">\hat{y} = \beta_0 + \beta_1 x</span> and compute SST, SSE, and R² step by step.</p>
-  </div>
-
-  <div class="card">
-    <h2>1) Mean of <span class="math">y</span></h2>
-    <p><span class="math">\bar{y} = (1 + 2 + 2)/3 = 5/3 \approx 1.6667</span></p>
-  </div>
-
-  <div class="card">
-    <h2>2) Total variation in <span class="math">y</span> (SST)</h2>
-    <p><span class="math">SST = \sum (y_i - \bar{y})^2</span></p>
-    <p class="math">
-      = (1 - 1.6667)^2 + (2 - 1.6667)^2 + (2 - 1.6667)^2
-      = 0.4444 + 0.1111 + 0.1111
-      = 0.6667
-    </p>
-  </div>
-
-  <div class="card">
-    <h2>3) Fit OLS line</h2>
-    <p>Centered sums:</p>
-    <ul>
-      <li><span class="math">\bar{x} = (1 + 2 + 3)/3 = 2</span></li>
-      <li><span class="math">\sum (x_i-\bar{x})(y_i-\bar{y}) = 1.0</span></li>
-      <li><span class="math">\sum (x_i-\bar{x})^2 = 2</span></li>
-    </ul>
-    <p>Coefficients:</p>
-    <p class="math">
-      \beta_1 = 1.0 / 2 = 0.5,\quad
-      \beta_0 = \bar{y} - \beta_1 \bar{x} = 1.6667 - 0.5 \cdot 2 = 0.6667
-    </p>
-    <table>
-      <thead>
-        <tr>
-          <th>x</th>
-          <th>y</th>
-          <th>\hat{y} = 0.6667 + 0.5·x</th>
-          <th>y - \hat{y}</th>
-          <th>(y - \hat{y})²</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>1</td><td>1.0000</td><td>1.1667</td><td>-0.1667</td><td>0.0278</td></tr>
-        <tr><td>2</td><td>2.0000</td><td>1.6667</td><td> 0.3333</td><td>0.1111</td></tr>
-        <tr><td>3</td><td>2.0000</td><td>2.1667</td><td>-0.1667</td><td>0.0278</td></tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th colspan="4" style="text-align:right;">SSE = Σ (y - \hat{y})²</th>
-          <th>0.1667</th>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>4) Unexplained variation (SSE)</h2>
-    <p><span class="math">SSE = \sum (y_i - \hat{y}_i)^2 = 0.1667</span></p>
-  </div>
-
-  <div class="card">
-    <h2>5) R² (fraction of variance explained)</h2>
-    <p class="math">R^2 = 1 - \dfrac{SSE}{SST} = 1 - \dfrac{0.1667}{0.6667} = 0.75</p>
-    <p><strong>Interpretation:</strong> the regression explains <strong>75%</strong> of the variance in <span class="math">y</span>.</p>
-    <p class="muted">
-      Notes: If SSE = 0 ⇒ R² = 1 (perfect fit). If SSE ≈ SST ⇒ R² ≈ 0 (no explanatory power).
-      If SSE &gt; SST ⇒ R² &lt; 0 (worse than predicting the mean).
-    </p>
-  </div>
-
 </body>
 </html>
