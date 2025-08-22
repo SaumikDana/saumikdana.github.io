@@ -336,6 +336,167 @@
                 If SSE > SST ⇒ R² < 0 (worse than predicting the mean).
             </p>
         </div>
+
+        <div class="card">
+            <h3>6) F-statistic for testing overall model significance</h3>
+            <p>The <strong>F-statistic</strong> tests whether the regression model explains a significant amount of variance compared to a model with no predictors (i.e., just the intercept).</p>
+            
+            <div class="math-block">
+                $F = \frac{MSR}{MSE} = \frac{SSR/k}{SSE/(n-k-1)}$
+            </div>
+            
+            <p><strong>Where:</strong></p>
+            <ul>
+                <li>$SSR$ = regression sum of squares (explained variation)</li>
+                <li>$SSE$ = error sum of squares (unexplained variation)</li>
+                <li>$k$ = number of predictors (excluding the intercept)</li>
+                <li>$n$ = number of observations</li>
+                <li>$MSR$ = mean square regression</li>
+                <li>$MSE$ = mean square error</li>
+            </ul>
+            
+            <p>Since $SSR = SST - SSE$, we can substitute:</p>
+            <div class="math-block">
+                $F = \frac{(SST - SSE)/k}{SSE/(n-k-1)}$
+            </div>
+            
+            <p><strong>For our example:</strong></p>
+            <ul>
+                <li>$SST = 0.6667$</li>
+                <li>$SSE = 0.1667$</li>
+                <li>$SSR = SST - SSE = 0.6667 - 0.1667 = 0.5000$</li>
+                <li>$k = 1$ (one predictor: $x$)</li>
+                <li>$n = 3$ (three observations)</li>
+            </ul>
+            
+            <div class="math-block">
+                $F = \frac{0.5000/1}{0.1667/(3-1-1)} = \frac{0.5000}{0.1667/1} = \frac{0.5000}{0.1667} = 3.0$
+            </div>
+            
+            <p><strong>Interpretation:</strong> This F-statistic of 3.0 (with 1 and 1 degrees of freedom) tests $H_0$: the regression model is no better than just predicting the mean $\bar{y}$ for all observations.</p>
+            
+            <p class="muted">
+                Note: In simple linear regression, $F = t^2$ where $t$ is the t-statistic for testing $H_0: \beta_1 = 0$.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <h2>Interpreting F-statistic Values</h2>
+        
+        <p>The F-statistic is fundamentally a ratio of signal to noise:</p>
+        <div class="math-block">
+            $F = \frac{\text{Signal (explained variance per predictor)}}{\text{Noise (unexplained variance per residual df)}}$
+        </div>
+        
+        <p>Understanding what different F-values mean:</p>
+
+        <div class="card">
+            <h3>F ≈ 1 (close to 1)</h3>
+            <ul>
+                <li>The model's explained variance (SSR) is about the same order as the unexplained variance (SSE per degree of freedom)</li>
+                <li>Adding predictors doesn't improve the model much beyond just predicting the mean</li>
+                <li>Typically → <strong>not significant</strong></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>F < 1 (very small)</h3>
+            <ul>
+                <li>The model actually explains <em>less variance</em> than would be expected by chance</li>
+                <li>Strong evidence that predictors are useless or even harmful</li>
+                <li>You'd fail to reject the null hypothesis (no relationship)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>F moderately large (say, > 4 or 5 depending on n, k)</h3>
+            <ul>
+                <li>Suggests predictors improve the model compared to noise</li>
+                <li>You check the corresponding <strong>p-value</strong>:
+                    <ul>
+                        <li>If p < 0.05 → statistically significant (reject null)</li>
+                        <li>If p is higher → still not significant, even if F > 1</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>F very large (≫ 10, 20, 50...)</h3>
+            <ul>
+                <li>Strong evidence that predictors explain a lot of variance relative to noise</li>
+                <li>P-value will usually be extremely small</li>
+                <li>The regression model has strong explanatory power</li>
+            </ul>
+        </div>
+
+        <div class="key-point">
+            <h3>Quick Rule of Thumb</h3>
+            <ul>
+                <li><strong>Small F (≈0 → < 1):</strong> model worse than noise</li>
+                <li><strong>Around 1:</strong> no improvement over mean-only model</li>
+                <li><strong>Big F (≫1):</strong> model explains meaningful variance (significance depends on df & p-value)</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <p><strong>Why this makes sense:</strong> Under the null hypothesis (no real relationship), we'd expect F ≈ 1 on average because MSR would just reflect random variation in the predictors, while MSE reflects the true error variance. So the ratio should be around 1 if there's no real signal.</p>
+            <p><strong>Remember:</strong> The degrees of freedom matter! An F of 4 might be significant with small sample sizes but not with very large ones, which is why we always check the p-value for formal hypothesis testing.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <h2>What the F-statistic Actually Tests</h2>
+
+        <p>The <strong>F-statistic</strong> in regression tests a very specific <strong>null hypothesis</strong>:</p>
+
+        <div class="math-block">
+            $H_0: \beta_1 = \beta_2 = \cdots = \beta_k = 0$
+        </div>
+
+        <p>(all slopes are zero at the same time)</p>
+
+        <div class="key-point">
+            <p><strong>What this means:</strong></p>
+            <ul>
+                <li>Under $H_0$, none of the independent variables help explain the dependent variable</li>
+                <li>The model with predictors is no better than a simple mean-only model</li>
+                <li>The regression equation reduces to just $\hat{y} = \hat{\beta}_0 = \bar{y}$</li>
+            </ul>
+        </div>
+
+        <p>The <strong>alternative hypothesis</strong> is:</p>
+
+        <div class="math-block">
+            $H_A: \text{At least one } \beta_j \neq 0$
+        </div>
+
+        <div class="card">
+            <h3>Decision Rule</h3>
+            <ul>
+                <li><strong>If F is large (and p-value small)</strong> → reject $H_0$. At least one predictor has explanatory power</li>
+                <li><strong>If F is small</strong> → fail to reject $H_0$. The predictors (slopes) jointly have no explanatory power</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Important Nuances</h3>
+            <ul>
+                <li><strong>Joint test:</strong> The F-test examines whether ALL slopes are zero simultaneously, not individual slopes</li>
+                <li><strong>Which predictors matter:</strong> Even if F is significant, it doesn't tell you WHICH predictors are important (you need individual t-tests for that)</li>
+                <li><strong>Simple vs. multiple regression:</strong>
+                    <ul>
+                        <li>In simple linear regression (one predictor): $F = t^2$, so F-test and t-test are equivalent</li>
+                        <li>In multiple regression: you could have significant F-test but some individual slopes not significant (and vice versa, though rarer)</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <p><strong>The Big Picture:</strong> The F-test compares your full regression model against the simplest possible model (just predicting the mean). It answers: "Is this collection of predictors, taken together, better than knowing nothing at all?"</p>
+        </div>
     </div>
 </body>
 </html>
