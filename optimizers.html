@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimization - Unconstrained and Constrained</title>
+    <title>Optimization</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
@@ -116,7 +116,7 @@
             text-align: center;
         }
 
-        /* Unconstrained Optimization Styles */
+        /* Grid and Video Components */
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -124,14 +124,16 @@
             margin: 20px 0;
         }
 
-        .grid-item {
+        .grid-item, 
+        .solver-landscape img {
             width: 100%;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
         }
 
-        .grid-item:hover {
+        .grid-item:hover,
+        .solver-landscape img:hover {
             transform: scale(1.02);
         }
 
@@ -156,7 +158,6 @@
             transform: scale(1.02);
         }
 
-        /* Constrained Optimization Styles */
         .solver-landscape {
             text-align: center;
             margin: 30px 0;
@@ -165,15 +166,9 @@
         .solver-landscape img {
             max-width: 100%;
             height: auto;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
         }
 
-        .solver-landscape img:hover {
-            transform: scale(1.02);
-        }
-
+        /* Algorithm and Video Grids */
         .algorithm-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -341,51 +336,6 @@
             left: 0;
         }
 
-        /* Probability Distributions Section */
-        .probability-section {
-            margin: 40px 0;
-            padding: 30px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-
-        .distribution-selector {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .distribution-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .dist-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            background: #667eea;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-family: 'EB Garamond', serif;
-        }
-
-        .dist-btn:hover {
-            background: #5a67d8;
-            transform: translateY(-2px);
-        }
-
-        .dist-btn.active {
-            background: #4c51bf;
-            box-shadow: 0 4px 12px rgba(76, 81, 191, 0.4);
-        }
-
         /* Footer */
         footer {
             text-align: center;
@@ -451,12 +401,6 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
-        }
-
-        /* Section visibility */
-        .section[data-section="unconstrained"],
-        .section[data-section="constrained"] {
-            display: block;
         }
     </style>
 </head>
