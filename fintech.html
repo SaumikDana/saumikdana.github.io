@@ -651,6 +651,156 @@ Right group: 118 samples, mean=  -95.74
 <div class="main-content">
 <img src="decision_tree_classifier.png" alt="Decision Tree Classifier" class="custom-image1">
 </div>
+
+
+<div class="container">
+    <h1>Static Portfolio Theory for Variance and Gamma Swaps</h1>
+
+    <div class="toc">
+        <h3>Contents</h3>
+        <ul>
+            <li><a href="#theory">The Theory Behind Static Replication</a></li>
+            <li><a href="#variance-theory">Variance Swap Theory</a></li>
+            <li><a href="#gamma-theory">Gamma Swap Theory</a></li>
+            <li><a href="#practical">How Theory Translates to Trades</a></li>
+            <li><a href="#comparison">Quick Comparison</a></li>
+        </ul>
+    </div>
+
+    <h2 id="theory">The Theory Behind Static Replication</h2>
+    <p>The theory relies on replicating the payoffs using option pricing mathematics. Here are the key formulas:</p>
+
+    <h3 id="variance-theory">Variance Swap Theory</h3>
+    <p>The realized variance of a stock can be replicated by a portfolio weighted by <span class="highlight">1/K²</span>:</p>
+    
+    <div class="formula">
+        Variance ≈ ∫ (1/K²) × Option(K) dK
+    </div>
+
+    <p><strong>Where:</strong></p>
+    <ul>
+        <li><span class="math">K</span> = strike price</li>
+        <li>You buy both calls (K > S₀) and puts (K < S₀)</li>
+        <li>Weight each option by 1/strike²</li>
+        <li><span class="math">S₀</span> = current stock price</li>
+    </ul>
+
+    <p><strong>Why 1/K²?</strong> This comes from the mathematical relationship between option prices and realized variance in the Black-Scholes framework.</p>
+
+    <h3 id="gamma-theory">Gamma Swap Theory</h3>
+    <p>Gamma can be replicated with a different weighting - typically <span class="highlight">1/K</span>:</p>
+    
+    <div class="formula">
+        Gamma exposure ≈ ∫ (1/K) × Option(K) dK
+    </div>
+
+    <div class="key-points">
+        <h4>The Mathematical Intuition:</h4>
+        <ul>
+            <li>Options naturally capture convexity (gamma/variance effects)</li>
+            <li>By weighting options across all strikes with these specific formulas, the portfolio's payout automatically matches what variance/gamma swaps should pay</li>
+            <li>It's like the options "naturally aggregate" into the desired exposure</li>
+        </ul>
+    </div>
+
+    <div class="problem-box">
+        <h4>The Problem in Practice:</h4>
+        <p>You need options at <strong>every possible strike</strong>, but:</p>
+        <ul>
+            <li>Exchanges only list strikes in increments (5, 10, 25 point intervals)</li>
+            <li>Far out-of-the-money options are illiquid</li>
+            <li>Very low/high strikes might not exist at all</li>
+        </ul>
+        <p>So the "static" theory assumes infinite liquidity across all strikes, which doesn't exist in reality.</p>
+    </div>
+
+    <h2 id="practical">How Theory Translates to Actual Trades</h2>
+
+    <h3>Variance Swap - Long Position (receiving realized variance)</h3>
+    <p><strong>What you buy:</strong></p>
+    <ul>
+        <li><strong>Puts</strong> at all strikes below current stock price (K < S₀)</li>
+        <li><strong>Calls</strong> at all strikes above current stock price (K > S₀)</li>
+        <li>Each weighted by <span class="highlight">1/K²</span></li>
+    </ul>
+
+    <div class="example-box">
+        <h4>Example: Stock at $100</h4>
+        <ul>
+            <li>Buy put at $95 strike: quantity = 1/95² = 0.000111</li>
+            <li>Buy put at $90 strike: quantity = 1/90² = 0.000123</li>
+            <li>Buy call at $105 strike: quantity = 1/105² = 0.000091</li>
+            <li>Buy call at $110 strike: quantity = 1/110² = 0.000083</li>
+            <li>etc.</li>
+        </ul>
+    </div>
+
+    <h3>Gamma Swap - Long Position</h3>
+    <p><strong>What you buy:</strong></p>
+    <ul>
+        <li>Same structure (puts below, calls above current price)</li>
+        <li>But weighted by <span class="highlight">1/K</span> instead of <span class="highlight">1/K²</span></li>
+    </ul>
+
+    <div class="example-box">
+        <h4>Example: Stock at $100</h4>
+        <ul>
+            <li>Buy put at $95: quantity = 1/95 = 0.0105</li>
+            <li>Buy put at $90: quantity = 1/90 = 0.0111</li>
+            <li>Buy call at $105: quantity = 1/105 = 0.0095</li>
+            <li>etc.</li>
+        </ul>
+    </div>
+
+    <div class="key-points">
+        <h4>Key Points:</h4>
+        <ul>
+            <li>You're always <strong>buying</strong> options (long gamma/convexity)</li>
+            <li>The weighting makes far OTM options have smaller positions</li>
+            <li>Lower strikes get higher weightings due to the 1/K or 1/K² factor</li>
+            <li>You need both puts and calls to capture moves in both directions</li>
+        </ul>
+        <p><strong>In Practice:</strong> Dealers approximate this by buying options at available strikes and interpolating.</p>
+    </div>
+
+    <h2 id="comparison">Quick Comparison</h2>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Aspect</th>
+                <th>Variance Swap</th>
+                <th>Gamma Swap</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Weighting Formula</strong></td>
+                <td>1/K²</td>
+                <td>1/K</td>
+            </tr>
+            <tr>
+                <td><strong>Tail Exposure</strong></td>
+                <td>Lower (due to 1/K² weighting)</td>
+                <td>Higher (due to 1/K weighting)</td>
+            </tr>
+            <tr>
+                <td><strong>Example Quantity at $95 Strike</strong></td>
+                <td>0.000111</td>
+                <td>0.0105</td>
+            </tr>
+            <tr>
+                <td><strong>Hedging Approach</strong></td>
+                <td>Static replication possible</td>
+                <td>Static replication possible</td>
+            </tr>
+            <tr>
+                <td><strong>Market Liquidity</strong></td>
+                <td>Was popular, collapsed in 2008</td>
+                <td>Never gained meaningful traction</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
     
 </main>    
 
