@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variance and Gamma Swap Static Portfolio Theory</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            background-color: #ecf0f1;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        .formula {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            text-align: center;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .example-box {
+            background-color: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .key-points {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .problem-box {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .toc {
+            background-color: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .toc h3 {
+            margin-top: 0;
+            color: #1565c0;
+        }
+        .toc ul {
+            margin-bottom: 0;
+        }
+        .toc a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Static Portfolio Theory for Variance and Gamma Swaps</h1>
+
+        <div class="toc">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#theory">The Theory Behind Static Replication</a></li>
+                <li><a href="#variance-theory">Variance Swap Theory</a></li>
+                <li><a href="#gamma-theory">Gamma Swap Theory</a></li>
+                <li><a href="#practical">How Theory Translates to Trades</a></li>
+                <li><a href="#comparison">Quick Comparison</a></li>
+            </ul>
+        </div>
+
+        <h2 id="theory">The Theory Behind Static Replication</h2>
+        <p>The theory relies on replicating the payoffs using option pricing mathematics. Here are the key formulas:</p>
+
+        <h3 id="variance-theory">Variance Swap Theory</h3>
+        <p>The realized variance of a stock can be replicated by a portfolio weighted by <span class="highlight">1/K²</span>:</p>
+        
+        <div class="formula">
+            Variance ≈ ∫ (1/K²) × Option(K) dK
+        </div>
+
+        <p><strong>Where:</strong></p>
+        <ul>
+            <li><span class="math">K</span> = strike price</li>
+            <li>You buy both calls (K > S₀) and puts (K < S₀)</li>
+            <li>Weight each option by 1/strike²</li>
+            <li><span class="math">S₀</span> = current stock price</li>
+        </ul>
+
+        <p><strong>Why 1/K²?</strong> This comes from the mathematical relationship between option prices and realized variance in the Black-Scholes framework.</p>
+
+        <h3 id="gamma-theory">Gamma Swap Theory</h3>
+        <p>Gamma can be replicated with a different weighting - typically <span class="highlight">1/K</span>:</p>
+        
+        <div class="formula">
+            Gamma exposure ≈ ∫ (1/K) × Option(K) dK
+        </div>
+
+        <div class="key-points">
+            <h4>The Mathematical Intuition:</h4>
+            <ul>
+                <li>Options naturally capture convexity (gamma/variance effects)</li>
+                <li>By weighting options across all strikes with these specific formulas, the portfolio's payout automatically matches what variance/gamma swaps should pay</li>
+                <li>It's like the options "naturally aggregate" into the desired exposure</li>
+            </ul>
+        </div>
+
+        <div class="problem-box">
+            <h4>The Problem in Practice:</h4>
+            <p>You need options at <strong>every possible strike</strong>, but:</p>
+            <ul>
+                <li>Exchanges only list strikes in increments (5, 10, 25 point intervals)</li>
+                <li>Far out-of-the-money options are illiquid</li>
+                <li>Very low/high strikes might not exist at all</li>
+            </ul>
+            <p>So the "static" theory assumes infinite liquidity across all strikes, which doesn't exist in reality.</p>
+        </div>
+
+        <h2 id="practical">How Theory Translates to Actual Trades</h2>
+
+        <h3>Variance Swap - Long Position (receiving realized variance)</h3>
+        <p><strong>What you buy:</strong></p>
+        <ul>
+            <li><strong>Puts</strong> at all strikes below current stock price (K < S₀)</li>
+            <li><strong>Calls</strong> at all strikes above current stock price (K > S₀)</li>
+            <li>Each weighted by <span class="highlight">1/K²</span></li>
+        </ul>
+
+        <div class="example-box">
+            <h4>Example: Stock at $100</h4>
+            <ul>
+                <li>Buy put at $95 strike: quantity = 1/95² = 0.000111</li>
+                <li>Buy put at $90 strike: quantity = 1/90² = 0.000123</li>
+                <li>Buy call at $105 strike: quantity = 1/105² = 0.000091</li>
+                <li>Buy call at $110 strike: quantity = 1/110² = 0.000083</li>
+                <li>etc.</li>
+            </ul>
+        </div>
+
+        <h3>Gamma Swap - Long Position</h3>
+        <p><strong>What you buy:</strong></p>
+        <ul>
+            <li>Same structure (puts below, calls above current price)</li>
+            <li>But weighted by <span class="highlight">1/K</span> instead of <span class="highlight">1/K²</span></li>
+        </ul>
+
+        <div class="example-box">
+            <h4>Example: Stock at $100</h4>
+            <ul>
+                <li>Buy put at $95: quantity = 1/95 = 0.0105</li>
+                <li>Buy put at $90: quantity = 1/90 = 0.0111</li>
+                <li>Buy call at $105: quantity = 1/105 = 0.0095</li>
+                <li>etc.</li>
+            </ul>
+        </div>
+
+        <div class="key-points">
+            <h4>Key Points:</h4>
+            <ul>
+                <li>You're always <strong>buying</strong> options (long gamma/convexity)</li>
+                <li>The weighting makes far OTM options have smaller positions</li>
+                <li>Lower strikes get higher weightings due to the 1/K or 1/K² factor</li>
+                <li>You need both puts and calls to capture moves in both directions</li>
+            </ul>
+            <p><strong>In Practice:</strong> Dealers approximate this by buying options at available strikes and interpolating.</p>
+        </div>
+
+        <h2 id="comparison">Quick Comparison</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Variance Swap</th>
+                    <th>Gamma Swap</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Weighting Formula</strong></td>
+                    <td>1/K²</td>
+                    <td>1/K</td>
+                </tr>
+                <tr>
+                    <td><strong>Tail Exposure</strong></td>
+                    <td>Lower (due to 1/K² weighting)</td>
+                    <td>Higher (due to 1/K weighting)</td>
+                </tr>
+                <tr>
+                    <td><strong>Example Quantity at $95 Strike</strong></td>
+                    <td>0.000111</td>
+                    <td>0.0105</td>
+                </tr>
+                <tr>
+                    <td><strong>Hedging Approach</strong></td>
+                    <td>Static replication possible</td>
+                    <td>Static replication possible</td>
+                </tr>
+                <tr>
+                    <td><strong>Market Liquidity</strong></td>
+                    <td>Was popular, collapsed in 2008</td>
+                    <td>Never gained meaningful traction</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
