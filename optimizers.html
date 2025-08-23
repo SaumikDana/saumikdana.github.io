@@ -402,6 +402,17 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        .three-d-video video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .three-d-video video:hover {
+            transform: scale(1.02);
+        }
     </style>
 </head>
 <body>
@@ -449,24 +460,33 @@
                 </div>
             </div>
 
-            <div class="section" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb);">
-                <h3 style="color: #1565c0; margin-bottom: 20px;">📊 3D Optimization Landscapes</h3>
-                <p style="margin-bottom: 20px;">Visualizing complex optimization surfaces and their convergence patterns:</p>
-                <div class="grid-container">
-                    <img src="styblinski_tang_3d_visualization.png" alt="Styblinski-Tang 3D Visualization" class="grid-item">
+            <div class="grid-container">
+                <img src="styblinski_tang_3d_visualization.png" alt="Styblinski-Tang 3D Visualization" class="grid-item">
+            
+                <div class="three-d-video">
                     <video controls>
                         <source src="detailed_3d_styblinski_tang_3d.mp4" type="video/mp4">
                     </video>
-                    <img src="griewank_3d_visualization.png" alt="Griewank 3D Visualization" class="grid-item">
+                </div>
+            
+                <img src="griewank_3d_visualization.png" alt="Griewank 3D Visualization" class="grid-item">
+            
+                <div class="three-d-video">
                     <video controls>
                         <source src="detailed_3d_griewank_3d.mp4" type="video/mp4">
                     </video>
-                    <img src="rastrigin_3d_visualization.png" alt="Rastrigin 3D Visualization" class="grid-item">
+                </div>
+            
+                <img src="rastrigin_3d_visualization.png" alt="Rastrigin 3D Visualization" class="grid-item">
+            
+                <div class="three-d-video">
                     <video controls>
                         <source src="detailed_3d_rastrigin_3d.mp4" type="video/mp4">
                     </video>
                 </div>
             </div>
+            
+
         </section>
 
         <!-- CONSTRAINED OPTIMIZATION SECTION -->
