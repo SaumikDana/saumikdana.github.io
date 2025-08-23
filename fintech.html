@@ -894,7 +894,80 @@ Right group: 118 samples, mean=  -95.74
         </tbody>
     </table>
 </div>
-    
+
+
+<main class="wrap">
+<header>
+  <h1>Black–Scholes–Merton: Assumptions &amp; Where They're Used</h1>
+  <p>A quick mapping from each assumption to the exact step in the derivation and why it matters.</p>
+</header>
+
+<section class="card table-wrap" aria-label="Assumptions table">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Assumption</th>
+        <th scope="col">Where it's used in derivation</th>
+        <th scope="col">Why it's needed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Stock price follows GBM</strong> \(dS_t = \mu S_t\,dt + \sigma S_t\,dW_t\) with constant \(\mu,\sigma\)</td>
+        <td>Starting point; plug into Itô's Lemma for \(V(S,t)\)</td>
+        <td>Continuous paths, proportional volatility, lognormal prices → tractable and realistic enough for the model</td>
+      </tr>
+      <tr>
+        <td><strong>No transaction costs, taxes, bid–ask spreads</strong></td>
+        <td>Forming and continuously rebalancing \(\Pi = V - V_S S\)</td>
+        <td>Prevents hedging frictions; exact term-by-term cancellation relies on costless trading</td>
+      </tr>
+      <tr>
+        <td><strong>Continuous trading</strong></td>
+        <td>Maintain \(\Delta = V_S\) at every instant</td>
+        <td>Without continuous rebalancing, the random \(dW_t\) exposure reappears</td>
+      </tr>
+      <tr>
+        <td><strong>Short selling allowed</strong></td>
+        <td>Setting \(\Delta = V_S\) (which can be negative)</td>
+        <td>You must be able to short the stock to hedge options with negative delta</td>
+      </tr>
+      <tr>
+        <td><strong>Constant risk-free rate \(r\)</strong></td>
+        <td>Riskless-return step: \(d\Pi = r\,\Pi\,dt\)</td>
+        <td>Simplifies discounting/replication; yields constant-coefficient PDE</td>
+      </tr>
+      <tr>
+        <td><strong>No dividends</strong> (in basic form)</td>
+        <td>In the PDE drift term \(r S V_S\)</td>
+        <td>If dividends with yield \(q\) exist, replace \(r\) with \(r - q\) in the PDE</td>
+      </tr>
+      <tr>
+        <td><strong>No arbitrage</strong></td>
+        <td>Equating riskless growth: \(d\Pi = r\,\Pi\,dt\)</td>
+        <td>Forces any riskless portfolio to earn exactly the risk-free rate; pins down the PDE</td>
+      </tr>
+      <tr>
+        <td><strong>Complete market</strong> (every payoff can be replicated)</td>
+        <td>Implicit in replication/hedging argument</td>
+        <td>Guarantees the hedged portfolio matches the option's cash flows → unique price</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="note">
+    <strong>Resulting PDE:</strong><br/>
+    \[
+    V_t + \frac12\sigma^2 S^2 V_{SS} + r S V_S - r V = 0
+    \]
+    with terminal condition \(V(S,T)=\text{payoff}(S_T)\) (e.g., \(\max(S-K,0)\) for a call).
+  </p>
+</section>
+
+<footer>
+  <strong>Tip:</strong> To include continuous dividends at yield \(q\), use the same derivation but replace
+  \(r S V_S\) with \((r - q) S V_S\) in the PDE.
+</footer>
 </main>    
 
 <footer>
