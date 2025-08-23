@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandas for HackerRank - Essential Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 15px,
+                rgba(255, 255, 255, 0.1) 15px,
+                rgba(255, 255, 255, 0.1) 30px
+            );
+            animation: slide 25s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(-60px) translateY(-60px); }
+            100% { transform: translateX(60px) translateY(60px); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(60px);
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.2s; }
+        .section:nth-child(2) { animation-delay: 0.4s; }
+        .section:nth-child(3) { animation-delay: 0.6s; }
+        .section:nth-child(4) { animation-delay: 0.8s; }
+        .section:nth-child(5) { animation-delay: 1.0s; }
+        .section:nth-child(6) { animation-delay: 1.2s; }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 3px solid #ecf0f1;
+            padding-bottom: 15px;
+        }
+
+        .panda-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            animation: bounce 2s infinite;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .panda-icon.basics { background: linear-gradient(45deg, #4ecdc4, #44a08d); }
+        .panda-icon.reading { background: linear-gradient(45deg, #667eea, #764ba2); }
+        .panda-icon.filtering { background: linear-gradient(45deg, #f093fb, #f5576c); }
+        .panda-icon.grouping { background: linear-gradient(45deg, #ffecd2, #fcb69f); }
+        .panda-icon.manipulation { background: linear-gradient(45deg, #a8edea, #fed6e3); }
+        .panda-icon.advanced { background: linear-gradient(45deg, #ff9a9e, #fecfef); }
+
+        .pandas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .pandas-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 30px;
+            border-left: 5px solid;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .pandas-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .pandas-card:hover::before {
+            left: 100%;
+        }
+
+        .pandas-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pandas-card.dataframe { border-left-color: #4ecdc4; }
+        .pandas-card.series { border-left-color: #667eea; }
+        .pandas-card.indexing { border-left-color: #f093fb; }
+        .pandas-card.filtering { border-left-color: #ffecd2; }
+        .pandas-card.groupby { border-left-color: #a8edea; }
+        .pandas-card.merge { border-left-color: #ff9a9e; }
+
+        .pandas-card h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .pandas-card p {
+            color: #7f8c8d;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .code-showcase {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa726, #4ecdc4, #667eea);
+            animation: codeFlow 4s linear infinite;
+        }
+
+        @keyframes codeFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .code-showcase pre {
+            color: #ecf0f1;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        .code-highlight {
+            color: #ffa726;
+            font-weight: bold;
+        }
+
+        .method-highlight {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+
+        .string-highlight {
+            color: #ff6b6b;
+        }
+
+        .tip-container {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .tip-container::before {
+            content: '🐼';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2.5rem;
+            opacity: 0.4;
+            animation: wiggle 4s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+
+        .performance-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: end;
+            height: 180px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .perf-bar {
+            width: 18%;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            animation: growHeight 2s ease-out;
+            animation-delay: var(--delay);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            animation-fill-mode: forwards;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes growHeight {
+            to { transform: scaleY(1); }
+        }
+
+        .perf-bar:nth-child(1) { 
+            --delay: 0.3s; 
+            height: 50%; 
+            background: linear-gradient(to top, #4ecdc4, #44a08d); 
+        }
+        .perf-bar:nth-child(2) { 
+            --delay: 0.5s; 
+            height: 85%; 
+            background: linear-gradient(to top, #667eea, #764ba2); 
+        }
+        .perf-bar:nth-child(3) { 
+            --delay: 0.7s; 
+            height: 70%; 
+            background: linear-gradient(to top, #f093fb, #f5576c); 
+        }
+        .perf-bar:nth-child(4) { 
+            --delay: 0.9s; 
+            height: 95%; 
+            background: linear-gradient(to top, #ffa726, #ff7043); 
+        }
+
+        .perf-label {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa726, #4ecdc4, #667eea);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .cheat-sheet {
+            background: linear-gradient(135deg, #fff5f5, #fed7d7);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px solid #feb2b2;
+        }
+
+        .cheat-sheet h4 {
+            color: #c53030;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .cheat-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border-left: 3px solid #f56565;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.2rem; }
+            .header p { font-size: 1.1rem; }
+            .content { padding: 30px 25px; }
+            .section-title { font-size: 1.7rem; }
+            .pandas-grid { grid-template-columns: 1fr; }
+            .cheat-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-indicator" id="progressBar"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🐼 Pandas for HackerRank</h1>
+            <p>Master data manipulation for coding interviews</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon basics">🚀</div>
+                    Essential Pandas Basics
+                </h2>
+                <div class="pandas-grid">
+                    <div class="pandas-card dataframe">
+                        <h4>DataFrame Creation</h4>
+                        <p>Understanding how to create and initialize DataFrames from various sources - dictionaries, lists, CSV files, and other data structures.</p>
+                    </div>
+                    <div class="pandas-card series">
+                        <h4>Series Operations</h4>
+                        <p>Master Series as the building block of DataFrames, including indexing, slicing, and vectorized operations.</p>
+                    </div>
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Essential DataFrame Creation</span>
+import pandas as pd
+
+<span class="code-highlight"># From dictionary</span>
+data = {<span class="string-highlight">'name'</span>: [<span class="string-highlight">'Alice'</span>, <span class="string-highlight">'Bob'</span>, <span class="string-highlight">'Charlie'</span>],
+        <span class="string-highlight">'age'</span>: [25, 30, 35],
+        <span class="string-highlight">'salary'</span>: [50000, 60000, 70000]}
+df = pd.<span class="method-highlight">DataFrame</span>(data)
+
+<span class="code-highlight"># From CSV</span>
+df = pd.<span class="method-highlight">read_csv</span>(<span class="string-highlight">'data.csv'</span>)
+
+<span class="code-highlight"># Quick data inspection</span>
+df.<span class="method-highlight">head</span>()        <span class="code-highlight"># First 5 rows</span>
+df.<span class="method-highlight">info</span>()        <span class="code-highlight"># Data types and memory usage</span>
+df.<span class="method-highlight">describe</span>()    <span class="code-highlight"># Statistical summary</span></code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon reading">📊</div>
+                    Data Selection & Indexing
+                </h2>
+                <div class="pandas-grid">
+                    <div class="pandas-card indexing">
+                        <h4>Column Selection</h4>
+                        <p>Access single columns, multiple columns, and understand the difference between df['col'] and df[['col']].</p>
+                    </div>
+                    <div class="pandas-card filtering">
+                        <h4>Row Selection</h4>
+                        <p>Use .loc[], .iloc[], and boolean indexing to select specific rows and combinations of rows and columns.</p>
+                    </div>
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Column Selection</span>
+single_col = df[<span class="string-highlight">'name'</span>]                    <span class="code-highlight"># Returns Series</span>
+multi_cols = df[[<span class="string-highlight">'name'</span>, <span class="string-highlight">'salary'</span>]]        <span class="code-highlight"># Returns DataFrame</span>
+
+<span class="code-highlight"># Row Selection</span>
+first_row = df.<span class="method-highlight">iloc</span>[0]                   <span class="code-highlight"># By position</span>
+by_label = df.<span class="method-highlight">loc</span>[<span class="string-highlight">'Alice'</span>]             <span class="code-highlight"># By index label</span>
+
+<span class="code-highlight"># Boolean Indexing</span>
+high_salary = df[df[<span class="string-highlight">'salary'</span>] > 55000]
+adults = df[df[<span class="string-highlight">'age'</span>] >= 30]
+
+<span class="code-highlight"># Complex Conditions</span>
+result = df[(df[<span class="string-highlight">'age'</span>] > 25) & (df[<span class="string-highlight">'salary'</span>] < 65000)]</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon filtering">🔍</div>
+                    Data Filtering & Cleaning
+                </h2>
+                <div class="tip-container">
+                    <strong>Pro Tip:</strong> HackerRank problems often involve messy data. Master handling missing values, duplicates, and data type conversions early!
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Handle Missing Values</span>
+df.<span class="method-highlight">isnull</span>().<span class="method-highlight">sum</span>()                    <span class="code-highlight"># Count nulls per column</span>
+df.<span class="method-highlight">dropna</span>()                          <span class="code-highlight"># Remove rows with any null</span>
+df.<span class="method-highlight">fillna</span>(0)                        <span class="code-highlight"># Fill nulls with 0</span>
+df[<span class="string-highlight">'age'</span>].<span class="method-highlight">fillna</span>(df[<span class="string-highlight">'age'</span>].<span class="method-highlight">mean</span>()) <span class="code-highlight"># Fill with mean</span>
+
+<span class="code-highlight"># Remove Duplicates</span>
+df.<span class="method-highlight">drop_duplicates</span>()                <span class="code-highlight"># Remove duplicate rows</span>
+df.<span class="method-highlight">drop_duplicates</span>(subset=[<span class="string-highlight">'name'</span>])  <span class="code-highlight"># Based on specific column</span>
+
+<span class="code-highlight"># Data Type Conversion</span>
+df[<span class="string-highlight">'age'</span>] = df[<span class="string-highlight">'age'</span>].<span class="method-highlight">astype</span>(<span class="string-highlight">'int'</span>)
+df[<span class="string-highlight">'date'</span>] = pd.<span class="method-highlight">to_datetime</span>(df[<span class="string-highlight">'date'</span>])</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon grouping">📈</div>
+                    GroupBy & Aggregations
+                </h2>
+                <div class="performance-chart">
+                    <div class="perf-bar">
+                        <div class="perf-label">Basic<br>GroupBy</div>
+                    </div>
+                    <div class="perf-bar">
+                        <div class="perf-label">Multiple<br>Aggregations</div>
+                    </div>
+                    <div class="perf-bar">
+                        <div class="perf-label">Transform<br>Operations</div>
+                    </div>
+                    <div class="perf-bar">
+                        <div class="perf-label">Custom<br>Functions</div>
+                    </div>
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Basic GroupBy Operations</span>
+df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'department'</span>)[<span class="string-highlight">'salary'</span>].<span class="method-highlight">mean</span>()        <span class="code-highlight"># Average salary by dept</span>
+df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'department'</span>).<span class="method-highlight">size</span>()                  <span class="code-highlight"># Count by group</span>
+
+<span class="code-highlight"># Multiple Aggregations</span>
+df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'department'</span>).<span class="method-highlight">agg</span>({
+    <span class="string-highlight">'salary'</span>: [<span class="string-highlight">'mean'</span>, <span class="string-highlight">'max'</span>, <span class="string-highlight">'min'</span>],
+    <span class="string-highlight">'age'</span>: <span class="string-highlight">'mean'</span>
+})
+
+<span class="code-highlight"># Transform Operations</span>
+df[<span class="string-highlight">'salary_rank'</span>] = df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'dept'</span>)[<span class="string-highlight">'salary'</span>].<span class="method-highlight">rank</span>(ascending=False)
+df[<span class="string-highlight">'dept_avg'</span>] = df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'dept'</span>)[<span class="string-highlight">'salary'</span>].<span class="method-highlight">transform</span>(<span class="string-highlight">'mean'</span>)</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon manipulation">🔧</div>
+                    Data Manipulation
+                </h2>
+                <div class="pandas-grid">
+                    <div class="pandas-card groupby">
+                        <h4>Merging & Joining</h4>
+                        <p>Combine DataFrames using merge(), join(), and concat() with different join types (inner, outer, left, right).</p>
+                    </div>
+                    <div class="pandas-card merge">
+                        <h4>Reshaping Data</h4>
+                        <p>Transform data structure using pivot(), melt(), stack(), and unstack() for different analysis needs.</p>
+                    </div>
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Merging DataFrames</span>
+result = pd.<span class="method-highlight">merge</span>(df1, df2, on=<span class="string-highlight">'key'</span>, how=<span class="string-highlight">'inner'</span>)
+result = pd.<span class="method-highlight">merge</span>(df1, df2, left_on=<span class="string-highlight">'id'</span>, right_on=<span class="string-highlight">'user_id'</span>)
+
+<span class="code-highlight"># Concatenating</span>
+combined = pd.<span class="method-highlight">concat</span>([df1, df2], axis=0)        <span class="code-highlight"># Stack vertically</span>
+combined = pd.<span class="method-highlight">concat</span>([df1, df2], axis=1)        <span class="code-highlight"># Join horizontally</span>
+
+<span class="code-highlight"># Pivoting</span>
+pivot_table = df.<span class="method-highlight">pivot_table</span>(
+    values=<span class="string-highlight">'sales'</span>, 
+    index=<span class="string-highlight">'month'</span>, 
+    columns=<span class="string-highlight">'product'</span>, 
+    aggfunc=<span class="string-highlight">'sum'</span>
+)</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon advanced">⚡</div>
+                    Performance & Memory Tips
+                </h2>
+                
+                <div class="pandas-grid">
+                    <div class="pandas-card dataframe">
+                        <h4>Memory Optimization</h4>
+                        <p>Use categorical data types, optimize dtypes, and leverage chunking for large datasets in HackerRank challenges.</p>
+                    </div>
+                    <div class="pandas-card series">
+                        <h4>Vectorization</h4>
+                        <p>Avoid loops by using pandas built-in functions and numpy operations for faster execution times.</p>
+                    </div>
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Memory Optimization</span>
+df[<span class="string-highlight">'category'</span>] = df[<span class="string-highlight">'category'</span>].<span class="method-highlight">astype</span>(<span class="string-highlight">'category'</span>)    <span class="code-highlight"># Save memory</span>
+df.<span class="method-highlight">memory_usage</span>(deep=True)                      <span class="code-highlight"># Check memory usage</span>
+
+<span class="code-highlight"># Efficient Operations - Use these instead of loops!</span>
+<span class="code-highlight"># Instead of: for i in range(len(df)): ...</span>
+df[<span class="string-highlight">'new_col'</span>] = df[<span class="string-highlight">'col1'</span>] * df[<span class="string-highlight">'col2'</span>]        <span class="code-highlight"># Vectorized multiplication</span>
+df[<span class="string-highlight">'conditional'</span>] = np.<span class="method-highlight">where</span>(df[<span class="string-highlight">'age'</span>] > 30, <span class="string-highlight">'Senior'</span>, <span class="string-highlight">'Junior'</span>)
+
+<span class="code-highlight"># Use .query() for complex filtering (faster)</span>
+result = df.<span class="method-highlight">query</span>(<span class="string-highlight">'age > 25 and salary < 60000'</span>)</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon reading">🎯</div>
+                    Common HackerRank Patterns
+                </h2>
+                
+                <div class="tip-container">
+                    <strong>🏆 Interview Pattern Alert:</strong> These patterns appear in 80% of pandas HackerRank problems!
+                </div>
+                
+                <div class="pandas-grid">
+                    <div class="pandas-card filtering">
+                        <h4>Top N Problems</h4>
+                        <p>Find top/bottom N records by value, often combined with groupby operations for category-wise rankings.</p>
+                    </div>
+                    <div class="pandas-card groupby">
+                        <h4>Data Validation</h4>
+                        <p>Check data quality, find inconsistencies, and validate relationships between columns.</p>
+                    </div>
+                    <div class="pandas-card indexing">
+                        <h4>Time Series Analysis</h4>
+                        <p>Date-based filtering, resampling, and calculating time-based metrics like moving averages.</p>
+                    </div>
+                    <div class="pandas-card merge">
+                        <h4>Multi-table Joins</h4>
+                        <p>Complex joins across multiple DataFrames with different key combinations and join types.</p>
+                    </div>
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Pattern 1: Top N per Group (Very Common!)</span>
+top_earners = df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'department'</span>).<span class="method-highlight">apply</span>(
+    lambda x: x.<span class="method-highlight">nlargest</span>(3, <span class="string-highlight">'salary'</span>)
+).<span class="method-highlight">reset_index</span>(drop=True)
+
+<span class="code-highlight"># Pattern 2: Percentage Calculations</span>
+df[<span class="string-highlight">'pct_of_total'</span>] = df[<span class="string-highlight">'sales'</span>] / df[<span class="string-highlight">'sales'</span>].<span class="method-highlight">sum</span>() * 100
+df[<span class="string-highlight">'pct_of_group'</span>] = df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'region'</span>)[<span class="string-highlight">'sales'</span>].<span class="method-highlight">transform</span>(
+    lambda x: x / x.<span class="method-highlight">sum</span>() * 100
+)
+
+<span class="code-highlight"># Pattern 3: Data Validation</span>
+<span class="code-highlight"># Find duplicates</span>
+duplicates = df[df.<span class="method-highlight">duplicated</span>(subset=[<span class="string-highlight">'email'</span>], keep=False)]
+<span class="code-highlight"># Find outliers using IQR</span>
+Q1 = df[<span class="string-highlight">'salary'</span>].<span class="method-highlight">quantile</span>(0.25)
+Q3 = df[<span class="string-highlight">'salary'</span>].<span class="method-highlight">quantile</span>(0.75)
+IQR = Q3 - Q1
+outliers = df[(df[<span class="string-highlight">'salary'</span>] < Q1 - 1.5*IQR) | (df[<span class="string-highlight">'salary'</span>] > Q3 + 1.5*IQR)]</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon manipulation">🔥</div>
+                    Advanced Techniques
+                </h2>
+                
+                <div class="pandas-grid">
+                    <div class="pandas-card dataframe">
+                        <h4>Custom Functions</h4>
+                        <p>Create and apply custom functions efficiently using apply(), map(), and lambda expressions.</p>
+                    </div>
+                    <div class="pandas-card series">
+                        <h4>Multi-level Operations</h4>
+                        <p>Work with MultiIndex DataFrames and hierarchical data structures for complex analysis.</p>
+                    </div>
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Custom Functions with Apply</span>
+def calculate_bonus(row):
+    if row[<span class="string-highlight">'performance'</span>] > 4:
+        return row[<span class="string-highlight">'salary'</span>] * 0.1
+    return 0
+
+df[<span class="string-highlight">'bonus'</span>] = df.<span class="method-highlight">apply</span>(calculate_bonus, axis=1)
+
+<span class="code-highlight"># Advanced String Operations</span>
+df[<span class="string-highlight">'first_name'</span>] = df[<span class="string-highlight">'full_name'</span>].<span class="method-highlight">str</span>.<span class="method-highlight">extract</span>(<span class="string-highlight">r'(\w+)'</span>)
+df[<span class="string-highlight">'domain'</span>] = df[<span class="string-highlight">'email'</span>].<span class="method-highlight">str</span>.<span class="method-highlight">extract</span>(<span class="string-highlight">r'@(\w+\.\w+)'</span>)
+
+<span class="code-highlight"># MultiIndex Operations</span>
+multi_df = df.<span class="method-highlight">set_index</span>([<span class="string-highlight">'department'</span>, <span class="string-highlight">'team'</span>])
+result = multi_df.<span class="method-highlight">groupby</span>(level=[0, 1]).<span class="method-highlight">mean</span>()</code></pre>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon basics">🚨</div>
+                    Common Mistakes to Avoid
+                </h2>
+                
+                <div class="cheat-sheet">
+                    <h4>⚠️ Pitfalls That Cost Points</h4>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px;">
+                        <div style="background: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+                            <strong>❌ DON'T:</strong> <code>df = df.append(new_row)</code><br>
+                            <strong>✅ DO:</strong> <code>df = pd.concat([df, pd.DataFrame([new_row])])</code>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+                            <strong>❌ DON'T:</strong> Use loops for operations<br>
+                            <strong>✅ DO:</strong> Use vectorized operations and built-in methods
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+                            <strong>❌ DON'T:</strong> Forget <code>inplace=True</code> when you want to modify original<br>
+                            <strong>✅ DO:</strong> Be explicit about whether you want a copy or modification
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.9); padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+                            <strong>❌ DON'T:</strong> Chain too many operations without intermediate checks<br>
+                            <strong>✅ DO:</strong> Validate data at each step for complex transformations
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <div class="panda-icon grouping">🎪</div>
+                    Practice Problems
+                </h2>
+                
+                <div class="tip-container">
+                    <strong>💪 Challenge Yourself:</strong> Try to solve these common interview patterns before looking at solutions!
+                </div>
+                
+                <div class="pandas-grid">
+                    <div class="pandas-card filtering">
+                        <h4>Problem 1: Employee Analysis</h4>
+                        <p>Find the top 3 highest-paid employees in each department, along with their salary percentile within their department.</p>
+                    </div>
+                    <div class="pandas-card groupby">
+                        <h4>Problem 2: Sales Trends</h4>
+                        <p>Calculate month-over-month growth rate for each product category and identify products with declining sales.</p>
+                    </div>
+                    <div class="pandas-card indexing">
+                        <h4>Problem 3: Customer Segmentation</h4>
+                        <p>Segment customers based on recency, frequency, and monetary value (RFM analysis) using pandas operations.</p>
+                    </div>
+                    <div class="pandas-card merge">
+                        <h4>Problem 4: Data Quality Check</h4>
+                        <p>Identify and report all data quality issues: missing values, duplicates, outliers, and inconsistent formatting.</p>
+                    </div>
+                </div>
+                
+                <div class="code-showcase">
+                    <pre><code><span class="code-highlight"># Sample Solution: Top N with Percentiles</span>
+def analyze_employees(df):
+    <span class="code-highlight"># Add salary percentile within department</span>
+    df[<span class="string-highlight">'salary_percentile'</span>] = df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'department'</span>)[<span class="string-highlight">'salary'</span>].<span class="method-highlight">rank</span>(pct=True)
+    
+    <span class="code-highlight"># Get top 3 per department</span>
+    top_employees = df.<span class="method-highlight">groupby</span>(<span class="string-highlight">'department'</span>).<span class="method-highlight">apply</span>(
+        lambda x: x.<span class="method-highlight">nlargest</span>(3, <span class="string-highlight">'salary'</span>)
+    ).<span class="method-highlight">reset_index</span>(drop=True)
+    
+    return top_employees[[<span class="string-highlight">'name'</span>, <span class="string-highlight">'department'</span>, <span class="string-highlight">'salary'</span>, <span class="string-highlight">'salary_percentile'</span>]]
+
+<span class="code-highlight"># Sample Solution: Month-over-Month Growth</span>
+def calculate_mom_growth(df):
+    df[<span class="string-highlight">'date'</span>] = pd.<span class="method-highlight">to_datetime</span>(df[<span class="string-highlight">'date'</span>])
+    df[<span class="string-highlight">'month'</span>] = df[<span class="string-highlight">'date'</span>].<span class="method-highlight">dt</span>.<span class="method-highlight">to_period</span>(<span class="string-highlight">'M'</span>)
+    
+    monthly_sales = df.<span class="method-highlight">groupby</span>([<span class="string-highlight">'category'</span>, <span class="string-highlight">'month'</span>])[<span class="string-highlight">'sales'</span>].<span class="method-highlight">sum</span>()
+    growth_rate = monthly_sales.<span class="method-highlight">groupby</span>(<span class="string-highlight">'category'</span>).<span class="method-highlight">pct_change</span>()
+    
+    return growth_rate.<span class="method-highlight">reset_index</span>()</code></pre>
+                </div>
+                
+                <div class="tip-container">
+                    <strong>🎯 Final Tips for Success:</strong>
+                    <br>• Always start with <code>df.head()</code> and <code>df.info()</code> to understand your data
+                    <br>• Use <code>df.shape</code> to verify your transformations didn't lose/gain unexpected rows
+                    <br>• Test edge cases: empty DataFrames, single rows, all null values
+                    <br>• Remember that pandas is 0-indexed, but many business problems are 1-indexed
+                    <br>• Use <code>.copy()</code> when you need to avoid SettingWithCopyWarning
+                    <br>• Time yourself - most pandas problems should be solvable in 15-30 minutes
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Progress bar animation
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Enhanced card interactions
+        document.querySelectorAll('.pandas-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-12px) scale(1.03)';
+                this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
+            });
+        });
+
+        // Code showcase click effects
+        document.querySelectorAll('.code-showcase').forEach(code => {
+            code.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+                
+                // Copy to clipboard functionality
+                const codeText = this.querySelector('pre code').textContent;
+                navigator.clipboard.writeText(codeText).then(() => {
+                    // Show temporary feedback
+                    const feedback = document.createElement('div');
+                    feedback.textContent = 'Code copied to clipboard!';
+                    feedback.style.cssText = `
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background: #4ecdc4;
+                        color: white;
+                        padding: 8px 15px;
+                        border-radius: 5px;
+                        font-size: 0.9rem;
+                        z-index: 1000;
+                        animation: fadeInOut 2s ease-in-out;
+                    `;
+                    this.appendChild(feedback);
+                    setTimeout(() => {
+                        this.removeChild(feedback);
+                    }, 2000);
+                });
+            });
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Dynamic panda icon animations
+        document.querySelectorAll('.panda-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.style.animation = 'bounce 0.6s ease-in-out';
+            });
+        });
+
+        // Add CSS for fadeInOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateY(-10px); }
+                20%, 80% { opacity: 1; transform: translateY(0); }
+                100% { opacity: 0; transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
