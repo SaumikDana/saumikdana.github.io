@@ -6,51 +6,51 @@
   <title>VaR Sweep Visualizer</title>
   <style>
     :root {
-      --bg: #0f172a; /* slate-900 */
-      --panel: #111827; /* gray-900 */
-      --text: #e5e7eb; /* gray-200 */
-      --muted: #9ca3af; /* gray-400 */
-      --accent: #60a5fa; /* blue-400 */
-      --accent-2: #f87171; /* red-400 */
-      --grid: #374151; /* gray-700 */
+      --bg: #ffffff; /* white */
+      --panel: #f8fafc; /* slate-50 */
+      --text: #1e293b; /* slate-800 */
+      --muted: #64748b; /* slate-500 */
+      --accent: #2563eb; /* blue-600 */
+      --accent-2: #dc2626; /* red-600 */
+      --grid: #e2e8f0; /* slate-200 */
     }
     * { box-sizing: border-box; }
     body {
       margin: 0; padding: 24px; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 20% -10%, #1f2937 0%, var(--bg) 60%); color: var(--text);
+      background: radial-gradient(1200px 600px at 20% -10%, #f1f5f9 0%, var(--bg) 60%); color: var(--text);
     }
     h1 { font-size: 20px; margin: 0 0 12px; letter-spacing: .3px; }
     .app { max-width: 1200px; margin: 0 auto; }
-    .card { background: linear-gradient(180deg, #0b1220, #0b1220cc 70%, #0b1220); border: 1px solid #1f2937; border-radius: 16px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+    .card { background: linear-gradient(180deg, #ffffff, #fefefe 70%, #ffffff); border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.1); }
     .row { display: grid; grid-template-columns: 1.5fr .8fr; gap: 18px; align-items: start; }
-    .controls { background: var(--panel); border: 1px solid #1f2937; border-radius: 14px; padding: 14px; }
+    .controls { background: var(--panel); border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px; }
     .controls .group { margin-bottom: 12px; }
     label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-    input[type="number"] { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #273043; background: #0b1220; color: var(--text); }
+    input[type="number"] { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #cbd5e1; background: #ffffff; color: var(--text); }
     input[type="range"] { width: 100%; }
     .inline { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .stat { font-feature-settings: "tnum" on, "lnum" on; font-variant-numeric: tabular-nums; }
-    .stat b { color: white; }
-    button { appearance: none; border: 1px solid #1f2937; background: linear-gradient(180deg, #1e293b, #0f172a); color: #e5e7eb; padding: 9px 12px; border-radius: 12px; cursor: pointer; }
+    .stat b { color: #0f172a; }
+    button { appearance: none; border: 1px solid #e2e8f0; background: linear-gradient(180deg, #f8fafc, #f1f5f9); color: #1e293b; padding: 9px 12px; border-radius: 12px; cursor: pointer; }
     button:hover { filter: brightness(1.1); }
-    canvas { width: 100%; height: 460px; border-radius: 12px; background: #0b1220; border: 1px solid #1f2937; display: block; }
+    canvas { width: 100%; height: 460px; border-radius: 12px; background: #ffffff; border: 1px solid #e2e8f0; display: block; }
     .legend { font-size: 12px; color: var(--muted); margin-top: 8px; }
     .legend span { display: inline-flex; align-items: center; gap: 6px; margin-right: 14px; }
     .chip { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
     .chip.blue { background: var(--accent); }
     .chip.red { background: var(--accent-2); }
     .footer { font-size: 12px; color: var(--muted); margin-top: 12px; }
-    .kbd { background: #0b1220; border: 1px solid #1f2937; padding: 2px 6px; border-radius: 6px; font-size: 11px; }
+    .kbd { background: #f8fafc; border: 1px solid #e2e8f0; padding: 2px 6px; border-radius: 6px; font-size: 11px; }
 
     /* Proof section styles */
     .container {
       max-width: 1200px;
       margin: 40px auto 0;
       padding: 20px;
-      background: linear-gradient(180deg, #0b1220, #0b1220cc 70%, #0b1220);
-      border: 1px solid #1f2937;
+      background: linear-gradient(180deg, #ffffff, #fefefe 70%, #ffffff);
+      border: 1px solid #e2e8f0;
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,.1);
       color: var(--text);
     }
     .container h1 {
@@ -63,12 +63,12 @@
       font-size: 18px;
       margin: 20px 0 10px;
       color: var(--text);
-      border-bottom: 1px solid #1f2937;
+      border-bottom: 1px solid #e2e8f0;
       padding-bottom: 8px;
     }
     .formula {
       background: var(--panel);
-      border: 1px solid #1f2937;
+      border: 1px solid #e2e8f0;
       border-radius: 8px;
       padding: 15px;
       margin: 15px 0;
@@ -79,17 +79,17 @@
     }
     .step {
       background: var(--panel);
-      border: 1px solid #1f2937;
+      border: 1px solid #e2e8f0;
       border-radius: 8px;
       padding: 15px;
       margin: 15px 0;
     }
     .highlight {
-      background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(96, 165, 250, 0.05));
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(37, 99, 235, 0.05));
       border-color: var(--accent);
     }
     .failure {
-      background: linear-gradient(135deg, rgba(248, 113, 113, 0.1), rgba(248, 113, 113, 0.05));
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(220, 38, 38, 0.05));
       border-color: var(--accent-2);
     }
     .conclusion {
@@ -99,7 +99,7 @@
     .math {
       font-family: 'Courier New', monospace;
       color: var(--accent);
-      background: rgba(96, 165, 250, 0.1);
+      background: rgba(37, 99, 235, 0.1);
       padding: 2px 6px;
       border-radius: 4px;
     }
@@ -290,8 +290,8 @@
     // grid
     ctx.save();
     ctx.translate(pad, pad);
-    ctx.fillStyle = '#0b1220'; ctx.fillRect(0,0,plotW,plotH);
-    ctx.strokeStyle = '#1f2937'; ctx.lineWidth = 1;
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,plotW,plotH);
+    ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
     for(let i=0;i<=8;i++){
       const gx = i/8*plotW; ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,plotH); ctx.stroke();
     }
@@ -306,7 +306,7 @@
     const yToPx = y => plotH - (y/yMax)*plotH*0.95;
 
     // pdf curve
-    ctx.strokeStyle = '#60a5fa'; ctx.lineWidth = 2.2; ctx.beginPath();
+    ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.2; ctx.beginPath();
     const N=600; for(let i=0;i<=N;i++){
       const x = xmin + (xmax - xmin)*i/N; const y = pdf(x, mu, sigma); const X = xToPx(x), Y = yToPx(y);
       if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
@@ -315,7 +315,7 @@
 
     // shade left tail up to xCut
     const xCutClamped = Math.max(xmin, Math.min(xmax, xCut));
-    ctx.fillStyle = 'rgba(248, 113, 113, 0.45)'; ctx.beginPath();
+    ctx.fillStyle = 'rgba(220, 38, 38, 0.3)'; ctx.beginPath();
     ctx.moveTo(0, plotH);
     for(let i=0;i<=N;i++){
       const x = xmin + (xCutClamped - xmin)*i/N; const y = pdf(x, mu, sigma); const X=xToPx(x), Y=yToPx(y);
@@ -324,16 +324,16 @@
     ctx.lineTo(xToPx(xCutClamped), plotH); ctx.closePath(); ctx.fill();
 
     // cutoff line
-    ctx.strokeStyle = '#f87171'; ctx.setLineDash([6,6]); ctx.lineWidth = 2; ctx.beginPath();
+    ctx.strokeStyle = '#dc2626'; ctx.setLineDash([6,6]); ctx.lineWidth = 2; ctx.beginPath();
     ctx.moveTo(xToPx(xCutClamped), 0); ctx.lineTo(xToPx(xCutClamped), plotH); ctx.stroke(); ctx.setLineDash([]);
 
     // axes labels
-    ctx.fillStyle = '#9ca3af'; ctx.font = '12px ui-sans-serif, system-ui';
+    ctx.fillStyle = '#64748b'; ctx.font = '12px ui-sans-serif, system-ui';
     // x ticks (percent)
     for(let i=-4;i<=4;i++){
       const x = mu + i*sigma; const X = xToPx(x); const label = ( (x)*100 ).toFixed(1)+'%';
       ctx.fillText(label, X-16, plotH+18);
-      ctx.beginPath(); ctx.moveTo(X, plotH); ctx.lineTo(X, plotH+4); ctx.strokeStyle = '#9ca3af'; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(X, plotH); ctx.lineTo(X, plotH+4); ctx.strokeStyle = '#64748b'; ctx.stroke();
     }
     ctx.fillText('Portfolio Return →', plotW-130, plotH+36);
 
@@ -344,9 +344,9 @@
     statsDiv.innerHTML = `
       <div class="stat">Left-tail probability at cutoff = <b>${(leftArea*100).toFixed(2)}%</b></div>
       <div class="stat">(Interpretation: ${((1-leftArea)*100).toFixed(2)}% chance of returns being worse than the cutoff)</div>
-      <hr style="border: none; border-top: 1px solid #1f2937; margin: 10px 0;">
+      <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 10px 0;">
       <div class="stat">VaR<sub>95</sub> (from distribution) = <b>${(var95*100).toFixed(2)}% loss</b>  
-        <span style="color:#9ca3af">→ corresponds to cutoff at 5th percentile</span>
+        <span style="color:#64748b">→ corresponds to cutoff at 5th percentile</span>
       </div>
     `;
 
