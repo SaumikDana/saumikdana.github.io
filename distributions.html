@@ -874,6 +874,7 @@ input:focus {
         let currentDistribution = 'binomial';
 
         const distributions = {
+
             binomial: {
                 name: 'Binomial Distribution',
                 description: 'Models the number of successes in n independent trials with probability p.',
@@ -887,6 +888,41 @@ input:focus {
                 parameters: [
                     {name: 'n', label: 'Number of trials (n)', min: 1, max: 50, default: 20, step: 1},
                     {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.3, step: 0.01}
+                ],
+                pmf: (k, params) => {
+                    const n = Math.max(1, Math.floor(params.n || 20));
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.3));
+                    if (k < 0 || k > n) return 0;
+                    return combination(n, k) * Math.pow(p, k) * Math.pow(1-p, n-k);
+                },
+                range: (params) => {
+                    const n = Math.max(1, Math.floor(params.n || 20));
+                    return Array.from({length: n + 1}, (_, i) => i);
+                },
+                mean: (params) => {
+                    const n = Math.max(1, Math.floor(params.n || 20));
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.3));
+                    return n * p;
+                },
+                variance: (params) => {
+                    const n = Math.max(1, Math.floor(params.n || 20));
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.3));
+                    return n * p * (1 - p);
+                }
+            },
+
+            poisson: {
+                name: 'Poisson Distribution',
+                description: 'Models the number of events occurring in a fixed interval of time or space.',
+                applications: [
+                    'Customer service: Number of calls received per hour',
+                    'Manufacturing: Number of defects per unit',
+                    'Biology: Number of mutations per genome',
+                    'Traffic: Number of accidents per day',
+                    'Network: Number of packets arriving per second'
+                ],
+                parameters: [
+                    {name: 'lambda', label: 'Rate parameter (λ)', min: 0.1, max: 20, default: 3, step: 0.1}
                 ],
                 pmf: (k, params) => {
                     const lambda = Math.max(0.1, params.lambda || 3);
