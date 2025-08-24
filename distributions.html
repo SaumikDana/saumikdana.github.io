@@ -141,16 +141,9 @@ header::before {
 
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr auto;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 40px;
     margin-top: 60px;
-}
-
-.video-container.comparison-video {
-    grid-column: 1 / -1;
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .video-container {
@@ -188,15 +181,18 @@ header::before {
     gap: 10px;
 }
 
-.video-container video {
+.video-placeholder {
     width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
     border-radius: 15px;
-    box-shadow: var(--shadow-md);
-    transition: transform 0.3s ease;
-}
-
-.video-container:hover video {
-    transform: scale(1.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+    border: 2px dashed var(--border-color);
 }
 
 /* Probability Section */
@@ -243,7 +239,12 @@ header::before {
     height: 100%;
     background: var(--gradient-primary);
     transition: left 0.3s ease;
-    z-index: -1;
+    z-index: 0;
+}
+
+.dist-btn span {
+    position: relative;
+    z-index: 1;
 }
 
 .dist-btn:hover::before {
@@ -450,6 +451,153 @@ header::before {
     background: var(--gradient-primary);
 }
 
+/* VaR Section */
+.var-section {
+    padding: 80px 0;
+    background: var(--bg-primary);
+}
+
+.var-card {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #ffffff, #fefefe 70%, #ffffff);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+}
+
+.var-title {
+    font-size: 24px;
+    margin: 0 0 20px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.var-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+    align-items: start;
+}
+
+.var-chart-container {
+    position: relative;
+}
+
+.var-canvas {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    display: block;
+}
+
+.var-controls {
+    background: var(--bg-secondary);
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.var-control-group {
+    margin-bottom: 16px;
+}
+
+.var-control-group label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.var-btn {
+    appearance: none;
+    border: 1px solid #e2e8f0;
+    background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+    color: #1e293b;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 500;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.var-btn:hover {
+    filter: brightness(1.05);
+}
+
+.var-btn.active {
+    background: linear-gradient(180deg, var(--primary-color), #1e40af);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.var-btn.play {
+    background: linear-gradient(180deg, var(--success-color), #047857);
+    color: white;
+    border-color: var(--success-color);
+}
+
+.var-stats {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 16px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+.var-stats strong {
+    color: var(--text-primary);
+}
+
+.var-display {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--danger-color);
+    text-align: center;
+    padding: 8px;
+}
+
+.var-legend {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.var-legend span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.chip {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}
+
+.chip.blue { background: var(--primary-color); }
+.chip.red { background: var(--danger-color); }
+.chip.green { background: var(--success-color); }
+
+.var-explanation {
+    margin-top: 16px;
+    padding: 16px;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
 /* Footer */
 footer {
     background: var(--text-primary);
@@ -461,7 +609,8 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .visualization-area {
+    .visualization-area,
+    .var-content {
         grid-template-columns: 1fr;
         gap: 30px;
     }
@@ -473,6 +622,10 @@ footer {
     .chart-container {
         height: 500px;
     }
+    
+    .var-canvas {
+        height: 400px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -480,23 +633,19 @@ footer {
         padding: 0 15px;
     }
     
-    .video-section, .probability-section {
+    .video-section, 
+    .probability-section,
+    .var-section {
         padding: 60px 0;
     }
     
     .video-grid {
         grid-template-columns: 1fr;
-        grid-template-rows: auto;
         gap: 30px;
     }
     
     .video-container {
         padding: 20px;
-    }
-    
-    .video-container.comparison-video {
-        grid-column: 1;
-        max-width: 100%;
     }
     
     .distribution-buttons {
@@ -509,13 +658,18 @@ footer {
         width: 200px;
     }
     
-    .chart-container {
-        height: 400px;
+    .chart-container,
+    .var-card {
         padding: 20px;
     }
     
-    .controls {
+    .controls,
+    .var-controls {
         padding: 20px;
+    }
+    
+    .var-legend {
+        justify-content: center;
     }
 }
 
@@ -524,12 +678,9 @@ footer {
         font-size: 2rem;
     }
     
-    .section-title {
+    .section-title,
+    .var-title {
         font-size: 1.75rem;
-    }
-    
-    .video-grid {
-        grid-template-columns: 1fr;
     }
     
     .video-container {
@@ -564,6 +715,7 @@ input:focus {
     outline-offset: 2px;
 }
 </style>
+
 </head>
 <body>
     <header>
@@ -582,26 +734,26 @@ input:focus {
             <div class="video-grid">
                 <div class="video-container">
                     <h3>🔵 Skewness</h3>
-                    <video controls preload="metadata">
-                        <source src="skew_distribution_animation.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="video-placeholder">
+                        Video: Skewness Distribution Animation<br>
+                        <small>(Replace with your video file)</small>
+                    </div>
                 </div>
                 
                 <div class="video-container">
                     <h3>🟠 Kurtosis</h3>
-                    <video controls preload="metadata">
-                        <source src="kurtosis_distribution_animation.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="video-placeholder">
+                        Video: Kurtosis Distribution Animation<br>
+                        <small>(Replace with your video file)</small>
+                    </div>
                 </div>
                 
                 <div class="video-container">
                     <h3>⚖️ Value at Risk</h3>
-                    <video controls preload="metadata">
-                        <source src="simple_var_animation.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="video-placeholder">
+                        Video: Simple VaR Animation<br>
+                        <small>(Replace with your video file)</small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -613,12 +765,24 @@ input:focus {
             
             <div class="distribution-selector">
                 <div class="distribution-buttons">
-                    <button class="dist-btn active" onclick="selectDistribution('binomial')">Binomial</button>
-                    <button class="dist-btn" onclick="selectDistribution('poisson')">Poisson</button>
-                    <button class="dist-btn" onclick="selectDistribution('geometric')">Geometric</button>
-                    <button class="dist-btn" onclick="selectDistribution('negativeBinomial')">Negative Binomial</button>
-                    <button class="dist-btn" onclick="selectDistribution('hypergeometric')">Hypergeometric</button>
-                    <button class="dist-btn" onclick="selectDistribution('uniform')">Uniform</button>
+                    <button class="dist-btn active" data-distribution="binomial">
+                        <span>Binomial</span>
+                    </button>
+                    <button class="dist-btn" data-distribution="poisson">
+                        <span>Poisson</span>
+                    </button>
+                    <button class="dist-btn" data-distribution="geometric">
+                        <span>Geometric</span>
+                    </button>
+                    <button class="dist-btn" data-distribution="negativeBinomial">
+                        <span>Negative Binomial</span>
+                    </button>
+                    <button class="dist-btn" data-distribution="hypergeometric">
+                        <span>Hypergeometric</span>
+                    </button>
+                    <button class="dist-btn" data-distribution="uniform">
+                        <span>Uniform</span>
+                    </button>
                 </div>
             </div>
 
@@ -657,11 +821,53 @@ input:focus {
         </div>
     </section>
 
-    <footer>
+    <section class="var-section">
         <div class="container">
-            <p>© 2025 Saumik Dana. All rights reserved.</p>
+            <div class="var-card">
+                <h1 class="var-title">VaR Portfolio Optimization Animation</h1>
+                <div class="var-content">
+                    <div class="var-chart-container">
+                        <canvas id="varPlot" class="var-canvas" width="850" height="500"></canvas>
+                        <div class="var-legend">
+                            <span><i class="chip blue"></i> Initial Portfolio</span>
+                            <span><i class="chip red"></i> Fixed Loss Threshold (initial VaR₉₅)</span>
+                            <span><i class="chip green"></i> Optimized Portfolio</span>
+                        </div>
+                        <div class="var-explanation">
+                            <strong>What you're seeing:</strong> The red line stays fixed at the original VaR₉₅ level. As we optimize the portfolio (green curve), the distribution shifts right, dramatically reducing the probability of losses worse than our original threshold. The red shaded area shrinks from 5% to much less!
+                        </div>
+                    </div>
+                    
+                    <div class="var-controls">
+                        <div class="var-control-group">
+                            <label>Animation Control</label>
+                            <button id="varPlayBtn" class="var-btn play">▶ Start Optimization</button>
+                            <button id="varResetBtn" class="var-btn">⟲ Reset</button>
+                        </div>
+                        
+                        <div class="var-control-group">
+                            <label>Optimization Strategy</label>
+                            <button id="varShiftBtn" class="var-btn active">Shift Right (↗ returns)</button>
+                            <button id="varTightenBtn" class="var-btn">Tighten (↓ volatility)</button>
+                            <button id="varBothBtn" class="var-btn">Both Strategies</button>
+                        </div>
+                        
+                        <div class="var-display" id="varDisplay">
+                            VaR₉₅ = 3.29%
+                        </div>
+                        
+                        <div class="var-stats" id="varStatsDisplay">
+                            <div><strong>Current Portfolio:</strong></div>
+                            <div>• Mean return: 0.0%</div>
+                            <div>• Volatility: 2.0%</div>
+                            <div>• 5th percentile: -3.29%</div>
+                            <div><strong>Progress:</strong> 0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
+    </section>
 
     <script>
         let currentChart = null;
@@ -683,38 +889,25 @@ input:focus {
                     {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.3, step: 0.01}
                 ],
                 pmf: (k, params) => {
-                    const {n, p} = params;
-                    if (k > n || k < 0) return 0;
-                    return combination(n, k) * Math.pow(p, k) * Math.pow(1-p, n-k);
+                    const lambda = Math.max(0.1, params.lambda || 3);
+                    return poissonPMF(k, lambda);
                 },
-                range: (params) => Array.from({length: params.n + 1}, (_, i) => i),
-                mean: (params) => params.n * params.p,
-                variance: (params) => params.n * params.p * (1 - params.p)
-            },
-
-            poisson: {
-                name: 'Poisson Distribution',
-                description: 'Models the number of events occurring with constant average rate λ.',
-                applications: [
-                    'Call centers: Number of calls received per hour',
-                    'Website traffic: Page views per minute',
-                    'Manufacturing: Number of defects per unit time',
-                    'Biology: Number of mutations in DNA sequences',
-                    'Queuing theory: Customer arrivals at service points'
-                ],
-                parameters: [
-                    {name: 'lambda', label: 'Average rate (λ)', min: 0.1, max: 20, default: 3, step: 0.1}
-                ],
-                pmf: (k, params) => {
-                    const {lambda} = params;
-                    if (k < 0) return 0;
-                    return (Math.pow(Math.E, -lambda) * Math.pow(lambda, k)) / factorial(k);
+                range: (params) => {
+                    const lambda = Math.max(0.1, params.lambda || 3);
+                    // More conservative range to prevent numerical issues
+                    const maxK = Math.min(30, Math.max(15, Math.ceil(lambda * 2 + 10)));
+                    return Array.from({length: maxK + 1}, (_, i) => i);
                 },
-                range: (params) => Array.from({length: Math.min(50, Math.max(20, Math.ceil(params.lambda * 3)))}, (_, i) => i),
-                mean: (params) => params.lambda,
-                variance: (params) => params.lambda
+                mean: (params) => {
+                    const lambda = Math.max(0.1, params.lambda || 3);
+                    return lambda;
+                },
+                variance: (params) => {
+                    const lambda = Math.max(0.1, params.lambda || 3);
+                    return lambda;
+                }
             },
-
+            
             geometric: {
                 name: 'Geometric Distribution',
                 description: 'Models the number of trials until the first success occurs.',
@@ -729,13 +922,23 @@ input:focus {
                     {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.2, step: 0.01}
                 ],
                 pmf: (k, params) => {
-                    const {p} = params;
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.2));
                     if (k < 1) return 0;
                     return Math.pow(1-p, k-1) * p;
                 },
-                range: (params) => Array.from({length: Math.min(50, Math.ceil(10/params.p))}, (_, i) => i + 1),
-                mean: (params) => 1 / params.p,
-                variance: (params) => (1 - params.p) / (params.p * params.p)
+                range: (params) => {
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.2));
+                    const maxK = Math.min(50, Math.ceil(10/p));
+                    return Array.from({length: maxK}, (_, i) => i + 1);
+                },
+                mean: (params) => {
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.2));
+                    return 1 / p;
+                },
+                variance: (params) => {
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.2));
+                    return (1 - p) / (p * p);
+                }
             },
 
             negativeBinomial: {
@@ -753,13 +956,27 @@ input:focus {
                     {name: 'p', label: 'Probability of success (p)', min: 0.01, max: 0.99, default: 0.3, step: 0.01}
                 ],
                 pmf: (k, params) => {
-                    const {r, p} = params;
+                    const r = Math.max(1, Math.floor(params.r || 3));
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.3));
                     if (k < r) return 0;
                     return combination(k-1, r-1) * Math.pow(p, r) * Math.pow(1-p, k-r);
                 },
-                range: (params) => Array.from({length: Math.min(100, Math.ceil(params.r/params.p * 3))}, (_, i) => i + params.r),
-                mean: (params) => params.r / params.p,
-                variance: (params) => (params.r * (1 - params.p)) / (params.p * params.p)
+                range: (params) => {
+                    const r = Math.max(1, Math.floor(params.r || 3));
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.3));
+                    const maxK = Math.min(100, Math.ceil(r/p * 3));
+                    return Array.from({length: maxK}, (_, i) => i + r);
+                },
+                mean: (params) => {
+                    const r = Math.max(1, Math.floor(params.r || 3));
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.3));
+                    return r / p;
+                },
+                variance: (params) => {
+                    const r = Math.max(1, Math.floor(params.r || 3));
+                    const p = Math.max(0.01, Math.min(0.99, params.p || 0.3));
+                    return (r * (1 - p)) / (p * p);
+                }
             },
 
             hypergeometric: {
@@ -783,8 +1000,18 @@ input:focus {
                     return (combination(K, k) * combination(N-K, n-k)) / combination(N, n);
                 },
                 range: (params) => {
-                    const minK = Math.max(0, params.n - (params.N - params.K));
-                    const maxK = Math.min(params.n, params.K);
+                    const N = Math.max(10, Math.floor(params.N || 50));
+                    const K = Math.max(1, Math.min(N-1, Math.floor(params.K || 20)));
+                    const n = Math.max(1, Math.min(N, Math.floor(params.n || 10)));
+                    
+                    const minK = Math.max(0, n - (N - K));
+                    const maxK = Math.min(n, K);
+                    
+                    if (minK > maxK) {
+                        // Fallback to a simple range if constraints are impossible
+                        return [0];
+                    }
+                    
                     return Array.from({length: maxK - minK + 1}, (_, i) => i + minK);
                 },
                 mean: (params) => (params.n * params.K) / params.N,
@@ -807,23 +1034,63 @@ input:focus {
                     {name: 'b', label: 'Upper bound (b)', min: 2, max: 50, default: 10, step: 1}
                 ],
                 pmf: (k, params) => {
-                    const {a, b} = params;
-                    if (k < a || k > b) return 0;
-                    return 1 / (b - a + 1);
+                    const a = Math.floor(params.a || 1);
+                    const b = Math.floor(params.b || 10);
+                    const validB = Math.max(a + 1, b);
+                    
+                    if (k < a || k > validB) return 0;
+                    return 1 / (validB - a + 1);
                 },
-                range: (params) => Array.from({length: params.b - params.a + 1}, (_, i) => i + params.a),
-                mean: (params) => (params.a + params.b) / 2,
-                variance: (params) => ((params.b - params.a + 1) * (params.b - params.a + 1) - 1) / 12
+                range: (params) => {
+                    const a = Math.floor(params.a || 1);
+                    const b = Math.floor(params.b || 10);
+                    const validB = Math.max(a + 1, b);
+                    
+                    return Array.from({length: validB - a + 1}, (_, i) => i + a);
+                },
+                mean: (params) => {
+                    const a = Math.floor(params.a || 1);
+                    const b = Math.floor(params.b || 10);
+                    const validB = Math.max(a + 1, b);
+                    return (a + validB) / 2;
+                },
+                variance: (params) => {
+                    const a = Math.floor(params.a || 1);
+                    const b = Math.floor(params.b || 10);
+                    const validB = Math.max(a + 1, b);
+                    return ((validB - a + 1) * (validB - a + 1) - 1) / 12;
+                }
             }
         };
 
         function factorial(n) {
             if (n <= 1) return 1;
+            if (n > 170) return Infinity; // Prevent overflow
             let result = 1;
             for (let i = 2; i <= n; i++) {
                 result *= i;
             }
             return result;
+        }
+
+        // More stable Poisson PMF calculation using log space
+        function poissonPMF(k, lambda) {
+            if (k < 0) return 0;
+            if (k > 500) return 0; // Prevent extreme values
+            
+            // For large k, use Stirling's approximation in log space
+            if (k > 170) {
+                // log(P(X=k)) = k*log(λ) - λ - log(k!)
+                // Using Stirling's approximation: log(k!) ≈ k*log(k) - k + 0.5*log(2π*k)
+                const logK = Math.log(k);
+                const logLambda = Math.log(lambda);
+                const stirlingLogFactorial = k * logK - k + 0.5 * Math.log(2 * Math.PI * k);
+                const logProb = k * logLambda - lambda - stirlingLogFactorial;
+                return Math.exp(logProb);
+            }
+            
+            // Standard calculation for reasonable k values
+            return (Math.pow(Math.E, -lambda) * Math.pow(lambda, k)) / factorial(k);
         }
 
         function combination(n, k) {
@@ -839,16 +1106,28 @@ input:focus {
         }
 
         function selectDistribution(dist) {
+            // Remove active class from all buttons
             document.querySelectorAll('.dist-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            
+            // Add active class to clicked button
+            const clickedButton = event.target.closest('.dist-btn');
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
             
             currentDistribution = dist;
+            console.log('Selected distribution:', dist);
+            
             updateControls();
             updateVisualization();
         }
 
         function updateControls() {
             const dist = distributions[currentDistribution];
+            if (!dist) {
+                console.error('Distribution not found:', currentDistribution);
+                return;
+            }
             
             const applicationsHTML = `
                 <div class="applications-list">
@@ -859,11 +1138,14 @@ input:focus {
                 </div>
             `;
             
-            document.getElementById('distInfo').innerHTML = `
-                <h3>${dist.name}</h3>
-                <p>${dist.description}</p>
-                ${applicationsHTML}
-            `;
+            const distInfoEl = document.getElementById('distInfo');
+            if (distInfoEl) {
+                distInfoEl.innerHTML = `
+                    <h3>${dist.name}</h3>
+                    <p>${dist.description}</p>
+                    ${applicationsHTML}
+                `;
+            }
 
             const controlsHTML = dist.parameters.map(param => `
                 <div class="control-group">
@@ -874,11 +1156,15 @@ input:focus {
                            max="${param.max}" 
                            step="${param.step}" 
                            value="${param.default}"
-                           onchange="updateVisualization()">
+                           onchange="updateVisualization()"
+                           oninput="handleParameterChange(this)">
                 </div>
             `).join('');
             
-            document.getElementById('parameterControls').innerHTML = controlsHTML;
+            const parameterControlsEl = document.getElementById('parameterControls');
+            if (parameterControlsEl) {
+                parameterControlsEl.innerHTML = controlsHTML;
+            }
         }
 
         function getParameters() {
@@ -887,185 +1173,606 @@ input:focus {
             
             dist.parameters.forEach(param => {
                 const element = document.getElementById(param.name);
-                params[param.name] = parseFloat(element.value);
+                if (element) {
+                    let value = parseFloat(element.value);
+                    // Fallback to default if invalid
+                    if (isNaN(value) || !isFinite(value)) {
+                        value = param.default;
+                        element.value = value; // Reset the input to default
+                    }
+                    // Clamp to valid range
+                    value = Math.max(param.min, Math.min(param.max, value));
+                    params[param.name] = value;
+                } else {
+                    params[param.name] = param.default;
+                }
             });
             
             return params;
         }
 
+        function handleParameterChange(input) {
+            // Add visual feedback for parameter changes
+            const value = parseFloat(input.value);
+            const min = parseFloat(input.min);
+            const max = parseFloat(input.max);
+            
+            if (value < min || value > max || isNaN(value)) {
+                input.style.borderColor = '#ef4444';
+                input.style.backgroundColor = '#fef2f2';
+            } else {
+                input.style.borderColor = '#10b981';
+                input.style.backgroundColor = '#f0fdf4';
+                setTimeout(() => {
+                    input.style.borderColor = '';
+                    input.style.backgroundColor = '';
+                }, 1000);
+                updateVisualization();
+            }
+        }
+
         function updateVisualization() {
-            const dist = distributions[currentDistribution];
-            const params = getParameters();
-            
-            // Validate parameters for hypergeometric
-            if (currentDistribution === 'hypergeometric') {
-                if (params.K > params.N) {
-                    document.getElementById('K').value = params.N;
-                    params.K = params.N;
+            try {
+                const dist = distributions[currentDistribution];
+                if (!dist) {
+                    console.error('Distribution not found:', currentDistribution);
+                    return;
                 }
-                if (params.n > params.N) {
-                    document.getElementById('n').value = params.N;
-                    params.n = params.N;
+                
+                const params = getParameters();
+                        // Debug log parameters (properly formatted)
+                        console.log('Parameters for', currentDistribution + ':', JSON.stringify(params, null, 2));
+                
+                // Extra validation for hypergeometric parameters
+                if (currentDistribution === 'hypergeometric') {
+                    // Ensure K <= N
+                    if (params.K > params.N) {
+                        params.K = Math.min(params.K, params.N);
+                        const kElement = document.getElementById('K');
+                        if (kElement) kElement.value = params.K;
+                    }
+                    // Ensure n <= N
+                    if (params.n > params.N) {
+                        params.n = Math.min(params.n, params.N);
+                        const nElement = document.getElementById('n');
+                        if (nElement) nElement.value = params.n;
+                    }
+                    // Update max attributes dynamically
+                    const kElement = document.getElementById('K');
+                    const nElement = document.getElementById('n');
+                    if (kElement) kElement.max = params.N - 1;
+                    if (nElement) nElement.max = params.N;
                 }
-            }
-            
-            // Validate parameters for uniform
-            if (currentDistribution === 'uniform' && params.a >= params.b) {
-                document.getElementById('b').value = params.a + 1;
-                params.b = params.a + 1;
-            }
-
-            const range = dist.range(params);
-            const probabilities = range.map(k => dist.pmf(k, params));
-            
-            // Update statistics
-            const mean = dist.mean(params);
-            const variance = dist.variance(params);
-            const stddev = Math.sqrt(variance);
-            
-            document.getElementById('meanValue').textContent = mean.toFixed(3);
-            document.getElementById('varianceValue').textContent = variance.toFixed(3);
-            document.getElementById('stddevValue').textContent = stddev.toFixed(3);
-
-            // Update chart
-            if (currentChart) {
-                currentChart.destroy();
-            }
-
-            const ctx = document.getElementById('distributionChart').getContext('2d');
-            
-            // Create gradient for bars
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(102, 126, 234, 0.8)');
-            gradient.addColorStop(1, 'rgba(118, 75, 162, 0.8)');
-
-            currentChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: range.map(k => k.toString()),
-                    datasets: [{
-                        label: 'Probability',
-                        data: probabilities,
-                        backgroundColor: gradient,
-                        borderColor: 'rgba(102, 126, 234, 1)',
-                        borderWidth: 2,
-                        borderRadius: 8,
-                        borderSkipped: false,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: dist.name,
-                            font: {
-                                size: 18,
-                                weight: 'bold',
-                                family: 'Inter'
-                            },
-                            color: '#1a202c',
-                            padding: 20
-                        },
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(26, 32, 44, 0.9)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: 'rgba(102, 126, 234, 1)',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            displayColors: false,
-                            callbacks: {
-                                title: function(context) {
-                                    return `X = ${context[0].label}`;
-                                },
-                                label: function(context) {
-                                    return `P(X = ${context.label}) = ${context.parsed.y.toFixed(4)}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Value (k)',
-                                font: {
-                                    weight: 'bold',
-                                    size: 14,
-                                    family: 'Inter'
-                                },
-                                color: '#4a5568'
-                            },
-                            grid: {
-                                color: 'rgba(226, 232, 240, 0.5)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#718096',
-                                font: {
-                                    family: 'JetBrains Mono'
-                                }
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Probability P(X = k)',
-                                font: {
-                                    weight: 'bold',
-                                    size: 14,
-                                    family: 'Inter'
-                                },
-                                color: '#4a5568'
-                            },
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(226, 232, 240, 0.5)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#718096',
-                                font: {
-                                    family: 'JetBrains Mono'
-                                },
-                                callback: function(value) {
-                                    return value.toFixed(3);
-                                }
-                            }
-                        }
-                    },
-                    animation: {
-                        duration: 1000,
-                        easing: 'easeInOutQuart'
-                    },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
+                
+                // Extra validation for uniform parameters
+                if (currentDistribution === 'uniform') {
+                    if (params.a >= params.b) {
+                        params.b = params.a + 1;
+                        const bElement = document.getElementById('b');
+                        if (bElement) bElement.value = params.b;
                     }
                 }
-            });
+
+                // Calculate range and probabilities
+                let range, probabilities;
+                try {
+                    range = dist.range(params);
+                    if (!range || range.length === 0) {
+                        console.error('Empty range for distribution:', currentDistribution);
+                        return;
+                    }
+                    
+                    probabilities = range.map(k => {
+                        try {
+                            const prob = dist.pmf(k, params);
+                            return isNaN(prob) || !isFinite(prob) ? 0 : prob;
+                        } catch (e) {
+                            console.warn(`Error calculating PMF for k=${k}:`, e);
+                            return 0;
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error calculating range/probabilities:', e);
+                    return;
+                }
+                
+                // Update statistics with error handling
+                let mean, variance, stddev;
+                try {
+                    mean = dist.mean(params);
+                    variance = dist.variance(params);
+                    stddev = Math.sqrt(Math.max(0, variance)); // Ensure non-negative for sqrt
+                } catch (e) {
+                    console.warn('Error calculating statistics:', e);
+                    mean = 0;
+                    variance = 0;
+                    stddev = 0;
+                }
+                
+                // Ensure we have valid numbers
+                mean = isNaN(mean) || !isFinite(mean) ? 0 : mean;
+                variance = isNaN(variance) || !isFinite(variance) ? 0 : variance;
+                stddev = isNaN(stddev) || !isFinite(stddev) ? 0 : stddev;
+                
+                const meanEl = document.getElementById('meanValue');
+                const varianceEl = document.getElementById('varianceValue');
+                const stddevEl = document.getElementById('stddevValue');
+                
+                if (meanEl) meanEl.textContent = mean.toFixed(3);
+                if (varianceEl) varianceEl.textContent = variance.toFixed(3);
+                if (stddevEl) stddevEl.textContent = stddev.toFixed(3);
+
+                // Update chart
+                if (currentChart) {
+                    currentChart.destroy();
+                    currentChart = null;
+                }
+
+                const chartCanvas = document.getElementById('distributionChart');
+                if (!chartCanvas) {
+                    console.error('Chart canvas not found');
+                    return;
+                }
+
+                const ctx = chartCanvas.getContext('2d');
+                if (!ctx) {
+                    console.error('Cannot get chart context');
+                    return;
+                }
+                
+                // Create gradient for bars
+                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                gradient.addColorStop(0, 'rgba(102, 126, 234, 0.8)');
+                gradient.addColorStop(1, 'rgba(118, 75, 162, 0.8)');
+
+                currentChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: range.map(k => k.toString()),
+                        datasets: [{
+                            label: 'Probability',
+                            data: probabilities,
+                            backgroundColor: gradient,
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: dist.name,
+                                font: {
+                                    size: 18,
+                                    weight: 'bold',
+                                    family: 'Inter'
+                                },
+                                color: '#1a202c',
+                                padding: 20
+                            },
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(26, 32, 44, 0.9)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff',
+                                borderColor: 'rgba(102, 126, 234, 1)',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                displayColors: false,
+                                callbacks: {
+                                    title: function(context) {
+                                        return `X = ${context[0].label}`;
+                                    },
+                                    label: function(context) {
+                                        return `P(X = ${context.label}) = ${context.parsed.y.toFixed(4)}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Value (k)',
+                                    font: {
+                                        weight: 'bold',
+                                        size: 14,
+                                        family: 'Inter'
+                                    },
+                                    color: '#4a5568'
+                                },
+                                grid: {
+                                    color: 'rgba(226, 232, 240, 0.5)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#718096',
+                                    font: {
+                                        family: 'JetBrains Mono'
+                                    }
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Probability P(X = k)',
+                                    font: {
+                                        weight: 'bold',
+                                        size: 14,
+                                        family: 'Inter'
+                                    },
+                                    color: '#4a5568'
+                                },
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(226, 232, 240, 0.5)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#718096',
+                                    font: {
+                                        family: 'JetBrains Mono'
+                                    },
+                                    callback: function(value) {
+                                        return value.toFixed(3);
+                                    }
+                                }
+                            }
+                        },
+                        animation: {
+                            duration: 1000,
+                            easing: 'easeInOutQuart'
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error updating visualization:', error);
+                // Display user-friendly error message
+                const meanEl = document.getElementById('meanValue');
+                const varianceEl = document.getElementById('varianceValue');
+                const stddevEl = document.getElementById('stddevValue');
+                
+                if (meanEl) meanEl.textContent = 'Error';
+                if (varianceEl) varianceEl.textContent = 'Error';
+                if (stddevEl) stddevEl.textContent = 'Error';
+            }
+        }
+
+        // VaR Animation Code
+        let varAnimationId = null;
+        let varT = 0;
+        let varIsPlaying = false;
+        let varStrategy = 'shift';
+        
+        const varInitial = { mu: 0, sigma: 0.02 };
+        const varTargets = {
+            shift: { mu: 0.01, sigma: 0.02 },
+            tighten: { mu: 0, sigma: 0.012 },
+            both: { mu: 0.008, sigma: 0.014 }
+        };
+
+        // Math helpers for VaR
+        function erf(x) {
+            const sign = Math.sign(x); x = Math.abs(x);
+            const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+            const t = 1/(1+p*x);
+            const y = 1 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-x*x);
+            return sign*y;
+        }
+        
+        function pdf(x, mu, sigma) {
+            const z = (x-mu)/sigma;
+            return Math.exp(-0.5*z*z)/(sigma*Math.sqrt(2*Math.PI));
+        }
+        
+        function quantile(p, mu, sigma) {
+            return mu + sigma * (-1.64485362695147);
+        }
+
+        function cdf(x, mu, sigma) {
+            return 0.5 * (1 + erf((x - mu) / (sigma * Math.sqrt(2))));
+        }
+
+        function lerp(start, end, t) {
+            return start + (end - start) * t;
+        }
+
+        function easeInOut(t) {
+            return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+
+        function getCurrentVarParams() {
+            const target = varTargets[varStrategy];
+            const easedT = easeInOut(varT);
+            return {
+                mu: lerp(varInitial.mu, target.mu, easedT),
+                sigma: lerp(varInitial.sigma, target.sigma, easedT)
+            };
+        }
+
+        function drawVarChart() {
+            const canvas = document.getElementById('varPlot');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            const pad = 60;
+            const plotW = w - 2*pad, plotH = h - 2*pad;
+            
+            ctx.clearRect(0, 0, w, h);
+            ctx.save();
+            ctx.translate(pad, pad);
+            
+            // Background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, plotW, plotH);
+            
+            // Grid
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            for(let i = 0; i <= 10; i++) {
+                const x = i/10 * plotW;
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, plotH); ctx.stroke();
+            }
+            for(let i = 0; i <= 8; i++) {
+                const y = i/8 * plotH;
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(plotW, y); ctx.stroke();
+            }
+
+            // Domain: -6% to +4%
+            const xmin = -0.06, xmax = 0.04;
+            const xToPx = x => (x - xmin)/(xmax - xmin) * plotW;
+            
+            // Current and initial parameters
+            const current = getCurrentVarParams();
+            const initialVar95 = -quantile(0.05, varInitial.mu, varInitial.sigma);
+            const currentVar95 = -quantile(0.05, current.mu, current.sigma);
+            
+            // Y scaling based on max PDF
+            const yMax = Math.max(pdf(varInitial.mu, varInitial.mu, varInitial.sigma), pdf(current.mu, current.mu, current.sigma));
+            const yToPx = y => plotH - (y/yMax) * plotH * 0.9;
+
+            // Draw initial distribution (blue, lighter if animating)
+            ctx.strokeStyle = varIsPlaying ? 'rgba(37, 99, 235, 0.4)' : '#2563eb';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for(let i = 0; i <= 400; i++) {
+                const x = xmin + (xmax - xmin) * i/400;
+                const y = pdf(x, varInitial.mu, varInitial.sigma);
+                const X = xToPx(x), Y = yToPx(y);
+                if(i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+            }
+            ctx.stroke();
+
+            // Draw current distribution (green, if different from initial)
+            if(varT > 0.01) {
+                ctx.strokeStyle = '#059669';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                for(let i = 0; i <= 400; i++) {
+                    const x = xmin + (xmax - xmin) * i/400;
+                    const y = pdf(x, current.mu, current.sigma);
+                    const X = xToPx(x), Y = yToPx(y);
+                    if(i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+                }
+                ctx.stroke();
+            }
+
+            // Fixed VaR line (at initial VaR₉₅ position)
+            const fixedVar95X = xToPx(-initialVar95);
+            ctx.strokeStyle = '#dc2626';
+            ctx.setLineDash([8, 4]);
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(fixedVar95X, 0);
+            ctx.lineTo(fixedVar95X, plotH);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Shade left tail (area to left of FIXED line for current distribution)
+            const params = varT > 0.01 ? current : varInitial;
+            const leftTailX = Math.min(-initialVar95, xmax);
+            
+            ctx.fillStyle = 'rgba(220, 38, 38, 0.2)';
+            ctx.beginPath();
+            ctx.moveTo(0, plotH);
+            
+            if(-initialVar95 > xmin) {
+                const steps = Math.floor(200 * (leftTailX - xmin) / (xmax - xmin));
+                for(let i = 0; i <= steps; i++) {
+                    const x = xmin + (leftTailX - xmin) * i/steps;
+                    const y = pdf(x, params.mu, params.sigma);
+                    const X = xToPx(x), Y = yToPx(y);
+                    if(i === 0) ctx.lineTo(X, Y); else ctx.lineTo(X, Y);
+                }
+                ctx.lineTo(fixedVar95X, plotH);
+            } else {
+                ctx.lineTo(0, plotH);
+            }
+            ctx.closePath();
+            ctx.fill();
+
+            // Zero line
+            const zeroX = xToPx(0);
+            ctx.strokeStyle = '#374151';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(zeroX, 0);
+            ctx.lineTo(zeroX, plotH);
+            ctx.stroke();
+
+            // X-axis labels
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px ui-sans-serif, system-ui';
+            for(let i = -6; i <= 4; i += 2) {
+                const x = i/100;
+                const X = xToPx(x);
+                ctx.fillText(`${i}%`, X - 10, plotH + 20);
+            }
+            ctx.fillText('Portfolio Return →', plotW - 100, plotH + 40);
+
+            // Y-axis label
+            ctx.save();
+            ctx.translate(15, plotH/2);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('Probability Density', -40, 0);
+            ctx.restore();
+
+            ctx.restore();
+
+            // Calculate probability to left of fixed line for current distribution  
+            const currentProbability = cdf(-initialVar95, current.mu, current.sigma);
+            const newVar95 = -quantile(0.05, current.mu, current.sigma);
+            
+            // Update displays
+            const varDisplayEl = document.getElementById('varDisplay');
+            const varStatsEl = document.getElementById('varStatsDisplay');
+            
+            if (varDisplayEl) {
+                varDisplayEl.innerHTML = `
+                    <div style="font-size: 14px; color: #64748b; margin-bottom: 4px;">Fixed at initial VaR₉₅:</div>
+                    <div style="font-size: 18px; font-weight: 600; color: #dc2626;">${(initialVar95*100).toFixed(2)}%</div>
+                    <div style="font-size: 12px; color: #059669; margin-top: 4px;">Risk reduced by ${((1 - currentProbability/0.05) * 100).toFixed(1)}%</div>
+                `;
+            }
+            
+            if (varStatsEl) {
+                const progress = Math.round(varT * 100);
+                varStatsEl.innerHTML = `
+                    <div><strong>Current Portfolio:</strong></div>
+                    <div>• Mean return: ${(current.mu*100).toFixed(1)}%</div>
+                    <div>• Volatility: ${(current.sigma*100).toFixed(1)}%</div>
+                    <div>• Prob(loss > ${(initialVar95*100).toFixed(2)}%): <strong>${(currentProbability*100).toFixed(2)}%</strong></div>
+                    <div>• New VaR₉₅: ${(newVar95*100).toFixed(2)}%</div>
+                    <div><strong>Progress:</strong> ${progress}%</div>
+                `;
+            }
+        }
+
+        function animateVar() {
+            if(!varIsPlaying) return;
+            
+            varT += 0.008;
+            if(varT >= 1) {
+                varT = 1;
+                varIsPlaying = false;
+                const playBtn = document.getElementById('varPlayBtn');
+                if (playBtn) {
+                    playBtn.textContent = '✓ Optimization Complete';
+                    playBtn.classList.remove('play');
+                }
+            }
+            
+            drawVarChart();
+            
+            if(varIsPlaying) {
+                varAnimationId = requestAnimationFrame(animateVar);
+            }
+        }
+
+        function startVarAnimation() {
+            const playBtn = document.getElementById('varPlayBtn');
+            if (!playBtn) return;
+            
+            if(varIsPlaying) {
+                varIsPlaying = false;
+                playBtn.textContent = '▶ Start Optimization';
+                playBtn.classList.add('play');
+                if(varAnimationId) cancelAnimationFrame(varAnimationId);
+            } else {
+                varIsPlaying = true;
+                playBtn.textContent = '⏸ Pause';
+                playBtn.classList.add('play');
+                animateVar();
+            }
+        }
+
+        function resetVar() {
+            varIsPlaying = false;
+            varT = 0;
+            const playBtn = document.getElementById('varPlayBtn');
+            if (playBtn) {
+                playBtn.textContent = '▶ Start Optimization';
+                playBtn.classList.add('play');
+            }
+            if(varAnimationId) cancelAnimationFrame(varAnimationId);
+            drawVarChart();
+        }
+
+        function setVarStrategy(newStrategy) {
+            varStrategy = newStrategy;
+            const shiftBtn = document.getElementById('varShiftBtn');
+            const tightenBtn = document.getElementById('varTightenBtn');
+            const bothBtn = document.getElementById('varBothBtn');
+            
+            [shiftBtn, tightenBtn, bothBtn].forEach(btn => btn && btn.classList.remove('active'));
+            
+            if(newStrategy === 'shift' && shiftBtn) shiftBtn.classList.add('active');
+            else if(newStrategy === 'tighten' && tightenBtn) tightenBtn.classList.add('active');
+            else if(bothBtn) bothBtn.classList.add('active');
+            
+            if(!varIsPlaying) drawVarChart();
         }
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            // Add loading state
-            const chartContainer = document.querySelector('.chart-container');
-            chartContainer.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100%;"><div class="loading"></div></div>';
-            
-            // Initialize after a short delay to show loading
-            setTimeout(() => {
-                chartContainer.innerHTML = '<canvas id="distributionChart"></canvas>';
-                updateControls();
-                updateVisualization();
-            }, 500);
+            try {
+                // Add loading state for main chart
+                const chartContainer = document.querySelector('.chart-container');
+                if (chartContainer) {
+                    chartContainer.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100%;"><div class="loading"></div></div>';
+                }
+                
+                // Initialize after a short delay
+                setTimeout(() => {
+                    if (chartContainer) {
+                        chartContainer.innerHTML = '<canvas id="distributionChart"></canvas>';
+                    }
+                    updateControls();
+                    updateVisualization();
+                    
+                    // Set up distribution button event listeners
+                    document.querySelectorAll('.dist-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const distribution = this.getAttribute('data-distribution');
+                            if (distribution) {
+                                selectDistribution(distribution);
+                            }
+                        });
+                    });
+                    
+                    // Initialize VaR chart
+                    drawVarChart();
+                    
+                    // Set up VaR event listeners
+                    const varPlayBtn = document.getElementById('varPlayBtn');
+                    const varResetBtn = document.getElementById('varResetBtn');
+                    const varShiftBtn = document.getElementById('varShiftBtn');
+                    const varTightenBtn = document.getElementById('varTightenBtn');
+                    const varBothBtn = document.getElementById('varBothBtn');
+                    
+                    if (varPlayBtn) varPlayBtn.addEventListener('click', startVarAnimation);
+                    if (varResetBtn) varResetBtn.addEventListener('click', resetVar);
+                    if (varShiftBtn) varShiftBtn.addEventListener('click', () => setVarStrategy('shift'));
+                    if (varTightenBtn) varTightenBtn.addEventListener('click', () => setVarStrategy('tighten'));
+                    if (varBothBtn) varBothBtn.addEventListener('click', () => setVarStrategy('both'));
+                }, 500);
+            } catch (error) {
+                console.error('Error initializing application:', error);
+            }
         });
 
-        // Add smooth scroll behavior for better UX
+        // Add smooth scroll behavior
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1078,430 +1785,6 @@ input:focus {
                 }
             });
         });
-
-        // Add keyboard navigation for distribution buttons
-        document.addEventListener('keydown', function(e) {
-            if (e.target.classList.contains('dist-btn')) {
-                const buttons = Array.from(document.querySelectorAll('.dist-btn'));
-                const currentIndex = buttons.indexOf(e.target);
-                
-                let newIndex = currentIndex;
-                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                    newIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
-                    e.preventDefault();
-                } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                    newIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
-                    e.preventDefault();
-                }
-                
-                if (newIndex !== currentIndex) {
-                    buttons[newIndex].focus();
-                }
-                
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.target.click();
-                    e.preventDefault();
-                }
-            }
-        });
-
-        // Add parameter validation with visual feedback
-        function validateInput(input) {
-            const value = parseFloat(input.value);
-            const min = parseFloat(input.min);
-            const max = parseFloat(input.max);
-            
-            if (value < min || value > max || isNaN(value)) {
-                input.style.borderColor = '#ef4444';
-                input.style.backgroundColor = '#fef2f2';
-                return false;
-            } else {
-                input.style.borderColor = '#10b981';
-                input.style.backgroundColor = '#f0fdf4';
-                setTimeout(() => {
-                    input.style.borderColor = '';
-                    input.style.backgroundColor = '';
-                }, 1000);
-                return true;
-            }
-        }
-
-        // Enhanced input validation
-        document.addEventListener('input', function(e) {
-            if (e.target.type === 'number' && e.target.closest('.control-group')) {
-                if (validateInput(e.target)) {
-                    updateVisualization();
-                }
-            }
-        });
     </script>
-
-  <style>
-    :root {
-      --bg: #ffffff;
-      --panel: #f8fafc;
-      --text: #1e293b;
-      --muted: #64748b;
-      --accent: #2563eb;
-      --accent-2: #dc2626;
-      --grid: #e2e8f0;
-      --green: #059669;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; padding: 24px; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 20% -10%, #f1f5f9 0%, var(--bg) 60%); color: var(--text);
-    }
-    .app { max-width: 1200px; margin: 0 auto; }
-    .card { background: linear-gradient(180deg, #ffffff, #fefefe 70%, #ffffff); border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,.1); }
-    h1 { font-size: 24px; margin: 0 0 20px; text-align: center; color: var(--accent); }
-    .main-content { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
-    canvas { width: 100%; height: 500px; border-radius: 12px; background: #ffffff; border: 1px solid #e2e8f0; display: block; }
-    .controls { background: var(--panel); border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; }
-    .control-group { margin-bottom: 16px; }
-    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-    button { 
-      appearance: none; border: 1px solid #e2e8f0; background: linear-gradient(180deg, #f8fafc, #f1f5f9); 
-      color: #1e293b; padding: 12px 16px; border-radius: 8px; cursor: pointer; width: 100%; 
-      font-weight: 500; margin-bottom: 8px;
-    }
-    button:hover { filter: brightness(1.05); }
-    button.active { background: linear-gradient(180deg, var(--accent), #1e40af); color: white; border-color: var(--accent); }
-    button.play { background: linear-gradient(180deg, var(--green), #047857); color: white; border-color: var(--green); }
-    .stats { font-size: 13px; line-height: 1.5; margin-top: 16px; padding: 12px; background: #f9fafb; border-radius: 8px; }
-    .stats strong { color: var(--text); }
-    .var-display { font-size: 18px; font-weight: 600; color: var(--accent-2); text-align: center; padding: 8px; }
-    .legend { font-size: 12px; color: var(--muted); margin-top: 12px; display: flex; gap: 20px; }
-    .legend span { display: flex; align-items: center; gap: 6px; }
-    .chip { width: 14px; height: 14px; border-radius: 3px; }
-    .chip.blue { background: var(--accent); }
-    .chip.red { background: var(--accent-2); }
-    .chip.green { background: var(--green); }
-    .explanation { margin-top: 16px; padding: 16px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; font-size: 13px; }
-  </style>
-
-  <div class="app card">
-    <h1>VaR Portfolio Optimization Animation</h1>
-    <div class="main-content">
-      <div>
-        <canvas id="plot" width="850" height="500"></canvas>
-        <div class="legend">
-          <span><i class="chip blue"></i> Initial Portfolio</span>
-          <span><i class="chip red"></i> Fixed Loss Threshold (initial VaR₉₅)</span>
-          <span><i class="chip green"></i> Optimized Portfolio</span>
-        </div>
-        <div class="explanation">
-          <strong>What you're seeing:</strong> The red line stays fixed at the original VaR₉₅ level. As we optimize the portfolio (green curve), the distribution shifts right, dramatically reducing the probability of losses worse than our original threshold. The red shaded area shrinks from 5% to much less!
-        </div>
-      </div>
-      
-      <div class="controls">
-        <div class="control-group">
-          <label>Animation Control</label>
-          <button id="playBtn" class="play">▶ Start Optimization</button>
-          <button id="resetBtn">⟲ Reset</button>
-        </div>
-        
-        <div class="control-group">
-          <label>Optimization Strategy</label>
-          <button id="shiftBtn" class="active">Shift Right (↗ returns)</button>
-          <button id="tightenBtn">Tighten (↓ volatility)</button>
-          <button id="bothBtn">Both Strategies</button>
-        </div>
-        
-        <div class="var-display" id="varDisplay">
-          VaR₉₅ = 3.29%
-        </div>
-        
-        <div class="stats" id="statsDisplay">
-          <div><strong>Current Portfolio:</strong></div>
-          <div>• Mean return: 0.0%</div>
-          <div>• Volatility: 2.0%</div>
-          <div>• 5th percentile: -3.29%</div>
-          <div><strong>Progress:</strong> 0%</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<script>
-  // Math helpers
-  function erf(x) {
-    const sign = Math.sign(x); x = Math.abs(x);
-    const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
-    const t = 1/(1+p*x);
-    const y = 1 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-x*x);
-    return sign*y;
-  }
-  
-  function pdf(x, mu, sigma) {
-    const z = (x-mu)/sigma;
-    return Math.exp(-0.5*z*z)/(sigma*Math.sqrt(2*Math.PI));
-  }
-  
-  function quantile(p, mu, sigma) {
-    // Simplified approximation for 5th percentile
-    return mu + sigma * (-1.64485362695147);
-  }
-
-  // Animation state
-  let animationId = null;
-  let t = 0; // Animation progress (0 to 1)
-  let isPlaying = false;
-  let strategy = 'shift'; // 'shift', 'tighten', 'both'
-  
-  // Portfolio parameters
-  const initial = { mu: 0, sigma: 0.02 }; // 0% mean, 2% vol
-  const targets = {
-    shift: { mu: 0.01, sigma: 0.02 },    // Shift right: 1% mean, same vol
-    tighten: { mu: 0, sigma: 0.012 },    // Tighten: same mean, 1.2% vol  
-    both: { mu: 0.008, sigma: 0.014 }    // Both: 0.8% mean, 1.4% vol
-  };
-
-  // Canvas setup
-  const canvas = document.getElementById('plot');
-  const ctx = canvas.getContext('2d');
-  const playBtn = document.getElementById('playBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const shiftBtn = document.getElementById('shiftBtn');
-  const tightenBtn = document.getElementById('tightenBtn');
-  const bothBtn = document.getElementById('bothBtn');
-  const varDisplay = document.getElementById('varDisplay');
-  const statsDisplay = document.getElementById('statsDisplay');
-
-  function lerp(start, end, t) {
-    return start + (end - start) * t;
-  }
-
-  function easeInOut(t) {
-    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-  }
-
-  function getCurrentParams() {
-    const target = targets[strategy];
-    const easedT = easeInOut(t);
-    return {
-      mu: lerp(initial.mu, target.mu, easedT),
-      sigma: lerp(initial.sigma, target.sigma, easedT)
-    };
-  }
-
-  function draw() {
-    const w = canvas.width, h = canvas.height;
-    const pad = 60;
-    const plotW = w - 2*pad, plotH = h - 2*pad;
-    
-    ctx.clearRect(0, 0, w, h);
-    ctx.save();
-    ctx.translate(pad, pad);
-    
-    // Background
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, plotW, plotH);
-    
-    // Grid
-    ctx.strokeStyle = '#e2e8f0';
-    ctx.lineWidth = 1;
-    for(let i = 0; i <= 10; i++) {
-      const x = i/10 * plotW;
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, plotH); ctx.stroke();
-    }
-    for(let i = 0; i <= 8; i++) {
-      const y = i/8 * plotH;
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(plotW, y); ctx.stroke();
-    }
-
-    // Domain: -6% to +4%
-    const xmin = -0.06, xmax = 0.04;
-    const xToPx = x => (x - xmin)/(xmax - xmin) * plotW;
-    
-    // Current and initial parameters
-    const current = getCurrentParams();
-    const initialVar95 = -quantile(0.05, initial.mu, initial.sigma);
-    const currentVar95 = -quantile(0.05, current.mu, current.sigma);
-    
-    // Y scaling based on max PDF
-    const yMax = Math.max(pdf(initial.mu, initial.mu, initial.sigma), pdf(current.mu, current.mu, current.sigma));
-    const yToPx = y => plotH - (y/yMax) * plotH * 0.9;
-
-    // Draw initial distribution (blue, lighter if animating)
-    ctx.strokeStyle = isPlaying ? 'rgba(37, 99, 235, 0.4)' : '#2563eb';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    for(let i = 0; i <= 400; i++) {
-      const x = xmin + (xmax - xmin) * i/400;
-      const y = pdf(x, initial.mu, initial.sigma);
-      const X = xToPx(x), Y = yToPx(y);
-      if(i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
-    }
-    ctx.stroke();
-
-    // Draw current distribution (green, if different from initial)
-    if(t > 0.01) {
-      ctx.strokeStyle = '#059669';
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      for(let i = 0; i <= 400; i++) {
-        const x = xmin + (xmax - xmin) * i/400;
-        const y = pdf(x, current.mu, current.sigma);
-        const X = xToPx(x), Y = yToPx(y);
-        if(i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
-      }
-      ctx.stroke();
-    }
-
-    // Fixed VaR line (at initial VaR₉₅ position)
-    const fixedVar95X = xToPx(-initialVar95);
-    ctx.strokeStyle = '#dc2626';
-    ctx.setLineDash([8, 4]);
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(fixedVar95X, 0);
-    ctx.lineTo(fixedVar95X, plotH);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Shade left tail (area to left of FIXED line for current distribution)
-    const params = t > 0.01 ? current : initial;
-    const leftTailX = Math.min(-initialVar95, xmax); // Don't go beyond domain
-    
-    ctx.fillStyle = 'rgba(220, 38, 38, 0.2)';
-    ctx.beginPath();
-    ctx.moveTo(0, plotH);
-    
-    // Only shade if the fixed line is within our domain
-    if(-initialVar95 > xmin) {
-      const steps = Math.floor(200 * (leftTailX - xmin) / (xmax - xmin));
-      for(let i = 0; i <= steps; i++) {
-        const x = xmin + (leftTailX - xmin) * i/steps;
-        const y = pdf(x, params.mu, params.sigma);
-        const X = xToPx(x), Y = yToPx(y);
-        if(i === 0) ctx.lineTo(X, Y); else ctx.lineTo(X, Y);
-      }
-      ctx.lineTo(fixedVar95X, plotH);
-    } else {
-      // If fixed line is outside domain, shade nothing or everything
-      ctx.lineTo(0, plotH);
-    }
-    ctx.closePath();
-    ctx.fill();
-
-    // Zero line
-    const zeroX = xToPx(0);
-    ctx.strokeStyle = '#374151';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(zeroX, 0);
-    ctx.lineTo(zeroX, plotH);
-    ctx.stroke();
-
-    // X-axis labels
-    ctx.fillStyle = '#64748b';
-    ctx.font = '12px ui-sans-serif, system-ui';
-    for(let i = -6; i <= 4; i += 2) {
-      const x = i/100;
-      const X = xToPx(x);
-      ctx.fillText(`${i}%`, X - 10, plotH + 20);
-    }
-    ctx.fillText('Portfolio Return →', plotW - 100, plotH + 40);
-
-    // Y-axis label
-    ctx.save();
-    ctx.translate(15, plotH/2);
-    ctx.rotate(-Math.PI/2);
-    ctx.fillText('Probability Density', -40, 0);
-    ctx.restore();
-
-    ctx.restore();
-
-    // Calculate probability to left of fixed line for current distribution  
-    function cdf(x, mu, sigma) {
-      return 0.5 * (1 + erf((x - mu) / (sigma * Math.sqrt(2))));
-    }
-    
-    const currentProbability = cdf(-initialVar95, current.mu, current.sigma);
-    const newVar95 = -quantile(0.05, current.mu, current.sigma);
-    
-    // Update displays
-    varDisplay.innerHTML = `
-      <div style="font-size: 14px; color: #64748b; margin-bottom: 4px;">Fixed at initial VaR₉₅:</div>
-      <div style="font-size: 18px; font-weight: 600; color: #dc2626;">${(initialVar95*100).toFixed(2)}%</div>
-      <div style="font-size: 12px; color: #059669; margin-top: 4px;">Risk reduced by ${((1 - currentProbability/0.05) * 100).toFixed(1)}%</div>
-    `;
-    
-    const progress = Math.round(t * 100);
-    statsDisplay.innerHTML = `
-      <div><strong>Current Portfolio:</strong></div>
-      <div>• Mean return: ${(current.mu*100).toFixed(1)}%</div>
-      <div>• Volatility: ${(current.sigma*100).toFixed(1)}%</div>
-      <div>• Prob(loss > ${(initialVar95*100).toFixed(2)}%): <strong>${(currentProbability*100).toFixed(2)}%</strong></div>
-      <div>• New VaR₉₅: ${(newVar95*100).toFixed(2)}%</div>
-      <div><strong>Progress:</strong> ${progress}%</div>
-    `;
-  }
-
-  function animate() {
-    if(!isPlaying) return;
-    
-    t += 0.008; // Animation speed
-    if(t >= 1) {
-      t = 1;
-      isPlaying = false;
-      playBtn.textContent = '✓ Optimization Complete';
-      playBtn.classList.remove('play');
-    }
-    
-    draw();
-    
-    if(isPlaying) {
-      animationId = requestAnimationFrame(animate);
-    }
-  }
-
-  function startAnimation() {
-    if(isPlaying) {
-      isPlaying = false;
-      playBtn.textContent = '▶ Start Optimization';
-      playBtn.classList.add('play');
-      if(animationId) cancelAnimationFrame(animationId);
-    } else {
-      isPlaying = true;
-      playBtn.textContent = '⏸ Pause';
-      playBtn.classList.add('play');
-      animate();
-    }
-  }
-
-  function reset() {
-    isPlaying = false;
-    t = 0;
-    playBtn.textContent = '▶ Start Optimization';
-    playBtn.classList.add('play');
-    if(animationId) cancelAnimationFrame(animationId);
-    draw();
-  }
-
-  function setStrategy(newStrategy) {
-    strategy = newStrategy;
-    // Update button states
-    [shiftBtn, tightenBtn, bothBtn].forEach(btn => btn.classList.remove('active'));
-    if(newStrategy === 'shift') shiftBtn.classList.add('active');
-    else if(newStrategy === 'tighten') tightenBtn.classList.add('active');
-    else bothBtn.classList.add('active');
-    
-    if(!isPlaying) draw();
-  }
-
-  // Event listeners
-  playBtn.addEventListener('click', startAnimation);
-  resetBtn.addEventListener('click', reset);
-  shiftBtn.addEventListener('click', () => setStrategy('shift'));
-  tightenBtn.addEventListener('click', () => setStrategy('tighten'));
-  bothBtn.addEventListener('click', () => setStrategy('both'));
-
-  // Initial draw
-  draw();
-</script>
-    
 </body>
 </html>
