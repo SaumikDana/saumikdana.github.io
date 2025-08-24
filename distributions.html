@@ -1135,5 +1135,373 @@ input:focus {
             }
         });
     </script>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --panel: #f8fafc;
+      --text: #1e293b;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --accent-2: #dc2626;
+      --grid: #e2e8f0;
+      --green: #059669;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% -10%, #f1f5f9 0%, var(--bg) 60%); color: var(--text);
+    }
+    .app { max-width: 1200px; margin: 0 auto; }
+    .card { background: linear-gradient(180deg, #ffffff, #fefefe 70%, #ffffff); border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,.1); }
+    h1 { font-size: 24px; margin: 0 0 20px; text-align: center; color: var(--accent); }
+    .main-content { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+    canvas { width: 100%; height: 500px; border-radius: 12px; background: #ffffff; border: 1px solid #e2e8f0; display: block; }
+    .controls { background: var(--panel); border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; }
+    .control-group { margin-bottom: 16px; }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+    button { 
+      appearance: none; border: 1px solid #e2e8f0; background: linear-gradient(180deg, #f8fafc, #f1f5f9); 
+      color: #1e293b; padding: 12px 16px; border-radius: 8px; cursor: pointer; width: 100%; 
+      font-weight: 500; margin-bottom: 8px;
+    }
+    button:hover { filter: brightness(1.05); }
+    button.active { background: linear-gradient(180deg, var(--accent), #1e40af); color: white; border-color: var(--accent); }
+    button.play { background: linear-gradient(180deg, var(--green), #047857); color: white; border-color: var(--green); }
+    .stats { font-size: 13px; line-height: 1.5; margin-top: 16px; padding: 12px; background: #f9fafb; border-radius: 8px; }
+    .stats strong { color: var(--text); }
+    .var-display { font-size: 18px; font-weight: 600; color: var(--accent-2); text-align: center; padding: 8px; }
+    .legend { font-size: 12px; color: var(--muted); margin-top: 12px; display: flex; gap: 20px; }
+    .legend span { display: flex; align-items: center; gap: 6px; }
+    .chip { width: 14px; height: 14px; border-radius: 3px; }
+    .chip.blue { background: var(--accent); }
+    .chip.red { background: var(--accent-2); }
+    .chip.green { background: var(--green); }
+    .explanation { margin-top: 16px; padding: 16px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; font-size: 13px; }
+  </style>
+
+  <div class="app card">
+    <h1>VaR Portfolio Optimization Animation</h1>
+    <div class="main-content">
+      <div>
+        <canvas id="plot" width="850" height="500"></canvas>
+        <div class="legend">
+          <span><i class="chip blue"></i> Initial Portfolio</span>
+          <span><i class="chip red"></i> Fixed Loss Threshold (initial VaR₉₅)</span>
+          <span><i class="chip green"></i> Optimized Portfolio</span>
+        </div>
+        <div class="explanation">
+          <strong>What you're seeing:</strong> The red line stays fixed at the original VaR₉₅ level. As we optimize the portfolio (green curve), the distribution shifts right, dramatically reducing the probability of losses worse than our original threshold. The red shaded area shrinks from 5% to much less!
+        </div>
+      </div>
+      
+      <div class="controls">
+        <div class="control-group">
+          <label>Animation Control</label>
+          <button id="playBtn" class="play">▶ Start Optimization</button>
+          <button id="resetBtn">⟲ Reset</button>
+        </div>
+        
+        <div class="control-group">
+          <label>Optimization Strategy</label>
+          <button id="shiftBtn" class="active">Shift Right (↗ returns)</button>
+          <button id="tightenBtn">Tighten (↓ volatility)</button>
+          <button id="bothBtn">Both Strategies</button>
+        </div>
+        
+        <div class="var-display" id="varDisplay">
+          VaR₉₅ = 3.29%
+        </div>
+        
+        <div class="stats" id="statsDisplay">
+          <div><strong>Current Portfolio:</strong></div>
+          <div>• Mean return: 0.0%</div>
+          <div>• Volatility: 2.0%</div>
+          <div>• 5th percentile: -3.29%</div>
+          <div><strong>Progress:</strong> 0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Math helpers
+  function erf(x) {
+    const sign = Math.sign(x); x = Math.abs(x);
+    const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+    const t = 1/(1+p*x);
+    const y = 1 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-x*x);
+    return sign*y;
+  }
+  
+  function pdf(x, mu, sigma) {
+    const z = (x-mu)/sigma;
+    return Math.exp(-0.5*z*z)/(sigma*Math.sqrt(2*Math.PI));
+  }
+  
+  function quantile(p, mu, sigma) {
+    // Simplified approximation for 5th percentile
+    return mu + sigma * (-1.64485362695147);
+  }
+
+  // Animation state
+  let animationId = null;
+  let t = 0; // Animation progress (0 to 1)
+  let isPlaying = false;
+  let strategy = 'shift'; // 'shift', 'tighten', 'both'
+  
+  // Portfolio parameters
+  const initial = { mu: 0, sigma: 0.02 }; // 0% mean, 2% vol
+  const targets = {
+    shift: { mu: 0.01, sigma: 0.02 },    // Shift right: 1% mean, same vol
+    tighten: { mu: 0, sigma: 0.012 },    // Tighten: same mean, 1.2% vol  
+    both: { mu: 0.008, sigma: 0.014 }    // Both: 0.8% mean, 1.4% vol
+  };
+
+  // Canvas setup
+  const canvas = document.getElementById('plot');
+  const ctx = canvas.getContext('2d');
+  const playBtn = document.getElementById('playBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const shiftBtn = document.getElementById('shiftBtn');
+  const tightenBtn = document.getElementById('tightenBtn');
+  const bothBtn = document.getElementById('bothBtn');
+  const varDisplay = document.getElementById('varDisplay');
+  const statsDisplay = document.getElementById('statsDisplay');
+
+  function lerp(start, end, t) {
+    return start + (end - start) * t;
+  }
+
+  function easeInOut(t) {
+    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  }
+
+  function getCurrentParams() {
+    const target = targets[strategy];
+    const easedT = easeInOut(t);
+    return {
+      mu: lerp(initial.mu, target.mu, easedT),
+      sigma: lerp(initial.sigma, target.sigma, easedT)
+    };
+  }
+
+  function draw() {
+    const w = canvas.width, h = canvas.height;
+    const pad = 60;
+    const plotW = w - 2*pad, plotH = h - 2*pad;
+    
+    ctx.clearRect(0, 0, w, h);
+    ctx.save();
+    ctx.translate(pad, pad);
+    
+    // Background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, plotW, plotH);
+    
+    // Grid
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 1;
+    for(let i = 0; i <= 10; i++) {
+      const x = i/10 * plotW;
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, plotH); ctx.stroke();
+    }
+    for(let i = 0; i <= 8; i++) {
+      const y = i/8 * plotH;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(plotW, y); ctx.stroke();
+    }
+
+    // Domain: -6% to +4%
+    const xmin = -0.06, xmax = 0.04;
+    const xToPx = x => (x - xmin)/(xmax - xmin) * plotW;
+    
+    // Current and initial parameters
+    const current = getCurrentParams();
+    const initialVar95 = -quantile(0.05, initial.mu, initial.sigma);
+    const currentVar95 = -quantile(0.05, current.mu, current.sigma);
+    
+    // Y scaling based on max PDF
+    const yMax = Math.max(pdf(initial.mu, initial.mu, initial.sigma), pdf(current.mu, current.mu, current.sigma));
+    const yToPx = y => plotH - (y/yMax) * plotH * 0.9;
+
+    // Draw initial distribution (blue, lighter if animating)
+    ctx.strokeStyle = isPlaying ? 'rgba(37, 99, 235, 0.4)' : '#2563eb';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for(let i = 0; i <= 400; i++) {
+      const x = xmin + (xmax - xmin) * i/400;
+      const y = pdf(x, initial.mu, initial.sigma);
+      const X = xToPx(x), Y = yToPx(y);
+      if(i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+    }
+    ctx.stroke();
+
+    // Draw current distribution (green, if different from initial)
+    if(t > 0.01) {
+      ctx.strokeStyle = '#059669';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for(let i = 0; i <= 400; i++) {
+        const x = xmin + (xmax - xmin) * i/400;
+        const y = pdf(x, current.mu, current.sigma);
+        const X = xToPx(x), Y = yToPx(y);
+        if(i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+      }
+      ctx.stroke();
+    }
+
+    // Fixed VaR line (at initial VaR₉₅ position)
+    const fixedVar95X = xToPx(-initialVar95);
+    ctx.strokeStyle = '#dc2626';
+    ctx.setLineDash([8, 4]);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(fixedVar95X, 0);
+    ctx.lineTo(fixedVar95X, plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Shade left tail (area to left of FIXED line for current distribution)
+    const params = t > 0.01 ? current : initial;
+    const leftTailX = Math.min(-initialVar95, xmax); // Don't go beyond domain
+    
+    ctx.fillStyle = 'rgba(220, 38, 38, 0.2)';
+    ctx.beginPath();
+    ctx.moveTo(0, plotH);
+    
+    // Only shade if the fixed line is within our domain
+    if(-initialVar95 > xmin) {
+      const steps = Math.floor(200 * (leftTailX - xmin) / (xmax - xmin));
+      for(let i = 0; i <= steps; i++) {
+        const x = xmin + (leftTailX - xmin) * i/steps;
+        const y = pdf(x, params.mu, params.sigma);
+        const X = xToPx(x), Y = yToPx(y);
+        if(i === 0) ctx.lineTo(X, Y); else ctx.lineTo(X, Y);
+      }
+      ctx.lineTo(fixedVar95X, plotH);
+    } else {
+      // If fixed line is outside domain, shade nothing or everything
+      ctx.lineTo(0, plotH);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // Zero line
+    const zeroX = xToPx(0);
+    ctx.strokeStyle = '#374151';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(zeroX, 0);
+    ctx.lineTo(zeroX, plotH);
+    ctx.stroke();
+
+    // X-axis labels
+    ctx.fillStyle = '#64748b';
+    ctx.font = '12px ui-sans-serif, system-ui';
+    for(let i = -6; i <= 4; i += 2) {
+      const x = i/100;
+      const X = xToPx(x);
+      ctx.fillText(`${i}%`, X - 10, plotH + 20);
+    }
+    ctx.fillText('Portfolio Return →', plotW - 100, plotH + 40);
+
+    // Y-axis label
+    ctx.save();
+    ctx.translate(15, plotH/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.fillText('Probability Density', -40, 0);
+    ctx.restore();
+
+    ctx.restore();
+
+    // Calculate probability to left of fixed line for current distribution  
+    function cdf(x, mu, sigma) {
+      return 0.5 * (1 + erf((x - mu) / (sigma * Math.sqrt(2))));
+    }
+    
+    const currentProbability = cdf(-initialVar95, current.mu, current.sigma);
+    const newVar95 = -quantile(0.05, current.mu, current.sigma);
+    
+    // Update displays
+    varDisplay.innerHTML = `
+      <div style="font-size: 14px; color: #64748b; margin-bottom: 4px;">Fixed at initial VaR₉₅:</div>
+      <div style="font-size: 18px; font-weight: 600; color: #dc2626;">${(initialVar95*100).toFixed(2)}%</div>
+      <div style="font-size: 12px; color: #059669; margin-top: 4px;">Risk reduced by ${((1 - currentProbability/0.05) * 100).toFixed(1)}%</div>
+    `;
+    
+    const progress = Math.round(t * 100);
+    statsDisplay.innerHTML = `
+      <div><strong>Current Portfolio:</strong></div>
+      <div>• Mean return: ${(current.mu*100).toFixed(1)}%</div>
+      <div>• Volatility: ${(current.sigma*100).toFixed(1)}%</div>
+      <div>• Prob(loss > ${(initialVar95*100).toFixed(2)}%): <strong>${(currentProbability*100).toFixed(2)}%</strong></div>
+      <div>• New VaR₉₅: ${(newVar95*100).toFixed(2)}%</div>
+      <div><strong>Progress:</strong> ${progress}%</div>
+    `;
+  }
+
+  function animate() {
+    if(!isPlaying) return;
+    
+    t += 0.008; // Animation speed
+    if(t >= 1) {
+      t = 1;
+      isPlaying = false;
+      playBtn.textContent = '✓ Optimization Complete';
+      playBtn.classList.remove('play');
+    }
+    
+    draw();
+    
+    if(isPlaying) {
+      animationId = requestAnimationFrame(animate);
+    }
+  }
+
+  function startAnimation() {
+    if(isPlaying) {
+      isPlaying = false;
+      playBtn.textContent = '▶ Start Optimization';
+      playBtn.classList.add('play');
+      if(animationId) cancelAnimationFrame(animationId);
+    } else {
+      isPlaying = true;
+      playBtn.textContent = '⏸ Pause';
+      playBtn.classList.add('play');
+      animate();
+    }
+  }
+
+  function reset() {
+    isPlaying = false;
+    t = 0;
+    playBtn.textContent = '▶ Start Optimization';
+    playBtn.classList.add('play');
+    if(animationId) cancelAnimationFrame(animationId);
+    draw();
+  }
+
+  function setStrategy(newStrategy) {
+    strategy = newStrategy;
+    // Update button states
+    [shiftBtn, tightenBtn, bothBtn].forEach(btn => btn.classList.remove('active'));
+    if(newStrategy === 'shift') shiftBtn.classList.add('active');
+    else if(newStrategy === 'tighten') tightenBtn.classList.add('active');
+    else bothBtn.classList.add('active');
+    
+    if(!isPlaying) draw();
+  }
+
+  // Event listeners
+  playBtn.addEventListener('click', startAnimation);
+  resetBtn.addEventListener('click', reset);
+  shiftBtn.addEventListener('click', () => setStrategy('shift'));
+  tightenBtn.addEventListener('click', () => setStrategy('tighten'));
+  bothBtn.addEventListener('click', () => setStrategy('both'));
+
+  // Initial draw
+  draw();
+</script>
+    
 </body>
 </html>
