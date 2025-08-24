@@ -1,682 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Optimization Framework - Four Formulations</title>
-    <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true,
-                processEnvironments: true,
-                tags: 'ams'
-            },
-            options: {
-                ignoreHtmlClass: "tex2jax_ignore",
-                processHtmlClass: "tex2jax_process"
-            },
-            startup: {
-                ready: () => {
-                    MathJax.startup.defaultReady();
-                    console.log('MathJax is loaded and ready!');
-                }
-            }
-        };
-    </script>
-    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.7;
-            color: #2c3e50;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            font-weight: 300;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        h2 {
-            color: #34495e;
-            border-left: 5px solid #667eea;
-            padding-left: 15px;
-            margin-top: 35px;
-            margin-bottom: 20px;
-            font-size: 1.6em;
-            font-weight: 400;
-        }
-        
-        h3 {
-            color: #34495e;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-            font-weight: 500;
-        }
-        
-        h4 {
-            color: #34495e;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-            font-weight: 600;
-        }
-        
-        .math-block {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-left: 4px solid #667eea;
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow-x: auto;
-        }
-        
-        .formulation-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .formulation-card {
-            background: linear-gradient(135deg, #fff, #f8fafc);
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
-        }
-        
-        .formulation-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .formulation-card.original {
-            border-color: #dc2626;
-            background: linear-gradient(135deg, #fef2f2, #fee2e2);
-        }
-        
-        .formulation-card.option1 {
-            border-color: #2563eb;
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-        }
-        
-        .formulation-card.option2 {
-            border-color: #059669;
-            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-        }
-        
-        .formulation-card.option3 {
-            border-color: #7c3aed;
-            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-        }
-        
-        .formulation-card h4 {
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            font-size: 1.2em;
-        }
-        
-        .formulation-card.original h4 {
-            color: #dc2626;
-        }
-        
-        .formulation-card.option1 h4 {
-            color: #2563eb;
-        }
-        
-        .formulation-card.option2 h4 {
-            color: #059669;
-        }
-        
-        .formulation-card.option3 h4 {
-            color: #7c3aed;
-        }
-        
-        .formulation-card h4::before {
-            margin-right: 8px;
-            font-size: 1.2em;
-        }
-        
-        .formulation-card.original h4::before {
-            content: "🏛️";
-        }
-        
-        .formulation-card.option1 h4::before {
-            content: "⚖️";
-        }
-        
-        .formulation-card.option2 h4::before {
-            content: "🎯";
-        }
-        
-        .formulation-card.option3 h4::before {
-            content: "🔧";
-        }
-        
-        .pros-cons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .pros {
-            background: rgba(34, 197, 94, 0.1);
-            border-left: 3px solid #22c55e;
-            padding: 10px;
-            border-radius: 6px;
-        }
-        
-        .cons {
-            background: rgba(239, 68, 68, 0.1);
-            border-left: 3px solid #ef4444;
-            padding: 10px;
-            border-radius: 6px;
-        }
-        
-        .pros h5, .cons h5 {
-            margin: 0 0 8px 0;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-        
-        .pros h5 {
-            color: #059669;
-        }
-        
-        .cons h5 {
-            color: #dc2626;
-        }
-        
-        .pros ul, .cons ul {
-            margin: 0;
-            padding-left: 15px;
-            font-size: 0.85em;
-        }
-        
-        .architecture-section {
-            background: linear-gradient(135deg, #fef7cd, #fef3c7);
-            border: 2px solid #f59e0b;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 30px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        
-        .architecture-section h3 {
-            color: #92400e;
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-        }
-        
-        .architecture-section h3::before {
-            content: "🏗️";
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-        
-        .code-flow {
-            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
-            border: 2px solid #64748b;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-        
-        .flow-step {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-            padding: 8px;
-            background: white;
-            border-radius: 6px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .flow-step::before {
-            content: "→";
-            margin-right: 10px;
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        .comparison-table {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin: 20px 0;
-        }
-        
-        .comparison-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .comparison-table th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-        }
-        
-        .comparison-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e2e8f0;
-            vertical-align: top;
-        }
-        
-        .comparison-table tr:nth-child(even) {
-            background: #f8fafc;
-        }
-        
-        .highlight {
-            background: linear-gradient(120deg, #a78bfa 0%, #f472b6 100%);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        
-        .variable {
-            font-family: 'Courier New', monospace;
-            background: #f1f5f9;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-            color: #475569;
-            border: 1px solid #cbd5e1;
-        }
-        
-        .note {
-            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-            border: 1px solid #60a5fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            position: relative;
-        }
-        
-        .note::before {
-            content: "ℹ️";
-            position: absolute;
-            top: -8px;
-            left: 15px;
-            background: #3b82f6;
-            color: white;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-        
-        .note p {
-            margin: 0;
-            color: #1e40af;
-            font-weight: 500;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                margin: 10px;
-                border-radius: 15px;
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
-            
-            .formulation-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .pros-cons {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VaR Sweep Visualizer</title>
+  <style>
+    :root {
+      --bg: #0f172a; /* slate-900 */
+      --panel: #111827; /* gray-900 */
+      --text: #e5e7eb; /* gray-200 */
+      --muted: #9ca3af; /* gray-400 */
+      --accent: #60a5fa; /* blue-400 */
+      --accent-2: #f87171; /* red-400 */
+      --grid: #374151; /* gray-700 */
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% -10%, #1f2937 0%, var(--bg) 60%); color: var(--text);
+    }
+    h1 { font-size: 20px; margin: 0 0 12px; letter-spacing: .3px; }
+    .app { max-width: 980px; margin: 0 auto; }
+    .card { background: linear-gradient(180deg, #0b1220, #0b1220cc 70%, #0b1220); border: 1px solid #1f2937; border-radius: 16px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+    .row { display: grid; grid-template-columns: 1.5fr .8fr; gap: 18px; align-items: start; }
+    .controls { background: var(--panel); border: 1px solid #1f2937; border-radius: 14px; padding: 14px; }
+    .controls .group { margin-bottom: 12px; }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    input[type="number"] { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #273043; background: #0b1220; color: var(--text); }
+    input[type="range"] { width: 100%; }
+    .inline { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat { font-feature-settings: "tnum" on, "lnum" on; font-variant-numeric: tabular-nums; }
+    .stat b { color: white; }
+    button { appearance: none; border: 1px solid #1f2937; background: linear-gradient(180deg, #1e293b, #0f172a); color: #e5e7eb; padding: 9px 12px; border-radius: 12px; cursor: pointer; }
+    button:hover { filter: brightness(1.1); }
+    canvas { width: 100%; height: 460px; border-radius: 12px; background: #0b1220; border: 1px solid #1f2937; display: block; }
+    .legend { font-size: 12px; color: var(--muted); margin-top: 8px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; margin-right: 14px; }
+    .chip { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+    .chip.blue { background: var(--accent); }
+    .chip.red { background: var(--accent-2); }
+    .footer { font-size: 12px; color: var(--muted); margin-top: 12px; }
+    .kbd { background: #0b1220; border: 1px solid #1f2937; padding: 2px 6px; border-radius: 6px; font-size: 11px; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Portfolio Optimization Framework</h1>
-        <p style="text-align: center; font-size: 1.1em; color: #64748b; margin-bottom: 40px;">
-            <strong>Four Mathematical Formulations</strong> - From Traditional Sharpe to Modern Risk-Adjusted Approaches
-        </p>
-
-        <h2>Problem Overview</h2>
-        
-        <p>Portfolio optimization seeks to find the <strong>optimal allocation of capital</strong> across different assets or strategies. We present four different mathematical formulations, each with distinct advantages and use cases.</p>
-
-        <div class="note">
-            <p><strong>Common Elements Across All Formulations:</strong><br>
-            <span class="variable">w</span> = [w₁, w₂, ..., wₙ]ᵀ (portfolio weights vector)<br>
-            <span class="variable">μ</span> = [μ₁, μ₂, ..., μₙ]ᵀ (expected returns vector)<br>
-            <span class="variable">Σ</span> = covariance matrix<br>
-            <span class="variable">v</span> = [VaR₁, VaR₂, ..., VaRₙ]ᵀ (VaR estimates vector)
-            </p>
+  <div class="app card">
+    <h1>VaR Sweep Visualizer — Return Distribution</h1>
+    <div class="row">
+      <div>
+        <canvas id="plot" width="820" height="460"></canvas>
+        <div class="legend">
+          <span><i class="chip blue"></i> Return PDF (Normal)</span>
+          <span><i class="chip red"></i> Left tail (area ≤ cutoff)</span>
         </div>
-
-        <h2>Four Optimization Formulations</h2>
-
-        <div class="formulation-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 30px;">
-            <div class="formulation-card original">
-                <h4>Original: Sharpe with VaR Constraint</h4>
-                <div class="math-block">
-                    $\begin{align}
-                    \text{minimize} \quad & -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} \\
-                    \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
-                    & \text{VaR}_{\max} - \mathbf{v}^T\mathbf{w} \geq 0 \\
-                    & 0 \leq w_i \leq w_{\max}
-                    \end{align}$
-                </div>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h5>✅ Pros</h5>
-                        <ul>
-                            <li>Traditional Sharpe optimization</li>
-                            <li>Well-understood theory</li>
-                            <li>Regulatory compliance</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h5>❌ Cons</h5>
-                        <ul>
-                            <li>Non-convex optimization</li>
-                            <li>Local minima issues</li>
-                            <li>Requires VaR limit</li>
-                            <li>Slow convergence</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="formulation-card option1">
-                <h4>Option 1: Weighted Combination</h4>
-                <div class="math-block">
-                    $\begin{align}
-                    \text{minimize} \quad & -\alpha \cdot \frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} + \beta \cdot \mathbf{v}^T\mathbf{w} \\
-                    \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
-                    & 0 \leq w_i \leq w_{\max}
-                    \end{align}$
-                </div>
-                <p><strong>Parameters:</strong> α (Sharpe weight), β (VaR penalty)</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h5>✅ Pros</h5>
-                        <ul>
-                            <li>Flexible objective weighting</li>
-                            <li>No VaR constraint needed</li>
-                            <li>Balances return and risk</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h5>❌ Cons</h5>
-                        <ul>
-                            <li>Still non-convex</li>
-                            <li>Two parameters to tune</li>
-                            <li>Parameter scaling issues</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="footer">
+          Tip: drag the slider or use <span class="kbd">←</span>/<span class="kbd">→</span> to sweep the vertical line. Click <em>Snap to 5%</em> to jump to the VaR<sub>95</sub> cutoff.
         </div>
-
-        <div class="formulation-grid" style="grid-template-columns: 1fr 1fr;">
-            <div class="formulation-card option2">
-                <h4>Option 2: Sharpe with VaR Penalty</h4>
-                <div class="math-block">
-                    $\begin{align}
-                    \text{minimize} \quad & -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}}} + \lambda \cdot \mathbf{v}^T\mathbf{w} \\
-                    \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
-                    & 0 \leq w_i \leq w_{\max}
-                    \end{align}$
-                </div>
-                <p><strong>Parameter:</strong> λ (risk aversion/VaR penalty)</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h5>✅ Pros</h5>
-                        <ul>
-                            <li>Intuitive Sharpe + penalty</li>
-                            <li>Single parameter</li>
-                            <li>No VaR constraint</li>
-                            <li>Economic interpretation</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h5>❌ Cons</h5>
-                        <ul>
-                            <li>Non-convex optimization</li>
-                            <li>Local minima possible</li>
-                            <li>Moderate complexity</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="formulation-card option3">
-                <h4>Option 3: VaR-Adjusted Sharpe</h4>
-                <div class="math-block">
-                    $\begin{align}
-                    \text{minimize} \quad & -\frac{\boldsymbol{\mu}^T\mathbf{w}}{\sqrt{\mathbf{w}^T\boldsymbol{\Sigma}\mathbf{w}} + \lambda \cdot \mathbf{v}^T\mathbf{w}} \\
-                    \text{subject to:} \quad & \mathbf{1}^T\mathbf{w} = 1 \\
-                    & 0 \leq w_i \leq w_{\max}
-                    \end{align}$
-                </div>
-                <p><strong>Parameter:</strong> λ (VaR adjustment factor)</p>
-                <div class="pros-cons">
-                    <div class="pros">
-                        <h5>✅ Pros</h5>
-                        <ul>
-                            <li>Modified Sharpe ratio</li>
-                            <li>VaR in denominator</li>
-                            <li>Novel risk measure</li>
-                            <li>Single parameter</li>
-                        </ul>
-                    </div>
-                    <div class="cons">
-                        <h5>❌ Cons</h5>
-                        <ul>
-                            <li>Non-convex optimization</li>
-                            <li>Less intuitive</li>
-                            <li>Experimental approach</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="controls">
+        <div class="group inline">
+          <div>
+            <label>Mean return (μ)</label>
+            <input id="mu" type="number" step="0.01" value="0" />
+          </div>
+          <div>
+            <label>Std. dev. (σ, %)</label>
+            <input id="sigmaPct" type="number" step="0.01" value="1" />
+          </div>
         </div>
-
-        <h2>Implementation Architecture</h2>
-
-        <div class="architecture-section">
-            <h3>Modular Design Pattern</h3>
-            <p>The implementation follows a clean, modular architecture that separates concerns and eliminates code duplication:</p>
-            
-            <div class="code-flow">
-                <div class="flow-step">optimizer(method='original'|'option1'|'option2'|'option3')</div>
-                <div class="flow-step">initialize_solver() → returns (bounds, x0, options)</div>
-                <div class="flow-step">method_function() → returns (objective_fn, constraints)</div>
-                <div class="flow-step">minimize(objective_fn, x0, constraints, bounds, options)</div>
-                <div class="flow-step">return optimal_weights</div>
-            </div>
-
-            <h4>Key Architecture Benefits:</h4>
-            <ul>
-                <li><strong>Single Entry Point:</strong> One <span class="variable">optimizer()</span> function handles all formulations</li>
-                <li><strong>No Code Duplication:</strong> Common setup code extracted to <span class="variable">initialize_solver()</span></li>
-                <li><strong>Clean Separation:</strong> Each formulation isolated in its own function</li>
-                <li><strong>Easy Extension:</strong> Adding new formulations requires only one new function</li>
-                <li><strong>Consistent Interface:</strong> All methods use the same parameter structure</li>
-            </ul>
+        <div class="group">
+          <label>Sweep cutoff position (in σ units)</label>
+          <input id="kSlider" type="range" min="-4" max="4" step="0.01" value="-1.64" />
+          <div class="stat" id="kInfo"></div>
         </div>
-
-        <h2>Comparative Analysis</h2>
-
-        <div class="comparison-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Aspect</th>
-                        <th>Original</th>
-                        <th>Option 1</th>
-                        <th>Option 2</th>
-                        <th>Option 3</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Optimization Type</strong></td>
-                        <td>Non-convex QCQP</td>
-                        <td>Non-convex</td>
-                        <td>Non-convex</td>
-                        <td>Non-convex</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Constraints</strong></td>
-                        <td>Budget + VaR + Weight</td>
-                        <td>Budget + Weight</td>
-                        <td>Budget + Weight</td>
-                        <td>Budget + Weight</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Parameters</strong></td>
-                        <td>VaR_max</td>
-                        <td>α, β</td>
-                        <td>λ</td>
-                        <td>λ</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Complexity</strong></td>
-                        <td>High</td>
-                        <td>High</td>
-                        <td>Medium</td>
-                        <td>Medium</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Interpretability</strong></td>
-                        <td>Traditional</td>
-                        <td>Flexible</td>
-                        <td>Intuitive</td>
-                        <td>Novel</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Best Use Case</strong></td>
-                        <td>Regulatory compliance</td>
-                        <td>Custom risk-return balance</td>
-                        <td>General purpose</td>
-                        <td>Research/experimental</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="group">
+          <button id="snap05">Snap to 5% (VaR<sub>95</sub>)</button>
         </div>
-
-        <h2>Mathematical Properties</h2>
-
-        <h3>Common Constraints</h3>
-        <p>All formulations share these constraints:</p>
-        <div class="math-block">
-            $$\begin{align}
-            \text{Budget:} \quad & \sum_{i=1}^{n} w_i = 1 \\
-            \text{Long-only:} \quad & w_i \geq 0 \quad \forall i \\
-            \text{Concentration:} \quad & w_i \leq w_{\max} \quad \forall i
-            \end{align}$$
+        <div class="group">
+          <div class="stat" id="stats"></div>
         </div>
-
-        <h3>Risk Model</h3>
-        <p>All formulations use <strong>linear VaR aggregation</strong>:</p>
-        <div class="math-block">
-            $$\text{Portfolio VaR} \approx \sum_{i=1}^{n} w_i \cdot \text{VaR}_i = \mathbf{v}^T\mathbf{w}$$
-        </div>
-
-        <div class="note">
-            <p><strong>Implementation Note:</strong> The modular architecture allows easy switching between formulations for testing and comparison. Each method can be benchmarked against the others using the same input data to determine the best approach for specific use cases.</p>
-        </div>
-
-        <h2>Selection Guidelines</h2>
-
-        <div class="formulation-grid">
-            <div class="formulation-card">
-                <h4>🎯 Choose Original If:</h4>
-                <ul>
-                    <li>You need traditional Sharpe ratio optimization</li>
-                    <li>Regulatory requirements specify VaR limits</li>
-                    <li>Small portfolio (&lt;50 assets)</li>
-                    <li>Performance speed isn't critical</li>
-                </ul>
-            </div>
-
-            <div class="formulation-card">
-                <h4>⚖️ Choose Option 1 If:</h4>
-                <ul>
-                    <li>You want explicit control over Sharpe vs VaR weighting</li>
-                    <li>Different market regimes require different balances</li>
-                    <li>You have time to tune two parameters</li>
-                    <li>Maximum flexibility is needed</li>
-                </ul>
-            </div>
-
-            <div class="formulation-card">
-                <h4>🚀 Choose Option 2 If:</h4>
-                <ul>
-                    <li>You want Sharpe-based optimization with VaR control</li>
-                    <li>Single parameter tuning is preferred</li>
-                    <li>General-purpose optimization is needed</li>
-                    <li>Good balance of theory and practicality</li>
-                </ul>
-            </div>
-
-            <div class="formulation-card">
-                <h4>🔬 Choose Option 3 If:</h4>
-                <ul>
-                    <li>You're researching novel risk measures</li>
-                    <li>VaR should directly impact risk measurement</li>
-                    <li>Experimental approaches are acceptable</li>
-                    <li>You want to modify the Sharpe ratio concept</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="note">
-            <p><strong>Recommendation:</strong> Start with <span class="highlight">Option 2 (Sharpe with VaR Penalty)</span> for most practical applications. It provides the best balance of theoretical soundness, interpretability, and implementation simplicity while eliminating the need for arbitrary VaR constraints.</p>
-        </div>
+      </div>
     </div>
+  </div>
+
+<script>
+  // ----- Math helpers -----
+  function erf(x) { // Abramowitz-Stegun approximation
+    const sign = Math.sign(x); x = Math.abs(x);
+    const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+    const t = 1/(1+p*x);
+    const y = 1 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-x*x);
+    return sign*y;
+  }
+  function pdf(x, mu, sigma){
+    const z = (x-mu)/sigma;
+    return Math.exp(-0.5*z*z)/(sigma*Math.sqrt(2*Math.PI));
+  }
+  function cdf(x, mu, sigma){
+    return 0.5*(1+erf((x-mu)/(sigma*Math.SQRT2)));
+  }
+  function quantile(p, mu, sigma){ // inverse CDF via rational approximation (Acklam's method)
+    // constants
+    const a=[-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02, 1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00];
+    const b=[-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02, 6.680131188771972e+01, -1.328068155288572e+01];
+    const c=[-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00, -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00];
+    const d=[7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00, 3.754408661907416e+00];
+    const plow=0.02425, phigh=1-plow; let q, r;
+    if(p<plow){ q=Math.sqrt(-2*Math.log(p)); return mu + sigma*((( ((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+    if(p>phigh){ q=Math.sqrt(-2*Math.log(1-p)); return mu - sigma*((( ((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+    q=p-0.5; r=q*q; return mu + sigma*((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*q/((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*q+sigma*q*2.5066282746310002e+00*0; // minimal center formula
+  }
+
+  // ----- Plot setup -----
+  const canvas = document.getElementById('plot');
+  const ctx = canvas.getContext('2d');
+  const muInput = document.getElementById('mu');
+  const sigmaPctInput = document.getElementById('sigmaPct');
+  const kSlider = document.getElementById('kSlider');
+  const kInfo = document.getElementById('kInfo');
+  const statsDiv = document.getElementById('stats');
+  const snapBtn = document.getElementById('snap05');
+
+  function px(v){ return Math.round(v); }
+  function fmtPct(x){ return (x*100).toFixed(2) + '%'; }
+
+  function draw(){
+    const muPct = parseFloat(muInput.value||'0');
+    const sigmaPct = Math.max(0.0001, parseFloat(sigmaPctInput.value||'1'));
+    const mu = muPct/100; const sigma = sigmaPct/100;
+    const k = parseFloat(kSlider.value); // in sigma units
+    const xCut = mu + k*sigma; // cutoff return
+
+    // domain and scaling
+    const xmin = mu - 4*sigma, xmax = mu + 4*sigma;
+    const w = canvas.width, h = canvas.height; const pad = 46; const plotW = w - 2*pad, plotH = h - 2*pad;
+    ctx.clearRect(0,0,w,h);
+
+    // grid
+    ctx.save();
+    ctx.translate(pad, pad);
+    ctx.fillStyle = '#0b1220'; ctx.fillRect(0,0,plotW,plotH);
+    ctx.strokeStyle = '#1f2937'; ctx.lineWidth = 1;
+    for(let i=0;i<=8;i++){
+      const gx = i/8*plotW; ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,plotH); ctx.stroke();
+    }
+    for(let i=0;i<=4;i++){
+      const gy = i/4*plotH; ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(plotW,gy); ctx.stroke();
+    }
+
+    // scaling functions
+    const xToPx = x => (x - xmin)/(xmax - xmin)*plotW;
+    // y scale by pdf max at mu
+    const yMax = pdf(mu, mu, sigma);
+    const yToPx = y => plotH - (y/yMax)*plotH*0.95;
+
+    // pdf curve
+    ctx.strokeStyle = '#60a5fa'; ctx.lineWidth = 2.2; ctx.beginPath();
+    const N=600; for(let i=0;i<=N;i++){
+      const x = xmin + (xmax - xmin)*i/N; const y = pdf(x, mu, sigma); const X = xToPx(x), Y = yToPx(y);
+      if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+    }
+    ctx.stroke();
+
+    // shade left tail up to xCut
+    const xCutClamped = Math.max(xmin, Math.min(xmax, xCut));
+    ctx.fillStyle = 'rgba(248, 113, 113, 0.45)'; ctx.beginPath();
+    ctx.moveTo(0, plotH);
+    for(let i=0;i<=N;i++){
+      const x = xmin + (xCutClamped - xmin)*i/N; const y = pdf(x, mu, sigma); const X=xToPx(x), Y=yToPx(y);
+      if(i===0) ctx.lineTo(X, Y); else ctx.lineTo(X, Y);
+    }
+    ctx.lineTo(xToPx(xCutClamped), plotH); ctx.closePath(); ctx.fill();
+
+    // cutoff line
+    ctx.strokeStyle = '#f87171'; ctx.setLineDash([6,6]); ctx.lineWidth = 2; ctx.beginPath();
+    ctx.moveTo(xToPx(xCutClamped), 0); ctx.lineTo(xToPx(xCutClamped), plotH); ctx.stroke(); ctx.setLineDash([]);
+
+    // axes labels
+    ctx.fillStyle = '#9ca3af'; ctx.font = '12px ui-sans-serif, system-ui';
+    // x ticks (percent)
+    for(let i=-4;i<=4;i++){
+      const x = mu + i*sigma; const X = xToPx(x); const label = ( (x)*100 ).toFixed(1)+'%';
+      ctx.fillText(label, X-16, plotH+18);
+      ctx.beginPath(); ctx.moveTo(X, plotH); ctx.lineTo(X, plotH+4); ctx.strokeStyle = '#9ca3af'; ctx.stroke();
+    }
+    ctx.fillText('Portfolio Return →', plotW-130, plotH+36);
+
+    // stats
+    const leftArea = cdf(xCut, mu, sigma);
+    const var95 = -quantile(0.05, mu, sigma); // reported as positive loss
+    kInfo.innerHTML = `<span class="stat">k = <b>${k.toFixed(2)}σ</b>  → cutoff return = <b>${(xCut*100).toFixed(2)}%</b></span>`;
+    statsDiv.innerHTML = `
+      <div class="stat">Left-tail probability at cutoff = <b>${(leftArea*100).toFixed(2)}%</b></div>
+      <div class="stat">(Interpretation: ${((1-leftArea)*100).toFixed(2)}% chance of returns being worse than the cutoff)</div>
+      <hr style="border: none; border-top: 1px solid #1f2937; margin: 10px 0;">
+      <div class="stat">VaR<sub>95</sub> (from distribution) = <b>${(var95*100).toFixed(2)}% loss</b>  
+        <span style="color:#9ca3af">→ corresponds to cutoff at 5th percentile</span>
+      </div>
+    `;
+
+    ctx.restore();
+  }
+
+  // interactions
+  function snapTo05(){
+    const sigma = Math.max(0.0001, parseFloat(sigmaPctInput.value||'1'))/100;
+    // 5th percentile return = mu + z_0.05 * sigma, with z≈-1.64485362695147
+    const z05 = -1.64485362695147;
+    kSlider.value = z05.toFixed(2);
+    draw();
+  }
+
+  kSlider.addEventListener('input', draw);
+  muInput.addEventListener('input', draw);
+  sigmaPctInput.addEventListener('input', draw);
+  snapBtn.addEventListener('click', snapTo05);
+
+  // keyboard nudge
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='ArrowLeft' || e.key==='ArrowRight'){
+      const step = (e.shiftKey?0.1:0.01)*(e.key==='ArrowLeft'?-1:1);
+      kSlider.value = (+kSlider.value + step).toFixed(2);
+      draw();
+    }
+  });
+
+  // init
+  draw();
+</script>
 </body>
 </html>
