@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factor Provider Ecosystem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            padding: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-weight: 600;
+            color: #495057;
+            padding: 18px 15px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        td {
+            padding: 16px 15px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .provider {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 15px;
+            min-width: 180px;
+        }
+        
+        .description {
+            max-width: 400px;
+            line-height: 1.5;
+        }
+        
+        .employees {
+            text-align: center;
+            font-weight: 600;
+            color: #495057;
+            min-width: 80px;
+        }
+        
+        .function {
+            font-style: italic;
+            color: #6c757d;
+            max-width: 200px;
+            line-height: 1.4;
+        }
+        
+        .degrees {
+            font-size: 12px;
+            color: #6c757d;
+            max-width: 180px;
+            line-height: 1.3;
+            font-style: italic;
+        }
+        
+        .free-yes {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 20px;
+            padding: 8px 16px;
+            min-width: 90px;
+        }
+        
+        .free-freemium {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            color: #856404;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 20px;
+            padding: 8px 16px;
+            min-width: 90px;
+        }
+        
+        .free-no {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 20px;
+            padding: 8px 16px;
+            min-width: 90px;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-1px);
+            transition: all 0.2s ease;
+        }
+        
+        .legend {
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .legend h3 {
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 1.2rem;
+        }
+        
+        .legend-items {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-badge {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        
+        .stats {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            table {
+                font-size: 12px;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+            }
+            
+            .legend-items {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Factor Provider Ecosystem</h1>
+            <p>Comprehensive guide to financial factor and risk model providers across traditional and alternative data sources</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">25</div>
+                <div class="stat-label">Total Providers</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Free Sources</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Freemium Models</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">$50T+</div>
+                <div class="stat-label">Assets Covered</div>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Provider</th>
+                        <th>Key Differentiator & Details</th>
+                        <th>Employees</th>
+                        <th>Primary Function</th>
+                        <th>Typical Degrees</th>
+                        <th>Pricing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="provider">MSCI Barra</td>
+                        <td class="description">Invented modern multi-factor risk models; industry standard for 40+ years. Global equity models (GEM), fixed income, private equity models. Used by $30T+ in assets. Acquired by MSCI in 2010.</td>
+                        <td class="employees">~4,500</td>
+                        <td class="function">Risk model development, index construction, ESG analytics</td>
+                        <td class="degrees">Finance, Economics, Statistics, Mathematics, Engineering</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Axioma</td>
+                        <td class="description">Advanced optimization engines integrated with risk models; now part of Qontigo (Deutsche Börse). Factor attribution, portfolio optimization, stress testing. Strong in alternatives and multi-asset class modeling.</td>
+                        <td class="employees">~200</td>
+                        <td class="function">Portfolio optimization, risk analytics, multi-asset modeling</td>
+                        <td class="degrees">Mathematics, Physics, Operations Research, Financial Engineering</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Northfield</td>
+                        <td class="description">Pioneer in fundamental factor models; strong in performance attribution. Founded by Barr Rosenberg (Barra co-founder). Focus on US equity models, sector rotation strategies. Popular with hedge funds.</td>
+                        <td class="employees">~50</td>
+                        <td class="function">Fundamental factor modeling, performance attribution</td>
+                        <td class="degrees">Finance, Economics, MBA, Statistics</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">CapitalIQ</td>
+                        <td class="description">S&P's integrated platform; combines fundamentals, estimates, and risk models. Excel integration, screening tools, comp analysis. Popular with investment banks and equity research teams.</td>
+                        <td class="employees">~1,200</td>
+                        <td class="function">Financial data aggregation, equity research tools</td>
+                        <td class="degrees">Finance, Accounting, Economics, MBA, Computer Science</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Bloomberg</td>
+                        <td class="description">Real-time factor models integrated with trading; PORT/MARS platforms. 350k+ terminals globally. Equity, fixed income, commodity factor models. Live P&L attribution and risk monitoring.</td>
+                        <td class="employees">~20,000</td>
+                        <td class="function">Financial data terminal, news, analytics, trading systems</td>
+                        <td class="degrees">Computer Science, Finance, Engineering, Journalism, Mathematics</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Alphatheory</td>
+                        <td class="description">Portfolio manager workflow focused; idea scoring and position sizing. Kelly criterion-based position sizing. Integrates fundamental research with quantitative risk management. Popular with long/short equity managers.</td>
+                        <td class="employees">~25</td>
+                        <td class="function">PM workflow optimization, position sizing tools</td>
+                        <td class="degrees">Finance, Mathematics, Statistics, MBA</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">OmegaPoint</td>
+                        <td class="description">Risk budgeting and portfolio construction specialists; institutional PM tools. Factor exposure analysis, optimization with custom constraints. Strong in alternatives and multi-manager portfolios.</td>
+                        <td class="employees">~40</td>
+                        <td class="function">Risk budgeting, portfolio construction analytics</td>
+                        <td class="degrees">Financial Engineering, Mathematics, Statistics, Physics</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Arcana</td>
+                        <td class="description">Alternative data factors from satellite, credit card, web scraping sources. Retail foot traffic, supply chain disruption signals. Real-time economic activity indicators from unconventional data sources.</td>
+                        <td class="employees">~30</td>
+                        <td class="function">Alternative data aggregation, signal generation</td>
+                        <td class="degrees">Computer Science, Data Science, Statistics, Economics</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Estimize/ExtractAlpha</td>
+                        <td class="description">Crowdsourced earnings estimates and sentiment-based factors. 100k+ contributors globally. TacticalModel for factor timing. Sentiment scores from analyst language and revisions patterns.</td>
+                        <td class="employees">~60</td>
+                        <td class="function">Crowdsourced analytics, sentiment factor creation</td>
+                        <td class="degrees">Finance, Data Science, Psychology, Statistics, NLP/ML</td>
+                        <td class="free-freemium">Freemium</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Hedgineer</td>
+                        <td class="description">Options-focused risk models; derivatives portfolio analytics. Greeks-based factor models, volatility surface analysis. Popular with options market makers and volatility arbitrage funds.</td>
+                        <td class="employees">~15</td>
+                        <td class="function">Options risk modeling, derivatives analytics</td>
+                        <td class="degrees">Financial Engineering, Mathematics, Physics, Quantitative Finance</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Quandl/Nasdaq</td>
+                        <td class="description">Marketplace for alternative datasets; easy API access to factor data. 20M+ time series from 500+ sources. Economic indicators, commodities, sentiment data. Acquired by Nasdaq in 2018.</td>
+                        <td class="employees">~150</td>
+                        <td class="function">Data marketplace, API infrastructure</td>
+                        <td class="degrees">Computer Science, Data Engineering, Economics, Statistics</td>
+                        <td class="free-freemium">Freemium</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Yewno</td>
+                        <td class="description">AI-driven concept extraction from unstructured text; thematic factors. Knowledge graph technology, patent analysis. ESG factors from news flow. Used by sovereign wealth funds and asset managers.</td>
+                        <td class="employees">~80</td>
+                        <td class="function">AI-powered knowledge extraction, thematic research</td>
+                        <td class="degrees">Computer Science, AI/ML, NLP, Physics, Mathematics</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Dataminr</td>
+                        <td class="description">Real-time news and social media sentiment factors; event-driven signals. Twitter firehose access, breaking news detection. Used by hedge funds for event-driven strategies and risk monitoring.</td>
+                        <td class="employees">~700</td>
+                        <td class="function">Real-time news analytics, event detection</td>
+                        <td class="degrees">Computer Science, AI/ML, NLP, Data Science, Journalism</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Satellite imagery providers</td>
+                        <td class="description">Economic activity factors from space (traffic, construction, agriculture). Planet Labs, Orbital Insight, SpaceKnow. Parking lot counts, oil storage levels, crop yield prediction. Real-time economic nowcasting.</td>
+                        <td class="employees">~500</td>
+                        <td class="function">Satellite data analysis, geospatial intelligence</td>
+                        <td class="degrees">Aerospace Engineering, Computer Vision, Geospatial Science, Physics</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">FactSet</td>
+                        <td class="description">Integrated research platform; combines analyst estimates with factor models. 180k+ users, Excel/API integration. Multi-asset class coverage, private market data. Strong in fundamental analysis workflows.</td>
+                        <td class="employees">~12,000</td>
+                        <td class="function">Financial data platform, research tools</td>
+                        <td class="degrees">Finance, Computer Science, Accounting, Economics, MBA</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">LSEG (Refinitiv)</td>
+                        <td class="description">London Stock Exchange Group acquired Refinitiv in 2021; comprehensive data + analytics platform. Eikon terminal, real-time market data. StarMine factor models, analyst revision signals. 40k+ clients globally including central banks.</td>
+                        <td class="employees">~25,000</td>
+                        <td class="function">Market data, news, trading infrastructure</td>
+                        <td class="degrees">Computer Science, Finance, Engineering, Journalism, Data Science</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Two Sigma</td>
+                        <td class="description">Venn platform; systematic investing tools for institutions. Machine learning-driven factor discovery. Alternative data integration, backtesting infrastructure. Used by $60B+ AUM systematic manager.</td>
+                        <td class="employees">~1,800</td>
+                        <td class="function">Systematic investment management, quant research</td>
+                        <td class="degrees">PhD Physics, Mathematics, Computer Science, Statistics, Engineering</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">AQR</td>
+                        <td class="description">Academic-quality factor research; publishes factor returns publicly. Momentum, carry, value factors across asset classes. Founded by Cliff Asness. Free data library with 100+ factor time series.</td>
+                        <td class="employees">~900</td>
+                        <td class="function">Quantitative asset management, factor research</td>
+                        <td class="degrees">PhD Finance, Economics, Statistics, Mathematics, MBA</td>
+                        <td class="free-yes">Yes</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Kenneth French's website</td>
+                        <td class="description">Free academic factor data; Fama-French factor returns since 1926. SMB, HML, RMW, CMA factors. Daily, monthly, annual frequencies. Most cited factor dataset in academic finance. Updated monthly.</td>
+                        <td class="employees">1</td>
+                        <td class="function">Academic factor research, data dissemination</td>
+                        <td class="degrees">PhD Finance (Dartmouth Professor)</td>
+                        <td class="free-yes">Yes</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">WorldQuant</td>
+                        <td class="description">BRAIN platform; crowdsourced alpha discovery from global talent. 5k+ researchers worldwide, millions of alphas tested. Used by $7B+ quantitative hedge fund. Alpha simulation and research tools.</td>
+                        <td class="employees">~800</td>
+                        <td class="function">Quantitative investment management, alpha research</td>
+                        <td class="degrees">PhD Physics, Mathematics, Computer Science, Statistics</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Kensho (S&P)</td>
+                        <td class="description">AI-powered factor discovery; natural language query of market data. Machine learning for pattern recognition in financial data. Event impact analysis, thematic investing tools. Acquired by S&P Global in 2018.</td>
+                        <td class="employees">~120</td>
+                        <td class="function">AI-powered financial analytics, NLP research</td>
+                        <td class="degrees">PhD Computer Science, AI/ML, Mathematics, Physics</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Markit (IHS Markit/S&P)</td>
+                        <td class="description">Credit and fixed income factors; CDS and bond analytics. CDX/iTraxx indices, credit curves. Loan pricing, collateral valuation. Acquired by S&P Global for $44B in 2022.</td>
+                        <td class="employees">~5,000</td>
+                        <td class="function">Credit market data, fixed income analytics</td>
+                        <td class="degrees">Finance, Economics, Mathematics, MBA, Financial Engineering</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">BlackRock Aladdin</td>
+                        <td class="description">$20T+ assets on platform; integrated risk management and trading. Used by 200+ institutions globally. Multi-asset class risk models, portfolio construction tools. End-to-end investment management workflow.</td>
+                        <td class="employees">~3,000</td>
+                        <td class="function">Investment management platform, risk analytics</td>
+                        <td class="degrees">Finance, MBA, Computer Science, Mathematics, Engineering</td>
+                        <td class="free-no">No</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">Kaiko</td>
+                        <td class="description">Crypto market data and factors; institutional-grade digital asset analytics. Tick-by-tick data from 100+ exchanges. Market microstructure research, DeFi analytics. Real-time and historical crypto factor models.</td>
+                        <td class="employees">~50</td>
+                        <td class="function">Cryptocurrency market data, digital asset analytics</td>
+                        <td class="degrees">Computer Science, Finance, Data Science, Cryptography</td>
+                        <td class="free-freemium">Freemium</td>
+                    </tr>
+                    <tr>
+                        <td class="provider">CoinMetrics</td>
+                        <td class="description">On-chain crypto factors; blockchain data and network metrics. Network value, active addresses, hash rate factors. Academic-quality research, FARUM framework. Used by crypto hedge funds and institutions.</td>
+                        <td class="employees">~40</td>
+                        <td class="function">Blockchain data analysis, crypto network metrics</td>
+                        <td class="degrees">Computer Science, Cryptography, Economics, Data Science</td>
+                        <td class="free-freemium">Freemium</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="legend">
+            <h3>Pricing Model Legend</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="legend-badge free-yes">Yes</span>
+                    <span>Completely free access to core factor data</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge free-freemium">Freemium</span>
+                    <span>Basic data free, premium features require payment</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge free-no">No</span>
+                    <span>Paid subscription or enterprise licensing only</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
