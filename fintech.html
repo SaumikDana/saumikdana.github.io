@@ -91,9 +91,11 @@ MathJax = {
 .nested-level-1 {
    margin-left: 30px;
 }
-
 .nested-level-2 {
    margin-left: 60px;
+}
+.nested-level-3 {
+   margin-left: 90px;
 }
 .bullet {
     color: #e74c3c;
@@ -201,199 +203,199 @@ li {
 .toc a:hover {
     text-decoration: underline;
 }
-    :root {
-      --bg: #ffffff;
-      --fg: #1f2937;
-      --muted: #6b7280;
-      --accent: #2563eb;
-      --border: #e5e7eb;
-      --card: #ffffff;
-      --card-border: #d1d5db;
-      --code-bg: #f3f4f6;
-    }
+:root {
+  --bg: #ffffff;
+  --fg: #1f2937;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --border: #e5e7eb;
+  --card: #ffffff;
+  --card-border: #d1d5db;
+  --code-bg: #f3f4f6;
+}
 
-    * { 
-      box-sizing: border-box; 
-    }
-    
-    html, body { 
-      margin: 0; 
-      padding: 0; 
-    }
-    
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-    }
-    
-    .wrap { 
-      max-width: 95%; 
-      margin: 0 auto; 
-      padding: 32px 16px 64px; 
-    }
-    
-    header h1 { 
-      margin: 0 0 6px; 
-      font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); 
-      letter-spacing: -0.02em;
-      color: var(--fg);
-      font-weight: 700;
-    }
-    
-    header p { 
-      margin: 0 0 22px; 
-      color: var(--muted); 
-      font-size: 1.1rem;
-    }
-    
-    .card { 
-      background: var(--card); 
-      border: 1px solid var(--card-border); 
-      border-radius: 14px; 
-      padding: 24px; 
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05); 
-    }
-    
-    .table-wrap { 
-      overflow-x: auto; 
-      -webkit-overflow-scrolling: touch; 
-    }
-    
-    table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      min-width: 760px; 
-    }
-    
-    thead th { 
-      text-align: left; 
-      font-weight: 700; 
-      font-size: 0.95rem; 
-      color: var(--fg); 
-      border-bottom: 2px solid var(--border); 
-      padding: 16px 12px; 
-      background: #f9fafb;
-    }
-    
-    tbody td { 
-      vertical-align: top; 
-      padding: 16px 12px; 
-      border-bottom: 1px solid var(--border); 
-      line-height: 1.5;
-    }
-    
-    tbody tr:hover {
-      background: #f8fafc;
-    }
-    
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-    
-    code, kbd { 
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
-      font-size: 0.9em; 
-      background: var(--code-bg); 
-      padding: 2px 6px; 
-      border-radius: 4px;
-      color: #374151;
-    }
-    
-    .note { 
-      margin-top: 20px; 
-      color: var(--muted); 
-      font-size: 0.95rem; 
-      padding: 16px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border-left: 4px solid var(--accent);
-    }
-    
-    footer { 
-      margin-top: 28px; 
-      color: var(--muted); 
-      font-size: 0.9rem; 
-      padding: 16px;
-      background: #f9fafb;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-    
-    a { 
-      color: var(--accent); 
-      text-decoration: none; 
-    }
-    
-    a:hover { 
-      text-decoration: underline; 
-    }
+* { 
+  box-sizing: border-box; 
+}
 
-    strong {
-      font-weight: 600;
-      color: var(--fg);
-    }
+html, body { 
+  margin: 0; 
+  padding: 0; 
+}
 
-    /* Math styling */
-    .MathJax {
-      color: var(--fg) !important;
-    }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+}
 
-    .mjx-chtml {
-      color: var(--fg) !important;
-    }
+.wrap { 
+  max-width: 95%; 
+  margin: 0 auto; 
+  padding: 32px 16px 64px; 
+}
 
-    /* Table styling improvements */
-    td:first-child {
-      font-weight: 500;
-    }
+header h1 { 
+  margin: 0 0 6px; 
+  font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); 
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  font-weight: 700;
+}
 
-    td:nth-child(2) {
-      font-style: italic;
-    }
+header p { 
+  margin: 0 0 22px; 
+  color: var(--muted); 
+  font-size: 1.1rem;
+}
 
-    /* Responsive improvements */
-    @media (max-width: 768px) {
-      .wrap {
-        max-width: 98%;
-        padding: 20px 12px 40px;
-      }
-      
-      .card {
-        padding: 16px;
-      }
-      
-      table {
-        font-size: 0.9rem;
-      }
-      
-      thead th,
-      tbody td {
-        padding: 12px 8px;
-      }
-    }
+.card { 
+  background: var(--card); 
+  border: 1px solid var(--card-border); 
+  border-radius: 14px; 
+  padding: 24px; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05); 
+}
 
-    @media (min-width: 1400px) {
-      .wrap {
-        max-width: 98%;
-      }
-    }
+.table-wrap { 
+  overflow-x: auto; 
+  -webkit-overflow-scrolling: touch; 
+}
 
-    /* Enhanced table layout for wide screens */
-    @media (min-width: 1200px) {
-      table {
-        min-width: 100%;
-      }
-      
-      thead th,
-      tbody td {
-        padding: 18px 16px;
-      }
-      
-      tbody td {
-        font-size: 1rem;
-      }
-    }
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  min-width: 760px; 
+}
+
+thead th { 
+  text-align: left; 
+  font-weight: 700; 
+  font-size: 0.95rem; 
+  color: var(--fg); 
+  border-bottom: 2px solid var(--border); 
+  padding: 16px 12px; 
+  background: #f9fafb;
+}
+
+tbody td { 
+  vertical-align: top; 
+  padding: 16px 12px; 
+  border-bottom: 1px solid var(--border); 
+  line-height: 1.5;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+code, kbd { 
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
+  font-size: 0.9em; 
+  background: var(--code-bg); 
+  padding: 2px 6px; 
+  border-radius: 4px;
+  color: #374151;
+}
+
+.note { 
+  margin-top: 20px; 
+  color: var(--muted); 
+  font-size: 0.95rem; 
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent);
+}
+
+footer { 
+  margin-top: 28px; 
+  color: var(--muted); 
+  font-size: 0.9rem; 
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+a { 
+  color: var(--accent); 
+  text-decoration: none; 
+}
+
+a:hover { 
+  text-decoration: underline; 
+}
+
+strong {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* Math styling */
+.MathJax {
+  color: var(--fg) !important;
+}
+
+.mjx-chtml {
+  color: var(--fg) !important;
+}
+
+/* Table styling improvements */
+td:first-child {
+  font-weight: 500;
+}
+
+td:nth-child(2) {
+  font-style: italic;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .wrap {
+    max-width: 98%;
+    padding: 20px 12px 40px;
+  }
+  
+  .card {
+    padding: 16px;
+  }
+  
+  table {
+    font-size: 0.9rem;
+  }
+  
+  thead th,
+  tbody td {
+    padding: 12px 8px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .wrap {
+    max-width: 98%;
+  }
+}
+
+/* Enhanced table layout for wide screens */
+@media (min-width: 1200px) {
+  table {
+    min-width: 100%;
+  }
+  
+  thead th,
+  tbody td {
+    padding: 18px 16px;
+  }
+  
+  tbody td {
+    font-size: 1rem;
+  }
+}
 </style>  
 </head>
 <body>
@@ -928,6 +930,104 @@ Right group: 118 samples, mean=  -95.74
 
 
 
+<div class="container">
+<h1>Random Forest Regressor Algorithm Steps</h1>
+<div class="algorithm-box">
+<div class="step">
+<span class="bullet">•</span> <span class="bootstrap">Create N bootstrap samples</span> (with replacement)
+</div>
+<div class="step">
+<span class="bullet">•</span> <span class="for-loop">For each bootstrap sample (in parallel)</span>
+</div>
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="keyword">Original MSE</span> from Y values in this sample
+</div>
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="for-loop">For each node split</span>
+</div>
+<div class="step nested-level-2">
+<span class="bullet">•</span> <span class="bootstrap">Randomly select subset of features</span> (√n_features)
+</div>
+<div class="step nested-level-2">
+<span class="bullet">•</span> <span class="for-loop">For each selected feature</span>
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="keyword">Split Y values</span> into two groups
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="keyword">Calculate mean and MSE</span> for each group
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="keyword">Combine MSEs</span> with weighted average
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Original MSE - Weighted MSE
+</div>
+<div class="step nested-level-2">
+<span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for selected features
+</div>
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="emphasis">Select best split</span> and continue building tree
+</div>
+<div class="step">
+<span class="bullet">•</span> <span class="emphasis">Average predictions</span> from all N trees
+</div>
+</div>
+</div>
+
+<div class="container">
+<h1>XGBoost Regressor Algorithm Steps</h1>
+<div class="algorithm-box">
+<div class="step">
+<span class="bullet">•</span> <span class="keyword">Initialize predictions</span> (mean of Y values)
+</div>
+<div class="step">
+<span class="bullet">•</span> <span class="for-loop">For each tree (sequentially)</span>
+</div>
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="sequential">Calculate residuals</span> = Y - current_predictions
+</div>
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="keyword">Original MSE</span> from residuals (not original Y)
+</div>
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="for-loop">For each feature</span>
+</div>
+<div class="step nested-level-2">
+<span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="sequential">Split residuals</span> into two groups
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="keyword">Calculate mean and MSE</span> for each group
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="keyword">Combine MSEs</span> with weighted average
+</div>
+<div class="step nested-level-3">
+<span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Residual MSE - Weighted MSE
+</div>
+<div class="step nested-level-2">
+<span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for this feature
+</div>
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="emphasis">Select best split</span> across all features
+</div>
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="sequential">Update predictions</span> += learning_rate × tree_prediction
+</div>
+<div class="step">
+<span class="bullet">•</span> <span class="emphasis">Final prediction</span> = sum of all tree contributions
+</div>
+</div>
+</div>
+  
+
+  
 <div class="container">
    <h1>Decision Tree Classifier Algorithm Steps</h1>
    <div class="algorithm-box">
