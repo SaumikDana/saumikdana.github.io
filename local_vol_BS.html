@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematical Implementation: Options Pricing via Local Volatility PDE</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.8;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .header .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .content {
+            padding: 50px 60px;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .math-section {
+            background: #fdfdfd;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .math-section h3 {
+            color: #34495e;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .equation {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-family: 'Times New Roman', serif;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+            box-shadow: inset 0 0 10px rgba(52, 152, 219, 0.1);
+        }
+        
+        .equation-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: right;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .variables {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+        
+        .variables h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .var-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .var-item {
+            padding: 8px 12px;
+            background: white;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .derivation {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+        
+        .derivation h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .step {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 3px solid #e74c3c;
+            background: #fafafa;
+        }
+        
+        .step-number {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 8px;
+        }
+        
+        .matrix-display {
+            font-family: 'Courier New', monospace;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-size: 1rem;
+        }
+        
+        .matrix-label {
+            color: #3498db;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .numerical-details {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .numerical-details h4 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .parameter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .parameter-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 4px solid #e74c3c;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .parameter-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .parameter-card .value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 5px;
+        }
+        
+        .parameter-card .description {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        
+        .algorithm-box {
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            background: #f8f9fa;
+        }
+        
+        .algorithm-box h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+        
+        .algorithm-steps {
+            counter-reset: step-counter;
+        }
+        
+        .algorithm-step {
+            counter-increment: step-counter;
+            margin: 12px 0;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            position: relative;
+        }
+        
+        .algorithm-step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #3498db;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .convergence-analysis {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .convergence-analysis h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .stability-condition {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+        }
+        
+        .implementation-note {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+        
+        .svi-calibration {
+            background: #fff;
+            border: 2px solid #2ecc71;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .optimization-objective {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .parameter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .var-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mathematical Implementation</h1>
+            <div class="subtitle">Local Volatility Black-Scholes PDE with SVI Surface Calibration</div>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>I. The Local Volatility Black-Scholes PDE</h2>
+                
+                <div class="math-section">
+                    <h3>Governing Equation</h3>
+                    <div class="equation">
+                        $$\frac{\partial V}{\partial \tau} = \frac{1}{2}\sigma^2(S,\tau)S^2 \frac{\partial^2 V}{\partial S^2} + (r-q)S \frac{\partial V}{\partial S} - rV$$
+                        <div class="equation-label">(1)</div>
+                    </div>
+                    
+                    <div class="variables">
+                        <h4>Variable Definitions:</h4>
+                        <div class="var-list">
+                            <div class="var-item"><strong>\(V(S,\tau)\)</strong>: Option value as function of spot S and time-to-expiry τ</div>
+                            <div class="var-item"><strong>\(\sigma(S,\tau)\)</strong>: Local volatility surface (space and time dependent)</div>
+                            <div class="var-item"><strong>\(r\)</strong>: Risk-free interest rate</div>
+                            <div class="var-item"><strong>\(q\)</strong>: Continuous dividend yield</div>
+                            <div class="var-item"><strong>\(\tau = T - t\)</strong>: Time to expiration (backward time)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="math-section">
+                    <h3>Coordinate Transformation to Moneyness Space</h3>
+                    <div class="equation">
+                        $$m = \frac{S}{K}, \quad u(m,\tau) = \frac{V(S,\tau)}{K}$$
+                        <div class="equation-label">(2)</div>
+                    </div>
+                    
+                    <div class="derivation">
+                        <h4>PDE in Moneyness Coordinates</h4>
+                        <div class="equation">
+                            $$\frac{\partial u}{\partial \tau} = \frac{1}{2}\sigma^2(m,\tau)m^2 \frac{\partial^2 u}{\partial m^2} + \left((r-q) - \frac{1}{2}\sigma^2(m,\tau)\right)m \frac{\partial u}{\partial m} - ru$$
+                            <div class="equation-label">(3)</div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">Transformation Benefits:</div>
+                            • Dimensionless coordinates independent of strike level<br>
+                            • Natural boundary conditions: \(u(0,\tau) = 0\), \(u(\infty,\tau) = m - e^{-(r-q)\tau}\)<br>
+                            • Improved numerical stability for wide strike ranges
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="math-section">
+                    <h3>Initial and Boundary Conditions</h3>
+                    
+                    <div class="equation">
+                        $$u(m,0) = \max(m-1, 0) \quad \text{(Call payoff at expiration)}$$
+                        <div class="equation-label">(4)</div>
+                    </div>
+                    
+                    <div class="equation">
+                        $$u(0,\tau) = 0 \quad \text{(Deep OTM boundary)}$$
+                        <div class="equation-label">(5)</div>
+                    </div>
+                    
+                    <div class="equation">
+                        $$u(m_{\text{max}},\tau) = m_{\text{max}} - e^{-(r-q)\tau} \quad \text{(Deep ITM boundary)}$$
+                        <div class="equation-label">(6)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>II. SVI Volatility Surface Calibration</h2>
+                
+                <div class="svi-calibration">
+                    <h3>SVI Parameterization</h3>
+                    
+                    <div class="equation">
+                        $$w(k) = a + b\left[\rho(k-m) + \sqrt{(k-m)^2 + \sigma^2}\right]$$
+                        <div class="equation-label">(7)</div>
+                    </div>
+                    
+                    <div class="variables">
+                        <h4>SVI Parameters:</h4>
+                        <div class="var-list">
+                            <div class="var-item"><strong>\(k = \ln(K/F)\)</strong>: Log forward moneyness</div>
+                            <div class="var-item"><strong>\(w = \sigma^2T\)</strong>: Total implied variance</div>
+                            <div class="var-item"><strong>\(a\)</strong>: Variance level (controls ATM variance)</div>
+                            <div class="var-item"><strong>\(b \geq 0\)</strong>: Variance slope (controls skew intensity)</div>
+                            <div class="var-item"><strong>\(\rho \in [-1,1]\)</strong>: Skew parameter</div>
+                            <div class="var-item"><strong>\(m\)</strong>: Translation parameter (shifts minimum)</div>
+                            <div class="var-item"><strong>\(\sigma > 0\)</strong>: Variance curvature parameter</div>
+                        </div>
+                    </div>
+                    
+                    <div class="optimization-objective">
+                        <h4>Calibration Objective Function</h4>
+                        <div class="equation">
+                            $$\text{minimize: } \sum_i \left(\frac{w_{\text{market},i} - w_{\text{SVI}}(k_i)}{w_{\text{market},i}}\right)^2$$
+                            <div class="equation-label">(8)</div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">Subject to no-arbitrage constraint:</div>
+                            $$a + b\sigma\sqrt{1-\rho^2} \geq 0 \quad \text{(ensures non-negative variance)}$$
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="algorithm-box">
+                    <h4>SVI Calibration Algorithm</h4>
+                    <div class="algorithm-steps">
+                        <div class="algorithm-step">Extract market total variance: \(w_{\text{market}} = \text{IV}^2 \times T\)</div>
+                        <div class="algorithm-step">Generate intelligent initial guess from data extrema</div>
+                        <div class="algorithm-step">Apply SLSQP optimization with bounds: \(b \geq 0\), \(\rho \in [-1,1]\), \(\sigma > 0\)</div>
+                        <div class="algorithm-step">Enforce no-arbitrage constraint: \(a + b\sigma\sqrt{1-\rho^2} \geq 0\)</div>
+                        <div class="algorithm-step">Validate convergence and parameter reasonableness</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>III. Crank-Nicolson Finite Difference Scheme</h2>
+                
+                <div class="math-section">
+                    <h3>Discretization</h3>
+                    
+                    <div class="equation">
+                        $$\text{Grid: } m_i = i \cdot \Delta m, \, i = 0,1,\ldots,M \quad \tau^n = n \cdot \Delta\tau, \, n = 0,1,\ldots,N$$
+                        <div class="equation-label">(9)</div>
+                    </div>
+                    
+                    <div class="equation">
+                        $$u_i^n \equiv u(m_i, \tau^n)$$
+                        <div class="equation-label">(10)</div>
+                    </div>
+                    
+                    <div class="derivation">
+                        <h4>Finite Difference Operators</h4>
+                        <div class="equation">
+                            $$\frac{\partial u}{\partial m}\bigg|_i \approx \frac{u_{i+1} - u_{i-1}}{2\Delta m}$$
+                            <div class="equation-label">(11)</div>
+                        </div>
+                        
+                        <div class="equation">
+                            $$\frac{\partial^2 u}{\partial m^2}\bigg|_i \approx \frac{u_{i+1} - 2u_i + u_{i-1}}{(\Delta m)^2}$$
+                            <div class="equation-label">(12)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="math-section">
+                    <h3>Crank-Nicolson Formulation</h3>
+                    
+                    <div class="equation">
+                        $$\frac{u_i^{n+1} - u_i^n}{\Delta\tau} = \frac{1}{2}\left[L[u^{n+1}]_i + L[u^n]_i\right]$$
+                        <div class="equation-label">(13)</div>
+                    </div>
+                    
+                    <div class="variables">
+                        <h4>Where \(L\) is the spatial differential operator:</h4>
+                        <div class="equation">
+                            $$L[u]_i = \frac{1}{2}\sigma_i^2 m_i^2 \frac{\partial^2 u}{\partial m^2}\bigg|_i + \left((r-q) - \frac{1}{2}\sigma_i^2\right)m_i \frac{\partial u}{\partial m}\bigg|_i - ru_i$$
+                            <div class="equation-label">(14)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="derivation">
+                        <h4>Matrix Form: \(Au^{(n+1)} = Bu^n\)</h4>
+                        
+                        <div class="step">
+                            <div class="step-number">Coefficient Definitions:</div>
+                            <div class="equation">
+                                $$\alpha_i = \frac{1}{2}\frac{\sigma_i^2 m_i^2}{(\Delta m)^2} \quad 
+                                \beta_i = \frac{((r-q) - \frac{1}{2}\sigma_i^2)m_i}{2\Delta m} \quad 
+                                \gamma_i = r$$
+                                <div class="equation-label">(15)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="matrix-display">
+                            <div class="matrix-label">Matrix A (implicit side):</div>
+A[i,i-1] = -½Δτ(α_i - β_i)
+A[i,i]   = 1 + ½Δτ(2α_i + γ_i)  
+A[i,i+1] = -½Δτ(α_i + β_i)
+
+<div class="matrix-label">Matrix B (explicit side):</div>
+B[i,i-1] = ½Δτ(α_i - β_i)
+B[i,i]   = 1 - ½Δτ(2α_i + γ_i)
+B[i,i+1] = ½Δτ(α_i + β_i)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="convergence-analysis">
+                    <h4>Stability and Convergence Analysis</h4>
+                    
+                    <div class="stability-condition">
+                        <strong>Unconditional Stability:</strong> Crank-Nicolson scheme is unconditionally stable for the diffusion equation, allowing larger time steps without numerical instability.
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">Convergence Properties:</div>
+                        • Second-order accuracy in both space \((\Delta m)^2\) and time \((\Delta\tau)^2\)<br>
+                        • Truncation error: \(O((\Delta m)^2 + (\Delta\tau)^2)\)<br>
+                        • Optimal for smooth solutions with moderate computational cost
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>IV. Implementation Parameters and Specifications</h2>
+                
+                <div class="parameter-grid">
+                    <div class="parameter-card">
+                        <h4>Spatial Discretization</h4>
+                        <div class="value">Delta: [0.1, 0.9]</div>
+                        <div class="description">Interval: 0.025 increments<br>Grid points: ~32 per maturity</div>
+                    </div>
+                    
+                    <div class="parameter-card">
+                        <h4>Temporal Discretization</h4>
+                        <div class="value">100 time steps</div>
+                        <div class="description">Adaptive to maturity range<br>\(\Delta\tau = T_{\max}/100\)</div>
+                    </div>
+                    
+                    <div class="parameter-card">
+                        <h4>Interpolation Method</h4>
+                        <div class="value">Polynomial + NN</div>
+                        <div class="description">Primary: Linear/Cubic<br>Fallback: Nearest-neighbor</div>
+                    </div>
+                    
+                    <div class="parameter-card">
+                        <h4>Linear System Solver</h4>
+                        <div class="value">Sparse LU</div>
+                        <div class="description">scipy.sparse.linalg.spsolve<br>Tridiagonal matrix structure</div>
+                    </div>
+                    
+                    <div class="parameter-card">
+                        <h4>SVI Optimization</h4>
+                        <div class="value">SLSQP Method</div>
+                        <div class="description">Sequential Least Squares<br>Constraint: No-arbitrage</div>
+                    </div>
+                    
+                    <div class="parameter-card">
+                        <h4>Numerical Precision</h4>
+                        <div class="value">1e-6 tolerance</div>
+                        <div class="description">Optimization convergence<br>Min variance floor: 1e-8</div>
+                    </div>
+                </div>
+                
+                <div class="numerical-details">
+                    <h4>Validation Methodology</h4>
+                    <p style="margin-bottom: 20px;">
+                        The theoretical option prices \(V_{\text{theory}}\) are systematically compared against market bid-ask spreads 
+                        to quantify pricing accuracy and identify potential arbitrage opportunities:
+                    </p>
+                    
+                    <div class="equation" style="background: rgba(255,255,255,0.2); color: white;">
+                        $$\text{Pricing Accuracy} = \frac{|V_{\text{theory}} - V_{\text{mid}}|}{V_{\text{mid}}}$$
+                        <br>
+                        $$\text{Within Spread} = \mathbb{1}\{V_{\text{bid}} \leq V_{\text{theory}} \leq V_{\text{ask}}\}$$
+                    </div>
+                    
+                    <div class="implementation-note" style="background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3);">
+                        <strong>Statistical Framework:</strong> Hit rate analysis, spread distribution characterization, 
+                        and pricing error decomposition across moneyness and maturity dimensions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
