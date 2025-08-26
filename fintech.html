@@ -423,41 +423,44 @@ li {
 <img src="butterfly.png" alt="Image 2">
 </div>
 
+
+  
 <div class="container">
 <h1>Decision Tree Regressor Algorithm Steps</h1>
-
 <div class="algorithm-box">
 <div class="step">
 <span class="bullet">•</span> <span class="keyword">Original MSE</span> from all Y values
 </div>
-
 <div class="step">
-<span class="bullet">•</span> <span class="keyword">For each feature</span> and <span class="keyword">each possible split</span> (based on X values)
+<span class="bullet">•</span> <span class="for-loop">For each feature</span>
 </div>
-
-<div class="step" style="margin-left: 30px;">
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
+</div>
+<div class="step nested-level-2">
 <span class="bullet">•</span> <span class="keyword">Split Y values</span> into two groups
 </div>
-
-<div class="step" style="margin-left: 30px;">
+<div class="step nested-level-2">
 <span class="bullet">•</span> <span class="keyword">Calculate mean and MSE</span> for each group
 </div>
-
-<div class="step" style="margin-left: 30px;">
+<div class="step nested-level-2">
 <span class="bullet">•</span> <span class="keyword">Combine MSEs</span> with weighted average
 </div>
-
-<div class="step" style="margin-left: 30px;">
+<div class="step nested-level-2">
 <span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Original MSE - Weighted MSE
 </div>
-
+<div class="step nested-level-1">
+<span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for this feature
+</div>
 <div class="step">
-<span class="bullet">•</span> <span class="emphasis">Track best split</span> with highest gain
+<span class="bullet">•</span> <span class="emphasis">Select best split</span> across all features
 </div>
 </div>
-</div>    
+</div>
 
 
+
+  
 <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px;">
 <h3 style="color: #2c3e50; margin-top: 0;">Complete Analysis Output:</h3>
 <pre style="font-family: 'Courier New', monospace; font-size: 11px; color: #2c3e50; background: #ffffff; padding: 15px; border-radius: 5px; overflow-x: auto; max-height: 400px; overflow-y: auto;">================================================================================
