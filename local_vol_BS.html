@@ -1,628 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathematical Implementation: Options Pricing via Local Volatility PDE</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
-    <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true,
-                processEnvironments: true
-            },
-            options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-            }
-        };
-    </script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Times New Roman', serif;
-            line-height: 1.8;
-            color: #1a1a1a;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-            padding: 50px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2.8rem;
-            font-weight: 400;
-            margin-bottom: 15px;
-            font-family: 'Times New Roman', serif;
-        }
-        
-        .header .subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            font-style: italic;
-        }
-        
-        .content {
-            padding: 50px 60px;
-        }
-        
-        .section {
-            margin-bottom: 60px;
-        }
-        
-        .section h2 {
-            color: #2c3e50;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            font-weight: 400;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-        
-        .math-section {
-            background: #fdfdfd;
-            border: 1px solid #e8e8e8;
-            border-radius: 8px;
-            padding: 30px;
-            margin: 25px 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        
-        .math-section h3 {
-            color: #34495e;
-            font-size: 1.6rem;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-        
-        .equation {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 1.4rem;
-            font-family: 'Times New Roman', serif;
-            margin: 20px 0;
-            border-left: 4px solid #3498db;
-            box-shadow: inset 0 0 10px rgba(52, 152, 219, 0.1);
-        }
-        
-        .equation-label {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            text-align: right;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        
-        .variables {
-            background: #ecf0f1;
-            padding: 20px;
-            border-radius: 6px;
-            margin: 15px 0;
-            font-size: 1.1rem;
-        }
-        
-        .variables h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .var-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .var-item {
-            padding: 8px 12px;
-            background: white;
-            border-radius: 4px;
-            border-left: 3px solid #3498db;
-        }
-        
-        .derivation {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 25px;
-            margin: 20px 0;
-            font-size: 1.1rem;
-        }
-        
-        .derivation h4 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-        
-        .step {
-            margin: 15px 0;
-            padding: 15px;
-            border-left: 3px solid #e74c3c;
-            background: #fafafa;
-        }
-        
-        .step-number {
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 8px;
-        }
-        
-        .matrix-display {
-            font-family: 'Courier New', monospace;
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 25px;
-            border-radius: 8px;
-            margin: 20px 0;
-            overflow-x: auto;
-            font-size: 1rem;
-        }
-        
-        .matrix-label {
-            color: #3498db;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .numerical-details {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
-            color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 25px 0;
-        }
-        
-        .numerical-details h4 {
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-        
-        .parameter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
-        .parameter-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            border-top: 4px solid #e74c3c;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .parameter-card h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .parameter-card .value {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 5px;
-        }
-        
-        .parameter-card .description {
-            color: #7f8c8d;
-            font-size: 0.95rem;
-        }
-        
-        .algorithm-box {
-            border: 2px solid #3498db;
-            border-radius: 8px;
-            padding: 25px;
-            margin: 25px 0;
-            background: #f8f9fa;
-        }
-        
-        .algorithm-box h4 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-            text-align: center;
-        }
-        
-        .algorithm-steps {
-            counter-reset: step-counter;
-        }
-        
-        .algorithm-step {
-            counter-increment: step-counter;
-            margin: 12px 0;
-            padding: 12px 15px;
-            background: white;
-            border-radius: 5px;
-            border-left: 4px solid #3498db;
-            position: relative;
-        }
-        
-        .algorithm-step::before {
-            content: counter(step-counter);
-            position: absolute;
-            left: -15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #3498db;
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .convergence-analysis {
-            background: #f4f4f4;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-        
-        .convergence-analysis h4 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        
-        .stability-condition {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 6px;
-            padding: 15px;
-            margin: 15px 0;
-            font-style: italic;
-        }
-        
-        .implementation-note {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            border-radius: 6px;
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 0.95rem;
-        }
-        
-        .svi-calibration {
-            background: #fff;
-            border: 2px solid #2ecc71;
-            border-radius: 10px;
-            padding: 30px;
-            margin: 30px 0;
-        }
-        
-        .optimization-objective {
-            background: #e8f5e8;
-            padding: 20px;
-            border-radius: 6px;
-            margin: 15px 0;
-            border-left: 4px solid #2ecc71;
-        }
-        
-        @media (max-width: 768px) {
-            .content {
-                padding: 30px 20px;
-            }
-            
-            .header h1 {
-                font-size: 2.2rem;
-            }
-            
-            .parameter-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .var-list {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <title>SVI → Transformed PDE → Crank–Nicolson — Full Implementation (Single Frame + Matrix Form)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --muted: #6b7280;
+      --text: #1f2937;
+      --card: #f9fafb;
+      --accent: #2563eb;
+      --accent-2: #059669;
+      --border: #e5e7eb;
+      --code: #f3f4f6;
+    }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    main { padding: 28px 20px 48px; max-width: 1080px; margin: 0 auto; }
+    header { margin-bottom: 18px; }
+    h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: .2px; color: var(--accent); }
+    p.lead { margin: 0; color: var(--muted); }
+    section { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin: 18px 0; }
+    h2 { margin: 0 0 10px; font-size: 24px; }
+    h3 { margin: 16px 0 8px; font-size: 18px; color: var(--accent-2); }
+    h4 { margin: 14px 0 8px; font-size: 16px; color: var(--accent); }
+    p { margin: 10px 0; }
+    ul, ol { margin: 6px 0 12px 22px; }
+    .eq { font-variant-numeric: lining-nums; color: var(--accent-2); }
+    .note { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--muted); }
+    .kv { border-collapse: collapse; width: 100%; margin: 10px 0; }
+    .kv th, .kv td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+    .kv th { background: #f3f4f6; color: var(--muted); font-weight: 600; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    pre { background: var(--code); border: 1px solid var(--border); border-radius: 12px; padding: 14px; overflow: auto; margin: 12px 0; }
+    footer { color: var(--muted); padding: 20px 0 0; text-align: center; }
+    a { color: var(--accent); }
+    .tri { overflow-x:auto; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Mathematical Implementation</h1>
-            <div class="subtitle">Local Volatility Black-Scholes PDE with SVI Surface Calibration</div>
-        </div>
-        
-        <div class="content">
-            <div class="section">
-                <h2>I. The Local Volatility Black-Scholes PDE</h2>
-                
-                <div class="math-section">
-                    <h3>Governing Equation</h3>
-                    <div class="equation">
-                        $$\frac{\partial V}{\partial \tau} = \frac{1}{2}\sigma^2(S,\tau)S^2 \frac{\partial^2 V}{\partial S^2} + (r-q)S \frac{\partial V}{\partial S} - rV$$
-                        <div class="equation-label">(1)</div>
-                    </div>
-                    
-                    <div class="variables">
-                        <h4>Variable Definitions:</h4>
-                        <div class="var-list">
-                            <div class="var-item"><strong>\(V(S,\tau)\)</strong>: Option value as function of spot S and time-to-expiry τ</div>
-                            <div class="var-item"><strong>\(\sigma(S,\tau)\)</strong>: Local volatility surface (space and time dependent)</div>
-                            <div class="var-item"><strong>\(r\)</strong>: Risk-free interest rate</div>
-                            <div class="var-item"><strong>\(q\)</strong>: Continuous dividend yield</div>
-                            <div class="var-item"><strong>\(\tau = T - t\)</strong>: Time to expiration (backward time)</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="math-section">
-                    <h3>Coordinate Transformation to Moneyness Space</h3>
-                    <div class="equation">
-                        $$m = \frac{S}{K}, \quad u(m,\tau) = \frac{V(S,\tau)}{K}$$
-                        <div class="equation-label">(2)</div>
-                    </div>
-                    
-                    <div class="derivation">
-                        <h4>PDE in Moneyness Coordinates</h4>
-                        <div class="equation">
-                            $$\frac{\partial u}{\partial \tau} = \frac{1}{2}\sigma^2(m,\tau)m^2 \frac{\partial^2 u}{\partial m^2} + \left((r-q) - \frac{1}{2}\sigma^2(m,\tau)\right)m \frac{\partial u}{\partial m} - ru$$
-                            <div class="equation-label">(3)</div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">Transformation Benefits:</div>
-                            • Dimensionless coordinates independent of strike level<br>
-                            • Natural boundary conditions: \(u(0,\tau) = 0\), \(u(\infty,\tau) = m - e^{-(r-q)\tau}\)<br>
-                            • Improved numerical stability for wide strike ranges
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="math-section">
-                    <h3>Initial and Boundary Conditions</h3>
-                    
-                    <div class="equation">
-                        $$u(m,0) = \max(m-1, 0) \quad \text{(Call payoff at expiration)}$$
-                        <div class="equation-label">(4)</div>
-                    </div>
-                    
-                    <div class="equation">
-                        $$u(0,\tau) = 0 \quad \text{(Deep OTM boundary)}$$
-                        <div class="equation-label">(5)</div>
-                    </div>
-                    
-                    <div class="equation">
-                        $$u(m_{\text{max}},\tau) = m_{\text{max}} - e^{-(r-q)\tau} \quad \text{(Deep ITM boundary)}$$
-                        <div class="equation-label">(6)</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>II. SVI Volatility Surface Calibration</h2>
-                
-                <div class="svi-calibration">
-                    <h3>SVI Parameterization</h3>
-                    
-                    <div class="equation">
-                        $$w(k) = a + b\left[\rho(k-m) + \sqrt{(k-m)^2 + \sigma^2}\right]$$
-                        <div class="equation-label">(7)</div>
-                    </div>
-                    
-                    <div class="variables">
-                        <h4>SVI Parameters:</h4>
-                        <div class="var-list">
-                            <div class="var-item"><strong>\(k = \ln(K/F)\)</strong>: Log forward moneyness</div>
-                            <div class="var-item"><strong>\(w = \sigma^2T\)</strong>: Total implied variance</div>
-                            <div class="var-item"><strong>\(a\)</strong>: Variance level (controls ATM variance)</div>
-                            <div class="var-item"><strong>\(b \geq 0\)</strong>: Variance slope (controls skew intensity)</div>
-                            <div class="var-item"><strong>\(\rho \in [-1,1]\)</strong>: Skew parameter</div>
-                            <div class="var-item"><strong>\(m\)</strong>: Translation parameter (shifts minimum)</div>
-                            <div class="var-item"><strong>\(\sigma > 0\)</strong>: Variance curvature parameter</div>
-                        </div>
-                    </div>
-                    
-                    <div class="optimization-objective">
-                        <h4>Calibration Objective Function</h4>
-                        <div class="equation">
-                            $$\text{minimize: } \sum_i \left(\frac{w_{\text{market},i} - w_{\text{SVI}}(k_i)}{w_{\text{market},i}}\right)^2$$
-                            <div class="equation-label">(8)</div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">Subject to no-arbitrage constraint:</div>
-                            $$a + b\sigma\sqrt{1-\rho^2} \geq 0 \quad \text{(ensures non-negative variance)}$$
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="algorithm-box">
-                    <h4>SVI Calibration Algorithm</h4>
-                    <div class="algorithm-steps">
-                        <div class="algorithm-step">Extract market total variance: \(w_{\text{market}} = \text{IV}^2 \times T\)</div>
-                        <div class="algorithm-step">Generate intelligent initial guess from data extrema</div>
-                        <div class="algorithm-step">Apply SLSQP optimization with bounds: \(b \geq 0\), \(\rho \in [-1,1]\), \(\sigma > 0\)</div>
-                        <div class="algorithm-step">Enforce no-arbitrage constraint: \(a + b\sigma\sqrt{1-\rho^2} \geq 0\)</div>
-                        <div class="algorithm-step">Validate convergence and parameter reasonableness</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>III. Crank-Nicolson Finite Difference Scheme</h2>
-                
-                <div class="math-section">
-                    <h3>Discretization</h3>
-                    
-                    <div class="equation">
-                        $$\text{Grid: } m_i = i \cdot \Delta m, \, i = 0,1,\ldots,M \quad \tau^n = n \cdot \Delta\tau, \, n = 0,1,\ldots,N$$
-                        <div class="equation-label">(9)</div>
-                    </div>
-                    
-                    <div class="equation">
-                        $$u_i^n \equiv u(m_i, \tau^n)$$
-                        <div class="equation-label">(10)</div>
-                    </div>
-                    
-                    <div class="derivation">
-                        <h4>Finite Difference Operators</h4>
-                        <div class="equation">
-                            $$\frac{\partial u}{\partial m}\bigg|_i \approx \frac{u_{i+1} - u_{i-1}}{2\Delta m}$$
-                            <div class="equation-label">(11)</div>
-                        </div>
-                        
-                        <div class="equation">
-                            $$\frac{\partial^2 u}{\partial m^2}\bigg|_i \approx \frac{u_{i+1} - 2u_i + u_{i-1}}{(\Delta m)^2}$$
-                            <div class="equation-label">(12)</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="math-section">
-                    <h3>Crank-Nicolson Formulation</h3>
-                    
-                    <div class="equation">
-                        $$\frac{u_i^{n+1} - u_i^n}{\Delta\tau} = \frac{1}{2}\left[L[u^{n+1}]_i + L[u^n]_i\right]$$
-                        <div class="equation-label">(13)</div>
-                    </div>
-                    
-                    <div class="variables">
-                        <h4>Where \(L\) is the spatial differential operator:</h4>
-                        <div class="equation">
-                            $$L[u]_i = \frac{1}{2}\sigma_i^2 m_i^2 \frac{\partial^2 u}{\partial m^2}\bigg|_i + \left((r-q) - \frac{1}{2}\sigma_i^2\right)m_i \frac{\partial u}{\partial m}\bigg|_i - ru_i$$
-                            <div class="equation-label">(14)</div>
-                        </div>
-                    </div>
-                    
-                    <div class="derivation">
-                        <h4>Matrix Form: \(Au^{(n+1)} = Bu^n\)</h4>
-                        
-                        <div class="step">
-                            <div class="step-number">Coefficient Definitions:</div>
-                            <div class="equation">
-                                $$\alpha_i = \frac{1}{2}\frac{\sigma_i^2 m_i^2}{(\Delta m)^2} \quad 
-                                \beta_i = \frac{((r-q) - \frac{1}{2}\sigma_i^2)m_i}{2\Delta m} \quad 
-                                \gamma_i = r$$
-                                <div class="equation-label">(15)</div>
-                            </div>
-                        </div>
-                        
-                        <div class="matrix-display">
-                            <div class="matrix-label">Matrix A (implicit side):</div>
-A[i,i-1] = -½Δτ(α_i - β_i)
-A[i,i]   = 1 + ½Δτ(2α_i + γ_i)  
-A[i,i+1] = -½Δτ(α_i + β_i)
+  <main>
+    <header>
+      <h1>SVI → Transformed PDE → Crank–Nicolson</h1>
+      <p class="lead">Complete, single-page walkthrough — now including how the PDE becomes a matrix–vector linear system.</p>
+    </header>
 
-<div class="matrix-label">Matrix B (explicit side):</div>
-B[i,i-1] = ½Δτ(α_i - β_i)
-B[i,i]   = 1 - ½Δτ(2α_i + γ_i)
-B[i,i+1] = ½Δτ(α_i + β_i)
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="convergence-analysis">
-                    <h4>Stability and Convergence Analysis</h4>
-                    
-                    <div class="stability-condition">
-                        <strong>Unconditional Stability:</strong> Crank-Nicolson scheme is unconditionally stable for the diffusion equation, allowing larger time steps without numerical instability.
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-number">Convergence Properties:</div>
-                        • Second-order accuracy in both space \((\Delta m)^2\) and time \((\Delta\tau)^2\)<br>
-                        • Truncation error: \(O((\Delta m)^2 + (\Delta\tau)^2)\)<br>
-                        • Optimal for smooth solutions with moderate computational cost
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>IV. Implementation Parameters and Specifications</h2>
-                
-                <div class="parameter-grid">
-                    <div class="parameter-card">
-                        <h4>Spatial Discretization</h4>
-                        <div class="value">Delta: [0.1, 0.9]</div>
-                        <div class="description">Interval: 0.025 increments<br>Grid points: ~32 per maturity</div>
-                    </div>
-                    
-                    <div class="parameter-card">
-                        <h4>Temporal Discretization</h4>
-                        <div class="value">100 time steps</div>
-                        <div class="description">Adaptive to maturity range<br>\(\Delta\tau = T_{\max}/100\)</div>
-                    </div>
-                    
-                    <div class="parameter-card">
-                        <h4>Interpolation Method</h4>
-                        <div class="value">Polynomial + NN</div>
-                        <div class="description">Primary: Linear/Cubic<br>Fallback: Nearest-neighbor</div>
-                    </div>
-                    
-                    <div class="parameter-card">
-                        <h4>Linear System Solver</h4>
-                        <div class="value">Sparse LU</div>
-                        <div class="description">scipy.sparse.linalg.spsolve<br>Tridiagonal matrix structure</div>
-                    </div>
-                    
-                    <div class="parameter-card">
-                        <h4>SVI Optimization</h4>
-                        <div class="value">SLSQP Method</div>
-                        <div class="description">Sequential Least Squares<br>Constraint: No-arbitrage</div>
-                    </div>
-                    
-                    <div class="parameter-card">
-                        <h4>Numerical Precision</h4>
-                        <div class="value">1e-6 tolerance</div>
-                        <div class="description">Optimization convergence<br>Min variance floor: 1e-8</div>
-                    </div>
-                </div>
-                
-                <div class="numerical-details">
-                    <h4>Validation Methodology</h4>
-                    <p style="margin-bottom: 20px;">
-                        The theoretical option prices \(V_{\text{theory}}\) are systematically compared against market bid-ask spreads 
-                        to quantify pricing accuracy and identify potential arbitrage opportunities:
-                    </p>
-                    
-                    <div class="equation" style="background: rgba(255,255,255,0.2); color: white;">
-                        $$\text{Pricing Accuracy} = \frac{|V_{\text{theory}} - V_{\text{mid}}|}{V_{\text{mid}}}$$
-                        <br>
-                        $$\text{Within Spread} = \mathbb{1}\{V_{\text{bid}} \leq V_{\text{theory}} \leq V_{\text{ask}}\}$$
-                    </div>
-                    
-                    <div class="implementation-note" style="background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3);">
-                        <strong>Statistical Framework:</strong> Hit rate analysis, spread distribution characterization, 
-                        and pricing error decomposition across moneyness and maturity dimensions.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <section id="svi">
+      <h2>1) Fit the implied-vol surface with SVI</h2>
+      <p><strong>Goal.</strong> Replace noisy per-quote implied vols with a smooth, arbitrage-aware surface spanning the pricing domain.</p>
+      <h3>Raw SVI (per maturity)</h3>
+      <p class="eq">w(k, T) = a + b · (ρ(k - m) + √{(k - m)² + σ²}), &nbsp;&nbsp; IV(k,T)=√{w/T}.</p>
+      <ul>
+        <li>x-axis: log-moneyness <span class="eq">k=ℓn(K/S)</span>, built from delta inversion.</li>
+        <li>Symmetric delta grid (e.g., 0.10…0.90) for consistent wings/ATM coverage.</li>
+      </ul>
+    </section>
+
+    <section id="delta-k">
+      <h2>Delta → log-moneyness</h2>
+      <ul class="eq">
+        <li>Δ<sub>c</sub>=Φ(d<sub>1</sub>), Δ<sub>p</sub>=Φ(d<sub>1</sub>)-1 ⇒ d<sub>1</sub>=Φ⁻¹(Δ<sub>c</sub>) or Φ⁻¹(Δ<sub>p</sub>+1)</li>
+        <li>k=ℓn(K/S)=(r-q-½σ²)T+σ√T·d<sub>1</sub></li>
+      </ul>
+    </section>
+
+    <section id="pde-feed">
+      <h2>2) Feed the SVI surface into the pricing PDE</h2>
+      <table class="kv">
+        <thead><tr><th>Grid</th><th>Represents</th><th>How it's built</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td>Delta grid</td><td>Smile sampling</td><td>Symmetric deltas</td><td>Uniform wings & ATM</td></tr>
+          <tr><td>Target grid</td><td>(Δ, dte)</td><td>Cartesian deltas × maturities</td><td>SVI evaluation</td></tr>
+          <tr><td>PDE grid</td><td>(x,τ)</td><td>x=ℓn S (uniform), τ=T-t (uniform)</td><td>σ(x,τ) sampled for solver</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Mapping.</strong> Use Δ ↔ d_1 ↔ k=ln K/S to connect Δ to x. Interpolate SVI to get σ(x,τ) on PDE nodes.</p>
+    </section>
+
+    <section id="pde-form">
+      <h2>3) Transformed PDE in log-price & backward time</h2>
+      
+      <h3>Original Black-Scholes PDE</h3>
+      <p>The standard Black-Scholes PDE in forward time (t) and asset price (S):</p>
+      <p class="eq">∂V/∂t + ½σ²(S,t)S²∂²V/∂S² + (r-q)S∂V/∂S - rV = 0</p>
+      <p>with boundary conditions and terminal payoff V(S,T) at expiration.</p>
+      
+      <h3>Transformed PDE</h3>
+      <p>Transform to log-price <span class="eq">x = ln(S)</span> and backward time <span class="eq">τ = T-t</span>. Define coefficients:</p>
+      <ul class="eq">
+        <li>a = ½σ²(x,τ)</li>
+        <li>b = (r-q) - ½σ²(x,τ)</li>
+      </ul>
+      
+      <p>The transformed PDE becomes:</p>
+      <p class="eq">∂V/∂τ = a·∂²V/∂x² + b·∂V/∂x - rV</p>
+      
+      <h3>Conditions</h3>
+      <ul>
+        <li>Payoff at τ=0: Call V(x,0)=max(e<sup>x</sup>-1,0), Put V(x,0)=max(1-e<sup>x</sup>,0) (normalized by K).</li>
+        <li>Boundaries each step: deep ITM call V≈e<sup>-qτ</sup>S-e<sup>-rτ</sup>K, deep OTM V≈0 (swap for puts).</li>
+      </ul>
+      <p class="note">Normalize by K for conditioning; multiply back by K to obtain dollar prices.</p>
+    </section>
+
+    <section id="cn">
+      <h2>4) Crank–Nicolson finite differences</h2>
+      <h3>Discretization</h3>
+      <ul>
+        <li>Space: x<sub>i</sub>=x<sub>min</sub>+iΔx, i=0..M</li>
+        <li>Time: τ<sub>n</sub>=nΔτ, march backward from n=0 (payoff) to valuation time.</li>
+      </ul>
+
+      <h3>Interior coefficients at node i</h3>
+      <p class="eq">λ<sub>i</sub> = a<sub>i</sub> Δτ/Δx², ν<sub>i</sub> = b<sub>i</sub> Δτ/(2Δx), a<sub>i</sub>=½σ²(x<sub>i</sub>,τ), b<sub>i</sub>=(r-q)-½σ²(x<sub>i</sub>,τ)</p>
+      <ul class="eq">
+        <li>α<sub>i</sub> = -½λ<sub>i</sub> + ½ν<sub>i</sub></li>
+        <li>β<sub>i</sub> = 1 + ½ rΔτ + λ<sub>i</sub></li>
+        <li>γ<sub>i</sub> = -½λ<sub>i</sub> - ½ν<sub>i</sub></li>
+      </ul>
+      <p class="eq">RHS<sub>i</sub> = (1 - ½ rΔτ - λ<sub>i</sub>) V<sub>i</sub><sup>n</sup> + (½λ<sub>i</sub> + ½ν<sub>i</sub>) V<sub>i-1</sub><sup>n</sup> + (½λ<sub>i</sub> - ½ν<sub>i</sub>) V<sub>i+1</sub><sup>n</sup></p>
+
+      <h3>Stability & accuracy</h3>
+      <ul>
+        <li>Rannacher start: 1–2 backward-Euler steps to damp payoff kink.</li>
+        <li>Vol floor: clamp σ ≥ 0.001.</li>
+        <li>Ensure x<sub>min</sub>,x<sub>max</sub> far enough to minimize boundary influence.</li>
+      </ul>
+    </section>
+
+    <section id="matrix-form">
+      <h2>5) How the PDE becomes a matrix–vector linear system</h2>
+      <p>Crank–Nicolson averages the spatial operator between time levels n and n+1. Discretizing interior nodes i=1..M-1 yields a tridiagonal relation:</p>
+      <p class="eq">α<sub>i</sub> V<sub>i-1</sub><sup>n+1</sup> + β<sub>i</sub> V<sub>i</sub><sup>n+1</sup> + γ<sub>i</sub> V<sub>i+1</sub><sup>n+1</sup> = RHS<sub>i</sub>(V<sup>n</sup>).</p>
+
+      <h3>Vector notation</h3>
+      <p>Collect interior values into vectors <strong>V</strong><sup>n</sup> = [V<sub>1</sub><sup>n</sup>,...,V<sub>M-1</sub><sup>n</sup>]<sup>T</sup> and <strong>V</strong><sup>n+1</sup> of the same size. Define three diagonal vectors <strong>α</strong>,<strong>β</strong>,<strong>γ</strong> from the coefficients above.</p>
+
+      <h3>Left-hand matrix A and right-hand matrix D</h3>
+      <p>Form a tridiagonal matrix A ∈ ℝ<sup>(M-1)×(M-1)</sup> with bands <strong>α</strong>,<strong>β</strong>,<strong>γ</strong>:</p>
+      <div class="tri">
+        <pre><code>A = tridiag(lower = α<sub>2</sub>..α<sub>M-1</sub>,
+            diag   = β<sub>1</sub>..β<sub>M-1</sub>,
+            upper  = γ<sub>1</sub>..γ<sub>M-2</sub>)</code></pre>
+      </div>
+      <p>Similarly, the RHS can be written as D<strong>V</strong><sup>n</sup> plus boundary contributions <strong>b</strong><sup>n</sup>, where D is another tridiagonal matrix with bands</p>
+      <ul class="eq">
+        <li>α̃<sub>i</sub> =  ½λ<sub>i</sub> + ½ν<sub>i</sub></li>
+        <li>β̃<sub>i</sub> =  1 - ½ rΔτ - λ<sub>i</sub></li>
+        <li>γ̃<sub>i</sub> =  ½λ<sub>i</sub> - ½ν<sub>i</sub></li>
+      </ul>
+      <div class="tri">
+        <pre><code>D = tridiag(lower = α̃<sub>2</sub>..α̃<sub>M-1</sub>,
+            diag   = β̃<sub>1</sub>..β̃<sub>M-1</sub>,
+            upper  = γ̃<sub>1</sub>..γ̃<sub>M-2</sub>)</code></pre>
+      </div>
+
+      <h3>Boundary vector <strong>b</strong><sup>n</sup></h3>
+      <p>The first and last interior equations reference the boundaries V<sub>0</sub><sup>n+1</sup>, V<sub>M</sub><sup>n+1</sup> (on LHS) and V<sub>0</sub><sup>n</sup>, V<sub>M</sub><sup>n</sup> (on RHS). Move known boundary values to a vector <strong>b</strong><sup>n</sup>:</p>
+      <ul>
+        <li>Row 1 (i=1) gets <span class="eq">-α<sub>1</sub> V<sub>0</sub><sup>n+1</sup></span> on LHS and <span class="eq">+(α̃<sub>1</sub> V<sub>0</sub><sup>n</sup>)</span> on RHS.</li>
+        <li>Row M−1 (i=M−1) gets <span class="eq">-γ<sub>M-1</sub> V<sub>M</sub><sup>n+1</sup></span> on LHS and <span class="eq">+(γ̃<sub>M-1</sub> V<sub>M</sub><sup>n</sup>)</span> on RHS.</li>
+      </ul>
+      <p>Since boundaries are imposed from asymptotics each step, the terms above are known numbers.</p>
+
+      <h3>Final linear system</h3>
+      <p class="eq">A <strong>V</strong><sup>n+1</sup> = D <strong>V</strong><sup>n</sup> + <strong>b</strong><sup>n</sup>.</p>
+      <p>Solve for <strong>V</strong><sup>n+1</sup> using the Thomas algorithm (tri-diagonal solver). Repeat for each time step, marching backward.</p>
+
+      <h3>Thomas algorithm (outline)</h3>
+      <pre><code># Given tridiagonal A with (lower l, diag d, upper u) and RHS y:
+# 1) Forward sweep: modify coefficients in-place
+for i in 2..N:
+    w = l[i] / d[i-1]
+    d[i] = d[i] - w * u[i-1]
+    y[i] = y[i] - w * y[i-1]
+
+# 2) Back substitution
+x[N] = y[N] / d[N]
+for i in N-1..1:
+    x[i] = (y[i] - u[i] * x[i+1]) / d[i]</code></pre>
+
+      <h3>Matrix assembly summary</h3>
+      <ol>
+        <li>Compute a<sub>i</sub>, b<sub>i</sub> at each interior node (often at half time-step).</li>
+        <li>Form λ<sub>i</sub>, ν<sub>i</sub> then bands α,β,γ (for A) and α̃,β̃,γ̃ (for D).</li>
+        <li>Build <strong>b</strong><sup>n</sup> from boundary values at steps n and n+1.</li>
+        <li>Solve A<strong>V</strong><sup>n+1</sup> = D<strong>V</strong><sup>n</sup> + <strong>b</strong><sup>n</sup>.</li>
+      </ol>
+      <p class="note">For puts, the same construction applies; only payoff and boundary formulas change.</p>
+    </section>
+
+    <section id="diagnostics">
+      <h2>6) Diagnostics & plotting</h2>
+      <ul>
+        <li>spread = ask − bid</li>
+        <li>diff = model − mid, abs_diff = |model − mid|</li>
+        <li>within_bid_ask flag (model in [bid, ask])</li>
+      </ul>
+      <pre><code>plot_bid_ask_check(df,
+                   price_col="dollar_option_price",
+                   mid_col="mid", bid_col="bid", ask_col="ask",
+                   y_col="spread")</code></pre>
+    </section>
+
+    <section id="pitfalls">
+      <h2>7) Practical notes & pitfalls</h2>
+      <ul>
+        <li>Normalize columns early (<code>dte</code>, <code>dollar_option_price</code>).</li>
+        <li>Ensure SVI coverage across the PDE domain; control extrapolation.</li>
+        <li>Use a small vol floor; consider Rannacher start if oscillations appear.</li>
+        <li>Place x_min,x_max far enough for negligible boundary impact around quoted strikes.</li>
+      </ul>
+    </section>
+
+    <section id="appendix">
+      <h2>Appendix — key formulas</h2>
+      <h3>Black–Scholes</h3>
+      <ul class="eq">
+        <li>k = ℓn(K/S)</li>
+        <li>d<sub>1</sub> = Φ⁻¹(Δ<sub>c</sub>) (calls), or Φ⁻¹(Δ<sub>p</sub> + 1) (puts)</li>
+        <li>k = (r - q - ½σ²) T + σ √T · d<sub>1</sub></li>
+      </ul>
+      <h3>CN coefficients (interior)</h3>
+      <ul class="eq">
+        <li>α<sub>i</sub> = −½ λ<sub>i</sub> + ½ ν<sub>i</sub></li>
+        <li>β<sub>i</sub> = 1 + ½ r Δτ + λ<sub>i</sub></li>
+        <li>γ<sub>i</sub> = −½ λ<sub>i</sub> − ½ ν<sub>i</sub></li>
+        <li>α̃<sub>i</sub> = ½ λ<sub>i</sub> + ½ ν<sub>i</sub>, β̃<sub>i</sub> = 1 − ½ r Δτ − λ<sub>i</sub>, γ̃<sub>i</sub> = ½ λ<sub>i</sub> − ½ ν<sub>i</sub></li>
+      </ul>
+      <p class="note">Matrix form: <span class="eq">A <strong>V</strong><sup>n+1</sup> = D <strong>V</strong><sup>n</sup> + <strong>b</strong><sup>n</sup></span> with tridiagonal A,D and boundary vector <strong>b</strong><sup>n</sup>.</p>
+    </section>
+
+    <footer>SVI smooths the tape • PDE prices across space/time • CN turns it into fast tridiagonal solves.</footer>
+  </main>
 </body>
 </html>
