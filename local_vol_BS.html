@@ -15,33 +15,232 @@
       --border: #e5e7eb;
       --code: #f3f4f6;
     }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
-    main { padding: 28px 20px 48px; max-width: 1200px; margin: 0 auto; }
-    header { margin-bottom: 18px; }
-    h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: .2px; color: var(--accent); }
-    p.lead { margin: 0; color: var(--muted); }
-    section { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin: 18px 0; }
-    h2 { margin: 0 0 10px; font-size: 24px; }
-    h3 { margin: 16px 0 8px; font-size: 18px; color: var(--accent-2); }
-    h4 { margin: 14px 0 8px; font-size: 16px; color: var(--accent); }
-    p { margin: 10px 0; }
-    ul, ol { margin: 6px 0 12px 22px; }
-    .eq { font-variant-numeric: lining-nums; color: var(--accent-2); }
-    .note { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--muted); }
-    .kv { border-collapse: collapse; width: 100%; margin: 10px 0; }
-    .kv th, .kv td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
-    .kv th { background: #f3f4f6; color: var(--muted); font-weight: 600; }
-    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
-    pre { background: var(--code); border: 1px solid var(--border); border-radius: 12px; padding: 14px; overflow: auto; margin: 12px 0; }
-    footer { color: var(--muted); padding: 20px 0 0; text-align: center; }
-    a { color: var(--accent); }
-    .tri { overflow-x:auto; }
+    
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+      background: var(--bg); 
+      color: var(--text); 
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; 
+    }
+    
+    main { 
+      padding: 28px 20px 48px; 
+      max-width: 1080px; 
+      margin: 0 auto; 
+    }
+    
+    header { 
+      margin-bottom: 24px; 
+    }
+    
+    h1 { 
+      margin: 0 0 8px; 
+      font-size: 32px; 
+      font-weight: 700;
+      letter-spacing: -0.025em; 
+      color: var(--accent); 
+    }
+    
+    p.lead { 
+      margin: 0; 
+      font-size: 18px;
+      color: var(--muted); 
+    }
+    
+    section { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: 16px; 
+      padding: 24px; 
+      margin: 24px 0; 
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 { 
+      margin: 0 0 16px; 
+      font-size: 28px; 
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    h3 { 
+      margin: 20px 0 12px; 
+      font-size: 20px; 
+      font-weight: 600;
+      color: var(--accent-2); 
+    }
+    
+    h4 { 
+      margin: 16px 0 8px; 
+      font-size: 18px; 
+      font-weight: 500;
+      color: var(--accent); 
+    }
+    
+    p { 
+      margin: 12px 0; 
+      line-height: 1.7;
+    }
+    
+    ul, ol { 
+      margin: 8px 0 16px 24px; 
+      line-height: 1.6;
+    }
+    
+    li {
+      margin: 4px 0;
+    }
+    
+    .eq { 
+      font-variant-numeric: lining-nums; 
+      color: var(--accent-2); 
+      font-weight: 500;
+    }
+    
+    .note { 
+      border-left: 4px solid var(--accent); 
+      padding: 12px 16px; 
+      background: #f8fafc;
+      border-radius: 0 8px 8px 0;
+      color: var(--muted); 
+      margin: 16px 0;
+    }
+    
+    .kv { 
+      border-collapse: collapse; 
+      width: 100%; 
+      margin: 16px 0; 
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .kv th, .kv td { 
+      border: 1px solid var(--border); 
+      padding: 12px 16px; 
+      text-align: left; 
+      vertical-align: top; 
+    }
+    
+    .kv th { 
+      background: var(--code); 
+      color: var(--text); 
+      font-weight: 600; 
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .kv td {
+      background: white;
+    }
+    
+    code, pre { 
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; 
+    }
+    
+    pre { 
+      background: var(--code); 
+      border: 1px solid var(--border); 
+      border-radius: 12px; 
+      padding: 16px; 
+      overflow: auto; 
+      margin: 16px 0; 
+      line-height: 1.5;
+    }
+    
+    code {
+      background: var(--code);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    footer { 
+      color: var(--muted); 
+      padding: 32px 0 0; 
+      text-align: center; 
+      font-style: italic;
+      border-top: 1px solid var(--border);
+      margin-top: 32px;
+    }
+    
+    a { 
+      color: var(--accent); 
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .tri { 
+      overflow-x: auto; 
+    }
+
+    /* Special equation boxes */
+    .eq-box {
+      background: #fafbfc; 
+      border-left: 4px solid var(--accent); 
+      padding: 16px; 
+      margin: 16px 0; 
+      border-radius: 8px;
+    }
+
+    .eq-box-highlight {
+      background: #f0f9ff; 
+      border-left: 4px solid var(--accent-2); 
+      padding: 16px; 
+      margin: 16px 0; 
+      border-radius: 8px;
+    }
+
+    .eq-centered {
+      font-size: 18px; 
+      text-align: center;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .flex-row {
+      display: flex; 
+      gap: 24px; 
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 20px 16px 32px;
+      }
+      
+      section {
+        padding: 20px;
+        margin: 20px 0;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+      
+      h2 {
+        font-size: 24px;
+      }
+      
+      .flex-row {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
   </style>
 </head>
 <body>
   <main>
     <header>
-      <h1>SVI → Transformed PDE → Crank–Nicolson</h1>
+      <div class="eq-box-highlight">
+        <h1 style="margin: 0; text-align: center; color: var(--text); font-size: 32px;">SVI → Transformed PDE → Crank–Nicolson</h1>
+      </div>
       <p class="lead">Complete, single-page walkthrough — now including how the PDE becomes a matrix–vector linear system.</p>
     </header>
 
@@ -81,26 +280,53 @@
       <h2>3) Transformed PDE in log-price & backward time</h2>
       
       <h3>Original Black-Scholes PDE</h3>
-      <p>The standard Black-Scholes PDE in forward time (t) and asset price (S):</p>
-      <p class="eq">∂V/∂t + ½σ²(S,t)S²∂²V/∂S² + (r-q)S∂V/∂S - rV = 0</p>
-      <p>with boundary conditions and terminal payoff V(S,T) at expiration.</p>
+      <p>Standard form in forward time <em>t</em> and asset price <em>S</em>:</p>
+      <div class="eq-box">
+        <p class="eq eq-centered">
+          ∂V/∂t + ½σ²(S,t)S²∂²V/∂S² + (r-q)S∂V/∂S - rV = 0
+        </p>
+      </div>
+      <p>Subject to terminal payoff V(S,T) at expiration and appropriate boundary conditions.</p>
+      
+      <h3>Variable transformation</h3>
+      <p>Apply coordinate transforms to simplify the PDE:</p>
+      <table class="kv" style="margin: 16px 0;">
+        <thead><tr><th>Variable</th><th>Transform</th><th>Benefit</th></tr></thead>
+        <tbody>
+          <tr><td><em>x</em></td><td>x = ln(S)</td><td>Eliminates S² term, uniform grid</td></tr>
+          <tr><td><em>τ</em></td><td>τ = T - t</td><td>Natural backward marching</td></tr>
+        </tbody>
+      </table>
       
       <h3>Transformed PDE</h3>
-      <p>Transform to log-price <span class="eq">x = ln(S)</span> and backward time <span class="eq">τ = T-t</span>. Define coefficients:</p>
-      <ul class="eq">
-        <li>a = ½σ²(x,τ)</li>
-        <li>b = (r-q) - ½σ²(x,τ)</li>
-      </ul>
+      <p>Define time-and-space dependent coefficients:</p>
+      <div class="flex-row">
+        <span class="eq">a(x,τ) = ½σ²(x,τ)</span>
+        <span class="eq">b(x,τ) = (r-q) - ½σ²(x,τ)</span>
+      </div>
       
       <p>The transformed PDE becomes:</p>
-      <p class="eq">∂V/∂τ = a·∂²V/∂x² + b·∂V/∂x - rV</p>
+      <div class="eq-box-highlight">
+        <p class="eq eq-centered">
+          ∂V/∂τ = a(x,τ)∂²V/∂x² + b(x,τ)∂V/∂x - rV
+        </p>
+      </div>
       
-      <h3>Conditions</h3>
-      <ul>
-        <li>Payoff at τ=0: Call V(x,0)=max(e<sup>x</sup>-1,0), Put V(x,0)=max(1-e<sup>x</sup>,0) (normalized by K).</li>
-        <li>Boundaries each step: deep ITM call V≈e<sup>-qτ</sup>S-e<sup>-rτ</sup>K, deep OTM V≈0 (swap for puts).</li>
+      <h3>Initial & boundary conditions</h3>
+      <h4>Payoff at τ = 0 (expiration, normalized by K)</h4>
+      <ul class="eq">
+        <li>Call: V(x,0) = max(e<sup>x</sup> - 1, 0)</li>
+        <li>Put: V(x,0) = max(1 - e<sup>x</sup>, 0)</li>
       </ul>
-      <p class="note">Normalize by K for conditioning; multiply back by K to obtain dollar prices.</p>
+      
+      <h4>Boundary conditions at each time step</h4>
+      <ul class="eq">
+        <li>Deep ITM call: V ≈ e<sup>-qτ</sup>e<sup>x</sup> - e<sup>-rτ</sup></li>
+        <li>Deep OTM: V ≈ 0</li>
+        <li>For puts: swap ITM/OTM conditions</li>
+      </ul>
+      
+      <p class="note">All values normalized by strike K for numerical stability. Multiply by K to recover dollar prices.</p>
     </section>
 
     <section id="cn">
