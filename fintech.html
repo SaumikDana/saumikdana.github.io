@@ -1,1225 +1,1027 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simplified Portfolio - Saumik Dana</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-<!-- Load MathJax -->
-<script>
-MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]']]
-  }
-};
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-<style>
-.main-content {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
-}
-.custom-image {
-    width: 80%;
-    max-width: 800px; 
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-.custom-image1 {
-    width: 100%;
-    max-width: 1400px; 
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-.text-content {
-    flex: 1;
-    max-width: 600px;
-}
-@media (max-width: 768px) {
-    .main-content {
-        flex-direction: column;
-    }
-    .custom-image,
-    .text-content {
-        max-width: 100%;
-    }
-}
-.image-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, auto);
-    gap: 10px;
-}
-.image-grid img {
-    width: 100%;
-    height: auto;
-}
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-    h1 {
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
-}
-.algorithm-box {
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    padding: 25px;
-    font-family: 'Courier New', monospace;
-    font-size: 16px;
-    line-height: 1.8;
-}
-.step {
-    margin: 10px 0;
-    padding: 8px 0;
-}
-.nested-level-1 {
-   margin-left: 30px;
-}
-.nested-level-2 {
-   margin-left: 60px;
-}
-.nested-level-3 {
-   margin-left: 90px;
-}
-.bullet {
-    color: #e74c3c;
-    font-weight: bold;
-    margin-right: 8px;
-}
-.keyword {
-    color: #3498db;
-    font-weight: bold;
-}
-.emphasis {
-    color: #27ae60;
-    font-weight: bold;
-}
-h2 {
-    color: #34495e;
-    margin-top: 30px;
-    background-color: #ecf0f1;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-h3 {
-    color: #2980b9;
-    margin-top: 25px;
-}
-.formula {
-    background-color: #f8f9fa;
-    border: 2px solid #dee2e6;
-    border-radius: 8px;
-    padding: 15px;
-    font-family: 'Courier New', monospace;
-    font-size: 18px;
-    text-align: center;
-    margin: 15px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.example-box {
-    background-color: #e8f5e8;
-    border-left: 4px solid #28a745;
-    padding: 15px;
-    margin: 15px 0;
-}
-.key-points {
-    background-color: #fff3cd;
-    border: 1px solid #ffeaa7;
-    border-radius: 5px;
-    padding: 15px;
-    margin: 15px 0;
-}
-.problem-box {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    border-radius: 5px;
-    padding: 15px;
-    margin: 15px 0;
-}
-ul {
-    padding-left: 20px;
-}
-li {
-    margin-bottom: 8px;
-}
-.highlight {
-    font-weight: bold;
-    color: #e74c3c;
-}
-.comparison-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.comparison-table th, .comparison-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
-.comparison-table th {
-    background-color: #3498db;
-    color: white;
-    font-weight: bold;
-}
-.comparison-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-.toc {
-    background-color: #e3f2fd;
-    border: 1px solid #bbdefb;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 20px 0;
-}
-.toc h3 {
-    margin-top: 0;
-    color: #1565c0;
-}
-.toc ul {
-    margin-bottom: 0;
-}
-.toc a {
-    color: #1976d2;
-    text-decoration: none;
-}
-.toc a:hover {
-    text-decoration: underline;
-}
-:root {
-  --bg: #ffffff;
-  --fg: #1f2937;
-  --muted: #6b7280;
-  --accent: #2563eb;
-  --border: #e5e7eb;
-  --card: #ffffff;
-  --card-border: #d1d5db;
-  --code-bg: #f3f4f6;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Saumik Dana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- MathJax -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-* { 
-  box-sizing: border-box; 
-}
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #f8fafc;
+            padding: 2rem;
+        }
 
-html, body { 
-  margin: 0; 
-  padding: 0; 
-}
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
 
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-}
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #667eea;
+        }
 
-.wrap { 
-  max-width: 95%; 
-  margin: 0 auto; 
-  padding: 32px 16px 64px; 
-}
+        h2 {
+            font-size: 2rem;
+            margin: 3rem 0 2rem 0;
+            color: #764ba2;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
 
-header h1 { 
-  margin: 0 0 6px; 
-  font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); 
-  letter-spacing: -0.02em;
-  color: var(--fg);
-  font-weight: 700;
-}
+        h3 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: #4a5568;
+        }
 
-header p { 
-  margin: 0 0 22px; 
-  color: var(--muted); 
-  font-size: 1.1rem;
-}
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
 
-.card { 
-  background: var(--card); 
-  border: 1px solid var(--card-border); 
-  border-radius: 14px; 
-  padding: 24px; 
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05); 
-}
+        .option-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
 
-.table-wrap { 
-  overflow-x: auto; 
-  -webkit-overflow-scrolling: touch; 
-}
+        .option-image {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
 
-table { 
-  width: 100%; 
-  border-collapse: collapse; 
-  min-width: 760px; 
-}
+        /* Algorithm Cards */
+        .algorithm-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
 
-thead th { 
-  text-align: left; 
-  font-weight: 700; 
-  font-size: 0.95rem; 
-  color: var(--fg); 
-  border-bottom: 2px solid var(--border); 
-  padding: 16px 12px; 
-  background: #f9fafb;
-}
+        .algorithm-card {
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-tbody td { 
-  vertical-align: top; 
-  padding: 16px 12px; 
-  border-bottom: 1px solid var(--border); 
-  line-height: 1.5;
-}
+        .algorithm-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
 
-tbody tr:hover {
-  background: #f8fafc;
-}
+        .algorithm-header h3 {
+            font-size: 1.3rem;
+            margin: 0 0 0.5rem 0;
+        }
 
-tbody tr:last-child td {
-  border-bottom: none;
-}
+        .algorithm-steps {
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            background: #f8fafc;
+        }
 
-code, kbd { 
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
-  font-size: 0.9em; 
-  background: var(--code-bg); 
-  padding: 2px 6px; 
-  border-radius: 4px;
-  color: #374151;
-}
+        .step {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: flex-start;
+        }
 
-.note { 
-  margin-top: 20px; 
-  color: var(--muted); 
-  font-size: 0.95rem; 
-  padding: 16px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border-left: 4px solid var(--accent);
-}
+        .bullet {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 0.5rem;
+            min-width: 1rem;
+        }
 
-footer { 
-  margin-top: 28px; 
-  color: var(--muted); 
-  font-size: 0.9rem; 
-  padding: 16px;
-  background: #f9fafb;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
+        .nested-level-1 { margin-left: 1.5rem; }
+        .nested-level-2 { margin-left: 3rem; }
+        .nested-level-3 { margin-left: 4.5rem; }
 
-a { 
-  color: var(--accent); 
-  text-decoration: none; 
-}
+        .keyword {
+            color: #764ba2;
+            font-weight: 600;
+        }
 
-a:hover { 
-  text-decoration: underline; 
-}
+        .emphasis {
+            color: #059669;
+            font-weight: 600;
+        }
 
-strong {
-  font-weight: 600;
-  color: var(--fg);
-}
+        /* Black-Scholes Section */
+        .bs-title {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
 
-/* Math styling */
-.MathJax {
-  color: var(--fg) !important;
-}
+        .bs-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
 
-.mjx-chtml {
-  color: var(--fg) !important;
-}
+        .bs-step {
+            background: #f8fafc;
+            border-left: 6px solid #667eea;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 5px;
+            position: relative;
+        }
 
-/* Table styling improvements */
-td:first-child {
-  font-weight: 500;
-}
+        .bs-step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
 
-td:nth-child(2) {
-  font-style: italic;
-}
+        .math-display {
+            background: white;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            font-size: 1.1rem;
+        }
 
-/* Responsive improvements */
-@media (max-width: 768px) {
-  .wrap {
-    max-width: 98%;
-    padding: 20px 12px 40px;
-  }
-  
-  .card {
-    padding: 16px;
-  }
-  
-  table {
-    font-size: 0.9rem;
-  }
-  
-  thead th,
-  tbody td {
-    padding: 12px 8px;
-  }
-}
+        .big-idea {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 2rem 0;
+        }
 
-@media (min-width: 1400px) {
-  .wrap {
-    max-width: 98%;
-  }
-}
+        .final-result {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 3rem 0;
+        }
 
-/* Enhanced table layout for wide screens */
-@media (min-width: 1200px) {
-  table {
-    min-width: 100%;
-  }
-  
-  thead th,
-  tbody td {
-    padding: 18px 16px;
-  }
-  
-  tbody td {
-    font-size: 1rem;
-  }
-}
-</style>  
+        /* Portfolio Theory */
+        .toc {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .toc h3 {
+            color: #1e40af;
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .toc li {
+            margin: 0.5rem 0;
+        }
+
+        .toc a {
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #84fab0, #8fd3f4);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .example-box {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 5px;
+        }
+
+        .key-points {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .problem-box {
+            background: #fef2f2;
+            border: 1px solid #ef4444;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .options-grid,
+            .algorithm-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-<img src="saumik.jpg" alt="Profile Picture of Saumik Dana" class="profile-pic">
-<div class="header-text">
-<h1>Options</h1>   
-</div>
-<img src="mltrading.webp" alt="Machine Learning Trading Visual" class="profile-pic-right"> 
-</header>
-<main>
+    <div class="container">
+        <h1>Saumik Dana - Portfolio</h1>
+        <p style="text-align: center; font-size: 1.2rem; color: #64748b; margin-bottom: 3rem;">Options Trading & Machine Learning</p>
 
-<div class="image-grid">
-<img src="greek_price.png" alt="Image 1">
-<img src="smile_skew.png" alt="Image 2">
-</div>
+        <!-- Options Section -->
+        <h2>Options Trading Strategies</h2>
+        
+        <div class="options-grid">
+            <div class="option-card">
+                <h3>Greeks & Pricing</h3>
+                <img src="greek_price.png" alt="Greeks Pricing" class="option-image">
+            </div>
+            
+            <div class="option-card">
+                <h3>Volatility Smile & Skew</h3>
+                <img src="smile_skew.png" alt="Volatility Smile" class="option-image">
+            </div>
+            
+            <div class="option-card">
+                <h3>Delta Analysis</h3>
+                <img src="options_delta.png" alt="Options Delta" class="option-image">
+            </div>
+            
+            <div class="option-card">
+                <h3>Moneyness Distribution</h3>
+                <img src="options_moneyness.png" alt="Options Moneyness" class="option-image">
+            </div>
+            
+            <div class="option-card">
+                <h3>Smile Skew Delta</h3>
+                <img src="smile_skew_delta.png" alt="Smile Skew Delta" class="option-image">
+            </div>
+            
+            <div class="option-card">
+                <h3>Fintech Landscape</h3>
+                <img src="fintech_firms.png" alt="Fintech Firms" class="option-image">
+            </div>
+        </div>
 
-<div class="image-grid">
-<img src="options_delta.png" alt="Image 1">
-<img src="options_moneyness.png" alt="Image 2">
-</div>
+        <div style="text-align: center; margin: 3rem 0;">
+            <h3>Complex Strategies</h3>
+            <img src="straddle_strangle.png" alt="Straddle Strangle" style="width: 80%; max-width: 800px; border-radius: 8px;">
+        </div>
 
-<div class="image-grid">
-<img src="smile_skew_delta.png" alt="Image 1">
-<img src="fintech_firms.png" alt="Image 2">
-</div>
+        <div class="options-grid">
+            <div class="option-card">
+                <h3>Iron Condor</h3>
+                <img src="condor.png" alt="Iron Condor" class="option-image">
+            </div>
+            
+            <div class="option-card">
+                <h3>Butterfly Spread</h3>
+                <img src="butterfly.png" alt="Butterfly Spread" class="option-image">
+            </div>
+        </div>
 
-<div class="main-content">
-<img src="straddle_strangle.png" alt="Straddle Strangle" class="custom-image">
-</div>
-    
-<div class="image-grid">
-<img src="condor.png" alt="Image 1">
-<img src="butterfly.png" alt="Image 2">
-</div>
+        <!-- ML Algorithms Section -->
+        <h2>Machine Learning Algorithms</h2>
+        
+        <h3 style="text-align: center;">Regression Models</h3>
+        
+        <div class="algorithm-container">
+            <div class="algorithm-card">
+                <div class="algorithm-header">
+                    <h3>Decision Tree Regressor</h3>
+                    <p>Recursive binary splitting based on MSE reduction</p>
+                </div>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Original MSE</span> from all Y values</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span>For each feature</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span>For each possible split (based on X values)</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Split Y values</span> into two groups</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Calculate mean and MSE</span> for each group</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Combine MSEs</span> with weighted average</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Information Gain</span> = Original MSE - Weighted MSE</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Track split with highest gain</span> for this feature</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Select best split</span> across all features</span>
+                    </div>
+                </div>
+            </div>
 
+            <div class="algorithm-card">
+                <div class="algorithm-header">
+                    <h3>Random Forest Regressor</h3>
+                    <p>Bootstrap aggregating with feature randomness</p>
+                </div>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Create N bootstrap samples</span> (with replacement)</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span>For each bootstrap sample (in parallel)</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Original MSE</span> from Y values in this sample</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span>For each node split</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Randomly select subset of features</span> (√n_features)</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span>For each selected feature</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span>For each possible split (based on X values)</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Split Y values</span> into two groups</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Calculate mean and MSE</span> for each group</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Combine MSEs</span> with weighted average</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Information Gain</span> = Original MSE - Weighted MSE</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Track split with highest gain</span> for selected features</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Select best split</span> and continue building tree</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Average predictions</span> from all N trees</span>
+                    </div>
+                </div>
+            </div>
 
-  
-<div class="container">
-<h1>Decision Tree Regressor Algorithm Steps</h1>
-<div class="algorithm-box">
-<div class="step">
-<span class="bullet">•</span> <span class="keyword">Original MSE</span> from all Y values
-</div>
-<div class="step">
-<span class="bullet">•</span> <span class="for-loop">For each feature</span>
-</div>
-<div class="step nested-level-1">
-<span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
-</div>
-<div class="step nested-level-2">
-<span class="bullet">•</span> <span class="keyword">Split Y values</span> into two groups
-</div>
-<div class="step nested-level-2">
-<span class="bullet">•</span> <span class="keyword">Calculate mean and MSE</span> for each group
-</div>
-<div class="step nested-level-2">
-<span class="bullet">•</span> <span class="keyword">Combine MSEs</span> with weighted average
-</div>
-<div class="step nested-level-2">
-<span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Original MSE - Weighted MSE
-</div>
-<div class="step nested-level-1">
-<span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for this feature
-</div>
-<div class="step">
-<span class="bullet">•</span> <span class="emphasis">Select best split</span> across all features
-</div>
-</div>
-</div>
+            <div class="algorithm-card">
+                <div class="algorithm-header">
+                    <h3>XGBoost Regressor</h3>
+                    <p>Gradient boosting with sequential error correction</p>
+                </div>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Initialize predictions</span> (mean of Y values)</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span>For each tree (sequentially)</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Calculate residuals</span> = Y - current_predictions</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Original MSE</span> from residuals (not original Y)</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span>For each feature</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span>For each possible split (based on X values)</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Split residuals</span> into two groups</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Calculate mean and MSE</span> for each group</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Combine MSEs</span> with weighted average</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Information Gain</span> = Residual MSE - Weighted MSE</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Track split with highest gain</span> for this feature</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Select best split</span> across all features</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Update predictions</span> += learning_rate × tree_prediction</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Final prediction</span> = sum of all tree contributions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div style="text-align: center; margin: 3rem 0;">
+            <img src="decision_tree_regressor.png" alt="Decision Tree Visualization" style="width: 100%; max-width: 1200px; border-radius: 8px;">
+        </div>
 
+        <h3 style="text-align: center;">Classification Models</h3>
+        
+        <div class="algorithm-container">
+            <div class="algorithm-card">
+                <div class="algorithm-header">
+                    <h3>Decision Tree Classifier</h3>
+                    <p>Recursive binary splitting based on Gini reduction</p>
+                </div>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Original Gini Impurity</span> from all Y values</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span>For each feature</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span>For each possible split (based on X values)</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Split Y values</span> into two groups</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Calculate class counts and Gini</span> for each group</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Combine Gini scores</span> with weighted average</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Information Gain</span> = Original Gini - Weighted Gini</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Track split with highest gain</span> for this feature</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Select best split</span> across all features</span>
+                    </div>
+                </div>
+            </div>
 
-<div class="main-content">
-<img src="decision_tree_regressor.png" alt="Decision Tree Regressor" class="custom-image1">
-</div>
+            <div class="algorithm-card">
+                <div class="algorithm-header">
+                    <h3>Random Forest Classifier</h3>
+                    <p>Bootstrap aggregating with majority voting</p>
+                </div>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Create N bootstrap samples</span> (with replacement)</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span>For each bootstrap sample (in parallel)</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Original Gini Impurity</span> from Y values in this sample</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span>For each node split</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Randomly select subset of features</span> (√n_features)</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span>For each selected feature</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span>For each possible split (based on X values)</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Split Y values</span> into two groups</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Calculate class counts and Gini</span> for each group</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Combine Gini scores</span> with weighted average</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Information Gain</span> = Original Gini - Weighted Gini</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Track split with highest gain</span> for selected features</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Select best split</span> and continue building tree</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Majority vote</span> from all N trees</span>
+                    </div>
+                </div>
+            </div>
 
+            <div class="algorithm-card">
+                <div class="algorithm-header">
+                    <h3>XGBoost Classifier</h3>
+                    <p>Gradient boosting for classification tasks</p>
+                </div>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Initialize predictions</span> (class probabilities)</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span>For each tree (sequentially)</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Calculate probability residuals</span> (gradients)</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Original impurity</span> from residuals (not original Y)</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span>For each feature</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span>For each possible split (based on X values)</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Split residuals</span> into two groups</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Calculate gain metric</span> for each group</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Combine scores</span> with weighted average</span>
+                    </div>
+                    <div class="step nested-level-3">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Information Gain</span> = Residual impurity - Weighted impurity</span>
+                    </div>
+                    <div class="step nested-level-2">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Track split with highest gain</span> for this feature</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Select best split</span> across all features</span>
+                    </div>
+                    <div class="step nested-level-1">
+                        <span class="bullet">•</span>
+                        <span><span class="keyword">Update probabilities</span> += learning_rate × tree_prediction</span>
+                    </div>
+                    <div class="step">
+                        <span class="bullet">•</span>
+                        <span><span class="emphasis">Final prediction</span> = class with highest probability</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div style="text-align: center; margin: 3rem 0;">
+            <img src="decision_tree_classifier.png" alt="Decision Tree Classifier Visualization" style="width: 100%; max-width: 1200px; border-radius: 8px;">
+        </div>
 
-<div style="display: flex; gap: 30px;">
- <div class="container" style="flex: 1;">
-   <h1>Random Forest Regressor Algorithm Steps</h1>
-   <div class="algorithm-box">
-     <div class="step">
-       <span class="bullet">•</span> <span class="bootstrap">Create N bootstrap samples</span> (with replacement)
-     </div>
-     <div class="step">
-       <span class="bullet">•</span> <span class="for-loop">For each bootstrap sample (in parallel)</span>
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="keyword">Original MSE</span> from Y values in this sample
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="for-loop">For each node split</span>
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="bootstrap">Randomly select subset of features</span> (√n_features)
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="for-loop">For each selected feature</span>
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Split Y values</span> into two groups
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Calculate mean and MSE</span> for each group
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Combine MSEs</span> with weighted average
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Original MSE - Weighted MSE
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for selected features
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="emphasis">Select best split</span> and continue building tree
-     </div>
-     <div class="step">
-       <span class="bullet">•</span> <span class="emphasis">Average predictions</span> from all N trees
-     </div>
-   </div>
- </div>
+        <!-- Black-Scholes Section -->
+        <h2>Black-Scholes Derivation</h2>
+        <h1 class="bs-title">Black-Scholes Derivation</h1>
+        <p class="bs-subtitle">The Step-by-Step Thought Process (No BS Edition)</p>
+        
+        <div class="big-idea">
+            <h3>The Core Question:</h3>
+            <p>"We have an option price C(t, S<sub>t</sub>) - how the hell does it change over time?"</p>
+        </div>
+        
+        <div class="bs-step">
+            <div class="bs-step-number">1</div>
+            <h3>Set Up the Option Price Function</h3>
+            <p><strong>The Starting Point:</strong> We know the option price depends on two things:</p>
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li><strong>Time</strong> t (options expire, so time matters)</li>
+                <li><strong>Stock price</strong> S<sub>t</sub> (higher stock price usually means higher call option value)</li>
+            </ul>
+            
+            <div class="math-display">
+                \[ C = C(t, S_t) \]
+            </div>
+            
+            <p><strong>What we want:</strong> Find dC (how does the option price change?)</p>
+            
+            <div class="problem-box">
+                <div style="font-weight: 600; margin-bottom: 0.5rem;">The Problem:</div>
+                Regular calculus won't work here because S<sub>t</sub> is random. We need help!
+            </div>
+        </div>
+        
+        <div class="bs-step">
+            <div class="bs-step-number">2</div>
+            <h3>Model the Stock Price (Geometric Brownian Motion)</h3>
+            <p><strong>The Assumption:</strong> Stock prices follow geometric Brownian motion</p>
+            
+            <div class="math-display">
+                \[ dS_t = \mu S_t dt + \sigma S_t dW_t \]
+            </div>
+            
+            <p><strong>But wait!</strong> We apply the <span class="highlight">risk-neutral assumption</span>:</p>
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li>Pretend investors don't care about risk</li>
+                <li>Replace drift μ with risk-free rate r</li>
+                <li>Makes the math way easier!</li>
+            </ul>
+            
+            <div class="math-display">
+                \[ dS_t = r S_t dt + \sigma S_t dW_t^* \]
+            </div>
+            
+            <div class="key-points">
+                <div style="font-weight: 600; margin-bottom: 0.5rem;">Historical Note:</div>
+                This assumption came about because someone realized "Hey, if we assume this, the math becomes solvable!"
+            </div>
+        </div>
+        
+        <div class="bs-step">
+            <div class="bs-step-number">3</div>
+            <h3>Itô Comes to the Rescue</h3>
+            <p><strong>The Problem:</strong> How do you differentiate C(t, S<sub>t</sub>) when S<sub>t</sub> is random?</p>
+            
+            <div class="key-points">
+                <div style="font-weight: 600; margin-bottom: 0.5rem;">Kiyosi Itô (1940s):</div>
+                "I figured out how to do calculus with random processes! You need an extra term because (dW<sub>t</sub>)<sup>2</sup> = dt, not zero!"
+            </div>
+            
+            <p><strong>Itô's Lemma gives us:</strong></p>
+            <div class="math-display">
+                \[ dC = \frac{\partial C}{\partial t}dt + \frac{\partial C}{\partial S}dS_t + \frac{1}{2}\frac{\partial^2 C}{\partial S^2}(dS_t)^2 \]
+            </div>
+            
+            <p><strong>Substitute our stock dynamics:</strong></p>
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li>dS<sub>t</sub> = r S<sub>t</sub> dt + σ S<sub>t</sub> dW<sub>t</sub>*</li>
+                <li>(dS<sub>t</sub>)<sup>2</sup> = σ<sup>2</sup> S<sub>t</sub><sup>2</sup> dt (magic of stochastic calculus!)</li>
+            </ul>
+            
+            <div class="math-display">
+                \[ dC = \left(\frac{\partial C}{\partial t} + r S_t \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2 \frac{\partial^2 C}{\partial S^2}\right)dt + \sigma S_t \frac{\partial C}{\partial S}dW_t^* \]
+            </div>
+        </div>
+        
+        <div class="bs-step">
+            <div class="bs-step-number">4</div>
+            <h3>Apply Martingale Property (Knock Off the Drift!)</h3>
+            <p><strong>Key Insight:</strong> Under risk-neutral measure, discounted option prices must be martingales</p>
+            
+            <p><strong>What this means:</strong> The drift term must equal zero!</p>
+            
+            <div class="key-points">
+                <div style="font-weight: 600; margin-bottom: 0.5rem;">The Logic:</div>
+                If discounted prices had non-zero drift, there would be arbitrage opportunities. No free lunch allowed!
+            </div>
+            
+            <p><strong>Set the drift to zero:</strong></p>
+            <div class="math-display">
+                \[ \frac{\partial C}{\partial t} + r S_t \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2 \frac{\partial^2 C}{\partial S^2} - r C = 0 \]
+            </div>
+            
+            <p><strong>Rearrange:</strong></p>
+        </div>
+        
+        <div class="final-result">
+            <h3>🎉 THE BLACK-SCHOLES PDE! 🎉</h3>
+            <div class="math-display" style="background: transparent; color: white; font-size: 1.4em;">
+                \[ \frac{\partial C}{\partial t} + r S \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 C}{\partial S^2} = r C \]
+            </div>
+        </div>
 
- <div class="container" style="flex: 1;">
-   <h1>XGBoost Regressor Algorithm Steps</h1>
-   <div class="algorithm-box">
-     <div class="step">
-       <span class="bullet">•</span> <span class="keyword">Initialize predictions</span> (mean of Y values)
-     </div>
-     <div class="step">
-       <span class="bullet">•</span> <span class="for-loop">For each tree (sequentially)</span>
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="sequential">Calculate residuals</span> = Y - current_predictions
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="keyword">Original MSE</span> from residuals (not original Y)
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="for-loop">For each feature</span>
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="sequential">Split residuals</span> into two groups
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Calculate mean and MSE</span> for each group
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Combine MSEs</span> with weighted average
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Residual MSE - Weighted MSE
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for this feature
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="emphasis">Select best split</span> across all features
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="sequential">Update predictions</span> += learning_rate × tree_prediction
-     </div>
-     <div class="step">
-       <span class="bullet">•</span> <span class="emphasis">Final prediction</span> = sum of all tree contributions
-     </div>
-   </div>
- </div>
-</div>  
+        <div class="big-idea">
+            <h3>The Key Insight:</h3>
+            <p>Each mathematician contributed their piece to the puzzle:</p>
+            <ul style="text-align: left; display: inline-block; margin: 1rem 0;">
+                <li><strong>Bachelier (1900):</strong> "Stock prices are random walks"</li>
+                <li><strong>Itô (1940s):</strong> "Here's how to do calculus with random processes"</li>
+                <li><strong>Samuelson (1960s):</strong> "Geometric Brownian motion for stock prices"</li>
+                <li><strong>Black, Scholes, Merton (1970s):</strong> "Let's put it all together with risk-neutral pricing!"</li>
+            </ul>
+        </div>
 
-  
-  
-<div class="container">
-   <h1>Decision Tree Classifier Algorithm Steps</h1>
-   <div class="algorithm-box">
-       <div class="step">
-           <span class="bullet">•</span> <span class="keyword">Original Gini Impurity</span> from all Y values
-       </div>
-       <div class="step">
-           <span class="bullet">•</span> <span class="for-loop">For each feature</span>
-       </div>
-       <div class="step nested-level-1">
-           <span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
-       </div>
-       <div class="step nested-level-2">
-           <span class="bullet">•</span> <span class="keyword">Split Y values</span> into two groups
-       </div>
-       <div class="step nested-level-2">
-           <span class="bullet">•</span> <span class="keyword">Calculate class counts and Gini</span> for each group
-       </div>
-       <div class="step nested-level-2">
-           <span class="bullet">•</span> <span class="keyword">Combine Gini scores</span> with weighted average
-       </div>
-       <div class="step nested-level-2">
-           <span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Original Gini - Weighted Gini
-       </div>
-       <div class="step nested-level-1">
-           <span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for this feature
-       </div>
-       <div class="step">
-           <span class="bullet">•</span> <span class="emphasis">Select best split</span> across all features
-       </div>
-   </div>
-</div>
+        <!-- Portfolio Theory Section -->
+        <h2>Static Portfolio Theory for Variance and Gamma Swaps</h2>
 
+        <div class="toc">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#theory">The Theory Behind Static Replication</a></li>
+                <li><a href="#variance-theory">Variance Swap Theory</a></li>
+                <li><a href="#gamma-theory">Gamma Swap Theory</a></li>
+                <li><a href="#practical">How Theory Translates to Trades</a></li>
+                <li><a href="#comparison">Quick Comparison</a></li>
+            </ul>
+        </div>
 
-  
+        <h3>The Theory Behind Static Replication</h3>
+        <p>The theory relies on replicating the payoffs using option pricing mathematics. Here are the key formulas:</p>
 
-<div class="main-content">
-<img src="decision_tree_classifier.png" alt="Decision Tree Classifier" class="custom-image1">
-</div>
-
-
-
-
-<div style="display: flex; gap: 30px;">
- <div class="container" style="flex: 1;">
-   <h1>Random Forest Classifier Algorithm Steps</h1>
-   <div class="algorithm-box">
-     <div class="step">
-       <span class="bullet">•</span> <span class="bootstrap">Create N bootstrap samples</span> (with replacement)
-     </div>
-     <div class="step">
-       <span class="bullet">•</span> <span class="for-loop">For each bootstrap sample (in parallel)</span>
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="keyword">Original Gini Impurity</span> from Y values in this sample
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="for-loop">For each node split</span>
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="bootstrap">Randomly select subset of features</span> (√n_features)
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="for-loop">For each selected feature</span>
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Split Y values</span> into two groups
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Calculate class counts and Gini</span> for each group
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Combine Gini scores</span> with weighted average
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Original Gini - Weighted Gini
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for selected features
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="emphasis">Select best split</span> and continue building tree
-     </div>
-     <div class="step">
-       <span class="bullet">•</span> <span class="emphasis">Majority vote</span> from all N trees
-     </div>
-   </div>
- </div>
-
- <div class="container" style="flex: 1;">
-   <h1>XGBoost Classifier Algorithm Steps</h1>
-   <div class="algorithm-box">
-     <div class="step">
-       <span class="bullet">•</span> <span class="keyword">Initialize predictions</span> (class probabilities)
-     </div>
-     <div class="step">
-       <span class="bullet">•</span> <span class="for-loop">For each tree (sequentially)</span>
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="sequential">Calculate probability residuals</span> (gradients)
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="keyword">Original impurity</span> from residuals (not original Y)
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="for-loop">For each feature</span>
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="for-loop">For each possible split</span> (based on X values)
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="sequential">Split residuals</span> into two groups
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Calculate gain metric</span> for each group
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="keyword">Combine scores</span> with weighted average
-     </div>
-     <div class="step nested-level-3">
-       <span class="bullet">•</span> <span class="emphasis">Information Gain</span> = Residual impurity - Weighted impurity
-     </div>
-     <div class="step nested-level-2">
-       <span class="bullet">•</span> <span class="emphasis">Track split with highest gain</span> for this feature
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="emphasis">Select best split</span> across all features
-     </div>
-     <div class="step nested-level-1">
-       <span class="bullet">•</span> <span class="sequential">Update probabilities</span> += learning_rate × tree_prediction
-     </div>
-     <div class="step">
-       <span class="bullet">•</span> <span class="emphasis">Final prediction</span> = class with highest probability
-     </div>
-   </div>
- </div>
-</div>
-
-  
-<div class="container">
-    <h1>Static Portfolio Theory for Variance and Gamma Swaps</h1>
-
-    <div class="toc">
-        <h3>Contents</h3>
-        <ul>
-            <li><a href="#theory">The Theory Behind Static Replication</a></li>
-            <li><a href="#variance-theory">Variance Swap Theory</a></li>
-            <li><a href="#gamma-theory">Gamma Swap Theory</a></li>
-            <li><a href="#practical">How Theory Translates to Trades</a></li>
-            <li><a href="#comparison">Quick Comparison</a></li>
-        </ul>
-    </div>
-
-    <h2 id="theory">The Theory Behind Static Replication</h2>
-    <p>The theory relies on replicating the payoffs using option pricing mathematics. Here are the key formulas:</p>
-
-    <h3 id="variance-theory">Variance Swap Theory</h3>
-    <p>The realized variance of a stock can be replicated by a portfolio weighted by <span class="highlight">1/K²</span>:</p>
-    
-    <div class="formula">
-        Variance ≈ ∫ (1/K²) × Option(K) dK
-    </div>
-
-    <p><strong>Where:</strong></p>
-    <ul>
-        <li><span class="math">K</span> = strike price</li>
-        <li>You buy both calls (K > S₀) and puts (K < S₀)</li>
-        <li>Weight each option by 1/strike²</li>
-        <li><span class="math">S₀</span> = current stock price</li>
-    </ul>
-
-    <p><strong>Why 1/K²?</strong> This comes from the mathematical relationship between option prices and realized variance in the Black-Scholes framework.</p>
-
-    <h3 id="gamma-theory">Gamma Swap Theory</h3>
-    <p>Gamma can be replicated with a different weighting - typically <span class="highlight">1/K</span>:</p>
-    
-    <div class="formula">
-        Gamma exposure ≈ ∫ (1/K) × Option(K) dK
-    </div>
-
-    <div class="key-points">
-        <h4>The Mathematical Intuition:</h4>
-        <ul>
-            <li>Options naturally capture convexity (gamma/variance effects)</li>
-            <li>By weighting options across all strikes with these specific formulas, the portfolio's payout automatically matches what variance/gamma swaps should pay</li>
-            <li>It's like the options "naturally aggregate" into the desired exposure</li>
-        </ul>
-    </div>
-
-    <div class="problem-box">
-        <h4>The Problem in Practice:</h4>
-        <p>You need options at <strong>every possible strike</strong>, but:</p>
-        <ul>
-            <li>Exchanges only list strikes in increments (5, 10, 25 point intervals)</li>
-            <li>Far out-of-the-money options are illiquid</li>
-            <li>Very low/high strikes might not exist at all</li>
-        </ul>
-        <p>So the "static" theory assumes infinite liquidity across all strikes, which doesn't exist in reality.</p>
-    </div>
-
-    <h2 id="practical">How Theory Translates to Actual Trades</h2>
-
-    <h3>Variance Swap - Long Position (receiving realized variance)</h3>
-    <p><strong>What you buy:</strong></p>
-    <ul>
-        <li><strong>Puts</strong> at all strikes below current stock price (K < S₀)</li>
-        <li><strong>Calls</strong> at all strikes above current stock price (K > S₀)</li>
-        <li>Each weighted by <span class="highlight">1/K²</span></li>
-    </ul>
-
-    <div class="example-box">
-        <h4>Example: Stock at $100</h4>
-        <ul>
-            <li>Buy put at $95 strike: quantity = 1/95² = 0.000111</li>
-            <li>Buy put at $90 strike: quantity = 1/90² = 0.000123</li>
-            <li>Buy call at $105 strike: quantity = 1/105² = 0.000091</li>
-            <li>Buy call at $110 strike: quantity = 1/110² = 0.000083</li>
-            <li>etc.</li>
-        </ul>
-    </div>
-
-    <h3>Gamma Swap - Long Position</h3>
-    <p><strong>What you buy:</strong></p>
-    <ul>
-        <li>Same structure (puts below, calls above current price)</li>
-        <li>But weighted by <span class="highlight">1/K</span> instead of <span class="highlight">1/K²</span></li>
-    </ul>
-
-    <div class="example-box">
-        <h4>Example: Stock at $100</h4>
-        <ul>
-            <li>Buy put at $95: quantity = 1/95 = 0.0105</li>
-            <li>Buy put at $90: quantity = 1/90 = 0.0111</li>
-            <li>Buy call at $105: quantity = 1/105 = 0.0095</li>
-            <li>etc.</li>
-        </ul>
-    </div>
-
-    <div class="key-points">
-        <h4>Key Points:</h4>
-        <ul>
-            <li>You're always <strong>buying</strong> options (long gamma/convexity)</li>
-            <li>The weighting makes far OTM options have smaller positions</li>
-            <li>Lower strikes get higher weightings due to the 1/K or 1/K² factor</li>
-            <li>You need both puts and calls to capture moves in both directions</li>
-        </ul>
-        <p><strong>In Practice:</strong> Dealers approximate this by buying options at available strikes and interpolating.</p>
-    </div>
-
-    <h2 id="comparison">Quick Comparison</h2>
-    <table class="comparison-table">
-        <thead>
-            <tr>
-                <th>Aspect</th>
-                <th>Variance Swap</th>
-                <th>Gamma Swap</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Weighting Formula</strong></td>
-                <td>1/K²</td>
-                <td>1/K</td>
-            </tr>
-            <tr>
-                <td><strong>Tail Exposure</strong></td>
-                <td>Lower (due to 1/K² weighting)</td>
-                <td>Higher (due to 1/K weighting)</td>
-            </tr>
-            <tr>
-                <td><strong>Example Quantity at $95 Strike</strong></td>
-                <td>0.000111</td>
-                <td>0.0105</td>
-            </tr>
-            <tr>
-                <td><strong>Hedging Approach</strong></td>
-                <td>Static replication possible</td>
-                <td>Static replication possible</td>
-            </tr>
-            <tr>
-                <td><strong>Market Liquidity</strong></td>
-                <td>Was popular, collapsed in 2008</td>
-                <td>Never gained meaningful traction</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-
-
-<style>
-    body {
-        font-family: 'Georgia', serif;
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-        line-height: 1.6;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-    }
-    
-    .container {
-        background: white;
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    }
-    
-    h1 {
-        color: #2c3e50;
-        text-align: center;
-        font-size: 2.8em;
-        margin-bottom: 20px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .subtitle {
-        text-align: center;
-        font-style: italic;
-        color: #666;
-        font-size: 1.3em;
-        margin-bottom: 40px;
-    }
-    
-    .step {
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        margin: 30px 0;
-        padding: 30px;
-        border-radius: 15px;
-        border-left: 6px solid;
-        position: relative;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    
-    .step-1 { border-left-color: #e74c3c; }
-    .step-2 { border-left-color: #f39c12; }
-    .step-3 { border-left-color: #27ae60; }
-    .step-4 { border-left-color: #3498db; }
-    
-    .step-number {
-        position: absolute;
-        top: -15px;
-        left: 20px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5em;
-        font-weight: bold;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    
-    .step h2 {
-        color: #2c3e50;
-        font-size: 1.8em;
-        margin: 0 0 20px 0;
-        padding-left: 10px;
-    }
-    
-    .math-display {
-        background: white;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 10px;
-        text-align: center;
-        border: 2px solid #e9ecef;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .connection {
-        text-align: center;
-        margin: 20px 0;
-        font-size: 2em;
-        color: #3498db;
-    }
-    
-    .big-idea {
-        background: linear-gradient(135deg, #ff7b7b, #667eea);
-        color: white;
-        padding: 30px;
-        border-radius: 15px;
-        text-align: center;
-        margin: 30px 0;
-        font-size: 1.2em;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-    
-    .contributor {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        margin: 15px 0;
-        border-left: 4px solid #17a2b8;
-    }
-    
-    .contributor-name {
-        font-weight: bold;
-        color: #17a2b8;
-        font-size: 1.1em;
-    }
-    
-    .logic-chain {
-        background: linear-gradient(135deg, #a8edea, #fed6e3);
-        padding: 25px;
-        border-radius: 15px;
-        margin: 30px 0;
-    }
-    
-    .chain-item {
-        display: flex;
-        align-items: center;
-        margin: 15px 0;
-        padding: 15px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    .chain-arrow {
-        font-size: 2em;
-        color: #3498db;
-        text-align: center;
-        margin: 10px 0;
-    }
-    
-    .highlight {
-        background: linear-gradient(120deg, #84fab0, #8fd3f4);
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-weight: bold;
-    }
-    
-    .final-result {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 40px;
-        border-radius: 20px;
-        text-align: center;
-        margin: 40px 0;
-        font-size: 1.3em;
-        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-    }
-    
-    .blah-translation {
-        background: #fff3cd;
-        border: 2px dashed #ffc107;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-    }
-    
-    .blah-title {
-        color: #856404;
-        font-weight: bold;
-        font-size: 1.2em;
-        margin-bottom: 10px;
-    }
-</style>
-
-
-
-  
-<div class="container">
-    <h1>Black-Scholes Derivation</h1>
-    <p class="subtitle">The Step-by-Step Thought Process (No BS Edition)</p>
-    
-    <div class="big-idea">
-        <h3>The Core Question:</h3>
-        <p>"We have an option price $C(t, S_t)$ - how the hell does it change over time?"</p>
-    </div>
-    
-    <div class="step step-1">
-        <div class="step-number">1</div>
-        <h2>Set Up the Option Price Function</h2>
-        <p><strong>The Starting Point:</strong> We know the option price depends on two things:</p>
-        <ul>
-            <li><strong>Time</strong> $t$ (options expire, so time matters)</li>
-            <li><strong>Stock price</strong> $S_t$ (higher stock price usually means higher call option value)</li>
-        </ul>
+        <h3>Variance Swap Theory</h3>
+        <p>The realized variance of a stock can be replicated by a portfolio weighted by <span class="highlight">1/K²</span>:</p>
         
         <div class="math-display">
-            $$ C = C(t, S_t) $$
+            \[ \text{Variance} \approx \int \frac{1}{K^2} \times \text{Option}(K) \, dK \]
         </div>
-        
-        <p><strong>What we want:</strong> Find $dC$ (how does the option price change?)</p>
-        
-        <div class="contributor">
-            <div class="contributor-name">The Problem:</div>
-            Regular calculus won't work here because $S_t$ is random. We need help!
-        </div>
-    </div>
-    
-    <div class="connection">↓</div>
-    
-    <div class="step step-2">
-        <div class="step-number">2</div>
-        <h2>Model the Stock Price (Geometric Brownian Motion)</h2>
-        <p><strong>The Assumption:</strong> Stock prices follow geometric Brownian motion</p>
-        
-        <div class="math-display">
-            $$ dS_t = \mu S_t dt + \sigma S_t dW_t $$
-        </div>
-        
-        <p><strong>But wait!</strong> We apply the <span class="highlight">risk-neutral assumption</span>:</p>
-        <ul>
-            <li>Pretend investors don't care about risk</li>
-            <li>Replace drift $\mu$ with risk-free rate $r$</li>
-            <li>Makes the math way easier!</li>
+
+        <p><strong>Where:</strong></p>
+        <ul style="margin: 1rem 0; padding-left: 2rem;">
+            <li>K = strike price</li>
+            <li>You buy both calls (K > S₀) and puts (K < S₀)</li>
+            <li>Weight each option by 1/strike²</li>
+            <li>S₀ = current stock price</li>
         </ul>
+
+        <p><strong>Why 1/K²?</strong> This comes from the mathematical relationship between option prices and realized variance in the Black-Scholes framework.</p>
+
+        <h3>Gamma Swap Theory</h3>
+        <p>Gamma can be replicated with a different weighting - typically <span class="highlight">1/K</span>:</p>
         
         <div class="math-display">
-            $$ dS_t = r S_t dt + \sigma S_t dW_t^* $$
+            \[ \text{Gamma exposure} \approx \int \frac{1}{K} \times \text{Option}(K) \, dK \]
         </div>
-        
-        <div class="contributor">
-            <div class="contributor-name">Historical Note:</div>
-            This assumption came about because someone realized "Hey, if we assume this, the math becomes solvable!"
+
+        <div class="key-points">
+            <h4 style="margin-bottom: 1rem;">The Mathematical Intuition:</h4>
+            <ul>
+                <li>Options naturally capture convexity (gamma/variance effects)</li>
+                <li>By weighting options across all strikes with these specific formulas, the portfolio's payout automatically matches what variance/gamma swaps should pay</li>
+                <li>It's like the options "naturally aggregate" into the desired exposure</li>
+            </ul>
         </div>
-    </div>
-    
-    <div class="connection">↓</div>
-    
-    <div class="step step-3">
-        <div class="step-number">3</div>
-        <h2>Itô Comes to the Rescue</h2>
-        <p><strong>The Problem:</strong> How do you differentiate $C(t, S_t)$ when $S_t$ is random?</p>
-        
-        <div class="contributor">
-            <div class="contributor-name">Kiyosi Itô (1940s):</div>
-            "I figured out how to do calculus with random processes! You need an extra term because $(dW_t)^2 = dt$, not zero!"
+
+        <div class="problem-box">
+            <h4 style="margin-bottom: 1rem;">The Problem in Practice:</h4>
+            <p>You need options at <strong>every possible strike</strong>, but:</p>
+            <ul>
+                <li>Exchanges only list strikes in increments (5, 10, 25 point intervals)</li>
+                <li>Far out-of-the-money options are illiquid</li>
+                <li>Very low/high strikes might not exist at all</li>
+            </ul>
+            <p>So the "static" theory assumes infinite liquidity across all strikes, which doesn't exist in reality.</p>
         </div>
-        
-        <p><strong>Itô's Lemma gives us:</strong></p>
-        <div class="math-display">
-            $$ dC = \frac{\partial C}{\partial t}dt + \frac{\partial C}{\partial S}dS_t + \frac{1}{2}\frac{\partial^2 C}{\partial S^2}(dS_t)^2 $$
-        </div>
-        
-        <p><strong>Substitute our stock dynamics:</strong></p>
-        <ul>
-            <li>$dS_t = r S_t dt + \sigma S_t dW_t^*$</li>
-            <li>$(dS_t)^2 = \sigma^2 S_t^2 dt$ (magic of stochastic calculus!)</li>
+
+        <h3>How Theory Translates to Actual Trades</h3>
+
+        <h4>Variance Swap - Long Position (receiving realized variance)</h4>
+        <p><strong>What you buy:</strong></p>
+        <ul style="margin: 1rem 0; padding-left: 2rem;">
+            <li><strong>Puts</strong> at all strikes below current stock price (K < S₀)</li>
+            <li><strong>Calls</strong> at all strikes above current stock price (K > S₀)</li>
+            <li>Each weighted by <span class="highlight">1/K²</span></li>
         </ul>
-        
-        <div class="math-display">
-            $$ dC = \left(\frac{\partial C}{\partial t} + r S_t \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2 \frac{\partial^2 C}{\partial S^2}\right)dt + \sigma S_t \frac{\partial C}{\partial S}dW_t^* $$
-        </div>
-    </div>
-    
-    <div class="connection">↓</div>
-    
-    <div class="step step-4">
-        <div class="step-number">4</div>
-        <h2>Apply Martingale Property (Knock Off the Drift!)</h2>
-        <p><strong>Key Insight:</strong> Under risk-neutral measure, discounted option prices must be martingales</p>
-        
-        <p><strong>What this means:</strong> The drift term must equal zero!</p>
-        
-        <div class="contributor">
-            <div class="contributor-name">The Logic:</div>
-            If discounted prices had non-zero drift, there would be arbitrage opportunities. No free lunch allowed!
-        </div>
-        
-        <p><strong>Set the drift to zero:</strong></p>
-        <div class="math-display">
-            $$ \frac{\partial C}{\partial t} + r S_t \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2 \frac{\partial^2 C}{\partial S^2} - r C = 0 $$
-        </div>
-        
-        <p><strong>Rearrange:</strong></p>
-    </div>
-    
-    <div class="final-result">
-        <h3>🎉 THE BLACK-SCHOLES PDE! 🎉</h3>
-        <div class="math-display" style="background: transparent; color: white; font-size: 1.4em;">
-            $$ \frac{\partial C}{\partial t} + r S \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 C}{\partial S^2} = r C $$
-        </div>
-    </div>
-    
 
-    
-    <div class="logic-chain">
-        <h3>🧠 The Beautiful Logic Chain</h3>
-        
-        <div class="chain-item">
-            <strong>Option price function:</strong> $C(t, S_t)$
+        <div class="example-box">
+            <h4 style="margin-bottom: 1rem;">Example: Stock at $100</h4>
+            <ul>
+                <li>Buy put at $95 strike: quantity = 1/95² = 0.000111</li>
+                <li>Buy put at $90 strike: quantity = 1/90² = 0.000123</li>
+                <li>Buy call at $105 strike: quantity = 1/105² = 0.000091</li>
+                <li>Buy call at $110 strike: quantity = 1/110² = 0.000083</li>
+                <li>etc.</li>
+            </ul>
         </div>
-        <div class="chain-arrow">↓</div>
-        
-        <div class="chain-item">
-            <strong>Need $dC$</strong> (Itô helps with random calculus)
-        </div>
-        <div class="chain-arrow">↓</div>
-        
-        <div class="chain-item">
-            <strong>Stock follows GBM</strong> (with risk-neutral drift $r$)
-        </div>
-        <div class="chain-arrow">↓</div>
-        
-        <div class="chain-item">
-            <strong>Substitute into Itô's formula</strong>
-        </div>
-        <div class="chain-arrow">↓</div>
-        
-        <div class="chain-item">
-            <strong>Apply martingale condition</strong> (knock off drift term)
-        </div>
-        <div class="chain-arrow">↓</div>
-        
-        <div class="chain-item">
-            <strong>🏆 BLACK-SCHOLES PDE! 🏆</strong>
-        </div>
-    </div>
-    
-    <div class="big-idea">
-        <h3>The Key Insight:</h3>
-        <p>Each mathematician contributed their piece to the puzzle:</p>
-        <ul>
-            <li><strong>Bachelier (1900):</strong> "Stock prices are random walks"</li>
-            <li><strong>Itô (1940s):</strong> "Here's how to do calculus with random processes"</li>
-            <li><strong>Samuelson (1960s):</strong> "Geometric Brownian motion for stock prices"</li>
-            <li><strong>Black, Scholes, Merton (1970s):</strong> "Let's put it all together with risk-neutral pricing!"</li>
+
+        <h4>Gamma Swap - Long Position</h4>
+        <p><strong>What you buy:</strong></p>
+        <ul style="margin: 1rem 0; padding-left: 2rem;">
+            <li>Same structure (puts below, calls above current price)</li>
+            <li>But weighted by <span class="highlight">1/K</span> instead of <span class="highlight">1/K²</span></li>
         </ul>
+
+        <div class="example-box">
+            <h4 style="margin-bottom: 1rem;">Example: Stock at $100</h4>
+            <ul>
+                <li>Buy put at $95: quantity = 1/95 = 0.0105</li>
+                <li>Buy put at $90: quantity = 1/90 = 0.0111</li>
+                <li>Buy call at $105: quantity = 1/105 = 0.0095</li>
+                <li>etc.</li>
+            </ul>
+        </div>
+
+        <div class="key-points">
+            <h4 style="margin-bottom: 1rem;">Key Points:</h4>
+            <ul>
+                <li>You're always <strong>buying</strong> options (long gamma/convexity)</li>
+                <li>The weighting makes far OTM options have smaller positions</li>
+                <li>Lower strikes get higher weightings due to the 1/K or 1/K² factor</li>
+                <li>You need both puts and calls to capture moves in both directions</li>
+            </ul>
+            <p><strong>In Practice:</strong> Dealers approximate this by buying options at available strikes and interpolating.</p>
+        </div>
+
+        <h3>Quick Comparison</h3>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Variance Swap</th>
+                    <th>Gamma Swap</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Weighting Formula</strong></td>
+                    <td>1/K²</td>
+                    <td>1/K</td>
+                </tr>
+                <tr>
+                    <td><strong>Tail Exposure</strong></td>
+                    <td>Lower (due to 1/K² weighting)</td>
+                    <td>Higher (due to 1/K weighting)</td>
+                </tr>
+                <tr>
+                    <td><strong>Example Quantity at $95 Strike</strong></td>
+                    <td>0.000111</td>
+                    <td>0.0105</td>
+                </tr>
+                <tr>
+                    <td><strong>Hedging Approach</strong></td>
+                    <td>Static replication possible</td>
+                    <td>Static replication possible</td>
+                </tr>
+                <tr>
+                    <td><strong>Market Liquidity</strong></td>
+                    <td>Was popular, collapsed in 2008</td>
+                    <td>Never gained meaningful traction</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; color: #64748b;">
+            <p>Copyright © 2023 by Saumik Dana</p>
+        </div>
     </div>
-    
-    <div class="final-result">
-        <h3>🎯 Mission Accomplished!</h3>
-        <p>From a simple question about option price changes, through geometric Brownian motion, Itô's calculus, and martingale theory, we derived one of the most important equations in mathematical finance!</p>
-        <p><em>And all because someone realized that assuming "investors don't care about risk" makes the math work out beautifully.</em></p>
-    </div>
-</div>
-
-
-  
-<footer>
-<p>Copyright © 2023 by Saumik Dana</p>
-</footer>
-
 </body>
 </html>
