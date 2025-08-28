@@ -1324,79 +1324,356 @@ Right group: 118 samples, mean=  -95.74
 </div>
 
 
-<main class="wrap">
-<header>
-  <h1>Black–Scholes–Merton: Assumptions &amp; Where They're Used</h1>
-</header>
 
-<section class="card table-wrap" aria-label="Assumptions table">
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Assumption</th>
-        <th scope="col">Where it's used in derivation</th>
-        <th scope="col">Why it's needed</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Stock price follows GBM</strong> \(dS_t = \mu S_t\,dt + \sigma S_t\,dW_t\) with constant \(\mu,\sigma\)</td>
-        <td>Starting point; plug into Itô's Lemma for \(V(S,t)\)</td>
-        <td>Continuous paths, proportional volatility, lognormal prices → tractable and realistic enough for the model</td>
-      </tr>
-      <tr>
-        <td><strong>No transaction costs, taxes, bid–ask spreads</strong></td>
-        <td>Forming and continuously rebalancing \(\Pi = V - V_S S\)</td>
-        <td>Prevents hedging frictions; exact term-by-term cancellation relies on costless trading</td>
-      </tr>
-      <tr>
-        <td><strong>Continuous trading</strong></td>
-        <td>Maintain \(\Delta = V_S\) at every instant</td>
-        <td>Without continuous rebalancing, the random \(dW_t\) exposure reappears</td>
-      </tr>
-      <tr>
-        <td><strong>Short selling allowed</strong></td>
-        <td>Setting \(\Delta = V_S\) (which can be negative)</td>
-        <td>You must be able to short the stock to hedge options with negative delta</td>
-      </tr>
-      <tr>
-        <td><strong>Constant risk-free rate \(r\)</strong></td>
-        <td>Riskless-return step: \(d\Pi = r\,\Pi\,dt\)</td>
-        <td>Simplifies discounting/replication; yields constant-coefficient PDE</td>
-      </tr>
-      <tr>
-        <td><strong>No dividends</strong> (in basic form)</td>
-        <td>In the PDE drift term \(r S V_S\)</td>
-        <td>If dividends with yield \(q\) exist, replace \(r\) with \(r - q\) in the PDE</td>
-      </tr>
-      <tr>
-        <td><strong>No arbitrage</strong></td>
-        <td>Equating riskless growth: \(d\Pi = r\,\Pi\,dt\)</td>
-        <td>Forces any riskless portfolio to earn exactly the risk-free rate; pins down the PDE</td>
-      </tr>
-      <tr>
-        <td><strong>Complete market</strong> (every payoff can be replicated)</td>
-        <td>Implicit in replication/hedging argument</td>
-        <td>Guarantees the hedged portfolio matches the option's cash flows → unique price</td>
-      </tr>
-    </tbody>
-  </table>
+<style>
+    body {
+        font-family: 'Georgia', serif;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    
+    .container {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        font-size: 2.8em;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .subtitle {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+        font-size: 1.3em;
+        margin-bottom: 40px;
+    }
+    
+    .step {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        margin: 30px 0;
+        padding: 30px;
+        border-radius: 15px;
+        border-left: 6px solid;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .step-1 { border-left-color: #e74c3c; }
+    .step-2 { border-left-color: #f39c12; }
+    .step-3 { border-left-color: #27ae60; }
+    .step-4 { border-left-color: #3498db; }
+    
+    .step-number {
+        position: absolute;
+        top: -15px;
+        left: 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .step h2 {
+        color: #2c3e50;
+        font-size: 1.8em;
+        margin: 0 0 20px 0;
+        padding-left: 10px;
+    }
+    
+    .math-display {
+        background: white;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 10px;
+        text-align: center;
+        border: 2px solid #e9ecef;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .connection {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 2em;
+        color: #3498db;
+    }
+    
+    .big-idea {
+        background: linear-gradient(135deg, #ff7b7b, #667eea);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        margin: 30px 0;
+        font-size: 1.2em;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .contributor {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        border-left: 4px solid #17a2b8;
+    }
+    
+    .contributor-name {
+        font-weight: bold;
+        color: #17a2b8;
+        font-size: 1.1em;
+    }
+    
+    .logic-chain {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        padding: 25px;
+        border-radius: 15px;
+        margin: 30px 0;
+    }
+    
+    .chain-item {
+        display: flex;
+        align-items: center;
+        margin: 15px 0;
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .chain-arrow {
+        font-size: 2em;
+        color: #3498db;
+        text-align: center;
+        margin: 10px 0;
+    }
+    
+    .highlight {
+        background: linear-gradient(120deg, #84fab0, #8fd3f4);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    
+    .final-result {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        margin: 40px 0;
+        font-size: 1.3em;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    
+    .blah-translation {
+        background: #fff3cd;
+        border: 2px dashed #ffc107;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+    
+    .blah-title {
+        color: #856404;
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+</style>
 
-  <p class="note">
-    <strong>Resulting PDE:</strong><br/>
-    \[
-    V_t + \frac12\sigma^2 S^2 V_{SS} + r S V_S - r V = 0
-    \]
-    with terminal condition \(V(S,T)=\text{payoff}(S_T)\) (e.g., \(\max(S-K,0)\) for a call).
-  </p>
-</section>
 
-<footer>
-  <strong>Tip:</strong> To include continuous dividends at yield \(q\), use the same derivation but replace
-  \(r S V_S\) with \((r - q) S V_S\) in the PDE.
-</footer>
-</main>    
 
+  
+<div class="container">
+    <h1>Black-Scholes Derivation</h1>
+    <p class="subtitle">The Step-by-Step Thought Process (No BS Edition)</p>
+    
+    <div class="big-idea">
+        <h3>The Core Question:</h3>
+        <p>"We have an option price $C(t, S_t)$ - how the hell does it change over time?"</p>
+    </div>
+    
+    <div class="step step-1">
+        <div class="step-number">1</div>
+        <h2>Set Up the Option Price Function</h2>
+        <p><strong>The Starting Point:</strong> We know the option price depends on two things:</p>
+        <ul>
+            <li><strong>Time</strong> $t$ (options expire, so time matters)</li>
+            <li><strong>Stock price</strong> $S_t$ (higher stock price usually means higher call option value)</li>
+        </ul>
+        
+        <div class="math-display">
+            $$ C = C(t, S_t) $$
+        </div>
+        
+        <p><strong>What we want:</strong> Find $dC$ (how does the option price change?)</p>
+        
+        <div class="contributor">
+            <div class="contributor-name">The Problem:</div>
+            Regular calculus won't work here because $S_t$ is random. We need help!
+        </div>
+    </div>
+    
+    <div class="connection">↓</div>
+    
+    <div class="step step-2">
+        <div class="step-number">2</div>
+        <h2>Model the Stock Price (Geometric Brownian Motion)</h2>
+        <p><strong>The Assumption:</strong> Stock prices follow geometric Brownian motion</p>
+        
+        <div class="math-display">
+            $$ dS_t = \mu S_t dt + \sigma S_t dW_t $$
+        </div>
+        
+        <p><strong>But wait!</strong> We apply the <span class="highlight">risk-neutral assumption</span>:</p>
+        <ul>
+            <li>Pretend investors don't care about risk</li>
+            <li>Replace drift $\mu$ with risk-free rate $r$</li>
+            <li>Makes the math way easier!</li>
+        </ul>
+        
+        <div class="math-display">
+            $$ dS_t = r S_t dt + \sigma S_t dW_t^* $$
+        </div>
+        
+        <div class="contributor">
+            <div class="contributor-name">Historical Note:</div>
+            This assumption came about because someone realized "Hey, if we assume this, the math becomes solvable!"
+        </div>
+    </div>
+    
+    <div class="connection">↓</div>
+    
+    <div class="step step-3">
+        <div class="step-number">3</div>
+        <h2>Itô Comes to the Rescue</h2>
+        <p><strong>The Problem:</strong> How do you differentiate $C(t, S_t)$ when $S_t$ is random?</p>
+        
+        <div class="contributor">
+            <div class="contributor-name">Kiyosi Itô (1940s):</div>
+            "I figured out how to do calculus with random processes! You need an extra term because $(dW_t)^2 = dt$, not zero!"
+        </div>
+        
+        <p><strong>Itô's Lemma gives us:</strong></p>
+        <div class="math-display">
+            $$ dC = \frac{\partial C}{\partial t}dt + \frac{\partial C}{\partial S}dS_t + \frac{1}{2}\frac{\partial^2 C}{\partial S^2}(dS_t)^2 $$
+        </div>
+        
+        <p><strong>Substitute our stock dynamics:</strong></p>
+        <ul>
+            <li>$dS_t = r S_t dt + \sigma S_t dW_t^*$</li>
+            <li>$(dS_t)^2 = \sigma^2 S_t^2 dt$ (magic of stochastic calculus!)</li>
+        </ul>
+        
+        <div class="math-display">
+            $$ dC = \left(\frac{\partial C}{\partial t} + r S_t \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2 \frac{\partial^2 C}{\partial S^2}\right)dt + \sigma S_t \frac{\partial C}{\partial S}dW_t^* $$
+        </div>
+    </div>
+    
+    <div class="connection">↓</div>
+    
+    <div class="step step-4">
+        <div class="step-number">4</div>
+        <h2>Apply Martingale Property (Knock Off the Drift!)</h2>
+        <p><strong>Key Insight:</strong> Under risk-neutral measure, discounted option prices must be martingales</p>
+        
+        <p><strong>What this means:</strong> The drift term must equal zero!</p>
+        
+        <div class="contributor">
+            <div class="contributor-name">The Logic:</div>
+            If discounted prices had non-zero drift, there would be arbitrage opportunities. No free lunch allowed!
+        </div>
+        
+        <p><strong>Set the drift to zero:</strong></p>
+        <div class="math-display">
+            $$ \frac{\partial C}{\partial t} + r S_t \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2 \frac{\partial^2 C}{\partial S^2} - r C = 0 $$
+        </div>
+        
+        <p><strong>Rearrange:</strong></p>
+    </div>
+    
+    <div class="final-result">
+        <h3>🎉 THE BLACK-SCHOLES PDE! 🎉</h3>
+        <div class="math-display" style="background: transparent; color: white; font-size: 1.4em;">
+            $$ \frac{\partial C}{\partial t} + r S \frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S^2 \frac{\partial^2 C}{\partial S^2} = r C $$
+        </div>
+    </div>
+    
+
+    
+    <div class="logic-chain">
+        <h3>🧠 The Beautiful Logic Chain</h3>
+        
+        <div class="chain-item">
+            <strong>Option price function:</strong> $C(t, S_t)$
+        </div>
+        <div class="chain-arrow">↓</div>
+        
+        <div class="chain-item">
+            <strong>Need $dC$</strong> (Itô helps with random calculus)
+        </div>
+        <div class="chain-arrow">↓</div>
+        
+        <div class="chain-item">
+            <strong>Stock follows GBM</strong> (with risk-neutral drift $r$)
+        </div>
+        <div class="chain-arrow">↓</div>
+        
+        <div class="chain-item">
+            <strong>Substitute into Itô's formula</strong>
+        </div>
+        <div class="chain-arrow">↓</div>
+        
+        <div class="chain-item">
+            <strong>Apply martingale condition</strong> (knock off drift term)
+        </div>
+        <div class="chain-arrow">↓</div>
+        
+        <div class="chain-item">
+            <strong>🏆 BLACK-SCHOLES PDE! 🏆</strong>
+        </div>
+    </div>
+    
+    <div class="big-idea">
+        <h3>The Key Insight:</h3>
+        <p>Each mathematician contributed their piece to the puzzle:</p>
+        <ul>
+            <li><strong>Bachelier (1900):</strong> "Stock prices are random walks"</li>
+            <li><strong>Itô (1940s):</strong> "Here's how to do calculus with random processes"</li>
+            <li><strong>Samuelson (1960s):</strong> "Geometric Brownian motion for stock prices"</li>
+            <li><strong>Black, Scholes, Merton (1970s):</strong> "Let's put it all together with risk-neutral pricing!"</li>
+        </ul>
+    </div>
+    
+    <div class="final-result">
+        <h3>🎯 Mission Accomplished!</h3>
+        <p>From a simple question about option price changes, through geometric Brownian motion, Itô's calculus, and martingale theory, we derived one of the most important equations in mathematical finance!</p>
+        <p><em>And all because someone realized that assuming "investors don't care about risk" makes the math work out beautifully.</em></p>
+    </div>
+</div>
+
+
+  
 <footer>
 <p>Copyright © 2023 by Saumik Dana</p>
 </footer>
