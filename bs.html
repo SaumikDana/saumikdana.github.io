@@ -1,292 +1,341 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Black–Scholes–Merton: Assumptions and Where They're Used</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-  <meta name="description" content="A concise table linking each Black–Scholes–Merton assumption to the exact step of the derivation where it is used and why it matters." />
-  <!-- Load MathJax -->
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['\\(', '\\)']],
-        displayMath: [['\\[', '\\]']]
-      }
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-  <style>
-    :root {
-      --bg: #ffffff;
-      --fg: #1f2937;
-      --muted: #6b7280;
-      --accent: #2563eb;
-      --border: #e5e7eb;
-      --card: #ffffff;
-      --card-border: #d1d5db;
-      --code-bg: #f3f4f6;
-    }
-
-    * { 
-      box-sizing: border-box; 
-    }
-    
-    html, body { 
-      margin: 0; 
-      padding: 0; 
-    }
-    
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-    }
-    
-    .wrap { 
-      max-width: 95%; 
-      margin: 0 auto; 
-      padding: 32px 16px 64px; 
-    }
-    
-    header h1 { 
-      margin: 0 0 6px; 
-      font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); 
-      letter-spacing: -0.02em;
-      color: var(--fg);
-      font-weight: 700;
-    }
-    
-    header p { 
-      margin: 0 0 22px; 
-      color: var(--muted); 
-      font-size: 1.1rem;
-    }
-    
-    .card { 
-      background: var(--card); 
-      border: 1px solid var(--card-border); 
-      border-radius: 14px; 
-      padding: 24px; 
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05); 
-    }
-    
-    .table-wrap { 
-      overflow-x: auto; 
-      -webkit-overflow-scrolling: touch; 
-    }
-    
-    table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      min-width: 760px; 
-    }
-    
-    thead th { 
-      text-align: left; 
-      font-weight: 700; 
-      font-size: 0.95rem; 
-      color: var(--fg); 
-      border-bottom: 2px solid var(--border); 
-      padding: 16px 12px; 
-      background: #f9fafb;
-    }
-    
-    tbody td { 
-      vertical-align: top; 
-      padding: 16px 12px; 
-      border-bottom: 1px solid var(--border); 
-      line-height: 1.5;
-    }
-    
-    tbody tr:hover {
-      background: #f8fafc;
-    }
-    
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-    
-    code, kbd { 
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
-      font-size: 0.9em; 
-      background: var(--code-bg); 
-      padding: 2px 6px; 
-      border-radius: 4px;
-      color: #374151;
-    }
-    
-    .note { 
-      margin-top: 20px; 
-      color: var(--muted); 
-      font-size: 0.95rem; 
-      padding: 16px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border-left: 4px solid var(--accent);
-    }
-    
-    footer { 
-      margin-top: 28px; 
-      color: var(--muted); 
-      font-size: 0.9rem; 
-      padding: 16px;
-      background: #f9fafb;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-    
-    a { 
-      color: var(--accent); 
-      text-decoration: none; 
-    }
-    
-    a:hover { 
-      text-decoration: underline; 
-    }
-
-    strong {
-      font-weight: 600;
-      color: var(--fg);
-    }
-
-    /* Math styling */
-    .MathJax {
-      color: var(--fg) !important;
-    }
-
-    .mjx-chtml {
-      color: var(--fg) !important;
-    }
-
-    /* Table styling improvements */
-    td:first-child {
-      font-weight: 500;
-    }
-
-    td:nth-child(2) {
-      font-style: italic;
-    }
-
-    /* Responsive improvements */
-    @media (max-width: 768px) {
-      .wrap {
-        max-width: 98%;
-        padding: 20px 12px 40px;
-      }
-      
-      .card {
-        padding: 16px;
-      }
-      
-      table {
-        font-size: 0.9rem;
-      }
-      
-      thead th,
-      tbody td {
-        padding: 12px 8px;
-      }
-    }
-
-    @media (min-width: 1400px) {
-      .wrap {
-        max-width: 98%;
-      }
-    }
-
-    /* Enhanced table layout for wide screens */
-    @media (min-width: 1200px) {
-      table {
-        min-width: 100%;
-      }
-      
-      thead th,
-      tbody td {
-        padding: 18px 16px;
-      }
-      
-      tbody td {
-        font-size: 1rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black-Scholes Derivation</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            startup: {
+                ready: () => {
+                    MathJax.startup.defaultReady();
+                    MathJax.startup.promise.then(() => {
+                        console.log('MathJax initial typesetting complete');
+                    });
+                }
+            }
+        };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .step {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #FFD700;
+        }
+        
+        .step-number {
+            background: #FFD700;
+            color: #1e3c72;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            float: left;
+            margin-right: 20px;
+            margin-top: -5px;
+        }
+        
+        .step h3 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .math-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .highlight {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .final-result {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #1e3c72;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        
+        .explanation {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 3px solid #87CEEB;
+        }
+        
+        .mjx-math {
+            font-size: 1.1em !important;
+        }
+        
+        ul {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+    </style>
 </head>
 <body>
-  <main class="wrap">
-    <header>
-      <h1>Black–Scholes–Merton: Assumptions &amp; Where They're Used</h1>
-      <p>A quick mapping from each assumption to the exact step in the derivation and why it matters.</p>
-    </header>
-
-    <section class="card table-wrap" aria-label="Assumptions table">
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Assumption</th>
-            <th scope="col">Where it's used in derivation</th>
-            <th scope="col">Why it's needed</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Stock price follows GBM</strong> \(dS_t = \mu S_t\,dt + \sigma S_t\,dW_t\) with constant \(\mu,\sigma\)</td>
-            <td>Starting point; plug into Itô's Lemma for \(V(S,t)\)</td>
-            <td>Continuous paths, proportional volatility, lognormal prices → tractable and realistic enough for the model</td>
-          </tr>
-          <tr>
-            <td><strong>No transaction costs, taxes, bid–ask spreads</strong></td>
-            <td>Forming and continuously rebalancing \(\Pi = V - V_S S\)</td>
-            <td>Prevents hedging frictions; exact term-by-term cancellation relies on costless trading</td>
-          </tr>
-          <tr>
-            <td><strong>Continuous trading</strong></td>
-            <td>Maintain \(\Delta = V_S\) at every instant</td>
-            <td>Without continuous rebalancing, the random \(dW_t\) exposure reappears</td>
-          </tr>
-          <tr>
-            <td><strong>Short selling allowed</strong></td>
-            <td>Setting \(\Delta = V_S\) (which can be negative)</td>
-            <td>You must be able to short the stock to hedge options with negative delta</td>
-          </tr>
-          <tr>
-            <td><strong>Constant risk-free rate \(r\)</strong></td>
-            <td>Riskless-return step: \(d\Pi = r\,\Pi\,dt\)</td>
-            <td>Simplifies discounting/replication; yields constant-coefficient PDE</td>
-          </tr>
-          <tr>
-            <td><strong>No dividends</strong> (in basic form)</td>
-            <td>In the PDE drift term \(r S V_S\)</td>
-            <td>If dividends with yield \(q\) exist, replace \(r\) with \(r - q\) in the PDE</td>
-          </tr>
-          <tr>
-            <td><strong>No arbitrage</strong></td>
-            <td>Equating riskless growth: \(d\Pi = r\,\Pi\,dt\)</td>
-            <td>Forces any riskless portfolio to earn exactly the risk-free rate; pins down the PDE</td>
-          </tr>
-          <tr>
-            <td><strong>Complete market</strong> (every payoff can be replicated)</td>
-            <td>Implicit in replication/hedging argument</td>
-            <td>Guarantees the hedged portfolio matches the option's cash flows → unique price</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p class="note">
-        <strong>Resulting PDE:</strong><br/>
-        \[
-        V_t + \frac12\sigma^2 S^2 V_{SS} + r S V_S - r V = 0
-        \]
-        with terminal condition \(V(S,T)=\text{payoff}(S_T)\) (e.g., \(\max(S-K,0)\) for a call).
-      </p>
-    </section>
-
-    <footer>
-      <strong>Tip:</strong> To include continuous dividends at yield \(q\), use the same derivation but replace
-      \(r S V_S\) with \((r - q) S V_S\) in the PDE.
-    </footer>
-  </main>
+    <div class="container">
+        <h1>Black-Scholes Derivation</h1>
+        <p class="subtitle">The Step-by-Step Mathematical Journey</p>
+        
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Start: Option Price Function</h3>
+            <p>We begin with the option price as a function of time and stock price:</p>
+            <div class="math-box">
+                $$C = C(t, S_t)$$
+            </div>
+            <p>Where:</p>
+            <ul>
+                <li><strong>C</strong> = option price</li>
+                <li><strong>t</strong> = time</li>
+                <li><strong>S_t</strong> = stock price at time t</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Find dC Using Itô's Lemma</h3>
+            <p>Since $S_t$ is stochastic, we use Itô's lemma to find $dC$:</p>
+            <div class="math-box">
+                $$dC = \frac{\partial C}{\partial t}dt + \frac{\partial C}{\partial S}dS_t + \frac{1}{2}\frac{\partial^2 C}{\partial S^2}(dS_t)^2$$
+            </div>
+            <div class="explanation">
+                <strong>Key insight:</strong> The extra $(dS_t)^2$ term appears because we're dealing with stochastic processes. In regular calculus, $(dx)^2 = 0$, but in stochastic calculus, $(dW_t)^2 = dt$!
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Model Stock Price Dynamics (dS)</h3>
+            <p>Under the risk-neutral measure, stock prices follow:</p>
+            <div class="math-box">
+                $$dS_t = rS_t dt + \sigma S_t dW_t$$
+            </div>
+            <p>Where:</p>
+            <ul>
+                <li><strong>r</strong> = risk-free interest rate</li>
+                <li><strong>σ</strong> = volatility</li>
+                <li><strong>dW_t</strong> = Brownian motion increment</li>
+            </ul>
+            
+            <p>And importantly: <span class="highlight">$(dS_t)^2 = \sigma^2 S_t^2 dt$</span></p>
+            
+            <div class="explanation">
+                <strong>Critical Assumption:</strong> We're treating $\sigma$ as a <strong>constant</strong>! If volatility were stochastic (i.e., $\sigma = \sigma(t, S_t)$), we'd need to include $d\sigma$ terms, which opens a whole Pandora's box of complexity. This constant volatility assumption is one of the key limitations of the basic Black-Scholes model.
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <h3>Substitute dS into dC</h3>
+            <p>Now we substitute our stock dynamics into the $dC$ expression:</p>
+            <div class="math-box">
+                $$dC = \frac{\partial C}{\partial t}dt + \frac{\partial C}{\partial S}(rS_t dt + \sigma S_t dW_t) + \frac{1}{2}\frac{\partial^2 C}{\partial S^2}(\sigma^2 S_t^2 dt)$$
+            </div>
+            
+            <p>Collecting terms:</p>
+            <div class="math-box">
+                $$dC = \left(\frac{\partial C}{\partial t} + rS_t\frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2\frac{\partial^2 C}{\partial S^2}\right)dt + \sigma S_t\frac{\partial C}{\partial S}dW_t$$
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">5</div>
+            <h3>Apply Martingale Property</h3>
+            <p>Under the risk-neutral measure, the discounted option price $e^{-rt}C(t,S_t)$ must be a martingale.</p>
+            
+            <div class="explanation">
+                <strong>What this means:</strong> The expected return on the option must equal the risk-free rate. This eliminates arbitrage opportunities!
+            </div>
+            
+            <p>For a martingale, the drift term must be zero when we discount:</p>
+            <div class="math-box">
+                $$\frac{\partial C}{\partial t} + rS_t\frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2\frac{\partial^2 C}{\partial S^2} - rC = 0$$
+            </div>
+        </div>
+        
+        <div class="final-result">
+            <h3>🎉 THE BLACK-SCHOLES PDE! 🎉</h3>
+            <div class="math-box" style="background: rgba(0,0,0,0.2); border-color: #1e3c72;">
+                $\frac{\partial C}{\partial t} + rS\frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S^2\frac{\partial^2 C}{\partial S^2} = rC$
+            </div>
+            <p style="margin-top: 20px;">This is the famous Black-Scholes partial differential equation that governs option pricing!</p>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">6</div>
+            <h3>Set Up Terminal & Boundary Conditions</h3>
+            <p>Now we need to solve this PDE! We know the option value at expiry and the boundaries:</p>
+            
+            <div class="explanation">
+                <strong>For a European Call Option:</strong>
+                <ul>
+                    <li><strong>At expiry (t = T):</strong> $C(T, S) = \max(S - K, 0)$ - the "hockey stick" payoff</li>
+                    <li><strong>At S = 0:</strong> $C(t, 0) = 0$ - worthless if stock is worthless</li>
+                    <li><strong>At S → ∞:</strong> $C(t, S) \approx S - Ke^{-r(T-t)}$ - behaves like stock minus discounted strike</li>
+                </ul>
+            </div>
+            
+            <div class="explanation">
+                <strong>For a European Put Option:</strong>
+                <ul>
+                    <li><strong>At expiry (t = T):</strong> $P(T, S) = \max(K - S, 0)$</li>
+                    <li><strong>At S = 0:</strong> $P(t, 0) = Ke^{-r(T-t)}$ - maximum value when stock worthless</li>
+                    <li><strong>At S → ∞:</strong> $P(t, S) = 0$ - worthless when stock very expensive</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">7</div>
+            <h3>The Mathematical Magic: Analytical Solution</h3>
+            <p>Here's where Black, Scholes, and Merton performed mathematical wizardry. Using transform methods and the special structure of the PDE, they found an exact solution!</p>
+            
+            <div class="math-box">
+                <strong>European Call Option:</strong><br>
+                $C = S_0 N(d_1) - Ke^{-rT}N(d_2)$
+            </div>
+            
+            <div class="math-box">
+                <strong>European Put Option:</strong><br>
+                $P = Ke^{-rT}N(-d_2) - S_0 N(-d_1)$
+            </div>
+            
+            <p><strong>Where:</strong></p>
+            <div class="math-box">
+                $d_1 = \frac{\ln(S_0/K) + (r + \sigma^2/2)T}{\sigma\sqrt{T}}$
+                $d_2 = d_1 - \sigma\sqrt{T}$
+            </div>
+            
+            <p>And $N(\cdot)$ is the cumulative standard normal distribution function.</p>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">🚀</div>
+            <h3>The Revolutionary Impact</h3>
+            <p><strong>This changed everything!</strong></p>
+            
+            <div class="explanation">
+                <strong>Before Black-Scholes:</strong> "How much is this option worth?" → Educated guesswork and intuition
+            </div>
+            
+            <div class="explanation">
+                <strong>After Black-Scholes:</strong> "How much is this option worth?" → Plug numbers into formula, get exact answer!
+            </div>
+            
+            <p><strong>Why it was revolutionary:</strong></p>
+            <ul>
+                <li><strong>Accessibility:</strong> Any trader could use it - no need to solve PDEs!</li>
+                <li><strong>Standardization:</strong> Markets could agree on "fair value"</li>
+                <li><strong>Foundation:</strong> Launched quantitative finance as a field</li>
+                <li><strong>Gateway drug:</strong> Got everyone thinking about mathematical finance</li>
+            </ul>
+            
+            <div class="explanation">
+                <strong>The Nobel Prize (1997):</strong> Myron Scholes and Robert Merton won for developing "a new method to determine the value of derivatives" - both the PDE derivation AND the analytical solution!
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">⚠️</div>
+            <h3>When the Magic Breaks</h3>
+            <p>The closed-form solution only works under specific conditions:</p>
+            
+            <ul>
+                <li><strong>European exercise only</strong> (no early exercise allowed)</li>
+                <li><strong>Constant volatility</strong> (σ is fixed)</li>
+                <li><strong>Constant interest rates</strong> (r is fixed)</li>
+                <li><strong>No barriers or path dependence</strong></li>
+                <li><strong>No dividends</strong> (or constant dividend yield)</li>
+            </ul>
+            
+            <div class="explanation">
+                <strong>Reality Check:</strong> Once you relax these assumptions (American options, stochastic volatility, barriers), you lose the analytical solution and must use numerical methods like finite differences, Monte Carlo, or other computational techniques.
+            </div>
+            
+            <p><strong>But the foundation remains:</strong> Even complex models like Heston and SABR build on the Black-Scholes framework - they just require more computational firepower!</p>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">✓</div>
+            <h3>The Journey Complete</h3>
+            <p><strong>What we did:</strong></p>
+            <ol>
+                <li>Started with $C = C(t, S_t)$</li>
+                <li>Applied Itô's lemma to get $dC$</li>
+                <li>Defined stock dynamics $dS$</li>
+                <li>Substituted $dS$ into $dC$</li>
+                <li>Used martingale property to eliminate drift</li>
+                <li>Arrived at the Black-Scholes PDE!</li>
+            </ol>
+        </div>
+    </div>
 </body>
 </html>
