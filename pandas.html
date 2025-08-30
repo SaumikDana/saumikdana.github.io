@@ -16,9 +16,11 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
+            padding: 40px 0;
         }
 
         .container {
@@ -535,6 +537,12 @@ from src.config_entry_on_sig import simulate_single</code></pre>
         </div>
     </div>
 
+    <!-- Image section outside the main container -->
+    <div style="text-align: center; padding: 40px 20px; background: #f8f9fa;">
+        <h3 style="color: #2c3e50; margin-bottom: 20px; font-family: 'Segoe UI', sans-serif;">Pandas</h3>
+        <img src="pandas.png" alt="Pandas" style="width: 80%; max-width: 1000px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
+    </div>
+
     <script>
         // Enhanced card interactions
         document.querySelectorAll('.improvement-card').forEach(card => {
@@ -574,13 +582,6 @@ from src.config_entry_on_sig import simulate_single</code></pre>
             observer.observe(section);
         });
     </script>
-
-    
-    <!-- Image section outside the main container -->
-    <div style="text-align: center; padding: 40px 20px; background: #f8f9fa;">
-        <h3 style="color: #2c3e50; margin-bottom: 20px; font-family: 'Segoe UI', sans-serif;">Pandas</h3>
-        <img src="pandas.png" alt="Pandas" style="width: 80%; max-width: 1000px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
-    </div>
 
 </body>
 </html>
