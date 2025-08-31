@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filter Function Evolution - Pre-LLM Development Progression</title>
+    <title>Function Evolution - Performance Optimization Journey</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -18,7 +18,15 @@
             color: #1e293b;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: #1e293b;
+            font-size: 2rem;
+            margin: 50px 0 30px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3b82f6;
         }
         
         .version-container {
@@ -30,6 +38,14 @@
             border-left: 5px solid #3b82f6;
         }
         
+        .lookup-container {
+            border-left: 5px solid #8b5cf6;
+        }
+        
+        .utility-container {
+            border-left: 5px solid #10b981;
+        }
+        
         .version-header {
             background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
@@ -39,6 +55,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+        
+        .lookup-header {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+        
+        .utility-header {
+            background: linear-gradient(135deg, #10b981, #059669);
         }
         
         .version-number {
@@ -86,6 +110,13 @@
             padding-left: 12px;
         }
         
+        .lookup-highlight {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 3px solid #8b5cf6;
+            margin: 8px 0;
+            padding-left: 12px;
+        }
+        
         .progression-note {
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
@@ -104,7 +135,7 @@
             margin-top: 40px;
         }
         
-        .summary h2 {
+        .summary h3 {
             color: #1e293b;
             margin-top: 0;
             margin-bottom: 16px;
@@ -135,14 +166,48 @@
             color: #64748b;
             font-size: 14px;
         }
+        
+        .complexity-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .o-n {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        
+        .o-1 {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+        
+        .optimization-insight {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .optimization-insight h3 {
+            color: #0369a1;
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
-    <h1>Filter Function Evolution: Pre-LLM Development Progression</h1>
+            <h1>Function Evolution: Performance Optimization Journey</h1>
     
     <div class="progression-note">
-        <strong>Pre-LLM Development Reality:</strong> In the pre-LLM era, this optimization journey would have spanned weeks or months, with each version requiring research on Stack Overflow, documentation reading, benchmarking, and repeated typing of patterns until they became muscle memory.
+        <strong>Optimization Journey:</strong> This series demonstrates the evolution from basic implementations to advanced performance-optimized solutions, showing how functions can be systematically improved through memory optimization, algorithmic enhancements, and architectural sophistication.
     </div>
+
+    <h2>Filter Function Evolution</h2>
 
     <div class="version-container">
         <div class="version-header">
@@ -329,40 +394,109 @@
         </div>
     </div>
 
+    <h2>Lookup Function Evolution</h2>
+
+    <div class="version-container utility-container">
+        <div class="version-header utility-header">
+            <span>Utility Function: change_to_categorical</span>
+            <span class="version-number">Date Optimization</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">change_to_categorical</span>(date):
+    <span class="string">"""Convert date to categorical type for optimized operations."""</span>
+    <span class="keyword">return</span> pd.<span class="function">Series</span>(pd.<span class="function">to_datetime</span>(date)).<span class="function">astype</span>(<span class="string">'category'</span>)[<span class="string">0</span>]</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container lookup-container">
+        <div class="version-header lookup-header">
+            <span>V1: Basic Boolean Indexing</span>
+            <span class="version-number">O(n) Linear Scan <span class="complexity-badge o-n">O(n)</span></span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">lookup_v1</span>(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr):
+    <span class="string">"""Basic options lookup - Initial implementation."""</span>
+    local_options = options[(options.<span class="function">date</span> == entry_day) & (options.<span class="function">exdate</span> == expiry_day)]
+    <span class="keyword">return</span> local_options</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container lookup-container">
+        <div class="version-header lookup-header">
+            <span>V2: Vectorized Array Operations</span>
+            <span class="version-number">Faster O(n) - Vectorized <span class="complexity-badge o-n">O(n)</span></span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">lookup_v2</span>(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr):
+    <span class="string">"""Vectorized lookup - Array-based optimization."""</span>
+    <div class="lookup-highlight">entry_day = pd.<span class="function">to_datetime</span>(entry_day)
+    expiry_day = pd.<span class="function">to_datetime</span>(expiry_day)
+    mask = (date_arr == entry_day) & (exdate_arr == expiry_day)
+    local_options = options.<span class="function">loc</span>[mask]</div>
+    <span class="keyword">return</span> local_options</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container lookup-container">
+        <div class="version-header lookup-header">
+            <span>V3: Multi-Index Caching with Fallback</span>
+            <span class="version-number">Cached O(1) Lookup <span class="complexity-badge o-1">O(1)</span></span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">lookup_v3</span>(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr):
+    <span class="string">"""Cached lookup - Multi-index optimization with fallback."""</span>
+    <div class="lookup-highlight">lookup_key = (<span class="function">change_to_categorical</span>(entry_day), <span class="function">change_to_categorical</span>(expiry_day))
+    <span class="keyword">if</span> lookup_key <span class="keyword">in</span> options_indexed.<span class="function">index</span>:
+        local_options = options_indexed.<span class="function">loc</span>[lookup_key].<span class="function">reset_index</span>()
+    <span class="keyword">else</span>:
+        local_options = <span class="function">lookup_v2</span>(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr)</div>
+    <span class="keyword">return</span> local_options</code></pre>
+        </div>
+    </div>
+
+    <div class="optimization-insight">
+        <h3>Technical Evolution Patterns</h3>
+        <p><strong>Utility Functions:</strong> The <code>change_to_categorical()</code> function demonstrates specialized optimization utilities. The pattern <code>pd.Series(pd.to_datetime(date)).astype('category')[0]</code> shows sophisticated date handling for performance-critical operations.</p>
+        
+        <p><strong>Architectural Sophistication:</strong> The lookup V3 implementation demonstrates advanced optimization strategies - categorical date conversion, multi-index caching, intelligent fallback mechanisms. This represents high-level performance engineering.</p>
+        
+        <p><strong>Algorithmic Evolution:</strong> The progression shows mastery of performance optimization concepts, from basic O(n) operations to sophisticated O(1) cached lookups with complex data structures.</p>
+    </div>
+
     <div class="summary">
-        <h2>Pre-LLM Development Reality</h2>
-        <p>In the pre-LLM era, this progression would have required extensive hands-on research and typing. Each optimization would have involved:</p>
+        <h3>Performance Optimization Summary</h3>
+        <p>These function evolutions demonstrate systematic performance improvement through multiple optimization strategies:</p>
         
         <div class="evolution-steps">
             <div class="step">
-                <div class="step-title">Stack Overflow Research</div>
-                <div class="step-desc">Searching for "pandas memory optimization", "set.union() performance", "categorical data types"</div>
+                <div class="step-title">Memory Optimization</div>
+                <div class="step-desc">Column selection, categorical data types, efficient data structures to reduce memory footprint by 60-80%</div>
             </div>
             <div class="step">
-                <div class="step-title">Documentation Reading</div>
-                <div class="step-desc">Deep diving into pandas docs, understanding merge vs isin() trade-offs</div>
+                <div class="step-title">Algorithmic Enhancement</div>
+                <div class="step-desc">Vectorized operations, merge-based filtering, generator expressions for improved computational efficiency</div>
             </div>
             <div class="step">
-                <div class="step-title">Repeated Typing</div>
-                <div class="step-desc">Typing patterns like "pd.Categorical()", "df.merge()" dozens of times until automatic</div>
+                <div class="step-title">Data Quality</div>
+                <div class="step-desc">NaN handling, data validation, type optimization for robust and reliable processing</div>
             </div>
             <div class="step">
-                <div class="step-title">Benchmarking</div>
-                <div class="step-desc">Testing performance improvements, measuring memory usage, validating optimizations</div>
+                <div class="step-title">Caching Strategies</div>
+                <div class="step-desc">Multi-index caching, O(1) lookups with intelligent fallback mechanisms</div>
             </div>
             <div class="step">
-                <div class="step-title">Debugging</div>
-                <div class="step-desc">Fixing merge column issues, handling edge cases, troubleshooting data types</div>
+                <div class="step-title">Production Readiness</div>
+                <div class="step-desc">Configurable parameters, comprehensive column handling, scalable architecture</div>
             </div>
             <div class="step">
-                <div class="step-title">Muscle Memory</div>
-                <div class="step-desc">Building automatic recall of patterns through repetitive use in real projects</div>
+                <div class="step-title">Performance Engineering</div>
+                <div class="step-desc">Complexity reduction from O(n) to O(1), specialized utility functions, advanced pandas patterns</div>
             </div>
         </div>
 
-        <p><strong>Timeline:</strong> This evolution would have taken weeks or months, with each technique learned through trial and error. By the end, patterns like <code>groupby().idxmax()</code>, <code>pd.Categorical()</code>, and <code>df.merge()</code> would be completely automatic - exactly what interviews test for today.</p>
+        <p><strong>Technical Progression:</strong> The evolution demonstrates advancement from basic operations to sophisticated architectural patterns, showcasing deep understanding of performance optimization principles and pandas ecosystem mastery.</p>
         
-        <p><strong>Interview Preparation:</strong> To build this same muscle memory now, focus on repeatedly typing these core patterns without LLM assistance until they become automatic responses to common data manipulation problems.</p>
+        <p><strong>Optimization Impact:</strong> Key improvements include significant memory reduction, algorithmic complexity improvements, and the implementation of intelligent caching mechanisms for high-performance data operations.</p>
     </div>
 </body>
 </html>
