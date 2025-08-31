@@ -34,9 +34,6 @@
       padding: 2px 4px;
       font-family: monospace;
     }
-    strong {
-      color: #444;
-    }
   </style>
 </head>
 <body>
@@ -44,111 +41,111 @@
 
   <h2>abs</h2>
   <ul>
-    <li><strong>data_integration.py:69</strong> — <code>diff = (orig - out['wgt_capped']).abs()</code></li>
-    <li><strong>data_integration.py:189</strong> — <code>result  = (merged_df['reldiff'].abs() > threshold).sum()</code></li>
+    <li><code>diff = (orig - out['wgt_capped']).abs()</code></li>
+    <li><code>result = (merged_df['reldiff'].abs() > threshold).sum()</code></li>
   </ul>
 
   <h2>any</h2>
   <ul>
-    <li><strong>data_integration.py:54</strong> — <code>if not uncapped.any():</code></li>
-    <li><strong>data_integration.py:68</strong> — <code>if (orig > cap).any():</code></li>
+    <li><code>if not uncapped.any():</code></li>
+    <li><code>if (orig > cap).any():</code></li>
   </ul>
 
   <h2>astype</h2>
   <ul>
-    <li><strong>load_data.py:46</strong> — <code>df['rating'] = df['rating'].astype(str)</code></li>
+    <li><code>df['rating'] = df['rating'].astype(str)</code></li>
   </ul>
 
   <h2>copy</h2>
   <ul>
-    <li><strong>load_data.py:17</strong> — <code>df = df.copy()</code></li>
-    <li><strong>load_data.py:32</strong> — <code>df = df.copy()</code></li>
-    <li><strong>load_data.py:49</strong> — <code>df = df.copy()</code></li>
+    <li><code>df = df.copy()</code></li>
+    <li><code>df = df.copy()</code></li>
+    <li><code>df = df.copy()</code></li>
   </ul>
 
   <h2>dropna</h2>
   <ul>
-    <li><strong>performance.py:106</strong> — <code>results_df = results_df.dropna(subset=["ret", "bench"])</code></li>
-    <li><strong>performance.py:109</strong> — <code>df = df.dropna(subset=["ret", "bench"])</code></li>
-    <li><strong>performance.py:112</strong> — <code>merged = merged.dropna()</code></li>
+    <li><code>results_df = results_df.dropna(subset=["ret", "bench"])</code></li>
+    <li><code>df = df.dropna(subset=["ret", "bench"])</code></li>
+    <li><code>merged = merged.dropna()</code></li>
   </ul>
 
   <h2>fillna</h2>
   <ul>
-    <li><strong>performance.py:117</strong> — <code>merged.fillna(0, inplace=True)</code></li>
+    <li><code>merged.fillna(0, inplace=True)</code></li>
   </ul>
 
   <h2>groupby</h2>
   <ul>
-    <li><strong>constraints.py:10</strong> — <code>total_sector_weight = {sector: group['wgt'].sum() for sector, group in baseline.groupby('sector')}</code></li>
-    <li><strong>constraints.py:140</strong> — <code>for sector, group in baseline.groupby('sector'):</code></li>
-    <li><strong>data_integration.py:79</strong> — <code>df['current_sec_total'] = df.groupby('sector')['wgt'].transform('sum')</code></li>
-    <li><strong>data_integration.py:85</strong> — <code>df = (df.groupby('sector', group_keys=False).apply(lambda g: cap_and_redistribute(g, cap))).reset_index(drop=True)</code></li>
-    <li><strong>data_integration.py:107</strong> — <code>last_days = rebal_month_data.groupby(['year', 'month'])['date'].max().reset_index()</code></li>
-    <li><strong>performance.py:129</strong> — <code>total_sector_weight = {sector: group['wgt_sol'].sum() for sector, group in results_df.groupby('sector')}</code></li>
-    <li><strong>post_processing.py:8</strong> — <code>for _, group in df.groupby('date'):</code></li>
-    <li><strong>post_processing.py:68</strong> — <code>for date, group in df1.groupby('date'):</code></li>
+    <li><code>total_sector_weight = {sector: group['wgt'].sum() for sector, group in baseline.groupby('sector')}</code></li>
+    <li><code>for sector, group in baseline.groupby('sector'):</code></li>
+    <li><code>df['current_sec_total'] = df.groupby('sector')['wgt'].transform('sum')</code></li>
+    <li><code>df = (df.groupby('sector', group_keys=False).apply(lambda g: cap_and_redistribute(g, cap))).reset_index(drop=True)</code></li>
+    <li><code>last_days = rebal_month_data.groupby(['year', 'month'])['date'].max().reset_index()</code></li>
+    <li><code>total_sector_weight = {sector: group['wgt_sol'].sum() for sector, group in results_df.groupby('sector')}</code></li>
+    <li><code>for _, group in df.groupby('date'):</code></li>
+    <li><code>for date, group in df1.groupby('date'):</code></li>
   </ul>
 
   <h2>isin</h2>
   <ul>
-    <li><strong>constraints.py:134</strong> — <code>mask = df['sector'].isin(sector_limits.keys())</code></li>
+    <li><code>mask = df['sector'].isin(sector_limits.keys())</code></li>
   </ul>
 
   <h2>join</h2>
   <ul>
-    <li><strong>load_data.py:9</strong> — <code>df = df.join(meta, how="left")</code></li>
-    <li><strong>load_data.py:24</strong> — <code>df = df.join(meta, how="left")</code></li>
-    <li><strong>load_data.py:39</strong> — <code>df = df.join(meta, how="left")</code></li>
-    <li><strong>load_data.py:56</strong> — <code>df = df.join(meta, how="left")</code></li>
+    <li><code>df = df.join(meta, how="left")</code></li>
+    <li><code>df = df.join(meta, how="left")</code></li>
+    <li><code>df = df.join(meta, how="left")</code></li>
+    <li><code>df = df.join(meta, how="left")</code></li>
   </ul>
 
   <h2>merge</h2>
   <ul>
-    <li><strong>data_integration.py:186</strong> — <code>merged_df = df1.merge(df2, on='date', how='inner')</code></li>
-    <li><strong>objective_function.py:45</strong> — <code>final = pd.merge(base, overlay, on="id")</code></li>
+    <li><code>merged_df = df1.merge(df2, on='date', how='inner')</code></li>
+    <li><code>final = pd.merge(base, overlay, on="id")</code></li>
   </ul>
 
   <h2>read_csv</h2>
   <ul>
-    <li><strong>load_data.py:8</strong> — <code>df = pd.read_csv(fund_file)</code></li>
-    <li><strong>load_data.py:23</strong> — <code>df = pd.read_csv(bm_file)</code></li>
-    <li><strong>load_data.py:38</strong> — <code>df = pd.read_csv(sec_file)</code></li>
-    <li><strong>load_data.py:55</strong> — <code>df = pd.read_csv(ind_file)</code></li>
+    <li><code>df = pd.read_csv(fund_file)</code></li>
+    <li><code>df = pd.read_csv(bm_file)</code></li>
+    <li><code>df = pd.read_csv(sec_file)</code></li>
+    <li><code>df = pd.read_csv(ind_file)</code></li>
   </ul>
 
   <h2>set_index</h2>
   <ul>
-    <li><strong>matrix_vector.py:38</strong> — <code>df = df.set_index("id")</code></li>
-    <li><strong>matrix_vector.py:85</strong> — <code>df = df.set_index("id")</code></li>
+    <li><code>df = df.set_index("id")</code></li>
+    <li><code>df = df.set_index("id")</code></li>
   </ul>
 
   <h2>sort_index</h2>
   <ul>
-    <li><strong>matrix_vector.py:38</strong> — <code>df.sort_index(inplace=True)</code></li>
-    <li><strong>matrix_vector.py:85</strong> — <code>df.sort_index(inplace=True)</code></li>
+    <li><code>df.sort_index(inplace=True)</code></li>
+    <li><code>df.sort_index(inplace=True)</code></li>
   </ul>
 
   <h2>sort_values</h2>
   <ul>
-    <li><strong>matrix_vector.py:22</strong> — <code>df.sort_values(by="wgt", inplace=True)</code></li>
+    <li><code>df.sort_values(by="wgt", inplace=True)</code></li>
   </ul>
 
   <h2>sum</h2>
   <ul>
-    <li><strong>turnover.py:23</strong> — <code>turnover = np.sum(np.abs(vector))</code></li>
+    <li><code>turnover = np.sum(np.abs(vector))</code></li>
   </ul>
 
   <h2>to_datetime</h2>
   <ul>
-    <li><strong>load_data.py:16</strong> — <code>df['date'] = pd.to_datetime(df['date'])</code></li>
-    <li><strong>load_data.py:31</strong> — <code>df['date'] = pd.to_datetime(df['date'])</code></li>
-    <li><strong>load_data.py:48</strong> — <code>df['date'] = pd.to_datetime(df['date'])</code></li>
+    <li><code>df['date'] = pd.to_datetime(df['date'])</code></li>
+    <li><code>df['date'] = pd.to_datetime(df['date'])</code></li>
+    <li><code>df['date'] = pd.to_datetime(df['date'])</code></li>
   </ul>
 
   <h2>transform</h2>
   <ul>
-    <li><strong>data_integration.py:79</strong> — <code>df['current_sec_total'] = df.groupby('sector')['wgt'].transform('sum')</code></li>
+    <li><code>df['current_sec_total'] = df.groupby('sector')['wgt'].transform('sum')</code></li>
   </ul>
 
 </body>
