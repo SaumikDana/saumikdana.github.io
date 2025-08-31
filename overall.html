@@ -15,7 +15,7 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             background-color: white;
             border-radius: 12px;
@@ -691,14 +691,36 @@ last_date = <span class="keyword">pd.Timestamp</span>(last_date)</div>
             <div class="operation-section">
                 <div class="operation-header" onclick="toggleSection(this)">
                     <h3 class="operation-title">
-                        .get_loc() <span class="op-count">(2 examples)</span>
+                        .set_index() <span class="op-count">(4 examples)</span>
                         <span class="toggle-icon">▼</span>
                     </h3>
                 </div>
                 <div class="operation-content">
-                    <div class="code-block">entry_position = df.index.<span class="keyword">get_loc</span>(date)</div>
+                    <div class="code-block">df.<span class="keyword">set_index</span>(<span class="string">'date'</span>, inplace=<span class="keyword">True</span>)</div>
                     
-                    <div class="code-block">entry_day = df.index[df.index.<span class="keyword">get_loc</span>(d) + entry_isoweekday]</div>
+                    <div class="code-block">opt = opt.<span class="keyword">set_index</span>(<span class="string">'date'</span>, drop=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">df.<span class="keyword">set_index</span>(<span class="string">'Init Date'</span>, inplace=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">options_indexed = options.<span class="keyword">set_index</span>([<span class="string">'date'</span>, <span class="string">'exdate'</span>])</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .reset_index() <span class="op-count">(4 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">df_filtered = df[cp_mask].<span class="keyword">reset_index</span>(drop=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">opt = opt.<span class="keyword">reset_index</span>(drop=<span class="keyword">False</span>)</div>
+                    
+                    <div class="code-block">local_options = options_indexed.loc[lookup_key].<span class="keyword">reset_index</span>()</div>
+                    
+                    <div class="code-block">options.<span class="keyword">reset_index</span>(inplace=<span class="keyword">True</span>)</div>
                 </div>
             </div>
 
