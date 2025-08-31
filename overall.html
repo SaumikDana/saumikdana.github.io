@@ -3,445 +3,903 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workflow</title>
+    <title>Pandas Operations in Options Trading Framework</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
         }
-
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
-
+        
         .header {
-            text-align: center;
-            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            padding: 2rem;
+            text-align: center;
         }
-
+        
         .header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+            font-weight: 700;
         }
-
+        
         .header p {
-            font-size: 1.2rem;
+            margin: 0;
+            font-size: 1.1rem;
             opacity: 0.9;
         }
-
-        .section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        
+        .content {
+            padding: 2rem;
         }
-
-        .section h2 {
+        
+        .operation-section {
+            margin-bottom: 3rem;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .operation-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e1e8ed;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .operation-header:hover {
+            background-color: #e9ecef;
+        }
+        
+        .operation-title {
+            font-size: 1.3rem;
+            font-weight: 600;
             color: #2c3e50;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .section h3 {
-            color: #34495e;
-            font-size: 1.4rem;
-            margin: 25px 0 15px 0;
-            position: relative;
+        
+        .toggle-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
         }
-
-        .section h4 {
-            color: #4a5568;
-            font-size: 1.1rem;
-            margin: 15px 0 10px 0;
-            font-weight: 600;
+        
+        .operation-content {
+            display: none;
+            padding: 1.5rem;
         }
-
+        
+        .operation-content.active {
+            display: block;
+        }
+        
         .code-block {
-            background: #1a202c;
-            color: #e2e8f0;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 15px 0;
+            color: #000;
+            padding: 1rem;
+            border-radius: 6px;
             overflow-x: auto;
-            font-family: 'Courier New', monospace;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             font-size: 0.9rem;
-            border-left: 4px solid #667eea;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            background: none;
+            border: none;
         }
-
-        .inline-code {
-            background: #f7fafc;
-            color: #2d3748;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            border: 1px solid #e2e8f0;
+        
+        .keyword {
+            color: #000;
         }
-
-        .analysis-box {
-            background: #f8f9fa;
-            border-left: 4px solid #28a745;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
+        
+        .string {
+            color: #000;
         }
-
-        .analysis-title {
+        
+        .comment {
+            color: #000;
+            font-style: italic;
+        }
+        
+        .stats-bar {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            text-align: center;
             font-weight: 600;
-            color: #155724;
-            margin-bottom: 5px;
+            margin-bottom: 2rem;
         }
-
-        .highlight-box {
-            background: linear-gradient(135deg, #667eea20, #764ba220);
-            border: 1px solid #667eea;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .pattern-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 25px;
-            margin: 20px 0;
-        }
-
-        .pattern-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        
+        .expand-all-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
             transition: transform 0.2s ease;
         }
-
-        .pattern-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        
+        .expand-all-btn:hover {
+            transform: translateY(-2px);
         }
 
-        .pattern-title {
+        .op-count {
             color: #667eea;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .summary-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-        }
-
-        .summary-number {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        ul, ol {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        li {
-            margin-bottom: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .pattern-grid, .summary-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .code-block {
-                font-size: 0.8rem;
-                padding: 15px;
-            }
+            font-weight: 500;
+            font-size: 0.9rem;
         }
     </style>
 </head>
-
-
 <body>
     <div class="container">
+        <div class="header">
+            <h1>Pandas Operations Reference</h1>
+            <p>Comprehensive guide to pandas functions used in the options trading framework</p>
+        </div>
+        
+        <div class="content">
+            <div class="stats-bar">
+                Found 25+ distinct pandas operations across the trading framework
+            </div>
+            
+            <button class="expand-all-btn" onclick="toggleAll()">Expand All Sections</button>
+            
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        pd.DataFrame() <span class="op-count">(7 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">df = <span class="keyword">pd.DataFrame</span>(index=date_index)</div>
+                    
+                    <div class="code-block">info_dict = {
+    <span class="string">'Cycle'</span>: [cycle], 
+    <span class="string">'Init Date'</span>: [start_date], 
+    <span class="string">'Init PnL'</span>: [init_pnl], 
+    <span class="string">'Exp Date'</span>: [end_date], 
+    <span class="string">'Summed PnL'</span>: [sum_pnl]
+}
 
-        <div class="section">
-            <h2>Architecture</h2>
-
-            <h3>Advanced Merging Strategies</h3>
-
-            <h4>1. Self-Joining with Temporal Shifts</h4>
-            <div class="code-block">
-<pre><code>opt['new_sym'] = opt['sym'].shift(-1)
-opt = merge_with_chain(opt, options, 'new_sym')</code></pre>
+df = <span class="keyword">pd.DataFrame</span>(info_dict)</div>
+                    
+                    <div class="code-block">df_pnl = <span class="keyword">pd.DataFrame</span>({o: opt[col] for o, opt in dict_options.items() if col in opt})</div>
+                    
+                    <div class="code-block">df_hedge = {cycle: <span class="keyword">pd.DataFrame</span>() for cycle in list(dict_cyc.keys())}</div>
+                    
+                    <div class="code-block">_sum_ = <span class="keyword">pd.DataFrame</span>()</div>
+                    
+                    <div class="code-block">all_syms_df = <span class="keyword">pd.DataFrame</span>({<span class="string">'symbol'</span>: all_syms})</div>
+                    
+                    <div class="code-block">sigcyc[cycle] = <span class="keyword">pd.DataFrame</span>(index=timestamps)</div>
+                </div>
             </div>
 
-            <div class="analysis-box">
-                <div class="analysis-title">Pandas:</div>
-                Uses <span class="inline-code">shift(-1)</span> to create forward-looking contract mappings, then merges with options chain data to get "next contract" pricing. This handles expiration rollovers elegantly.
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        pd.Series() <span class="op-count">(6 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">entry = <span class="keyword">pd.Series</span>([<span class="keyword">True</span>] * df.shape[0], index=df.index) if entry is <span class="keyword">None</span> else entry</div>
+                    
+                    <div class="code-block">exit = <span class="keyword">pd.Series</span>([<span class="keyword">False</span>] * df.shape[0], index=df.index) if exit is <span class="keyword">None</span> else exit</div>
+                    
+                    <div class="code-block">adj_budget = <span class="keyword">pd.Series</span>([weekly_budget] * df.shape[0], index=df.index)</div>
+                    
+                    <div class="code-block">exit = <span class="keyword">pd.Series</span>([<span class="keyword">False</span>] * df.shape[0], index=df.index)</div>
+                    
+                    <div class="code-block">exit_signal = <span class="keyword">pd.Series</span>([<span class="keyword">True</span>] * df.shape[0], index=df.index)</div>
+                    
+                    <div class="code-block">mask = <span class="keyword">pd.Series</span>(<span class="keyword">False</span>, index=df.index)</div>
+                </div>
             </div>
 
-            <h4>2. Multi-Column Merge with Column Standardization</h4>
-            <div class="code-block">
-<pre><code>old_cols = ['bid_x', 'bid_y', 'ask_x', 'ask_y', 'delta_x', 'delta_y']
-new_cols = ['bid', 'new_bid', 'ask', 'new_ask', 'delta', 'new_delta']
-opt.rename(columns=dict(zip(old_cols, new_cols)), inplace=True)</code></pre>
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        pd.read_csv() <span class="op-count">(6 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">features_df = <span class="keyword">pd.read_csv</span>(path_to_file)</div>
+                    
+                    <div class="code-block">df_div = <span class="keyword">pd.read_csv</span>(path_to_div, parse_dates=[<span class="string">'date'</span>])</div>
+                    
+                    <div class="code-block">underlying_prices = <span class="keyword">pd.read_csv</span>(path_to_bbg, parse_dates=[<span class="string">'date'</span>])</div>
+                    
+                    <div class="code-block">df_holidays = <span class="keyword">pd.read_csv</span>(path_to_holidays, index_col=<span class="string">'date'</span>, parse_dates=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">options = (
+    <span class="keyword">pd.read_csv</span>(csv_path, parse_dates=[old_cols[0], old_cols[1]])
+    .pipe(filter_dates, old_cols[0], first_date, last_date)
+    .pipe(add_mid)
+    .pipe(add_spread)
+)</div>
+                    
+                    <div class="code-block">data = <span class="keyword">pd.read_csv</span>(file_path)</div>
+                </div>
             </div>
 
-            <div class="analysis-box">
-                <div class="analysis-title">Pandas :</div>
-                After multiple merges create suffix columns, systematically renames them to meaningful business names. Shows understanding of merge mechanics and data clarity.
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        pd.to_datetime() <span class="op-count">(8 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">features_df[<span class="string">'date'</span>] = <span class="keyword">pd.to_datetime</span>(features_df[<span class="string">'date'</span>])</div>
+                    
+                    <div class="code-block">return <span class="keyword">pd.to_datetime</span>(indicator_data[<span class="string">'Date Time'</span>])</div>
+                    
+                    <div class="code-block">expiration_dates = <span class="keyword">pd.to_datetime</span>(options[<span class="string">'exdate'</span>].unique()).sort_values()</div>
+                    
+                    <div class="code-block">entry_day = <span class="keyword">pd.to_datetime</span>(entry_day)</div>
+                    
+                    <div class="code-block">expiry_day = <span class="keyword">pd.to_datetime</span>(expiry_day)</div>
+                    
+                    <div class="code-block">df_pnl[<span class="string">'exd'</span>] = <span class="keyword">pd.to_datetime</span>(df_pnl[<span class="string">'exd'</span>])</div>
+                    
+                    <div class="code-block">if not isinstance(df_pnl.index, pd.DatetimeIndex):
+    df_pnl.index = <span class="keyword">pd.to_datetime</span>(df_pnl.index)</div>
+                    
+                    <div class="code-block">first_date = <span class="keyword">pd.to_datetime</span>(first_date)
+last_date = <span class="keyword">pd.to_datetime</span>(last_date)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        pd.date_range() <span class="op-count">(3 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">date_index = <span class="keyword">pd.date_range</span>(start=first_date, end=last_date, freq=<span class="string">'B'</span>)</div>
+                    
+                    <div class="code-block">business_days = <span class="keyword">pd.date_range</span>(start=start_date, end=end_date, freq=BDay())</div>
+                    
+                    <div class="code-block">business_days = <span class="keyword">pd.date_range</span>(start=start_date, end=end_date, freq=BDay())</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        pd.DatetimeIndex() <span class="op-count">(1 example)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">next_business_days_index = <span class="keyword">pd.DatetimeIndex</span>(next_days)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        pd.Timestamp() <span class="op-count">(4 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">default_values += [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, <span class="keyword">Timestamp</span>(<span class="string">"1985-12-31"</span>)]</div>
+                    
+                    <div class="code-block">opt[<span class="string">'exd'</span>] = opt[<span class="string">'exd'</span>].fillna(<span class="keyword">pd.Timestamp</span>(year=1985, month=12, day=31))</div>
+                    
+                    <div class="code-block">opt.loc[mask_expired, expired_cols] = [<span class="keyword">pd.Timestamp</span>(year=1985, month=12, day=31), 0.0, <span class="string">'-'</span>, <span class="string">'-'</span>]</div>
+                    
+                    <div class="code-block">first_date = <span class="keyword">pd.Timestamp</span>(first_date)
+last_date = <span class="keyword">pd.Timestamp</span>(last_date)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .dt.normalize() <span class="op-count">(1 example)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">release_dates = dates[(dates >= first_date) & (dates <= last_date)].<span class="keyword">dt.normalize()</span>.tolist()</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .dt.days <span class="op-count">(2 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">calendar_days = (end_dates - start_dates).<span class="keyword">dt.days</span></div>
+                    
+                    <div class="code-block">opt.loc[mask_for_dte_compute, <span class="string">'dte'</span>] = (opt[<span class="string">'exd'</span>] - opt.index).<span class="keyword">dt.days</span></div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .merge() <span class="op-count">(12 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">df = df.<span class="keyword">merge</span>(options_unique[[<span class="string">'date'</span>, underlying]], on=<span class="string">'date'</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">df = df.<span class="keyword">merge</span>(df_div[[<span class="string">'date'</span>, div_col]], on=<span class="string">'date'</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">options = options.<span class="keyword">merge</span>(underlying_prices[[<span class="string">'date'</span>, underlying]], on=<span class="string">'date'</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">df = df.<span class="keyword">merge</span>(features_df, on=<span class="string">'date'</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">opt = opt.<span class="keyword">merge</span>(df[[underlying + <span class="string">'tr'</span>]], left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">opt = opt.<span class="keyword">merge</span>(df[[f<span class="string">'{underlying}_div'</span>]], left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">opt = opt.<span class="keyword">merge</span>(options[data_cols], left_on=[<span class="string">'date'</span>,col], right_on=[<span class="string">'date'</span>,<span class="string">'symbol'</span>], how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">sigdata[o] = sigdata[o].<span class="keyword">merge</span>(sigcyc_copy[o], left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'outer'</span>)</div>
+                    
+                    <div class="code-block">df_pnl = df_pnl.<span class="keyword">merge</span>(df_hedge[<span class="string">'hedgepnl'</span>].to_frame(), left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'outer'</span>)</div>
+                    
+                    <div class="code-block">df_pnl = df_pnl.<span class="keyword">merge</span>(dict_options[o][[underlying, <span class="string">'init'</span>, <span class="string">'exd'</span>, <span class="string">'why'</span>]], left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">df_pnl = df_pnl.<span class="keyword">merge</span>(df[[underlying + <span class="string">'tr'</span>]], left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">filtered_options = _options.<span class="keyword">merge</span>(all_syms_df, on=<span class="string">'symbol'</span>, how=<span class="string">'inner'</span>)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .isin() <span class="op-count">(8 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">df = df[~df.index.<span class="keyword">isin</span>(list_holidays)]</div>
+                    
+                    <div class="code-block">underlying_prices = underlying_prices[~underlying_prices.index.<span class="keyword">isin</span>(list_holidays)]</div>
+                    
+                    <div class="code-block">opt = opt[~opt.index.<span class="keyword">isin</span>(list_holidays)]</div>
+                    
+                    <div class="code-block">filtered_options = options[options[<span class="string">'symbol'</span>].<span class="keyword">isin</span>(all_syms)]</div>
+                    
+                    <div class="code-block">filtered_options = _options[_options[<span class="string">'symbol'</span>].<span class="keyword">isin</span>(all_syms)]</div>
+                    
+                    <div class="code-block">exit.loc[exit.index.<span class="keyword">isin</span>(next_business_days_index)] = <span class="keyword">True</span></div>
+                    
+                    <div class="code-block">sigdata_copy.loc[sigdata_copy.index.<span class="keyword">isin</span>(days_to_set), <span class="string">'exit_conds'</span>] = <span class="keyword">True</span></div>
+                    
+                    <div class="code-block">trade_condition = {
+    o: (sigdata[o[-1]].index.map(dict_newpos_dates) == <span class="string">'EXP'</span>) & 
+       sigdata[o[-1]][<span class="string">'cyc'</span>].<span class="keyword">isin</span>(dict_cyc[opt[<span class="string">'cyc'</span>]]) 
+    for o, opt in dict_opt_specs.items()
+}</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .loc[] <span class="op-count">(20+ examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">dict_options[o].loc[v, cols] = vals</div>
+                    
+                    <div class="code-block">opt.loc[mask_exit & mask_buy, <span class="string">'pnl_exit'</span>] = -abs((opt[<span class="string">'bid'</span>] - opt[<span class="string">'mid'</span>]) * opt[<span class="string">'qty'</span>] * 100)</div>
+                    
+                    <div class="code-block">opt.loc[mask_exit & mask_sell, <span class="string">'pnl_exit'</span>] = -abs((opt[<span class="string">'ask'</span>] - opt[<span class="string">'mid'</span>]) * opt[<span class="string">'qty'</span>] * 100)</div>
+                    
+                    <div class="code-block">opt.loc[mask_init & mask_buy, <span class="string">'pnl_init'</span>] = -abs((opt[<span class="string">'new_ask'</span>] - opt[<span class="string">'new_mid'</span>]) * opt[<span class="string">'qty'</span>] * 100)</div>
+                    
+                    <div class="code-block">opt.loc[mask_init & mask_sell, <span class="string">'pnl_init'</span>] = -abs((opt[<span class="string">'new_bid'</span>] - opt[<span class="string">'new_mid'</span>]) * opt[<span class="string">'qty'</span>] * 100)</div>
+                    
+                    <div class="code-block">opt.loc[mask_exp, <span class="string">'pnl_exist'</span>] = opt[<span class="string">'intrin_minus_prev_mid'</span>] * opt[<span class="string">'prev_qty'</span>] * 100</div>
+                    
+                    <div class="code-block">opt.loc[mask_init, <span class="string">'pnl_exist'</span>] = 0.0</div>
+                    
+                    <div class="code-block">opt.loc[opt[<span class="string">'intrin'</span>]<0,<span class="string">'intrin'</span>] = 0</div>
+                    
+                    <div class="code-block">opt.loc[(opt[<span class="string">'nopnl'</span>]==1),<span class="string">'pnl_exist'</span>] = 0</div>
+                    
+                    <div class="code-block">opt.loc[(opt[<span class="string">'nopnl'</span>]==1) & (opt[<span class="string">'init'</span>]!=1),<span class="string">'pnl_init'</span>] = 0</div>
+                    
+                    <div class="code-block">dict_options[o].loc[update_days, <span class="string">'nopnl'</span>] = 0</div>
+                    
+                    <div class="code-block">opt.loc[mask_expired, expired_cols] = [pd.Timestamp(year=1985, month=12, day=31), 0.0, <span class="string">'-'</span>, <span class="string">'-'</span>]</div>
+                    
+                    <div class="code-block">opt.loc[mask_for_dte_compute, <span class="string">'dte'</span>] = (opt[<span class="string">'exd'</span>] - opt.index).dt.days</div>
+                    
+                    <div class="code-block">sigdata[o].loc[sigdata[o][<span class="string">'exit_conds'</span>], <span class="string">'tradetype'</span>] = <span class="string">'EXIT'</span></div>
+                    
+                    <div class="code-block">df_pnl = df_pnl.loc[first_date:] if first_date in df_pnl.index else df_pnl</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .at[] <span class="op-count">(15+ examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">if opt[<span class="string">'cond_ent'</span>].<span class="keyword">at</span>[v]:</div>
+                    
+                    <div class="code-block">if opt[<span class="string">'cond_ent'</span>].<span class="keyword">at</span>[day]:</div>
+                    
+                    <div class="code-block">sigdata_copy.<span class="keyword">at</span>[d,<span class="string">'sig'</span>] = sig</div>
+                    
+                    <div class="code-block">sigcyc.<span class="keyword">at</span>[d1,<span class="string">'cyc'</span>] = sigcyc.at[d2,<span class="string">'cyc'</span>]</div>
+                    
+                    <div class="code-block">sigcyc.<span class="keyword">at</span>[d1,<span class="string">'tradetype'</span>] = <span class="string">'SIG'</span></div>
+                    
+                    <div class="code-block">init_pnl = df_pnl.<span class="keyword">at</span>[start_date, <span class="string">'pnl'</span>]</div>
+                    
+                    <div class="code-block">_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'cagr'</span>] = get_cagr(_returns, compound_ratios, period, how_rets)</div>
+                    
+                    <div class="code-block">_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'draw'</span>] = abs(drawdown(_returns))</div>
+                    
+                    <div class="code-block">_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'calmar'</span>] = _sum_.at[ret_ts, <span class="string">'cagr'</span>] / _sum_.at[ret_ts, <span class="string">'draw'</span>]</div>
+                    
+                    <div class="code-block">_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'vol'</span>] = _returns.std() * sqrt_period</div>
+                    
+                    <div class="code-block">_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'sharpe'</span>] = sharpe(_returns, len(_returns))[-1]</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .fillna() <span class="op-count">(10+ examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">df[div_col] = df[div_col].<span class="keyword">fillna</span>(0)</div>
+                    
+                    <div class="code-block">options[underlying] = options[underlying].<span class="keyword">fillna</span>(0)</div>
+                    
+                    <div class="code-block">df[underlying + <span class="string">'tr'</span>] = df[underlying + <span class="string">'tr'</span>].<span class="keyword">fillna</span>(0)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'qty'</span>] = opt[<span class="string">'qty'</span>].ffill().<span class="keyword">fillna</span>(0)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'init'</span>] = opt[<span class="string">'init'</span>].replace([np.inf, -np.inf], np.nan).<span class="keyword">fillna</span>(0).astype(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'exit'</span>] = opt[<span class="string">'exit'</span>].replace([np.inf, -np.inf], np.nan).<span class="keyword">fillna</span>(0).astype(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'nopnl'</span>] = opt[<span class="string">'nopnl'</span>].replace([np.inf, -np.inf], np.nan).<span class="keyword">fillna</span>(1).astype(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'dte'</span>] = opt[<span class="string">'dte'</span>].replace([np.inf, -np.inf], np.nan).<span class="keyword">fillna</span>(0).astype(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'exd'</span>] = opt[<span class="string">'exd'</span>].<span class="keyword">fillna</span>(pd.Timestamp(year=1985, month=12, day=31))</div>
+                    
+                    <div class="code-block">opt.<span class="keyword">fillna</span>(0, inplace=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">df_hedge[<span class="string">'hedge_values'</span>] = df_hedge[<span class="string">'hedge_values'</span>].<span class="keyword">fillna</span>(0)</div>
+                    
+                    <div class="code-block">mask = mask.<span class="keyword">fillna</span>(<span class="keyword">False</span>)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .ffill() <span class="op-count">(2 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">opt[<span class="string">'qty'</span>] = opt[<span class="string">'qty'</span>].<span class="keyword">ffill</span>().fillna(0)</div>
+                    
+                    <div class="code-block">opt = opt.<span class="keyword">ffill</span>()</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .dropna() <span class="op-count">(3 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">opt = opt.<span class="keyword">dropna</span>(how=<span class="string">'all'</span>)</div>
+                    
+                    <div class="code-block">df_rets = df_pnl[[underlying + <span class="string">'tr'</span>, <span class="string">'perf'</span>]].rename(columns={<span class="string">'perf'</span>: strat_name}).<span class="keyword">dropna</span>()</div>
+                    
+                    <div class="code-block">pnl = df[col].<span class="keyword">dropna</span>()</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .drop_duplicates() <span class="op-count">(3 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">features_df = features_df.loc[:, ~features_df.columns.<span class="keyword">duplicated</span>()]</div>
+                    
+                    <div class="code-block">opt.<span class="keyword">drop_duplicates</span>(subset=<span class="keyword">None</span>, keep=<span class="string">'first'</span>, inplace=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">options_unique = options.<span class="keyword">drop_duplicates</span>(subset=<span class="string">'date'</span>)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .replace() <span class="op-count">(4 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">opt[<span class="string">'init'</span>] = opt[<span class="string">'init'</span>].<span class="keyword">replace</span>([np.inf, -np.inf], np.nan).fillna(0).astype(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'exit'</span>] = opt[<span class="string">'exit'</span>].<span class="keyword">replace</span>([np.inf, -np.inf], np.nan).fillna(0).astype(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'nopnl'</span>] = opt[<span class="string">'nopnl'</span>].<span class="keyword">replace</span>([np.inf, -np.inf], np.nan).fillna(1).astype(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'dte'</span>] = opt[<span class="string">'dte'</span>].<span class="keyword">replace</span>([np.inf, -np.inf], np.nan).fillna(0).astype(int)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .sum() <span class="op-count">(4 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">df_pnl[col] = df_pnl.<span class="keyword">sum</span>(axis=1)</div>
+                    
+                    <div class="code-block">sum_pnl = df_pnl.loc[start_date:end_date, <span class="string">'pnl'</span>].<span class="keyword">sum</span>()</div>
+                    
+                    <div class="code-block">_sum_.at[ret_ts, <span class="string">'pct_days_on'</span>] = (_returns != 0).<span class="keyword">sum</span>() / _returns.shape[0]</div>
+                    
+                    <div class="code-block">true_count = (opt[<span class="string">'cond_exit'</span>] == <span class="keyword">True</span>).<span class="keyword">sum</span>()</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .groupby() <span class="op-count">(1 example)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">_sum_.at[ret_ts, <span class="string">'badmon'</span>] = _returns.<span class="keyword">groupby</span>([_returns.index.year, _returns.index.month]).sum().min()</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .rolling() <span class="op-count">(3 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">r = x.<span class="keyword">rolling</span>(window=window)</div>
+                    
+                    <div class="code-block">r = excess_returns.<span class="keyword">rolling</span>(window=window)</div>
+                    
+                    <div class="code-block">r = excess_returns.<span class="keyword">rolling</span>(window=window)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .str.contains() <span class="op-count">(1 example)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">indicator_data = data[data[<span class="string">'Event'</span>].str.<span class="keyword">contains</span>(pattern, case=<span class="keyword">False</span>, na=<span class="keyword">False</span>, regex=<span class="keyword">True</span>)]</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .str.lower() <span class="op-count">(1 example)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">features_df.columns = features_df.columns.str.<span class="keyword">lower</span>()</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .rename() <span class="op-count">(4 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">options.<span class="keyword">rename</span>(columns={o: n for o, n in zip(old_cols, new_cols) if o in options.columns}, inplace=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">df.<span class="keyword">rename</span>(columns={div_col: f<span class="string">'{underlying}_div'</span>}, inplace=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">opt.<span class="keyword">rename</span>(columns=dict(zip(old_cols, new_cols)), inplace=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">df_rets = df_pnl[[underlying + <span class="string">'tr'</span>, <span class="string">'perf'</span>]].<span class="keyword">rename</span>(columns={<span class="string">'perf'</span>: strat_name}).dropna()</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .astype() <span class="op-count">(6 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">options[<span class="string">'symbol'</span>] = options[<span class="string">'symbol'</span>].<span class="keyword">astype</span>(<span class="string">'category'</span>)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'init'</span>] = opt[<span class="string">'init'</span>].replace([np.inf, -np.inf], np.nan).fillna(0).<span class="keyword">astype</span>(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'exit'</span>] = opt[<span class="string">'exit'</span>].replace([np.inf, -np.inf], np.nan).fillna(0).<span class="keyword">astype</span>(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'nopnl'</span>] = opt[<span class="string">'nopnl'</span>].replace([np.inf, -np.inf], np.nan).fillna(1).<span class="keyword">astype</span>(int)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'dte'</span>] = opt[<span class="string">'dte'</span>].replace([np.inf, -np.inf], np.nan).fillna(0).<span class="keyword">astype</span>(int)</div>
+                    
+                    <div class="code-block">options[[<span class="string">'date'</span>, <span class="string">'exdate'</span>]] = options[[<span class="string">'date'</span>, <span class="string">'exdate'</span>]].<span class="keyword">astype</span>(<span class="string">'category'</span>)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .get_loc() <span class="op-count">(2 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">entry_position = df.index.<span class="keyword">get_loc</span>(date)</div>
+                    
+                    <div class="code-block">entry_day = df.index[df.index.<span class="keyword">get_loc</span>(d) + entry_isoweekday]</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .intersection() <span class="op-count">(1 example)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">update_days = business_days.<span class="keyword">intersection</span>(cond_exit_days)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .unique() <span class="op-count">(3 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">expiration_dates = pd.to_datetime(options[<span class="string">'exdate'</span>].<span class="keyword">unique</span>()).sort_values()</div>
+                    
+                    <div class="code-block">all_syms = list(set().union(*(df[<span class="string">'sym'</span>].<span class="keyword">unique</span>() for df in dict_options.values())))</div>
+                    
+                    <div class="code-block">options_unique = options.drop_duplicates(subset=<span class="string">'date'</span>)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .sort_index() <span class="op-count">(2 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">sigcyc = sigcyc.<span class="keyword">sort_index</span>(ascending=<span class="keyword">True</span>)</div>
+                    
+                    <div class="code-block">df_pnl_cum.<span class="keyword">sort_index</span>(inplace=<span class="keyword">True</span>)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .sort_values() <span class="op-count">(1 example)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">expiration_dates = pd.to_datetime(options[<span class="string">'exdate'</span>].unique()).<span class="keyword">sort_values</span>()</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .shift() <span class="op-count">(12 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">opt[<span class="string">'prev_qty'</span>] = opt[<span class="string">'qty'</span>].<span class="keyword">shift</span>(1)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'prev_mid'</span>] = opt[<span class="string">'mid'</span>].<span class="keyword">shift</span>(1)</div>
+                    
+                    <div class="code-block">opt[<span class="string">'prev_str'</span>] = opt[<span class="string">'str'</span>].<span class="keyword">shift</span>(1)</div>
+                    
+                    <div class="code-block">df_hedge[<span class="string">'hedge_values'</span>] = -df_hedge[<span class="string">'optdelta'</span>].<span class="keyword">shift</span>(1)</div>
+                    
+                    <div class="code-block">df_hedge[<span class="string">'multiplier'</span>] = df_hedge[underlying].<span class="keyword">shift</span>(1) * df_hedge[underlying+<span class="string">'tr'</span>]</div>
+                    
+                    <div class="code-block">opt[<span class="string">'new_sym'</span>] = opt[<span class="string">'sym'</span>].<span class="keyword">shift</span>(-1)</div>
+                    
+                    <div class="code-block">m = r.mean().<span class="keyword">shift</span>(1)
+s = r.std(ddof=0).<span class="keyword">shift</span>(1)</div>
+                    
+                    <div class="code-block">sigdata_copy.loc[(sigdata_copy[<span class="string">'sig'</span>]!=sigdata_copy[<span class="string">'sig'</span>].<span class="keyword">shift</span>(1)),<span class="string">'new_opt'</span>] = 1</div>
+                    
+                    <div class="code-block">sigdata_copy.loc[sigdata_copy[<span class="string">'sig'</span>].<span class="keyword">shift</span>(1)==1,<span class="string">'new_opt'</span>] = 0</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .diff() <span class="op-count">(2 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">opt[<span class="string">'diff_mid'</span>] = opt[<span class="string">'mid'</span>].<span class="keyword">diff</span>(1)</div>
+                    
+                    <div class="code-block">df[underlying + <span class="string">'tr'</span>] = df[underlying].<span class="keyword">diff</span>(1) / df[underlying].shift(1)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        pd.concat() <span class="op-count">(3 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">return <span class="keyword">pd.concat</span>(results_list)</div>
+                    
+                    <div class="code-block">df_pnl_cum = df_pnl_cum_concat if df_pnl_cum.empty else <span class="keyword">pd.concat</span>([df_pnl_cum, df_pnl_cum_concat])</div>
+                    
+                    <div class="code-block">df_pnl_cum = df_pnl_cum_concat if df_pnl_cum.empty else <span class="keyword">pd.concat</span>([df_pnl_cum, df_pnl_cum_concat])</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        .to_frame() <span class="op-count">(3 examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">df = opt[<span class="string">'cond_ent'</span>].<span class="keyword">to_frame</span>().merge(opt[<span class="string">'cond_exit'</span>].to_frame(), left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'left'</span>)</div>
+                    
+                    <div class="code-block">opt = df[underlying].<span class="keyword">to_frame</span>().loc[first_date:last_date].copy()</div>
+                    
+                    <div class="code-block">df_pnl = df_pnl.merge(df_hedge[<span class="string">'hedgepnl'</span>].<span class="keyword">to_frame</span>(), left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'outer'</span>)</div>
+                </div>
+            </div>
+
+            <div class="operation-section">
+                <div class="operation-header" onclick="toggleSection(this)">
+                    <h3 class="operation-title">
+                        Specialized Operations <span class="op-count">(5+ examples)</span>
+                        <span class="toggle-icon">▼</span>
+                    </h3>
+                </div>
+                <div class="operation-content">
+                    <div class="code-block">_sum_.at[ret_ts, <span class="string">'skew'</span>] = _returns.<span class="keyword">skew</span>()<br><br>_sum_.at[ret_ts, <span class="string">'corr'</span>] = _returns.<span class="keyword">corr</span>(benchmark_returns)</div>
+                    
+                    <div class="code-block">_sum_.at[ret_ts, <span class="string">'badday'</span>] = _returns.<span class="keyword">min</span>()<br><br>hwm = np.maximum.accumulate(perf_cum)</div>
+                    
+                    <div class="code-block">options = (
+    pd.read_csv(csv_path, parse_dates=[old_cols[0], old_cols[1]])
+    .<span class="keyword">pipe</span>(filter_dates, old_cols[0], first_date, last_date)
+    .<span class="keyword">pipe</span>(add_mid)
+    .<span class="keyword">pipe</span>(add_spread)
+)</div>
+                    
+                    <div class="code-block">mask = date_col.<span class="keyword">between</span>(first_date, last_date, inclusive=<span class="string">'both'</span>)</div>
+                    
+                    <div class="code-block">perf_cum = np.cumprod(ret_series + 1) - 1</div>
+                </div>
             </div>
         </div>
-
-        <div class="section">
-
-            <h2>Time Series Operations</h2>
-
-            <h4>1. DateTime Arithmetic for Financial Calculations</h4>
-                    <div class="code-block">
-<pre><code>opt.loc[mask_for_dte_compute, 'dte'] = (opt['exd'] - opt.index).dt.days</code></pre>
-                    </div>
-                    <div class="analysis-box">
-                        <div class="analysis-title">Sophisticated Usage:</div>
-                        <ul>
-                            <li>Uses boolean masking to apply calculation only where appropriate</li>
-                            <li>Leverages pandas datetime arithmetic (<span class="inline-code">dt.days</span>)</li>
-                            <li>Applies vectorized calculation across entire time series</li>
-                        </ul>
-                    </div>
-
-                <h4>2. Forward-Fill for Position Continuity</h4>
-                    <div class="code-block">
-<pre><code>opt['qty'] = opt['qty'].ffill().fillna(0)
-opt = opt.ffill()  # Forward-fill all position data</code></pre>
-                    </div>
-                    <div class="analysis-box">
-                        <div class="analysis-title">Financial Domain Expertise:</div>
-                        Understands that position quantities must persist until explicitly changed. The two-stage approach (first quantities, then all data) shows nuanced understanding of position lifecycle.
-                    </div>
-
-                <h4>3. Index-Based Time Filtering</h4>
-                    <div class="code-block">
-<pre><code>opt = opt[~opt.index.isin(list_holidays)]</code></pre>
-                    </div>
-                    <div class="analysis-box">
-                        <div class="analysis-title">Pandas Proficiency:</div>
-                        Clean, vectorized approach to exclude holiday dates using boolean indexing on the index itself.
-                    </div>
-        </div>
-
-        <div class="section">
-            <h2>Advanced Boolean Logic Patterns</h2>
-
-            <h3>1. Multi-Condition Filtering</h3>
-            <div class="code-block">
-<pre><code>mask_expired = opt.index > opt['exd']
-opt.loc[mask_expired, expired_cols] = [pd.Timestamp(year=1985, month=12, day=31), 0.0, '-', '-']</code></pre>
-            </div>
-
-            <div class="analysis-box">
-                <div class="analysis-title">Advanced Technique:</div>
-                <ul>
-                    <li>Creates boolean mask based on date comparison</li>
-                    <li>Uses vectorized assignment to multiple columns simultaneously</li>
-                    <li>Uses sentinel values for data integrity</li>
-                </ul>
-            </div>
-
-            <h3>2. Conditional Series Manipulation</h3>
-            <div class="code-block">
-<pre><code>cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</code></pre>
-            </div>
-
-            <div class="analysis-box">
-                <div class="analysis-title">Boolean :</div>
-                Complex boolean logic combining series comparison with inverted mask. Shows deep understanding of pandas boolean operations.
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Data Type Management</h2>
-
-            <div class="highlight-box">
-                <h3>1. Robust Type Conversion with Error Handling</h3>
-                <div class="code-block">
-<pre><code>opt['init'] = opt['init'].replace([np.inf, -np.inf], np.nan).fillna(0).astype(int)
-opt['exit'] = opt['exit'].replace([np.inf, -np.inf], np.nan).fillna(0).astype(int)</code></pre>
-                </div>
-
-                <div class="analysis-box">
-                    <div class="analysis-title">Data Quality Focus:</div>
-                    <ul>
-                        <li>Handles infinite values before type conversion</li>
-                        <li>Uses chained operations for clean data pipeline</li>
-                        <li>Ensures integer types for flag columns</li>
-                    </ul>
-                </div>
-
-                <h3>2. Strategic NaN Handling</h3>
-                <div class="code-block">
-<pre><code>opt.fillna(0, inplace=True)
-opt['why'] = opt['why'].fillna('-')</code></pre>
-                </div>
-
-                <div class="analysis-box">
-                    <div class="analysis-title">Domain-Aware Defaults:</div>
-                    Uses different fill strategies for different column types (numeric vs categorical).
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>DataFrame Manipulation Patterns</h2>
-
-            <h3>1. Index Reset/Set Pattern for Merging</h3>
-            <div class="code-block">
-<pre><code>def merge_with_chain(opt, options, col, data_cols=[...]):
-    opt = opt.reset_index(drop=False)
-    opt = opt.merge(options[data_cols], left_on=['date',col], right_on=['date','symbol'], how='left')
-    opt = opt.set_index('date', drop=True)
-    return opt</code></pre>
-            </div>
-
-            <div class="analysis-box">
-                <div class="analysis-title">Merging Best Practice:</div>
-                <ul>
-                    <li>Temporarily converts index to column for merge operations</li>
-                    <li>Performs complex multi-column joins</li>
-                    <li>Restores index structure</li>
-                    <li>Cleans up redundant columns</li>
-                </ul>
-            </div>
-
-            <h3>2. Duplicate Handling</h3>
-            <div class="code-block">
-<pre><code>opt.drop_duplicates(subset=None, keep='first', inplace=True)</code></pre>
-            </div>
-
-            <div class="analysis-box">
-                <div class="analysis-title">Data Integrity:</div>
-                Proactive duplicate removal to maintain data quality.
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Aggregation and Grouping Logic</h2>
-
-            <div class="pattern-grid">
-                <div class="pattern-card">
-                    <div class="pattern-title">1. Multi-DataFrame Aggregation</div>
-                    <div class="code-block">
-<pre><code># In get_total_delta_optdelta function
-running_total_delta += opt['delta']
-running_total_shrdelta += opt['delta'] * opt['qty'] * 100</code></pre>
-                    </div>
-                    <div class="analysis-box">
-                        <div class="analysis-title">Financial Calculation Pattern:</div>
-                        Manually aggregates across related DataFrames in the dictionary, applying position-weighting calculations.
-                    </div>
-                </div>
-
-                <div class="pattern-card">
-                    <div class="pattern-title">2. Conditional Aggregation</div>
-                    <div class="code-block">
-<pre><code>opt.loc[opt['init']==1, 'optdelta'] = running_total_new_shrdelta</code></pre>
-                    </div>
-                    <div class="analysis-box">
-                        <div class="analysis-title">Advanced Indexing:</div>
-                        Uses boolean condition to apply aggregated values only to specific rows (initiation days).
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Memory-Conscious Operations</h2>
-
-            <h3>1. Selective Column Operations</h3>
-            <div class="code-block">
-<pre><code>data_cols=['date', 'symbol', 'bid', 'ask', 'mid', 'delta', 'spread', 'gamma', 'theta', 'vega']</code></pre>
-            </div>
-
-            <div class="analysis-box">
-                <div class="analysis-title">Performance Awareness:</div>
-                Explicitly specifies required columns for merges rather than using entire DataFrames.
-            </div>
-
-            <h3>2. In-Place Operations Where Appropriate</h3>
-            <div class="code-block">
-<pre><code>opt.fillna(0, inplace=True)
-opt.drop_duplicates(subset=None, keep='first', inplace=True)</code></pre>
-            </div>
-
-            <div class="analysis-box">
-                <div class="analysis-title">Memory Efficiency:</div>
-                Uses in-place operations for transformations that don't need to preserve original data.
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Complex Series Operations</h2>
-
-            <div class="highlight-box">
-                <h3>1. Chained Boolean Logic</h3>
-                <div class="code-block">
-<pre><code>mask = mask.fillna(False)
-cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</code></pre>
-                </div>
-
-                <div class="analysis-box">
-                    <div class="analysis-title">Series :</div>
-                    <ul>
-                        <li>Handles NaN values in boolean masks</li>
-                        <li>Applies complex conditional logic to Series</li>
-                        <li>Maintains data integrity throughout transformations</li>
-                    </ul>
-                </div>
-
-                <h3>2. Sentinel Value Strategy</h3>
-                <div class="code-block">
-<pre><code>opt['exd'] = opt['exd'].fillna(pd.Timestamp(year=1985, month=12, day=31))</code></pre>
-                </div>
-
-                <div class="analysis-box">
-                    <div class="analysis-title">Data Management:</div>
-                    Uses far-past dates as sentinel values for missing expiration dates, enabling consistent date arithmetic operations.
-                </div>
-            </div>
-        </div>
-
     </div>
-</body>
 
-    
+    <script>
+        let allExpanded = false;
+        
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('active');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        function toggleAll() {
+            const sections = document.querySelectorAll('.operation-content');
+            const icons = document.querySelectorAll('.toggle-icon');
+            const button = document.querySelector('.expand-all-btn');
+            
+            if (!allExpanded) {
+                sections.forEach(section => section.classList.add('active'));
+                icons.forEach(icon => icon.style.transform = 'rotate(180deg)');
+                button.textContent = 'Collapse All Sections';
+                allExpanded = true;
+            } else {
+                sections.forEach(section => section.classList.remove('active'));
+                icons.forEach(icon => icon.style.transform = 'rotate(0deg)');
+                button.textContent = 'Expand All Sections';
+                allExpanded = false;
+            }
+        }
+        
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('.operation-header').forEach(header => {
+            header.addEventListener('click', function() {
+                setTimeout(() => {
+                    this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 300);
+            });
+        });
+    </script>
+</body>
 </html>
