@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataFrame Excellence in Options Strategy Framework</title>
+    <title>Workflow</title>
     <style>
         * {
             margin: 0;
@@ -191,10 +191,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>DataFrame Excellence in Options Strategy Framework</h1>
-            <p>Advanced pandas patterns for systematic options trading</p>
-        </div>
 
         <div class="section">
             <h2>Architecture</h2>
@@ -219,7 +215,7 @@ for o in dict_opt_specs.keys():
 opt = merge_with_chain(opt, options, 'new_sym')</div>
             
             <div class="analysis-box">
-                <div class="analysis-title">Pandas Excellence:</div>
+                <div class="analysis-title">Pandas:</div>
                 Uses <span class="inline-code">shift(-1)</span> to create forward-looking contract mappings, then merges with options chain data to get "next contract" pricing. This handles expiration rollovers elegantly.
             </div>
 
@@ -229,13 +225,13 @@ new_cols = ['bid', 'new_bid', 'ask', 'new_ask', 'delta', 'new_delta']
 opt.rename(columns=dict(zip(old_cols, new_cols)), inplace=True)</div>
             
             <div class="analysis-box">
-                <div class="analysis-title">Pandas Mastery:</div>
+                <div class="analysis-title">Pandas :</div>
                 After multiple merges create suffix columns, systematically renames them to meaningful business names. Shows understanding of merge mechanics and data clarity.
             </div>
         </div>
 
         <div class="section">
-            <h2>Time Series Operations Excellence</h2>
+            <h2>Time Series Operations</h2>
 
             <div class="pattern-grid">
                 <div class="pattern-card">
@@ -292,13 +288,13 @@ opt.loc[mask_expired, expired_cols] = [pd.Timestamp(year=1985, month=12, day=31)
             <div class="code-block">cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</div>
             
             <div class="analysis-box">
-                <div class="analysis-title">Boolean Mastery:</div>
+                <div class="analysis-title">Boolean :</div>
                 Complex boolean logic combining series comparison with inverted mask. Shows deep understanding of pandas boolean operations.
             </div>
         </div>
 
         <div class="section">
-            <h2>Data Type Management Expertise</h2>
+            <h2>Data Type Management</h2>
 
             <div class="highlight-box">
                 <h3>1. Robust Type Conversion with Error Handling</h3>
@@ -410,7 +406,7 @@ opt.drop_duplicates(subset=None, keep='first', inplace=True)</div>
 cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</div>
                 
                 <div class="analysis-box">
-                    <div class="analysis-title">Series Mastery:</div>
+                    <div class="analysis-title">Series :</div>
                     <ul>
                         <li>Handles NaN values in boolean masks</li>
                         <li>Applies complex conditional logic to Series</li>
@@ -429,9 +425,7 @@ cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</div>
         </div>
 
         <div class="section">
-            <h2>Summary of Pandas Excellence</h2>
-
-            <p>This framework demonstrates <strong>master-level pandas usage</strong> through:</p>
+            <h2>Summary of Pandas</h2>
 
             <div class="summary-grid">
                 <div class="summary-item">
@@ -468,9 +462,6 @@ cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</div>
                 </div>
             </div>
 
-            <div class="highlight-box">
-                <p>The code shows someone who deeply understands both pandas mechanics and financial domain requirements, creating a robust system that handles the complexities of multi-instrument position tracking over time.</p>
-            </div>
         </div>
     </div>
 </body>
