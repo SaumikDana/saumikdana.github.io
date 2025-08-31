@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options Selections</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 35px;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .intro {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            white-space: pre-line;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #fdfdfd;
+            border: 1px solid #e9ecef;
+        }
+        
+        ul {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .pattern-title {
+            font-weight: bold;
+            color: #e74c3c;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .performance-note {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            border-radius: 4px;
+            font-style: italic;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Options Selections</h1>
+        
+
+
+        <div class="section">
+            <h2>DataFrame as Central Entity</h2>
+            <p>The options DataFrame serves as the backbone data structure with a specific column layout:</p>
+            <div class="code-block">
+options[['date', 'exdate', 'symbol', 'strike', 'cp', <br>
+         'bid', 'ask', 'mid', 'delta', 'vega', 'iv', 'money']]
+            </div>
+            <p>This structure represents thousands of option contracts with pricing data, Greeks, and metadata for systematic trading analysis.</p>
+        </div>
+
+        <div class="section">
+            <h2>Indexing Philosophy</h2>
+            
+            <h3>Multi-Index Implementation</h3>
+            <p>The system creates hierarchical indexes for optimized date-based lookups:</p>
+            <div class="code-block">
+options_indexed = options.set_index(['date', 'exdate'])
+options.reset_index(inplace=True)
+            </div>
+            <p>This dual approach maintains both indexed and non-indexed versions for different access patterns.</p>
+            
+            <h3>Index Management Patterns</h3>
+            <p>Frequent index resets suggest preference for clean integer indexing after filtering:</p>
+            <div class="code-block">
+df_filtered = df[cp_mask].reset_index(drop=True)
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Data Pipeline Flow</h2>
+            <p>The preprocessing pipeline optimizes for repeated date-based operations:</p>
+            <div class="code-block">
+options[['date', 'exdate']] = options[['date', 'exdate']].astype('category')
+options_indexed = options.set_index(['date', 'exdate'])
+local_options = get_options_subset(*subset_args)
+            </div>
+            <p>Categorical dates reduce memory usage since trading dates repeat thousands of times across option contracts.</p>
+        </div>
+
+        <div class="section">
+            <h2>Categorical Data Strategy</h2>
+            <p>Memory optimization through categorical dates, then conversion to numpy for performance:</p>
+            <div class="code-block">
+options[['date', 'exdate']] = options[['date', 'exdate']].astype('category')
+date_arr = _options['date'].to_numpy()
+exdate_arr = _options['exdate'].to_numpy()
+            </div>
+            <p>This hybrid approach balances memory efficiency with computational performance.</p>
+        </div>
+
+        <div class="section">
+            <h2>Boolean Indexing Patterns</h2>
+            <p>Standard pandas filtering operations with immediate index cleanup:</p>
+            <div class="code-block">
+cp_mask = df['cp'] == option_type
+df_filtered = df[cp_mask].reset_index(drop=True)
+
+bid_mask = _options['bid'] > 0
+_options = _options[bid_mask]
+            </div>
+            <p>The bid filter removes illiquid contracts, while the reset ensures clean integer indexing for iloc operations.</p>
+        </div>
+
+        <div class="section">
+            <h2>Series vs DataFrame Boundaries</h2>
+            <p>Single option contracts are extracted as Series objects for field access:</p>
+            <div class="code-block">
+option = get_selected_option(df, 'delta', 0.30, 'C')
+symbol = option['symbol']
+strike = option['strike']
+atm_call_sym = atm_call['symbol']
+atm_call_mid = atm_call['mid']
+            </div>
+            <p>Each selected option becomes a pandas Series with named field access for contract details.</p>
+        </div>
+
+        <div class="section">
+            <h2>Date Handling Complexity</h2>
+            <p>Multiple date format conversions handle inconsistent input sources:</p>
+            <div class="code-block">
+def change_dtype(date):
+    if isinstance(date, pd.Timestamp) or isinstance(date, (datetime.date, datetime.datetime)):
+        date = date.date().isoformat()
+    return date
+
+entry_day = entry_days[d]
+expiry_day = change_dtype(exp)
+            </div>
+            <p>This utility function standardizes various datetime formats for consistent processing throughout the system.</p>
+        </div>
+
+        <div class="section">
+            <h2>Memory Access Patterns</h2>
+            <p>DataFrame operations frequently create copies rather than using views:</p>
+            <div class="code-block">
+df_filtered = df[cp_mask].reset_index(drop=True)
+local_options = get_local_options(options, options_indexed, 
+                                 entry_day, expiry_day, 
+                                 date_arr, exdate_arr)
+            </div>
+            <p>Each filtering operation generates new DataFrame objects, which can impact memory usage during large backtests.</p>
+        </div>
+
+        <div class="section">
+            <h2>Vectorization Strategy</h2>
+            <p>Pandas columns are converted to numpy for mathematical operations:</p>
+            <div class="code-block">
+data = df_filtered[col].to_numpy()
+diffs = np.abs(data - target)
+min_idx = np.argmin(diffs)
+return df_filtered.iloc[min_idx]
+            </div>
+            <p>This hybrid approach leverages numpy's optimized mathematical functions while maintaining pandas DataFrame structure.</p>
+        </div>
+
+        <div class="section">
+            <h2>Position Sizing Integration</h2>
+            <p>Pandas operations integrate with position sizing calculations:</p>
+            <div class="code-block">
+if opt['cond_ent'].at[entry_day]:
+    qty_leg = opt['qty']
+    qty = get_position_size(...)
+    
+underlying_val = dict_options[o].at[entry_day, underlying]
+qty = round((aum / (underlying_val * 100)) * qty_leg, 0)
+            </div>
+            <p>The .at accessor provides fast scalar value retrieval for position size calculations.</p>
+        </div>
+
+        <div class="section">
+            <h2>Options Chain Filtering</h2>
+            <p>Sophisticated fallback logic handles missing data scenarios:</p>
+            <div class="code-block">
+local_options = lookup_v3(options, options_indexed, 
+                         entry_day, expiry_day, 
+                         date_arr, exdate_arr)
+
+if local_options.empty:
+    entry_day = get_updated_entry_day(list_exd, entry_day)
+    adjusted_expiry = get_updated_expiry_day(list_exd, expiry_day)
+            </div>
+            <p>When exact dates aren't available, the system finds closest alternatives to ensure robust strategy execution.</p>
+        </div>
+
+        <div class="section">
+            <h2>Performance Implications</h2>
+            <p>Common operations that impact pandas performance throughout the codebase:</p>
+            <div class="code-block">
+# Frequent operations that impact performance:
+df.reset_index(drop=True)
+df_filtered[col].to_numpy()
+options.set_index(['date', 'exdate'])
+pd.to_datetime(expiry_day)
+min(list_exd, key=lambda x: abs(x - target_date))
+            </div>
+            <p>These patterns suggest opportunities for caching and optimization in high-frequency backtesting scenarios.</p>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
