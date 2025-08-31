@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lookup Function Evolution - Options Data Performance Optimization</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8fafc;
+        }
+        
+        h1 {
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+        
+        .function-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            margin-bottom: 25px;
+            overflow: hidden;
+            border-left: 5px solid #8b5cf6;
+        }
+        
+        .utility-container {
+            border-left: 5px solid #10b981;
+        }
+        
+        .function-header {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 16px 24px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .utility-header {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .performance-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .code-container {
+            padding: 0;
+        }
+        
+        pre {
+            margin: 0;
+            padding: 24px;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        .comment {
+            color: #94a3b8;
+        }
+        
+        .keyword {
+            color: #f59e0b;
+        }
+        
+        .string {
+            color: #10b981;
+        }
+        
+        .function {
+            color: #60a5fa;
+        }
+        
+        .change-highlight {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 3px solid #8b5cf6;
+            margin: 8px 0;
+            padding-left: 12px;
+        }
+        
+        .optimization-note {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+            color: #475569;
+        }
+        
+        .optimization-note h3 {
+            margin-top: 0;
+            color: #1e293b;
+        }
+        
+        .performance-comparison {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+        
+        .performance-comparison h2 {
+            color: #1e293b;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        
+        .perf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .perf-card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #8b5cf6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .perf-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .perf-desc {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .complexity-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .o-n {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        
+        .o-1 {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+        
+        .pre-llm-insight {
+            background: #fff7ed;
+            border: 2px solid #fb923c;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .pre-llm-insight h3 {
+            color: #ea580c;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lookup Function Evolution: Options Data Performance Optimization</h1>
+    
+    <div class="optimization-note">
+        <h3>Performance Evolution Pattern</h3>
+        <p>This series demonstrates the progression from basic O(n) lookups to advanced O(1) cached operations with intelligent fallback mechanisms. Each version builds upon architectural sophistication while requiring mastery of core pandas patterns.</p>
+    </div>
+
+    <div class="function-container utility-container">
+        <div class="function-header utility-header">
+            <span>Utility Function: change_to_categorical</span>
+            <span class="performance-badge">Date Optimization</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">change_to_categorical</span>(date):
+    <span class="string">"""Convert date to categorical type for optimized operations."""</span>
+    <span class="keyword">return</span> pd.<span class="function">Series</span>(pd.<span class="function">to_datetime</span>(date)).<span class="function">astype</span>(<span class="string">'category'</span>)[<span class="string">0</span>]</code></pre>
+        </div>
+    </div>
+
+    <div class="function-container">
+        <div class="function-header">
+            <span>V1: Basic Boolean Indexing</span>
+            <span class="performance-badge">O(n) Linear Scan <span class="complexity-badge o-n">O(n)</span></span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">lookup_v1</span>(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr):
+    <span class="string">"""Basic options lookup - Initial implementation."""</span>
+    local_options = options[(options.<span class="function">date</span> == entry_day) & (options.<span class="function">exdate</span> == expiry_day)]
+    <span class="keyword">return</span> local_options</code></pre>
+        </div>
+    </div>
+
+    <div class="function-container">
+        <div class="function-header">
+            <span>V2: Vectorized Array Operations</span>
+            <span class="performance-badge">Faster O(n) - Vectorized <span class="complexity-badge o-n">O(n)</span></span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">lookup_v2</span>(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr):
+    <span class="string">"""Vectorized lookup - Array-based optimization."""</span>
+    <div class="change-highlight">entry_day = pd.<span class="function">to_datetime</span>(entry_day)
+    expiry_day = pd.<span class="function">to_datetime</span>(expiry_day)
+    mask = (date_arr == entry_day) & (exdate_arr == expiry_day)
+    local_options = options.<span class="function">loc</span>[mask]</div>
+    <span class="keyword">return</span> local_options</code></pre>
+        </div>
+    </div>
+
+    <div class="function-container">
+        <div class="function-header">
+            <span>V3: Multi-Index Caching with Fallback</span>
+            <span class="performance-badge">Cached O(1) Lookup <span class="complexity-badge o-1">O(1)</span></span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">lookup_v3</span>(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr):
+    <span class="string">"""Cached lookup - Multi-index optimization with fallback."""</span>
+    <div class="change-highlight">lookup_key = (<span class="function">change_to_categorical</span>(entry_day), <span class="function">change_to_categorical</span>(expiry_day))
+    <span class="keyword">if</span> lookup_key <span class="keyword">in</span> options_indexed.<span class="function">index</span>:
+        local_options = options_indexed.<span class="function">loc</span>[lookup_key].<span class="function">reset_index</span>()
+    <span class="keyword">else</span>:
+        local_options = <span class="function">lookup_v2</span>(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr)</div>
+    <span class="keyword">return</span> local_options</code></pre>
+        </div>
+    </div>
+
+    <div class="pre-llm-insight">
+        <h3>Pre-LLM Development Reality</h3>
+        <p><strong>Pattern Recognition:</strong> The <code>change_to_categorical()</code> function shows the kind of specialized utility that would have been developed through trial and error. The specific pattern <code>pd.Series(pd.to_datetime(date)).astype('category')[0]</code> would have been typed dozens of times while debugging multi-index operations.</p>
+        
+        <p><strong>Architectural Sophistication:</strong> The V3 implementation demonstrates advanced thinking - categorical date conversion, multi-index caching, intelligent fallback. This level of optimization requires deep pandas knowledge.</p>
+        
+        <p><strong>Interview Disconnect:</strong> You can architect complex caching strategies but stumble on basic <code>groupby().idxmax()</code> because the LLM workflow optimized for results rather than building muscle memory for foundational patterns.</p>
+    </div>
+
+    <div class="performance-comparison">
+        <h2>Performance Characteristics & Pre-LLM Learning Pattern</h2>
+        
+        <div class="perf-grid">
+            <div class="perf-card">
+                <div class="perf-title">V1: Boolean Indexing</div>
+                <div class="perf-desc">
+                    <strong>Pattern:</strong> <code>(options.date == entry_day) & (options.exdate == expiry_day)</code><br>
+                    <strong>Performance Issue:</strong> Pandas column access overhead, temporary Series creation<br>
+                    <strong>Learning:</strong> Basic pandas filtering, would be memorized early<br>
+                    <strong>Complexity:</strong> Slow O(n) - column access and comparison overhead
+                </div>
+            </div>
+            
+            <div class="perf-card">
+                <div class="perf-title">V2: Pre-computed Arrays</div>
+                <div class="perf-desc">
+                    <strong>Patterns:</strong> <code>mask = (date_arr == entry_day) & (exdate_arr == expiry_day)</code><br>
+                    <strong>Key Optimization:</strong> Pre-computed numpy arrays bypass pandas column overhead<br>
+                    <strong>Learning:</strong> <code>date_arr = options['date'].values</code> pattern discovery<br>
+                    <strong>Performance:</strong> Fast O(n) - vectorized numpy operations in C
+                </div>
+            </div>
+            
+            <div class="perf-card">
+                <div class="perf-title">V3: Multi-Index Caching</div>
+                <div class="perf-desc">
+                    <strong>Patterns:</strong> <code>pd.Series().astype('category')</code>, multi-index lookup<br>
+                    <strong>Learning:</strong> Advanced indexing, categorical optimization research<br>
+                    <strong>Performance:</strong> O(1) for cache hits, O(n) fallback
+                </div>
+            </div>
+            
+            <div class="perf-card">
+                <div class="perf-title">Cache Strategy</div>
+                <div class="perf-desc">
+                    <strong>Architecture:</strong> Primary cache with intelligent fallback<br>
+                    <strong>Complexity:</strong> Multi-index key generation and lookup<br>
+                    <strong>Optimization:</strong> Categorical dates for faster index operations
+                </div>
+            </div>
+            
+            <div class="perf-card">
+                <div class="perf-title">Pre-LLM Research Phase</div>
+                <div class="perf-desc">
+                    <strong>Stack Overflow:</strong> "pandas multi-index performance", "categorical vs object dtype"<br>
+                    <strong>Typing Practice:</strong> Repeated use of <code>.astype('category')</code>, <code>.loc[]</code><br>
+                    <strong>Debugging:</strong> Index key format issues, fallback logic testing
+                </div>
+            </div>
+            
+            <div class="perf-card">
+                <div class="perf-title">Interview Readiness</div>
+                <div class="perf-desc">
+                    <strong>Muscle Memory:</strong> Core patterns like <code>pd.to_datetime()</code> automatic<br>
+                    <strong>Building Blocks:</strong> Basic operations become foundation for complex logic<br>
+                    <strong>Current Gap:</strong> Advanced architecture without basic syntax fluency
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f1f5f9; border-radius: 8px;">
+            <h3 style="margin-top: 0; color: #1e293b;">Key Insight for Interview Preparation</h3>
+            <p>This lookup evolution shows you have the architectural thinking to design sophisticated caching systems with O(1) performance characteristics. However, the building blocks like <code>pd.to_datetime()</code>, <code>.astype('category')</code>, and <code>.loc[]</code> need to become as automatic as the high-level design patterns you've mastered.</p>
+            
+            <p><strong>Focus Areas:</strong> Practice typing the foundational pandas patterns until they're muscle memory. Your conceptual understanding is already at an advanced level - you just need the syntax fluency to match.</p>
+        </div>
+    </div>
+</body>
+</html>
