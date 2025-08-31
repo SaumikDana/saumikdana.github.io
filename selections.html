@@ -9,7 +9,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
             background: #f8f9fa;
@@ -114,8 +114,7 @@
             <h2>DataFrame as Central Entity</h2>
             <p>The options DataFrame serves as the backbone data structure with a specific column layout:</p>
             <div class="code-block">
-options[['date', 'exdate', 'symbol', 'strike', 'cp', <br>
-         'bid', 'ask', 'mid', 'delta', 'vega', 'iv', 'money']]
+options[['date', 'exdate', 'symbol', 'strike', 'cp', 'bid', 'ask', 'mid', 'delta', 'vega', 'iv', 'money']]
             </div>
             <p>This structure represents thousands of option contracts with pricing data, Greeks, and metadata for systematic trading analysis.</p>
         </div>
@@ -206,9 +205,7 @@ expiry_day = change_dtype(exp)
             <p>DataFrame operations frequently create copies rather than using views:</p>
             <div class="code-block">
 df_filtered = df[cp_mask].reset_index(drop=True)
-local_options = get_local_options(options, options_indexed, 
-                                 entry_day, expiry_day, 
-                                 date_arr, exdate_arr)
+local_options = get_local_options(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr)
             </div>
             <p>Each filtering operation generates new DataFrame objects, which can impact memory usage during large backtests.</p>
         </div>
@@ -243,9 +240,7 @@ qty = round((aum / (underlying_val * 100)) * qty_leg, 0)
             <h2>Options Chain Filtering</h2>
             <p>Sophisticated fallback logic handles missing data scenarios:</p>
             <div class="code-block">
-local_options = lookup_v3(options, options_indexed, 
-                         entry_day, expiry_day, 
-                         date_arr, exdate_arr)
+local_options = lookup_v3(options, options_indexed, entry_day, expiry_day, date_arr, exdate_arr)
 
 if local_options.empty:
     entry_day = get_updated_entry_day(list_exd, entry_day)
