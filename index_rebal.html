@@ -1,368 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vector-First Matrix Construction</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
-            background: #f8f9fa;
-            min-height: 100vh;
-            color: #2c3e50;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .subtitle {
-            text-align: center;
-            font-size: 1.2em;
-            opacity: 0.9;
-            margin-bottom: 40px;
-        }
-        
-        .step {
-            margin: 40px 0;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-            border: 1px solid #e9ecef;
-        }
-        
-        .step-title {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-        
-        .data-container {
-            display: flex;
-            gap: 30px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        
-        .data-box {
-            flex: 1;
-            min-width: 300px;
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            border: 1px solid #e9ecef;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .data-title {
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
-        }
-        
-        th, td {
-            padding: 8px 12px;
-            text-align: left;
-            border: 1px solid #dee2e6;
-        }
-        
-        th {
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #495057;
-        }
-        
-        .highlight {
-            background: #e3f2fd;
-        }
-        
-        .vector-box {
-            background: #f0f8ff;
-            border: 2px solid #3498db;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-        }
-        
-        .matrix-box {
-            background: #fef9e7;
-            border: 2px solid #f39c12;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-        }
-        
-        .arrow {
-            font-size: 2em;
-            text-align: center;
-            margin: 20px 0;
-            color: #e67e22;
-        }
-        
-        .alignment-demo {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid #e9ecef;
-        }
-        
-        .date-column {
-            background: #fff3cd;
-            font-weight: bold;
-        }
-        
-        .missing-data {
-            background: #f8d7da;
-            color: #721c24;
-            font-weight: bold;
-        }
-        
-        .ignored-stock {
-            opacity: 0.4;
-            text-decoration: line-through;
-        }
-        
-        .flow-arrow {
-            display: inline-block;
-            margin: 0 10px;
-            font-size: 1.5em;
-            color: #feca57;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Pandas Operations Usage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 2rem;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 2px solid #ccc;
+    }
+    h2 {
+      color: #2a6592;
+      margin-top: 2rem;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      background: #fff;
+      border: 1px solid #ddd;
+      margin: 0.5rem 0;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+    }
+    code {
+      background-color: #eee;
+      padding: 2px 4px;
+      font-family: monospace;
+    }
+    strong {
+      color: #444;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📊 Vector-First Matrix Construction</h1>
-        <p class="subtitle">How benchmark vectors establish the "master calendar" for perfect alignment</p>
-        
-        <!-- Step 1: Input Data -->
-        <div class="step">
-            <div class="step-title">Step 1: Raw Input Data</div>
-            <div class="data-container">
-                <div class="data-box">
-                    <div class="data-title">📈 data_bench (SPY benchmark)</div>
-                    <table>
-                        <tr><th>Date</th><th>spytr</th></tr>
-                        <tr><td>2024-01-01</td><td>0.012</td></tr>
-                        <tr><td>2024-01-02</td><td>-0.008</td></tr>
-                        <tr><td>...</td><td>...</td></tr>
-                        <tr class="highlight"><td>2024-01-08</td><td>0.007</td></tr>
-                        <tr class="highlight"><td>2024-01-09</td><td>0.021</td></tr>
-                        <tr class="highlight"><td>2024-01-10</td><td>-0.005</td></tr>
-                        <tr class="highlight"><td>...</td><td>...</td></tr>
-                        <tr class="highlight"><td>2024-01-22</td><td>0.011</td></tr>
-                    </table>
-                    <p><small>📅 15 total dates, need last 10 for lookback</small></p>
-                </div>
-                
-                <div class="data-box">
-                    <div class="data-title">📊 data_tr (Stock returns - 5 stocks)</div>
-                    <table>
-                        <tr><th>Date</th><th>gvkey</th><th>tr</th></tr>
-                        <tr><td>2024-01-08</td><td>001001</td><td>0.015</td></tr>
-                        <tr><td>2024-01-08</td><td>001002</td><td>0.009</td></tr>
-                        <tr><td>2024-01-08</td><td>001003</td><td>0.021</td></tr>
-                        <tr class="ignored-stock"><td>2024-01-08</td><td>001004</td><td>0.031</td></tr>
-                        <tr class="ignored-stock"><td>2024-01-08</td><td>001005</td><td>0.041</td></tr>
-                        <tr><td>...</td><td>...</td><td>...</td></tr>
-                    </table>
-                    <p><small>🔍 Thousands of rows, 5 stocks in example</small></p>
-                </div>
-                
-                <div class="data-box">
-                    <div class="data-title">🎯 baseline (Universe filter)</div>
-                    <table>
-                        <tr><th>gvkey</th><th>wgt</th></tr>
-                        <tr><td>001001</td><td>0.40</td></tr>
-                        <tr><td>001002</td><td>0.35</td></tr>
-                        <tr><td>001003</td><td>0.25</td></tr>
-                    </table>
-                    <p><small>⚡ Only 3 stocks selected from data_tr</small></p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Step 2: Vector Construction -->
-        <div class="step">
-            <div class="step-title">Step 2: Build Benchmark Vector FIRST (Establishes Master Calendar)</div>
-            
-            <div class="vector-box">
-                <h3>🎯 Benchmark Vector Construction</h3>
-                <p><strong>Input:</strong> data_bench, rebal_date=2024-01-22, lookback_days=10</p>
-                
-                <div style="margin: 20px 0;">
-                    <code>lookback_dates = last 10 trading days before 2024-01-22</code>
-                    <div class="flow-arrow">↓</div>
-                    <table style="margin: 10px 0;">
-                        <tr class="date-column">
-                            <th>Index</th><th>Date</th><th>SPY Return</th>
-                        </tr>
-                        <tr><td>[0]</td><td>2024-01-08</td><td>0.007</td></tr>
-                        <tr><td>[1]</td><td>2024-01-09</td><td>0.021</td></tr>
-                        <tr><td>[2]</td><td>2024-01-10</td><td>-0.005</td></tr>
-                        <tr><td>[3]</td><td>2024-01-11</td><td>0.009</td></tr>
-                        <tr><td>[4]</td><td>2024-01-12</td><td>0.018</td></tr>
-                        <tr><td>[5]</td><td>2024-01-16</td><td>-0.003</td></tr>
-                        <tr><td>[6]</td><td>2024-01-17</td><td>0.014</td></tr>
-                        <tr><td>[7]</td><td>2024-01-18</td><td>-0.009</td></tr>
-                        <tr><td>[8]</td><td>2024-01-19</td><td>0.006</td></tr>
-                        <tr><td>[9]</td><td>2024-01-22</td><td>0.011</td></tr>
-                    </table>
-                </div>
-                
-                <p><strong>✨ Output:</strong></p>
-                <p><code>RetBM_vector = [0.007, 0.021, -0.005, 0.009, 0.018, -0.003, 0.014, -0.009, 0.006, 0.011]</code></p>
-                <p><code>lookback_dates = ['2024-01-08', '2024-01-09', ..., '2024-01-22']</code></p>
-            </div>
-        </div>
-        
-        <div class="arrow">⬇️ CRITICAL: Vector establishes the "Master Calendar"</div>
-        
-        <!-- Step 3: Matrix Construction -->
-        <div class="step">
-            <div class="step-title">Step 3: Build Stock Matrix Using Same Dates (Forced Alignment)</div>
-            
-            <div class="matrix-box">
-                <h3>📊 Stock Return Matrix Construction</h3>
-                <p><strong>Input:</strong> data_tr, baseline, required_dates (from vector!)</p>
-                
-                <div style="margin: 20px 0;">
-                    <p><strong>1. Filter universe:</strong> baseline selects only 3 stocks from 5 available</p>
-                    <p><strong>2. Initialize matrix:</strong> (10 dates × 3 stocks) filled with zeros</p>
-                    <p><strong>3. Fill column by column using EXACT same dates:</strong></p>
-                    
-                    <table style="margin: 20px 0;">
-                        <tr class="date-column">
-                            <th>Date</th><th>001001 (AAPL)</th><th>001002 (MSFT)</th><th>001003 (GOOGL)</th>
-                        </tr>
-                        <tr><td>2024-01-08</td><td>0.015</td><td>0.009</td><td>0.021</td></tr>
-                        <tr><td>2024-01-09</td><td>-0.012</td><td>0.018</td><td>0.005</td></tr>
-                        <tr><td>2024-01-10</td><td>0.008</td><td>-0.003</td><td class="missing-data">0.000</td></tr>
-                        <tr><td>2024-01-11</td><td>0.022</td><td>0.014</td><td>0.017</td></tr>
-                        <tr><td>2024-01-12</td><td>-0.007</td><td>0.025</td><td>-0.011</td></tr>
-                        <tr><td>2024-01-16</td><td>0.011</td><td>-0.008</td><td>0.009</td></tr>
-                        <tr><td>2024-01-17</td><td>0.019</td><td>0.012</td><td>0.023</td></tr>
-                        <tr><td>2024-01-18</td><td>-0.004</td><td>0.007</td><td class="missing-data">0.000</td></tr>
-                        <tr><td>2024-01-19</td><td>0.013</td><td>-0.002</td><td>0.004</td></tr>
-                        <tr><td>2024-01-22</td><td>0.006</td><td>0.016</td><td>0.012</td></tr>
-                    </table>
-                </div>
-                
-                <p><strong>🔴 Key Observations:</strong></p>
-                <ul>
-                    <li>TSLA (001004) & NVDA (001005) completely ignored despite having data</li>
-                    <li>GOOGL missing on 2024-01-10 & 2024-01-18 → filled with 0.000</li>
-                    <li>Matrix shape: (10, 3) not (10, 5)</li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Step 4: Perfect Alignment -->
-        <div class="step">
-            <div class="step-title">Step 4: Perfect Date Alignment for Optimization</div>
-            
-            <div class="alignment-demo">
-                <h3>🎯 Ready for Optimization Problem</h3>
-                
-                <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 200px;">
-                        <h4>Benchmark Vector (10,)</h4>
-                        <div style="background: rgba(78, 205, 196, 0.3); padding: 15px; border-radius: 8px;">
-                            <div>[0] → 0.007</div>
-                            <div>[1] → 0.021</div>
-                            <div>[2] → -0.005</div>
-                            <div>...</div>
-                            <div>[9] → 0.011</div>
-                        </div>
-                    </div>
-                    
-                    <div style="font-size: 2em; color: #feca57;">×</div>
-                    
-                    <div style="flex: 1; min-width: 200px;">
-                        <h4>Stock Matrix (10, 3)</h4>
-                        <div style="background: rgba(255, 107, 107, 0.3); padding: 15px; border-radius: 8px;">
-                            <div>Row [0] → [0.015, 0.009, 0.021]</div>
-                            <div>Row [1] → [-0.012, 0.018, 0.005]</div>
-                            <div>Row [2] → [0.008, -0.003, 0.000]</div>
-                            <div>...</div>
-                            <div>Row [9] → [0.006, 0.016, 0.012]</div>
-                        </div>
-                    </div>
-                    
-                    <div style="font-size: 2em; color: #feca57;">@</div>
-                    
-                    <div style="flex: 1; min-width: 150px;">
-                        <h4>Weights (3,)</h4>
-                        <div style="background: rgba(254, 202, 87, 0.3); padding: 15px; border-radius: 8px;">
-                            <div>w₁</div>
-                            <div>w₂</div>
-                            <div>w₃</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin: 30px 0;">
-                    <div style="font-size: 1.5em; background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 12px;">
-                        <strong>Optimization:</strong><br>
-                        minimize ||Matrix @ weights - benchmark_vector||²<br><br>
-                        <span style="color: #4ecdc4;">✅ Perfect alignment: both have same 10 dates in same order</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Why This Matters -->
-        <div class="step">
-            <div class="step-title">💡 Why "Vector-First" is Critical</div>
-            
-            <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 12px;">
-                <h3>🚨 Without Vector-First Approach:</h3>
-                <ul style="margin: 15px 0;">
-                    <li>Matrix might have dates: [Mon, Tue, Thu, Fri] (missing Wed)</li>
-                    <li>Vector might have dates: [Mon, Tue, Wed, Thu, Fri]</li>
-                    <li>❌ <strong>MISALIGNED OPTIMIZATION PROBLEM!</strong></li>
-                </ul>
-                
-                <h3>✅ With Vector-First Approach:</h3>
-                <ul style="margin: 15px 0;">
-                    <li>Vector establishes "master calendar": [Mon, Tue, Wed, Thu, Fri]</li>
-                    <li>Matrix FORCED to use same dates: [Mon, Tue, Wed, Thu, Fri]</li>
-                    <li>Missing stock data → fill with zeros</li>
-                    <li>✅ <strong>PERFECT ALIGNMENT GUARANTEED!</strong></li>
-                </ul>
-                
-                <div style="background: rgba(78, 205, 196, 0.2); padding: 15px; border-radius: 8px; margin-top: 20px;">
-                    <strong>🎯 The Result:</strong> Every position in the benchmark vector corresponds exactly to the same date in the matrix rows, enabling robust optimization across changing stock universes and missing data.
-                </div>
-            </div>
-        </div>
-    </div>
+  <h1>Unique Pandas Operations with Code Usage</h1>
+
+  <h2>abs</h2>
+  <ul>
+    <li><strong>data_integration.py:69</strong> — <code>diff = (orig - out['wgt_capped']).abs()</code></li>
+    <li><strong>data_integration.py:189</strong> — <code>result  = (merged_df['reldiff'].abs() > threshold).sum()</code></li>
+  </ul>
+
+  <h2>any</h2>
+  <ul>
+    <li><strong>data_integration.py:54</strong> — <code>if not uncapped.any():</code></li>
+    <li><strong>data_integration.py:68</strong> — <code>if (orig > cap).any():</code></li>
+  </ul>
+
+  <h2>astype</h2>
+  <ul>
+    <li><strong>load_data.py:46</strong> — <code>df['rating'] = df['rating'].astype(str)</code></li>
+  </ul>
+
+  <h2>copy</h2>
+  <ul>
+    <li><strong>load_data.py:17</strong> — <code>df = df.copy()</code></li>
+    <li><strong>load_data.py:32</strong> — <code>df = df.copy()</code></li>
+    <li><strong>load_data.py:49</strong> — <code>df = df.copy()</code></li>
+  </ul>
+
+  <h2>dropna</h2>
+  <ul>
+    <li><strong>performance.py:106</strong> — <code>results_df = results_df.dropna(subset=["ret", "bench"])</code></li>
+    <li><strong>performance.py:109</strong> — <code>df = df.dropna(subset=["ret", "bench"])</code></li>
+    <li><strong>performance.py:112</strong> — <code>merged = merged.dropna()</code></li>
+  </ul>
+
+  <h2>fillna</h2>
+  <ul>
+    <li><strong>performance.py:117</strong> — <code>merged.fillna(0, inplace=True)</code></li>
+  </ul>
+
+  <h2>groupby</h2>
+  <ul>
+    <li><strong>constraints.py:10</strong> — <code>total_sector_weight = {sector: group['wgt'].sum() for sector, group in baseline.groupby('sector')}</code></li>
+    <li><strong>constraints.py:140</strong> — <code>for sector, group in baseline.groupby('sector'):</code></li>
+    <li><strong>data_integration.py:79</strong> — <code>df['current_sec_total'] = df.groupby('sector')['wgt'].transform('sum')</code></li>
+    <li><strong>data_integration.py:85</strong> — <code>df = (df.groupby('sector', group_keys=False).apply(lambda g: cap_and_redistribute(g, cap))).reset_index(drop=True)</code></li>
+    <li><strong>data_integration.py:107</strong> — <code>last_days = rebal_month_data.groupby(['year', 'month'])['date'].max().reset_index()</code></li>
+    <li><strong>performance.py:129</strong> — <code>total_sector_weight = {sector: group['wgt_sol'].sum() for sector, group in results_df.groupby('sector')}</code></li>
+    <li><strong>post_processing.py:8</strong> — <code>for _, group in df.groupby('date'):</code></li>
+    <li><strong>post_processing.py:68</strong> — <code>for date, group in df1.groupby('date'):</code></li>
+  </ul>
+
+  <h2>isin</h2>
+  <ul>
+    <li><strong>constraints.py:134</strong> — <code>mask = df['sector'].isin(sector_limits.keys())</code></li>
+  </ul>
+
+  <h2>join</h2>
+  <ul>
+    <li><strong>load_data.py:9</strong> — <code>df = df.join(meta, how="left")</code></li>
+    <li><strong>load_data.py:24</strong> — <code>df = df.join(meta, how="left")</code></li>
+    <li><strong>load_data.py:39</strong> — <code>df = df.join(meta, how="left")</code></li>
+    <li><strong>load_data.py:56</strong> — <code>df = df.join(meta, how="left")</code></li>
+  </ul>
+
+  <h2>merge</h2>
+  <ul>
+    <li><strong>data_integration.py:186</strong> — <code>merged_df = df1.merge(df2, on='date', how='inner')</code></li>
+    <li><strong>objective_function.py:45</strong> — <code>final = pd.merge(base, overlay, on="id")</code></li>
+  </ul>
+
+  <h2>read_csv</h2>
+  <ul>
+    <li><strong>load_data.py:8</strong> — <code>df = pd.read_csv(fund_file)</code></li>
+    <li><strong>load_data.py:23</strong> — <code>df = pd.read_csv(bm_file)</code></li>
+    <li><strong>load_data.py:38</strong> — <code>df = pd.read_csv(sec_file)</code></li>
+    <li><strong>load_data.py:55</strong> — <code>df = pd.read_csv(ind_file)</code></li>
+  </ul>
+
+  <h2>set_index</h2>
+  <ul>
+    <li><strong>matrix_vector.py:38</strong> — <code>df = df.set_index("id")</code></li>
+    <li><strong>matrix_vector.py:85</strong> — <code>df = df.set_index("id")</code></li>
+  </ul>
+
+  <h2>sort_index</h2>
+  <ul>
+    <li><strong>matrix_vector.py:38</strong> — <code>df.sort_index(inplace=True)</code></li>
+    <li><strong>matrix_vector.py:85</strong> — <code>df.sort_index(inplace=True)</code></li>
+  </ul>
+
+  <h2>sort_values</h2>
+  <ul>
+    <li><strong>matrix_vector.py:22</strong> — <code>df.sort_values(by="wgt", inplace=True)</code></li>
+  </ul>
+
+  <h2>sum</h2>
+  <ul>
+    <li><strong>turnover.py:23</strong> — <code>turnover = np.sum(np.abs(vector))</code></li>
+  </ul>
+
+  <h2>to_datetime</h2>
+  <ul>
+    <li><strong>load_data.py:16</strong> — <code>df['date'] = pd.to_datetime(df['date'])</code></li>
+    <li><strong>load_data.py:31</strong> — <code>df['date'] = pd.to_datetime(df['date'])</code></li>
+    <li><strong>load_data.py:48</strong> — <code>df['date'] = pd.to_datetime(df['date'])</code></li>
+  </ul>
+
+  <h2>transform</h2>
+  <ul>
+    <li><strong>data_integration.py:79</strong> — <code>df['current_sec_total'] = df.groupby('sector')['wgt'].transform('sum')</code></li>
+  </ul>
+
 </body>
 </html>
