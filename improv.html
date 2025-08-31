@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Function Evolution - Pre-LLM Development Progression</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8fafc;
+        }
+        
+        h1 {
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+        
+        .version-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            margin-bottom: 25px;
+            overflow: hidden;
+            border-left: 5px solid #3b82f6;
+        }
+        
+        .version-header {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 16px 24px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .version-number {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .code-container {
+            padding: 0;
+        }
+        
+        pre {
+            margin: 0;
+            padding: 24px;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        .comment {
+            color: #94a3b8;
+        }
+        
+        .keyword {
+            color: #f59e0b;
+        }
+        
+        .string {
+            color: #10b981;
+        }
+        
+        .function {
+            color: #60a5fa;
+        }
+        
+        .change-highlight {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            margin: 8px 0;
+            padding-left: 12px;
+        }
+        
+        .progression-note {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+            color: #475569;
+            font-style: italic;
+        }
+        
+        .summary {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+        
+        .summary h2 {
+            color: #1e293b;
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+        
+        .evolution-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .step {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .step-desc {
+            color: #64748b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Filter Function Evolution: Pre-LLM Development Progression</h1>
+    
+    <div class="progression-note">
+        <strong>Pre-LLM Development Reality:</strong> In the pre-LLM era, this optimization journey would have spanned weeks or months, with each version requiring research on Stack Overflow, documentation reading, benchmarking, and repeated typing of patterns until they became muscle memory.
+    </div>
+
+    <div class="version-container">
+        <div class="version-header">
+            <span>V1: Basic Implementation</span>
+            <span class="version-number">Baseline</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">filter_v1</span>(options, dict_options):
+    <span class="string">"""Basic options data filtering - Initial implementation."""</span>
+    <span class="comment"># Collect all unique symbols from position tracking dictionaries</span>
+    all_syms = <span class="function">set</span>()
+    <span class="keyword">for</span> dataframe <span class="keyword">in</span> dict_options.<span class="function">values</span>():
+        all_syms.<span class="function">update</span>(dataframe[<span class="string">'sym'</span>].<span class="function">tolist</span>())
+
+    <span class="comment"># Filter options dataset to include only traded symbols</span>
+    filtered_options = options[options[<span class="string">'symbol'</span>].<span class="function">isin</span>(all_syms)]
+
+    <span class="keyword">return</span> filtered_options</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container">
+        <div class="version-header">
+            <span>V2: Memory Optimization</span>
+            <span class="version-number">60-80% Memory Reduction</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">filter_v2</span>(options, dict_options):
+    <span class="string">"""Memory-optimized filtering - Column selection improvement."""</span>
+    <span class="comment"># Collect all unique symbols from position tracking dictionaries</span>
+    all_syms = <span class="function">set</span>()
+    <span class="keyword">for</span> dataframe <span class="keyword">in</span> dict_options.<span class="function">values</span>():
+        all_syms.<span class="function">update</span>(dataframe[<span class="string">'sym'</span>].<span class="function">tolist</span>())
+
+    <div class="change-highlight"><span class="comment"># Select only essential columns to reduce memory usage</span>
+    cols = [<span class="string">'date'</span>, <span class="string">'symbol'</span>, <span class="string">'bid'</span>, <span class="string">'ask'</span>, <span class="string">'mid'</span>, <span class="string">'delta'</span>, <span class="string">'theta'</span>, <span class="string">'vega'</span>]
+    _options = options[cols]</div>
+
+    <span class="comment"># Filter optimized dataset to include only traded symbols</span>
+    filtered_options = _options[_options[<span class="string">'symbol'</span>].<span class="function">isin</span>(all_syms)]
+
+    <span class="keyword">return</span> filtered_options</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container">
+        <div class="version-header">
+            <span>V3: Data Quality</span>
+            <span class="version-number">NaN Handling</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">filter_v3</span>(options, dict_options):
+    <span class="string">"""Data quality improvement - NaN handling optimization."""</span>
+    <span class="comment"># Collect all unique symbols from position tracking dictionaries</span>
+    all_syms = <span class="function">set</span>()
+    <span class="keyword">for</span> dataframe <span class="keyword">in</span> dict_options.<span class="function">values</span>():
+        all_syms.<span class="function">update</span>(dataframe[<span class="string">'sym'</span>].<span class="function">tolist</span>())
+
+    <div class="change-highlight"><span class="comment"># Filter out NaN symbols to ensure data quality</span>
+    all_syms = [sym <span class="keyword">for</span> sym <span class="keyword">in</span> all_syms <span class="keyword">if</span> pd.<span class="function">notna</span>(sym)]</div>
+
+    <span class="comment"># Select essential columns for memory optimization</span>
+    cols = [<span class="string">'date'</span>, <span class="string">'symbol'</span>, <span class="string">'bid'</span>, <span class="string">'ask'</span>, <span class="string">'mid'</span>, <span class="string">'delta'</span>, <span class="string">'theta'</span>, <span class="string">'vega'</span>]
+    _options = options[cols]
+
+    <span class="comment"># Filter dataset with validated symbol list</span>
+    filtered_options = _options[_options[<span class="string">'symbol'</span>].<span class="function">isin</span>(all_syms)]
+
+    <span class="keyword">return</span> filtered_options</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container">
+        <div class="version-header">
+            <span>V3.1: Vectorized Collection</span>
+            <span class="version-number">Generator Expressions</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">filter_v3_1</span>(options, dict_options):
+    <span class="string">"""Vectorized symbol collection - Replaces explicit loop with generator expression."""</span>
+    <div class="change-highlight"><span class="comment"># Vectorized symbol collection using generator and set union</span>
+    all_syms = <span class="function">list</span>(<span class="function">set</span>().<span class="function">union</span>(*(<span class="function">df</span>[<span class="string">'sym'</span>].<span class="function">unique</span>() <span class="keyword">for</span> df <span class="keyword">in</span> dict_options.<span class="function">values</span>())))</div>
+
+    <span class="comment"># Filter out NaN symbols to ensure data quality</span>
+    all_syms = [sym <span class="keyword">for</span> sym <span class="keyword">in</span> all_syms <span class="keyword">if</span> pd.<span class="function">notna</span>(sym)]
+
+    <span class="comment"># Select essential columns for memory optimization</span>
+    cols = [<span class="string">'date'</span>, <span class="string">'symbol'</span>, <span class="string">'bid'</span>, <span class="string">'ask'</span>, <span class="string">'mid'</span>, <span class="string">'delta'</span>, <span class="string">'theta'</span>, <span class="string">'vega'</span>]
+    _options = options[cols]
+
+    <span class="comment"># Filter dataset with validated symbol list</span>
+    filtered_options = _options[_options[<span class="string">'symbol'</span>].<span class="function">isin</span>(all_syms)]
+
+    <span class="keyword">return</span> filtered_options</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container">
+        <div class="version-header">
+            <span>V3.2: Categorical Optimization</span>
+            <span class="version-number">Memory Efficiency</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">filter_v3_2</span>(options, dict_options):
+    <span class="string">"""Categorical data optimization - Memory efficiency through pandas categorical types."""</span>
+    <span class="comment"># Vectorized symbol collection using generator and set union</span>
+    all_syms = <span class="function">list</span>(<span class="function">set</span>().<span class="function">union</span>(*(<span class="function">df</span>[<span class="string">'sym'</span>].<span class="function">unique</span>() <span class="keyword">for</span> df <span class="keyword">in</span> dict_options.<span class="function">values</span>())))</span>
+
+    <span class="comment"># Filter out NaN symbols to ensure data quality</span>
+    all_syms = [sym <span class="keyword">for</span> sym <span class="keyword">in</span> all_syms <span class="keyword">if</span> pd.<span class="function">notna</span>(sym)]
+
+    <div class="change-highlight"><span class="comment"># Convert to categorical for memory efficiency and faster operations</span>
+    all_syms = pd.<span class="function">Categorical</span>(all_syms)</div>
+
+    <span class="comment"># Select essential columns for memory optimization</span>
+    cols = [<span class="string">'date'</span>, <span class="string">'symbol'</span>, <span class="string">'bid'</span>, <span class="string">'ask'</span>, <span class="string">'mid'</span>, <span class="string">'delta'</span>, <span class="string">'theta'</span>, <span class="string">'vega'</span>]
+    _options = options[cols]
+
+    <span class="comment"># Filter dataset with validated symbol list</span>
+    filtered_options = _options[_options[<span class="string">'symbol'</span>].<span class="function">isin</span>(all_syms)]
+
+    <span class="keyword">return</span> filtered_options</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container">
+        <div class="version-header">
+            <span>V3.3: Merge Operations</span>
+            <span class="version-number">Algorithm Optimization</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">filter_v3_3</span>(options, dict_options):
+    <span class="string">"""Merge-based filtering - Switches from isin() to merge operations for better performance."""</span>
+    <span class="comment"># Vectorized symbol collection using generator and set union</span>
+    all_syms = <span class="function">list</span>(<span class="function">set</span>().<span class="function">union</span>(*(<span class="function">df</span>[<span class="string">'sym'</span>].<span class="function">unique</span>() <span class="keyword">for</span> df <span class="keyword">in</span> dict_options.<span class="function">values</span>())))</span>
+
+    <span class="comment"># Filter out NaN symbols to ensure data quality</span>
+    all_syms = [sym <span class="keyword">for</span> sym <span class="keyword">in</span> all_syms <span class="keyword">if</span> pd.<span class="function">notna</span>(sym)]
+
+    <span class="comment"># Convert to categorical for memory efficiency and faster operations</span>
+    all_syms = pd.<span class="function">Categorical</span>(all_syms)
+
+    <div class="change-highlight"><span class="comment"># Create symbol DataFrame for efficient merge operation</span>
+    all_syms_df = pd.<span class="function">DataFrame</span>({<span class="string">'symbol'</span>: all_syms})</div>
+
+    <span class="comment"># Select essential columns for memory optimization</span>
+    cols = [<span class="string">'date'</span>, <span class="string">'symbol'</span>, <span class="string">'bid'</span>, <span class="string">'ask'</span>, <span class="string">'mid'</span>, <span class="string">'delta'</span>, <span class="string">'theta'</span>, <span class="string">'vega'</span>]
+    _options = options[cols]
+
+    <div class="change-highlight"><span class="comment"># Use inner merge for optimal filtering performance</span>
+    filtered_options = _options.<span class="function">merge</span>(all_syms_df, on=<span class="string">'symbol'</span>, how=<span class="string">'inner'</span>)</div>
+
+    <span class="keyword">return</span> filtered_options</code></pre>
+        </div>
+    </div>
+
+    <div class="version-container">
+        <div class="version-header">
+            <span>V4: Enhanced Configuration</span>
+            <span class="version-number">Production Ready</span>
+        </div>
+        <div class="code-container">
+            <pre><code><span class="keyword">def</span> <span class="function">filter_v4</span>(options, dict_options, <div class="change-highlight">cols = [<span class="string">'date'</span>, <span class="string">'symbol'</span>, <span class="string">'bid'</span>, <span class="string">'ask'</span>, <span class="string">'mid'</span>, <span class="string">'delta'</span>, <span class="string">'spread'</span>, <span class="string">'gamma'</span>, <span class="string">'theta'</span>, <span class="string">'vega'</span>]</div>):
+    <span class="string">"""Enhanced configuration - Configurable columns and production-ready optimization."""</span>
+    <span class="comment"># Vectorized symbol collection using generator and set union</span>
+    all_syms = <span class="function">list</span>(<span class="function">set</span>().<span class="function">union</span>(*(<span class="function">df</span>[<span class="string">'sym'</span>].<span class="function">unique</span>() <span class="keyword">for</span> df <span class="keyword">in</span> dict_options.<span class="function">values</span>())))</span>
+
+    <span class="comment"># Remove NaN values for data quality</span>
+    all_syms = [sym <span class="keyword">for</span> sym <span class="keyword">in</span> all_syms <span class="keyword">if</span> pd.<span class="function">notna</span>(sym)]
+
+    <span class="comment"># Convert to categorical for memory efficiency and faster operations</span>
+    all_syms = pd.<span class="function">Categorical</span>(all_syms)
+
+    <span class="comment"># Create symbol DataFrame for efficient merge operation</span>
+    all_syms_df = pd.<span class="function">DataFrame</span>({<span class="string">'symbol'</span>: all_syms})
+
+    <div class="change-highlight"><span class="comment"># Select comprehensive column set including spread data</span>
+    _options = options[cols]</div>
+
+    <span class="comment"># Use inner merge for optimal filtering performance</span>
+    filtered_options = _options.<span class="function">merge</span>(all_syms_df, on=<span class="string">'symbol'</span>, how=<span class="string">'inner'</span>)
+
+    <span class="keyword">return</span> filtered_options</code></pre>
+        </div>
+    </div>
+
+    <div class="summary">
+        <h2>Pre-LLM Development Reality</h2>
+        <p>In the pre-LLM era, this progression would have required extensive hands-on research and typing. Each optimization would have involved:</p>
+        
+        <div class="evolution-steps">
+            <div class="step">
+                <div class="step-title">Stack Overflow Research</div>
+                <div class="step-desc">Searching for "pandas memory optimization", "set.union() performance", "categorical data types"</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Documentation Reading</div>
+                <div class="step-desc">Deep diving into pandas docs, understanding merge vs isin() trade-offs</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Repeated Typing</div>
+                <div class="step-desc">Typing patterns like "pd.Categorical()", "df.merge()" dozens of times until automatic</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Benchmarking</div>
+                <div class="step-desc">Testing performance improvements, measuring memory usage, validating optimizations</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Debugging</div>
+                <div class="step-desc">Fixing merge column issues, handling edge cases, troubleshooting data types</div>
+            </div>
+            <div class="step">
+                <div class="step-title">Muscle Memory</div>
+                <div class="step-desc">Building automatic recall of patterns through repetitive use in real projects</div>
+            </div>
+        </div>
+
+        <p><strong>Timeline:</strong> This evolution would have taken weeks or months, with each technique learned through trial and error. By the end, patterns like <code>groupby().idxmax()</code>, <code>pd.Categorical()</code>, and <code>df.merge()</code> would be completely automatic - exactly what interviews test for today.</p>
+        
+        <p><strong>Interview Preparation:</strong> To build this same muscle memory now, focus on repeatedly typing these core patterns without LLM assistance until they become automatic responses to common data manipulation problems.</p>
+    </div>
+</body>
+</html>
