@@ -197,22 +197,6 @@
         <div class="section">
             <h2>Architecture</h2>
 
-            <h3>Multi-DataFrame Coordination System</h3>
-            <div class="code-block">
-<pre><code># Elegant dictionary-of-DataFrames pattern
-dict_options = {}
-for o in dict_opt_specs.keys():
-    opt = df[underlying].to_frame().loc[first_date:last_date].copy()
-    opt = opt.merge(df[[underlying + 'tr']], left_index=True, right_index=True, how='left')
-    dict_options[o] = opt
-</code></pre>
-            </div>
-
-            <div class="analysis-box">
-                <div class="analysis-title">Analysis:</div>
-                This creates a coordinated system where each option leg has its own DataFrame but shares a common time index. The <span class="inline-code">.copy()</span> ensures data isolation while maintaining referential integrity.
-            </div>
-
             <h3>Advanced Merging Strategies</h3>
 
             <h4>1. Self-Joining with Temporal Shifts</h4>
