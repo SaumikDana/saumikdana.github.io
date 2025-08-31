@@ -434,27 +434,12 @@ from src.config_entry_on_sig import simulate_single</code></pre>
                     </div>
                 </div>
                 
-                <div class="code-showcase">
-                    <pre><code><span class="code-highlight"># Performance Evolution Examples</span>
 
-<span class="code-highlight"># v1: Basic Implementation</span>
-<span class="method-highlight">def</span> filter_v1(options, dict_options):
-    all_syms = set()
-    for dataframe in dict_options.values():
-        all_syms.update(dataframe['sym'].tolist())
-    return options[options['symbol'].isin(all_syms)]
-
-<span class="code-highlight"># v4: Optimized Implementation (60-80% memory reduction)</span>
-<span class="method-highlight">def</span> filter_v4(options, dict_options):
-    <span class="code-highlight"># Vectorized symbol collection</span>
-    all_syms = list(set().union(*(df['sym'].unique() for df in dict_options.values())))
-    all_syms = pd.Categorical([s for s in all_syms if pd.notna(s)])
-    
-    <span class="code-highlight"># Memory-efficient merge operation</span>
-    cols = ['date', 'symbol', 'bid', 'ask', 'mid', 'delta', 'spread']
-    return options[cols].merge(pd.DataFrame({'symbol': all_syms}), on='symbol', how='inner')</code></pre>
-                </div>
-            </div>
+    <nav>
+    <a href="improv.html" class="tablinks">Processing</a>
+    <a href="improv_lookup.html" class="tablinks">Lookup</a>
+    </nav>
+                
 
             <div class="section">
                 <h2 class="section-title">
