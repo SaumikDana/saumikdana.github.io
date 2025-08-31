@@ -189,41 +189,50 @@
         }
     </style>
 </head>
+
+
 <body>
     <div class="container">
 
         <div class="section">
             <h2>Architecture</h2>
-            
+
             <h3>Multi-DataFrame Coordination System</h3>
-            <div class="code-block"># Elegant dictionary-of-DataFrames pattern
+            <div class="code-block">
+<pre><code># Elegant dictionary-of-DataFrames pattern
 dict_options = {}
 for o in dict_opt_specs.keys():
     opt = df[underlying].to_frame().loc[first_date:last_date].copy()
     opt = opt.merge(df[[underlying + 'tr']], left_index=True, right_index=True, how='left')
-    dict_options[o] = opt</div>
-            
+    dict_options[o] = opt
+</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Analysis:</div>
                 This creates a coordinated system where each option leg has its own DataFrame but shares a common time index. The <span class="inline-code">.copy()</span> ensures data isolation while maintaining referential integrity.
             </div>
 
             <h3>Advanced Merging Strategies</h3>
-            
+
             <h4>1. Self-Joining with Temporal Shifts</h4>
-            <div class="code-block">opt['new_sym'] = opt['sym'].shift(-1)
-opt = merge_with_chain(opt, options, 'new_sym')</div>
-            
+            <div class="code-block">
+<pre><code>opt['new_sym'] = opt['sym'].shift(-1)
+opt = merge_with_chain(opt, options, 'new_sym')</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Pandas:</div>
                 Uses <span class="inline-code">shift(-1)</span> to create forward-looking contract mappings, then merges with options chain data to get "next contract" pricing. This handles expiration rollovers elegantly.
             </div>
 
             <h4>2. Multi-Column Merge with Column Standardization</h4>
-            <div class="code-block">old_cols = ['bid_x', 'bid_y', 'ask_x', 'ask_y', 'delta_x', 'delta_y']
+            <div class="code-block">
+<pre><code>old_cols = ['bid_x', 'bid_y', 'ask_x', 'ask_y', 'delta_x', 'delta_y']
 new_cols = ['bid', 'new_bid', 'ask', 'new_ask', 'delta', 'new_delta']
-opt.rename(columns=dict(zip(old_cols, new_cols)), inplace=True)</div>
-            
+opt.rename(columns=dict(zip(old_cols, new_cols)), inplace=True)</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Pandas :</div>
                 After multiple merges create suffix columns, systematically renames them to meaningful business names. Shows understanding of merge mechanics and data clarity.
@@ -236,7 +245,9 @@ opt.rename(columns=dict(zip(old_cols, new_cols)), inplace=True)</div>
             <div class="pattern-grid">
                 <div class="pattern-card">
                     <div class="pattern-title">1. DateTime Arithmetic for Financial Calculations</div>
-                    <div class="code-block">opt.loc[mask_for_dte_compute, 'dte'] = (opt['exd'] - opt.index).dt.days</div>
+                    <div class="code-block">
+<pre><code>opt.loc[mask_for_dte_compute, 'dte'] = (opt['exd'] - opt.index).dt.days</code></pre>
+                    </div>
                     <div class="analysis-box">
                         <div class="analysis-title">Sophisticated Usage:</div>
                         <ul>
@@ -249,8 +260,10 @@ opt.rename(columns=dict(zip(old_cols, new_cols)), inplace=True)</div>
 
                 <div class="pattern-card">
                     <div class="pattern-title">2. Forward-Fill for Position Continuity</div>
-                    <div class="code-block">opt['qty'] = opt['qty'].ffill().fillna(0)
-opt = opt.ffill()  # Forward-fill all position data</div>
+                    <div class="code-block">
+<pre><code>opt['qty'] = opt['qty'].ffill().fillna(0)
+opt = opt.ffill()  # Forward-fill all position data</code></pre>
+                    </div>
                     <div class="analysis-box">
                         <div class="analysis-title">Financial Domain Expertise:</div>
                         Understands that position quantities must persist until explicitly changed. The two-stage approach (first quantities, then all data) shows nuanced understanding of position lifecycle.
@@ -259,7 +272,9 @@ opt = opt.ffill()  # Forward-fill all position data</div>
 
                 <div class="pattern-card">
                     <div class="pattern-title">3. Index-Based Time Filtering</div>
-                    <div class="code-block">opt = opt[~opt.index.isin(list_holidays)]</div>
+                    <div class="code-block">
+<pre><code>opt = opt[~opt.index.isin(list_holidays)]</code></pre>
+                    </div>
                     <div class="analysis-box">
                         <div class="analysis-title">Pandas Proficiency:</div>
                         Clean, vectorized approach to exclude holiday dates using boolean indexing on the index itself.
@@ -272,9 +287,11 @@ opt = opt.ffill()  # Forward-fill all position data</div>
             <h2>Advanced Boolean Logic Patterns</h2>
 
             <h3>1. Multi-Condition Filtering</h3>
-            <div class="code-block">mask_expired = opt.index > opt['exd']
-opt.loc[mask_expired, expired_cols] = [pd.Timestamp(year=1985, month=12, day=31), 0.0, '-', '-']</div>
-            
+            <div class="code-block">
+<pre><code>mask_expired = opt.index > opt['exd']
+opt.loc[mask_expired, expired_cols] = [pd.Timestamp(year=1985, month=12, day=31), 0.0, '-', '-']</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Advanced Technique:</div>
                 <ul>
@@ -285,8 +302,10 @@ opt.loc[mask_expired, expired_cols] = [pd.Timestamp(year=1985, month=12, day=31)
             </div>
 
             <h3>2. Conditional Series Manipulation</h3>
-            <div class="code-block">cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</div>
-            
+            <div class="code-block">
+<pre><code>cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Boolean :</div>
                 Complex boolean logic combining series comparison with inverted mask. Shows deep understanding of pandas boolean operations.
@@ -298,9 +317,11 @@ opt.loc[mask_expired, expired_cols] = [pd.Timestamp(year=1985, month=12, day=31)
 
             <div class="highlight-box">
                 <h3>1. Robust Type Conversion with Error Handling</h3>
-                <div class="code-block">opt['init'] = opt['init'].replace([np.inf, -np.inf], np.nan).fillna(0).astype(int)
-opt['exit'] = opt['exit'].replace([np.inf, -np.inf], np.nan).fillna(0).astype(int)</div>
-                
+                <div class="code-block">
+<pre><code>opt['init'] = opt['init'].replace([np.inf, -np.inf], np.nan).fillna(0).astype(int)
+opt['exit'] = opt['exit'].replace([np.inf, -np.inf], np.nan).fillna(0).astype(int)</code></pre>
+                </div>
+
                 <div class="analysis-box">
                     <div class="analysis-title">Data Quality Focus:</div>
                     <ul>
@@ -311,9 +332,11 @@ opt['exit'] = opt['exit'].replace([np.inf, -np.inf], np.nan).fillna(0).astype(in
                 </div>
 
                 <h3>2. Strategic NaN Handling</h3>
-                <div class="code-block">opt.fillna(0, inplace=True)
-opt['why'] = opt['why'].fillna('-')</div>
-                
+                <div class="code-block">
+<pre><code>opt.fillna(0, inplace=True)
+opt['why'] = opt['why'].fillna('-')</code></pre>
+                </div>
+
                 <div class="analysis-box">
                     <div class="analysis-title">Domain-Aware Defaults:</div>
                     Uses different fill strategies for different column types (numeric vs categorical).
@@ -325,12 +348,14 @@ opt['why'] = opt['why'].fillna('-')</div>
             <h2>DataFrame Manipulation Patterns</h2>
 
             <h3>1. Index Reset/Set Pattern for Merging</h3>
-            <div class="code-block">def merge_with_chain(opt, options, col, data_cols=[...]):
+            <div class="code-block">
+<pre><code>def merge_with_chain(opt, options, col, data_cols=[...]):
     opt = opt.reset_index(drop=False)
     opt = opt.merge(options[data_cols], left_on=['date',col], right_on=['date','symbol'], how='left')
     opt = opt.set_index('date', drop=True)
-    return opt</div>
-            
+    return opt</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Merging Best Practice:</div>
                 <ul>
@@ -342,8 +367,10 @@ opt['why'] = opt['why'].fillna('-')</div>
             </div>
 
             <h3>2. Duplicate Handling</h3>
-            <div class="code-block">opt.drop_duplicates(subset=None, keep='first', inplace=True)</div>
-            
+            <div class="code-block">
+<pre><code>opt.drop_duplicates(subset=None, keep='first', inplace=True)</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Data Integrity:</div>
                 Proactive duplicate removal to maintain data quality.
@@ -356,9 +383,11 @@ opt['why'] = opt['why'].fillna('-')</div>
             <div class="pattern-grid">
                 <div class="pattern-card">
                     <div class="pattern-title">1. Multi-DataFrame Aggregation</div>
-                    <div class="code-block"># In get_total_delta_optdelta function
+                    <div class="code-block">
+<pre><code># In get_total_delta_optdelta function
 running_total_delta += opt['delta']
-running_total_shrdelta += opt['delta'] * opt['qty'] * 100</div>
+running_total_shrdelta += opt['delta'] * opt['qty'] * 100</code></pre>
+                    </div>
                     <div class="analysis-box">
                         <div class="analysis-title">Financial Calculation Pattern:</div>
                         Manually aggregates across related DataFrames in the dictionary, applying position-weighting calculations.
@@ -367,7 +396,9 @@ running_total_shrdelta += opt['delta'] * opt['qty'] * 100</div>
 
                 <div class="pattern-card">
                     <div class="pattern-title">2. Conditional Aggregation</div>
-                    <div class="code-block">opt.loc[opt['init']==1, 'optdelta'] = running_total_new_shrdelta</div>
+                    <div class="code-block">
+<pre><code>opt.loc[opt['init']==1, 'optdelta'] = running_total_new_shrdelta</code></pre>
+                    </div>
                     <div class="analysis-box">
                         <div class="analysis-title">Advanced Indexing:</div>
                         Uses boolean condition to apply aggregated values only to specific rows (initiation days).
@@ -380,17 +411,21 @@ running_total_shrdelta += opt['delta'] * opt['qty'] * 100</div>
             <h2>Memory-Conscious Operations</h2>
 
             <h3>1. Selective Column Operations</h3>
-            <div class="code-block">data_cols=['date', 'symbol', 'bid', 'ask', 'mid', 'delta', 'spread', 'gamma', 'theta', 'vega']</div>
-            
+            <div class="code-block">
+<pre><code>data_cols=['date', 'symbol', 'bid', 'ask', 'mid', 'delta', 'spread', 'gamma', 'theta', 'vega']</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Performance Awareness:</div>
                 Explicitly specifies required columns for merges rather than using entire DataFrames.
             </div>
 
             <h3>2. In-Place Operations Where Appropriate</h3>
-            <div class="code-block">opt.fillna(0, inplace=True)
-opt.drop_duplicates(subset=None, keep='first', inplace=True)</div>
-            
+            <div class="code-block">
+<pre><code>opt.fillna(0, inplace=True)
+opt.drop_duplicates(subset=None, keep='first', inplace=True)</code></pre>
+            </div>
+
             <div class="analysis-box">
                 <div class="analysis-title">Memory Efficiency:</div>
                 Uses in-place operations for transformations that don't need to preserve original data.
@@ -402,9 +437,11 @@ opt.drop_duplicates(subset=None, keep='first', inplace=True)</div>
 
             <div class="highlight-box">
                 <h3>1. Chained Boolean Logic</h3>
-                <div class="code-block">mask = mask.fillna(False)
-cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</div>
-                
+                <div class="code-block">
+<pre><code>mask = mask.fillna(False)
+cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</code></pre>
+                </div>
+
                 <div class="analysis-box">
                     <div class="analysis-title">Series :</div>
                     <ul>
@@ -415,8 +452,10 @@ cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</div>
                 </div>
 
                 <h3>2. Sentinel Value Strategy</h3>
-                <div class="code-block">opt['exd'] = opt['exd'].fillna(pd.Timestamp(year=1985, month=12, day=31))</div>
-                
+                <div class="code-block">
+<pre><code>opt['exd'] = opt['exd'].fillna(pd.Timestamp(year=1985, month=12, day=31))</code></pre>
+                </div>
+
                 <div class="analysis-box">
                     <div class="analysis-title">Data Management:</div>
                     Uses far-past dates as sentinel values for missing expiration dates, enabling consistent date arithmetic operations.
@@ -426,4 +465,6 @@ cond_exit_series.loc[(cond_exit_series == True) & (~mask)] = False</div>
 
     </div>
 </body>
+
+    
 </html>
