@@ -254,6 +254,81 @@
     .bg-lilac { background: #dda0dd; color: #fff; }
     .bd-green { border-left-color: #27ae60 !important; }
     .bd-orange { border-left-color: #e17055 !important; }
+
+    /* Enhanced Navigation Styles */
+    nav {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 20px;
+        padding: 25px 35px;
+        margin: 30px 0;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    nav::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        animation: navShimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes navShimmer {
+        0%, 100% { left: -100%; }
+        50% { left: 100%; }
+    }
+
+    nav .tablinks {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        text-decoration: none;
+        padding: 15px 35px;
+        margin: 0 15px;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    nav .tablinks::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+        border-radius: 25px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+    }
+
+    nav .tablinks:hover::before {
+        opacity: 1;
+    }
+
+    nav .tablinks:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    nav .tablinks:active {
+        transform: translateY(-1px) scale(1.02);
+    }    
   </style>
 </head>
   <nav>
