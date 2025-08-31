@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandas P&L Analysis - Options Trading Modules</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+        }
+        
+        .flow-diagram {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .flow-boxes {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .flow-box {
+            flex: 1;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .flow-box h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .flow-box p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #4facfe;
+            display: flex;
+            align-items: center;
+        }
+        
+        .data-types {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .data-types h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .data-item {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .data-item h4 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .data-item p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .module-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .module-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .module-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        
+        .module-header p {
+            opacity: 0.9;
+        }
+        
+        .code-section {
+            background: #2d3748;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .code-section pre {
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin: 0;
+        }
+        
+        .code-section .comment {
+            color: #68d391;
+        }
+        
+        .code-section .keyword {
+            color: #fbb6ce;
+        }
+        
+        .code-section .string {
+            color: #ffd89b;
+        }
+        
+        .operations-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .operation-item {
+            background: #f7fafc;
+            border-left: 4px solid #4facfe;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .operation-item h4 {
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+        
+        .operation-item p {
+            color: #4a5568;
+            font-size: 0.9em;
+        }
+        
+        .patterns-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pattern-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .pattern-item h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .efficiency-tips {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tip-item {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tip-item h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .tip-item p {
+            color: #4a5568;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .flow-boxes {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Pandas P&L Analysis Architecture</h1>
+            <p>Options Trading Modules - DataFrame Operations & Data Flow</p>
+        </div>
+        
+        <div class="flow-diagram">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Data Flow Architecture</h2>
+            <div class="flow-boxes">
+                <div class="flow-box">
+                    <h3>Individual Options</h3>
+                    <p><strong>pnl_computor.py</strong><br>Atomic P&L calculations<br>DataFrame operations</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-box">
+                    <h3>Trade-Level</h3>
+                    <p><strong>pnl_analyzer.py</strong><br>Aggregation & reshaping<br>Strategy time series</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-box">
+                    <h3>Portfolio-Level</h3>
+                    <p><strong>performance_metrics.py</strong><br>Statistical analysis<br>Investment metrics</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-types">
+            <h2>Core Data Structures</h2>
+            <div class="data-grid">
+                <div class="data-item">
+                    <h4>dict_options</h4>
+                    <p>Dictionary of DataFrames - one per option position with P&L components</p>
+                </div>
+                <div class="data-item">
+                    <h4>df_pnl</h4>
+                    <p>Aggregated DataFrame with strategy-level P&L time series</p>
+                </div>
+                <div class="data-item">
+                    <h4>df_pnl_cum</h4>
+                    <p>DataFrame with trade-by-trade summaries and performance tracking</p>
+                </div>
+                <div class="data-item">
+                    <h4>sigdata</h4>
+                    <p>DataFrame with trading signals and entry/exit conditions</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="module-section">
+            <div class="module-header">
+                <h2>pnl_computor.py - DataFrame Operations</h2>
+                <p>Core P&L Engine with granular calculations</p>
+            </div>
+            
+            <h3 style="color: #333; margin-bottom: 15px;">Key Pandas Operations</h3>
+            <div class="code-section">
+                <pre><code><span class="comment"># Time series calculations with .shift() for lagged values</span>
+opt[<span class="string">'prev_qty'</span>] = opt[<span class="string">'qty'</span>].<span class="keyword">shift</span>(1)
+opt[<span class="string">'diff_mid'</span>] = opt[<span class="string">'mid'</span>].<span class="keyword">diff</span>(1)  <span class="comment"># Daily price changes</span>
+opt[<span class="string">'pnl_exist'</span>] = opt[<span class="string">'diff_mid'</span>] * opt[<span class="string">'prev_qty'</span>] * 100
+
+<span class="comment"># Boolean indexing for conditional calculations</span>
+mask_init = opt[<span class="string">'init'</span>] == 1
+mask_buy = dict_opt_specs[o][<span class="string">'qty'</span>] > 0
+opt.<span class="keyword">loc</span>[mask_init & mask_buy, <span class="string">'pnl_init'</span>] = -abs((opt[<span class="string">'new_ask'</span>] - opt[<span class="string">'new_mid'</span>]) * opt[<span class="string">'qty'</span>] * 100)
+
+<span class="comment"># DataFrame merging for signal integration</span>
+opt = sigdata[signal_cols].<span class="keyword">merge</span>(opt, left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'right'</span>)</code></pre>
+            </div>
+            
+            <div class="operations-list">
+                <div class="operation-item">
+                    <h4>Column Creation</h4>
+                    <p>Creates ['pnl_init', 'pnl_exist', 'pnl_exit', 'pnl', 'intrin']</p>
+                </div>
+                <div class="operation-item">
+                    <h4>Conditional Assignments</h4>
+                    <p>Uses .loc[] extensively for boolean-indexed operations</p>
+                </div>
+                <div class="operation-item">
+                    <h4>Time Series Operations</h4>
+                    <p>Leverages .shift() and .diff() for previous-period calculations</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="module-section">
+            <div class="module-header">
+                <h2>pnl_analyzer.py - Aggregation & Reshaping</h2>
+                <p>Trade-level summaries and strategy time series construction</p>
+            </div>
+            
+            <div class="code-section">
+                <pre><code><span class="comment"># Dictionary comprehension to DataFrame construction</span>
+df_pnl = pd.<span class="keyword">DataFrame</span>({o: opt[col] <span class="keyword">for</span> o, opt <span class="keyword">in</span> dict_options.items() <span class="keyword">if</span> col <span class="keyword">in</span> opt})
+
+<span class="comment"># Cross-DataFrame merging with different join types</span>
+df_pnl = df_pnl.<span class="keyword">merge</span>(df_hedge[<span class="string">'hedgepnl'</span>].<span class="keyword">to_frame</span>(), 
+                     left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'outer'</span>)
+
+<span class="comment"># Row-wise aggregation across columns</span>
+df_pnl[col] = df_pnl.<span class="keyword">sum</span>(axis=1)  <span class="comment"># Sum across all option legs</span>
+
+<span class="comment"># Time-based filtering and date range selection</span>
+df_pnl = df_pnl.<span class="keyword">loc</span>[first_date:] <span class="keyword">if</span> first_date <span class="keyword">in</span> df_pnl.index <span class="keyword">else</span> df_pnl
+
+<span class="comment"># Complex groupby operations for trade-level summaries</span>
+df_pnl[<span class="string">'badmon'</span>] = _returns.<span class="keyword">groupby</span>([_returns.index.year, _returns.index.month]).<span class="keyword">sum</span>().<span class="keyword">min</span>()</code></pre>
+            </div>
+            
+            <div class="operations-list">
+                <div class="operation-item">
+                    <h4>Dictionary to DataFrame</h4>
+                    <p>Transforms {option_id: DataFrame} into columnar structure</p>
+                </div>
+                <div class="operation-item">
+                    <h4>Multi-DataFrame Merging</h4>
+                    <p>Combines option legs with hedge data using various join types</p>
+                </div>
+                <div class="operation-item">
+                    <h4>List Storage in Cells</h4>
+                    <p>Stores time series as lists within DataFrame cells for detailed tracking</p>
+                </div>
+                <div class="operation-item">
+                    <h4>Concatenation</h4>
+                    <p>Uses pd.concat() to combine trade summaries across cycles</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="module-section">
+            <div class="module-header">
+                <h2>performance_metrics.py - Statistical Analysis</h2>
+                <p>Portfolio-level analytics and investment performance metrics</p>
+            </div>
+            
+            <div class="code-section">
+                <pre><code><span class="comment"># Rolling window calculations</span>
+<span class="keyword">def</span> <span class="string">sharpe</span>(x, window, risk_free_rate=0, period=252):
+    excess_returns = x - risk_free_rate
+    r = excess_returns.<span class="keyword">rolling</span>(window=window)
+    m = r.<span class="keyword">mean</span>()
+    s = r.<span class="keyword">std</span>(ddof=0)
+    <span class="keyword">return</span> (m / s) * np.sqrt(period)
+
+<span class="comment"># Statistical methods on Series</span>
+_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'skew'</span>] = _returns.<span class="keyword">skew</span>()
+_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'badday'</span>] = _returns.<span class="keyword">min</span>()
+
+<span class="comment"># Conditional filtering and aggregation</span>
+_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'pct_days_on'</span>] = (_returns != 0).<span class="keyword">sum</span>() / _returns.shape[0]
+_sum_.<span class="keyword">at</span>[ret_ts, <span class="string">'sharpe_on'</span>] = sharpe(_returns[_returns != 0], len(_returns[_returns != 0]))[-1]</code></pre>
+            </div>
+            
+            <div class="operations-list">
+                <div class="operation-item">
+                    <h4>Rolling Statistics</h4>
+                    <p>Calculates Sharpe, Sortino ratios using .rolling() operations</p>
+                </div>
+                <div class="operation-item">
+                    <h4>Series Methods</h4>
+                    <p>Leverages .skew(), .min(), .max() for risk metrics</p>
+                </div>
+                <div class="operation-item">
+                    <h4>Vectorized Formatting</h4>
+                    <p>Uses .apply() for percentage and decimal formatting</p>
+                </div>
+                <div class="operation-item">
+                    <h4>Cumulative Calculations</h4>
+                    <p>Employs .cumprod() and .maximum.accumulate() for drawdowns</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="patterns-section">
+            <h2 style="color: #333; margin-bottom: 30px;">Pandas Patterns & Techniques</h2>
+            
+            <div class="pattern-item">
+                <h3>1. Multi-Level Dictionary → DataFrame Pattern</h3>
+                <div class="code-section">
+                    <pre><code><span class="comment"># Start: {option_id: DataFrame} dictionary</span>
+dict_options = {<span class="string">'call_A'</span>: df1, <span class="string">'put_B'</span>: df2, ...}
+
+<span class="comment"># Transform: Column-wise aggregation</span>
+df_combined = pd.<span class="keyword">DataFrame</span>({o: opt[<span class="string">'pnl'</span>] <span class="keyword">for</span> o, opt <span class="keyword">in</span> dict_options.items()})</code></pre>
+                </div>
+            </div>
+            
+            <div class="pattern-item">
+                <h3>2. Time Series Analysis Pattern</h3>
+                <div class="code-section">
+                    <pre><code><span class="comment"># Cumulative calculations</span>
+perf_cum = np.<span class="keyword">cumprod</span>(ret_series + 1) - 1
+hwm = np.<span class="keyword">maximum.accumulate</span>(perf_cum)
+
+<span class="comment"># Rolling statistics</span>
+r = x.<span class="keyword">rolling</span>(window=window)
+zscore = (x - r.<span class="keyword">mean</span>().<span class="keyword">shift</span>(1)) / r.<span class="keyword">std</span>(ddof=0).<span class="keyword">shift</span>(1)</code></pre>
+                </div>
+            </div>
+            
+            <div class="pattern-item">
+                <h3>3. Boolean Masking for Complex Conditions</h3>
+                <div class="code-section">
+                    <pre><code><span class="comment"># Multiple condition masks</span>
+mask = (df.index >= exclude_date) & (df.index <= exdate)
+mask_exit_buy = mask_exit & mask_buy
+
+<span class="comment"># Conditional value assignment</span>
+df.<span class="keyword">loc</span>[mask_exit_buy, <span class="string">'pnl_exit'</span>] = calculation_result</code></pre>
+                </div>
+            </div>
+            
+            <div class="pattern-item">
+                <h3>4. Index-Based Operations</h3>
+                <div class="code-section">
+                    <pre><code><span class="comment"># Date range operations using DatetimeIndex</span>
+df_pnl = df_pnl.<span class="keyword">loc</span>[first_date:] 
+start_date = returns.index.<span class="keyword">min</span>().<span class="keyword">date</span>().<span class="keyword">isoformat</span>()
+
+<span class="comment"># Index alignment in merges</span>
+df.<span class="keyword">merge</span>(other_df, left_index=<span class="keyword">True</span>, right_index=<span class="keyword">True</span>, how=<span class="string">'left'</span>)</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="efficiency-tips">
+            <h2 style="color: #333; margin-bottom: 30px;">Memory Efficiency Considerations</h2>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <h4>In-place Operations</h4>
+                    <p>Uses inplace=True where possible to avoid DataFrame copying and reduce memory usage</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Conditional Assignments</h4>
+                    <p>Leverages .loc[] instead of creating new DataFrames for better performance</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Vectorized Operations</h4>
+                    <p>Avoids Python loops by using pandas vectorization for mathematical operations</p>
+                </div>
+                <div class="tip-item">
+                    <h4>Selective Processing</h4>
+                    <p>Only processes required columns to minimize computational overhead</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <h3 style="color: white; margin-bottom: 15px;">Key Takeaway</h3>
+            <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1em;">The pandas approach emphasizes <strong>time series analysis</strong>, <strong>conditional logic through boolean indexing</strong>, and <strong>efficient aggregation patterns</strong> - all critical for financial data processing and options P&L analysis.</p>
+        </div>
+    </div>
+</body>
+</html>
