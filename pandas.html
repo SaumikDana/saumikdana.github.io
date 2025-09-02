@@ -72,12 +72,15 @@
             margin: 25px 0;
             background-color: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
         }
         
         th, td {
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border: 1px solid #ddd;
+            vertical-align: top;
+            color: #333;
         }
         
         th {
@@ -89,11 +92,26 @@
         
         td {
             text-align: center;
+            background-color: white;
+            color: #333;
+            font-weight: normal;
         }
         
         td:first-child {
             text-align: left;
             font-weight: bold;
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+        
+        tbody tr:nth-child(even) td {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        
+        tbody tr:nth-child(even) td:first-child {
+            background-color: #f0f0f0;
+            color: #2c3e50;
         }
         
         .layer-box {
@@ -270,14 +288,15 @@
     </div>
 
     <div class="stats-container">
-        <h2>Quantitative Analysis</h2>
+        <h2>System Transformation Metrics</h2>
         <table>
-            <caption>Quantitative comparison of system architectures</caption>
+            <caption>Comprehensive comparison of system architectures</caption>
             <thead>
                 <tr>
-                    <th>Metric</th>
-                    <th>Original</th>
-                    <th>Refactored</th>
+                    <th>Aspect</th>
+                    <th>Original Monolithic</th>
+                    <th>Refactored Modular</th>
+                    <th>Improvement</th>
                 </tr>
             </thead>
             <tbody>
@@ -285,21 +304,61 @@
                     <td>Total Lines of Code</td>
                     <td>1,045</td>
                     <td>2,876</td>
+                    <td>2.75x expansion</td>
                 </tr>
                 <tr>
                     <td>Number of Files</td>
                     <td>2</td>
                     <td>18</td>
+                    <td>9x modularity</td>
                 </tr>
                 <tr>
                     <td>Architectural Layers</td>
                     <td>1</td>
                     <td>8</td>
+                    <td>8x separation</td>
                 </tr>
                 <tr>
-                    <td>Code Expansion Factor</td>
-                    <td>--</td>
-                    <td>2.75x</td>
+                    <td>Strategy Types Supported</td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td>Calendar, Signal, Release</td>
+                </tr>
+                <tr>
+                    <td>P&L Components</td>
+                    <td>Mixed</td>
+                    <td>4 Separated</td>
+                    <td>Init, Exist, Exit, Expiry</td>
+                </tr>
+                <tr>
+                    <td>Position Sizing Methods</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>Enhanced with IV adjustments</td>
+                </tr>
+                <tr>
+                    <td>Performance Optimization</td>
+                    <td>None</td>
+                    <td>Systematic</td>
+                    <td>Profiling & Caching</td>
+                </tr>
+                <tr>
+                    <td>Economic Indicators</td>
+                    <td>None</td>
+                    <td>50+</td>
+                    <td>Fed, Inflation, Employment</td>
+                </tr>
+                <tr>
+                    <td>Maintainability</td>
+                    <td>Monolithic</td>
+                    <td>Modular</td>
+                    <td>Independent Testing</td>
+                </tr>
+                <tr>
+                    <td>Error Handling</td>
+                    <td>Basic</td>
+                    <td>Comprehensive</td>
+                    <td>Layer-Specific Validation</td>
                 </tr>
             </tbody>
         </table>
@@ -529,25 +588,15 @@
         </div>
     </div>
 
-    <div class="conclusion-section">
-        <h2>Engineering Achievement</h2>
-        <p>The transformation from a 1,045-line monolithic system to a 2,876-line modular framework represents a comprehensive software engineering achievement. The 8-layer architecture with 18 specialized modules demonstrates professional-grade system design principles applied to quantitative finance.</p>
-        
-        <p>The code expansion factor of 2.75x is typical for such refactoring efforts, where proper separation of concerns, comprehensive error handling, and extensive documentation naturally increase line count while dramatically improving system quality, maintainability, and extensibility.</p>
-    </div>
-
 <!-- Image section outside the main container -->
 <div style="text-align: center; padding: 40px 20px; background: #f8f9fa;">
     <img src="pandas.png" alt="Pandas" style="width: 80%; max-width: 1400px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
 </div>
 
-
-
 <!-- Image section outside the main container -->
 <div style="text-align: center; padding: 40px 20px; background: #f8f9fa;">
     <img src="pandas_fluency.png" alt="Pandas" style="width: 80%; max-width: 1400px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
 </div>
-
     
 </body>
 </html>
