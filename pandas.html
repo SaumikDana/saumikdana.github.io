@@ -3,368 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Options Trading Framework - Architectural Evolution</title>
-
-    
-    
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        overflow-x: hidden;
-        padding: 40px 0;
-    }
-
-    .container {
-        max-width: 1400px;
-        width: 90%;
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 25px;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .header {
-        background: linear-gradient(45deg, #667eea, #764ba2);
-        color: white;
-        padding: 40px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .header::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 15px,
-            rgba(255, 255, 255, 0.1) 15px,
-            rgba(255, 255, 255, 0.1) 30px
-        );
-        animation: slide 25s linear infinite;
-    }
-
-    @keyframes slide {
-        0% { transform: translateX(-60px) translateY(-60px); }
-        100% { transform: translateX(60px) translateY(60px); }
-    }
-
-    .header h1 {
-        font-size: 3rem;
-        margin-bottom: 15px;
-        position: relative;
-        z-index: 1;
-        animation: fadeInUp 1s ease-out;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .header p {
-        font-size: 1.3rem;
-        opacity: 0.95;
-        position: relative;
-        z-index: 1;
-        animation: fadeInUp 1s ease-out 0.3s both;
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(40px);
+    <title>Options Trading System Architecture: From Monolithic to Modular</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fafafa;
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
         }
-    }
-
-    .content {
-        padding: 50px;
-    }
-
-    .section {
-        margin-bottom: 50px;
-        opacity: 0;
-        transform: translateY(60px);
-        animation: slideInUp 0.8s ease-out forwards;
-    }
-
-    .section:nth-child(1) { animation-delay: 0.2s; }
-    .section:nth-child(2) { animation-delay: 0.4s; }
-    .section:nth-child(3) { animation-delay: 0.6s; }
-    .section:nth-child(4) { animation-delay: 0.8s; }
-    .section:nth-child(5) { animation-delay: 1.0s; }
-    .section:nth-child(6) { animation-delay: 1.2s; }
-
-    @keyframes slideInUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            font-size: 1.8em;
         }
-    }
-
-    .section-title {
-        font-size: 2rem;
-        color: #2c3e50;
-        margin-bottom: 25px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        border-bottom: 3px solid #ecf0f1;
-        padding-bottom: 15px;
-    }
-
-    .improvement-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        color: white;
-        animation: bounce 2s infinite;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-10px); }
-        60% { transform: translateY(-5px); }
-    }
-
-    .improvement-icon.architecture { background: linear-gradient(45deg, #4ecdc4, #44a08d); }
-    .improvement-icon.performance { background: linear-gradient(45deg, #667eea, #764ba2); }
-    .improvement-icon.functional { background: linear-gradient(45deg, #f093fb, #f5576c); }
-    .improvement-icon.data { background: linear-gradient(45deg, #ffecd2, #fcb69f); }
-    .improvement-icon.technical { background: linear-gradient(45deg, #a8edea, #fed6e3); }
-    .improvement-icon.problems { background: linear-gradient(45deg, #ff9a9e, #fecfef); }
-
-    .improvements-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 25px;
-        margin-top: 25px;
-    }
-
-    .improvement-card {
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        border-radius: 20px;
-        padding: 30px;
-        border-left: 5px solid;
-        transition: all 0.4s ease;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-
-    .improvement-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-        transition: left 0.7s ease;
-    }
-
-    .improvement-card:hover::before {
-        left: 100%;
-    }
-
-    .improvement-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    }
-
-    .improvement-card.modular { border-left-color: #4ecdc4; }
-    .improvement-card.performance { border-left-color: #667eea; }
-    .improvement-card.management { border-left-color: #f093fb; }
-    .improvement-card.processing { border-left-color: #ffecd2; }
-    .improvement-card.memory { border-left-color: #a8edea; }
-    .improvement-card.complexity { border-left-color: #ff9a9e; }
-
-    .improvement-card h4 {
-        color: #2c3e50;
-        margin-bottom: 15px;
-        font-size: 1.4rem;
-        font-weight: 600;
-    }
-
-    .improvement-card p {
-        color: #7f8c8d;
-        line-height: 1.7;
-        font-size: 1rem;
-    }
-
-    .code-showcase {
-        background: linear-gradient(135deg, #2c3e50, #34495e);
-        border-radius: 15px;
-        padding: 30px;
-        margin: 30px 0;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    }
-
-    .code-showcase::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: linear-gradient(90deg, #667eea, #764ba2, #4ecdc4, #f093fb);
-        animation: codeFlow 4s linear infinite;
-    }
-
-    @keyframes codeFlow {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
-    }
-
-    .code-showcase pre {
-        color: #ecf0f1;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-        font-size: 15px;
-        line-height: 1.6;
-        margin: 0;
-        overflow-x: auto;
-    }
-
-    .code-highlight {
-        color: #ffa726;
-        font-weight: bold;
-    }
-
-    .method-highlight {
-        color: #4ecdc4;
-        font-weight: bold;
-    }
-
-    .string-highlight {
-        color: #f093fb;
-    }
-
-    .tip-container {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 25px;
-        border-radius: 20px;
-        margin: 25px 0;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 12px 25px rgba(102, 126, 234, 0.3);
-    }
-
-    .performance-chart {
-        display: flex;
-        justify-content: space-around;
-        align-items: end;
-        height: 180px;
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        border-radius: 15px;
-        padding: 30px;
-        margin: 25px 0;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .perf-bar {
-        width: 18%;
-        border-radius: 8px 8px 0 0;
-        position: relative;
-        animation: growHeight 2s ease-out;
-        animation-delay: var(--delay);
-        transform: scaleY(0);
-        transform-origin: bottom;
-        animation-fill-mode: forwards;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    @keyframes growHeight {
-        to { transform: scaleY(1); }
-    }
-
-    .perf-bar:nth-child(1) { 
-        --delay: 0.3s; 
-        height: 60%; 
-        background: linear-gradient(to top, #4ecdc4, #44a08d); 
-    }
-    .perf-bar:nth-child(2) { 
-        --delay: 0.5s; 
-        height: 85%; 
-        background: linear-gradient(to top, #667eea, #764ba2); 
-    }
-    .perf-bar:nth-child(3) { 
-        --delay: 0.7s; 
-        height: 75%; 
-        background: linear-gradient(to top, #f093fb, #f5576c); 
-    }
-    .perf-bar:nth-child(4) { 
-        --delay: 0.9s; 
-        height: 95%; 
-        background: linear-gradient(to top, #ffa726, #ff7043); 
-    }
-
-    .perf-label {
-        position: absolute;
-        bottom: -35px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.9rem;
-        color: #7f8c8d;
-        text-align: center;
-        font-weight: 600;
-    }
-
-    .problems-section {
-        background: linear-gradient(135deg, #fff5f5, #fed7d7);
-        border-radius: 15px;
-        padding: 25px;
-        margin: 25px 0;
-        border: 2px solid #feb2b2;
-    }
-
-    .problems-section h4 {
-        color: #c53030;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-    }
-
-    .problems-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 15px;
-        margin-top: 15px;
-    }
-
-    .problem-item {
-        background: rgba(255, 255, 255, 0.8);
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 3px solid #f56565;
-    }
-
+        
+        h3 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        h4 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        
+        code {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #d73502;
+        }
+        
+        ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        td {
+            text-align: center;
+        }
+        
+        td:first-child {
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .layer-box {
+            background-color: white;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .module-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .stats-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .stats-container h2 {
+            color: white;
+            border-left: 4px solid white;
+            margin-top: 0;
+        }
+        
+        caption {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .intro-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .conclusion-section {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
+        .conclusion-section h2 {
+            color: white;
+            border-left: 4px solid white;
+        }
     /* Enhanced Navigation Styles */
     nav {
         background: linear-gradient(135deg, #667eea, #764ba2);
@@ -459,217 +247,307 @@
             font-size: 1rem;
         }
     }
-</style>
-
-
-
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Options Framework Evolution</h1>
-            <p>From monolithic script to production-ready system</p>
-        </div>
-
-        <div class="content">
-            <div class="section">
-                <h2 class="section-title">
-                    <div class="improvement-icon architecture">🏗️</div>
-                    Architectural Improvements
-                </h2>
-                <div class="improvements-grid">
-                    <div class="improvement-card modular">
-                        <h4>Modular Design</h4>
-                        <p>Broke down monolithic 600+ line script into 21 focused modules with clear separation of concerns: data processing, P&L calculation, position sizing, performance metrics.</p>
-                    </div>
-                    <div class="improvement-card performance">
-                        <h4>Multiple Strategy Types</h4>
-                        <p>Three distinct configuration modules for different entry triggers: Day-based (calendar scheduling), Signal-based (technical/fundamental triggers), Release-based (economic event timing).</p>
-                    </div>
-                </div>
-                
-                <div class="code-showcase">
-                    <pre><code><span class="code-highlight"># Original Monolithic Structure</span>
-<span class="string-highlight"># Single file: option_trading_saumik.py (600+ lines)</span>
-<span class="method-highlight">def</span> everything_in_one_place():
-    data_loading()
-    option_selection() 
-    pnl_calculation()
-    performance_analysis()
-
-<span class="code-highlight"># New Modular Architecture</span>
-from src.csv_to_pandas import main
-from src.option_strategy_simulator import compute_pnl, compute_performance
-from src.config_entry_on_day_and_sig import simulate_single
-from src.config_entry_around_release import simulate_single
-from src.config_entry_on_sig import simulate_single</code></pre>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">
-                    <div class="improvement-icon performance">⚡</div>
-                    Performance Optimization
-                </h2>
-                <div class="performance-chart">
-                    <div class="perf-bar">
-                        <div class="perf-label">Memory<br>Reduction</div>
-                    </div>
-                    <div class="perf-bar">
-                        <div class="perf-label">Processing<br>Speed</div>
-                    </div>
-                    <div class="perf-bar">
-                        <div class="perf-label">Lookup<br>Efficiency</div>
-                    </div>
-                    <div class="perf-bar">
-                        <div class="perf-label">Overall<br>Performance</div>
-                    </div>
-                </div>
-                
+    <h1>Options Trading System Architecture: From Monolithic to Modular</h1>
 
     <nav>
     <a href="improv.html" class="tablinks">Speed & Efficiency</a>
     <a href="overall.html" class="tablinks">Workflow</a>
     </nav>
-                
-
-            <div class="section">
-                <h2 class="section-title">
-                    <div class="improvement-icon functional">🔧</div>
-                    Functional Enhancements
-                </h2>
-                <div class="improvements-grid">
-                    <div class="improvement-card management">
-                        <h4>Advanced Position Management</h4>
-                        <p>Re-entry trade handling for rolling strategies, multiple position sizing methodologies (AUM, vega, premium budget, fixed), and sophisticated signal processing.</p>
-                    </div>
-                    <div class="improvement-card processing">
-                        <h4>Sophisticated Signal Processing</h4>
-                        <p>State machine logic preventing duplicate entries during continuous signals, business day calculations with holiday awareness, signal integration across overlapping cycles.</p>
-                    </div>
-                </div>
-                
-                <div class="code-showcase">
-                    <pre><code><span class="code-highlight"># Signal State Machine Logic</span>
-<span class="method-highlight">def</span> get_list_newsig_cycle(sigdata, days_to_set):
-    sigdata_copy = sigdata.copy()
-    sigdata_copy['sig'] = 0
     
-    for i, d in enumerate(sigdata_copy.index):
-        if i == 0: continue
+    <div class="intro-section">
+        <h2>Architectural Transformation</h2>
         
-        previous_sig = sigdata_copy.iloc[i-1]['sig']
+        <p>The inherited codebase consisted of two primary files:</p>
+        <ul>
+            <li><code>option_trading_saumik.py</code> (910 lines): Monolithic trading script</li>
+            <li><code>myfunctions.py</code> (135 lines): Basic utility functions</li>
+        </ul>
         
-        <span class="code-highlight"># State transition logic</span>
-        if previous_sig == 0:  <span class="code-highlight"># Currently out of market</span>
-            sig = 1 if sigdata_copy.at[d,'enter_conds'] else 0
-        elif previous_sig == 1:  <span class="code-highlight"># Currently in market</span>
-            sig = 0 if sigdata_copy.at[d,'exit_conds'] else 1
-            
-        sigdata_copy.at[d,'sig'] = sig</code></pre>
-                </div>
-            </div>
+        <p>The original system exhibited typical characteristics of research-to-production code with mixed concerns, hardcoded parameters, and limited extensibility.</p>
+    </div>
 
-            <div class="section">
-                <h2 class="section-title">
-                    <div class="improvement-icon data">📊</div>
-                    Data Processing Improvements
-                </h2>
-                <div class="improvements-grid">
-                    <div class="improvement-card processing">
-                        <h4>Options Chain Handling</h4>
-                        <p>Pre-processing and filtering to reduce dataset size, indexed data structures for efficient lookups, multi-contract support for complex strategies.</p>
-                    </div>
-                    <div class="improvement-card management">
-                        <h4>Performance Analysis</h4>
-                        <p>Granular P&L decomposition (initiation, existence, exit, expiration), trade-level attribution and cycle analysis, comprehensive performance metrics calculation.</p>
-                    </div>
-                </div>
-                
-                <div class="tip-container">
-                    <strong>Key Insight:</strong> The framework now separates P&L into four distinct components for precise analysis: initiation costs, daily mark-to-market, exit transaction costs, and expiration settlement values.
-                </div>
-            </div>
+    <div class="stats-container">
+        <h2>Quantitative Analysis</h2>
+        <table>
+            <caption>Quantitative comparison of system architectures</caption>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Original</th>
+                    <th>Refactored</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Total Lines of Code</td>
+                    <td>1,045</td>
+                    <td>2,876</td>
+                </tr>
+                <tr>
+                    <td>Number of Files</td>
+                    <td>2</td>
+                    <td>18</td>
+                </tr>
+                <tr>
+                    <td>Architectural Layers</td>
+                    <td>1</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>Code Expansion Factor</td>
+                    <td>--</td>
+                    <td>2.75x</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-            <div class="section">
-                <h2 class="section-title">
-                    <div class="improvement-icon technical">🛠️</div>
-                    Technical Improvements
-                </h2>
-                <div class="improvements-grid">
-                    <div class="improvement-card memory">
-                        <h4>Memory Management</h4>
-                        <p>Progressive column filtering in data pipeline, temporary DataFrame cleanup, function attribute caching for expensive operations, generator expressions for memory-efficient processing.</p>
-                    </div>
-                    <div class="improvement-card processing">
-                        <h4>Code Quality</h4>
-                        <p>Extensive documentation with implementation notes, type validation and error handling, consistent naming conventions, profiling utilities for performance monitoring.</p>
-                    </div>
-                </div>
-                
-                <div class="tip-container">
-                    <strong>Production Ready:</strong> The framework now includes comprehensive error checking, validation, debugging capabilities, and CSV export functionality for detailed analysis and troubleshooting.
-                </div>
-            </div>
+    <div class="layer-box">
+        <h3>Layer 1: Data Architecture Redesign (4 modules)</h3>
+        
+        <div class="module-box">
+            <h4><code>data_processing.py</code></h4>
+            <p>Core data pipeline engine handling:</p>
+            <ul>
+                <li>Options chain processing via <code>csv_to_pandas()</code></li>
+                <li>Holiday-aware business day calculations</li>
+                <li>Complex expiration rules (Friday/Saturday/holiday scenarios)</li>
+                <li>Bloomberg pricing integration through <code>merge_bbg()</code></li>
+                <li>Moneyness calculations for contract selection</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>csv_to_pandas.py</code></h4>
+            <p>Data orchestration hub providing three entry points:</p>
+            <ul>
+                <li><code>main()</code>: Standard strategy coordination</li>
+                <li><code>main_releases()</code>: Event-driven strategy preparation</li>
+                <li><code>main_monthly()</code>: Monthly expiration focus</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>monthly_expiry_trade_setup.py</code></h4>
+            <p>Specialized monthly expiration processor:</p>
+            <ul>
+                <li><code>third_entry_per_month()</code>: Third Friday extraction</li>
+                <li>Market convention compliance for high-liquidity contracts</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>release_based_trade_setup.py</code></h4>
+            <p>Economic event processor featuring:</p>
+            <ul>
+                <li>Comprehensive indicator mapping (CPI, NFP, FOMC)</li>
+                <li>Regex pattern matching for event identification</li>
+                <li><code>find_nearest_expiration_dates()</code>: Release-to-expiration mapping</li>
+            </ul>
         </div>
     </div>
 
-
+    <div class="layer-box">
+        <h3>Layer 2: Strategy Abstraction Layer (3 modules)</h3>
         
-    <!-- Image section outside the main container -->
-    <div style="text-align: center; padding: 40px 20px; background: #f8f9fa;">
-        <img src="pandas.png" alt="Pandas" style="width: 80%; max-width: 1400px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
+        <div class="module-box">
+            <h4><code>config_entry_around_release.py</code></h4>
+            <p>Event-driven strategy engine:</p>
+            <ul>
+                <li>Sophisticated backward date calculation in <code>fill_entry_days()</code></li>
+                <li>Consistent timing relative to economic announcements</li>
+                <li>Monte Carlo optimization with intelligent caching</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>config_entry_on_day_and_sig.py</code></h4>
+            <p>Calendar-based strategy processor:</p>
+            <ul>
+                <li>DataFrame index arithmetic for business day precision</li>
+                <li>Custom entry/exit condition support</li>
+                <li>Systematic calendar scheduling maintenance</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>config_entry_on_sig.py</code></h4>
+            <p>Signal-based reactive strategy engine:</p>
+            <ul>
+                <li>Market condition responsiveness</li>
+                <li>Direct simulation without preprocessing</li>
+                <li>Irregular timing accommodation</li>
+            </ul>
+        </div>
     </div>
 
+    <div class="layer-box">
+        <h3>Layer 3: Financial Calculation Engine (2 modules)</h3>
+        
+        <div class="module-box">
+            <h4><code>pnl_computor.py</code></h4>
+            <p>Comprehensive P&L calculation engine with component separation:</p>
+            <ul>
+                <li><code>pnl_init()</code>: Transaction cost calculation</li>
+                <li><code>pnl_exist()</code>: Mark-to-market computation</li>
+                <li><code>pnl_exit()</code>: Early close cost assessment</li>
+                <li><code>pnl_expiry()</code>: Intrinsic value settlement</li>
+                <li><code>zero_out_pnl()</code>: Corporate action handling</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>delta_hedger.py</code></h4>
+            <p>Delta-neutral hedging implementation:</p>
+            <ul>
+                <li><code>calculate_hedges_single_cycle()</code>: Per-cycle hedge P&L</li>
+                <li>Previous day delta exposure utilization</li>
+                <li>Target delta management</li>
+                <li>Initiation/expiration day special handling</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layer-box">
+        <h3>Layer 4: Modular Option Selection System (2 modules)</h3>
+        
+        <div class="module-box">
+            <h4><code>option_selector.py</code></h4>
+            <p>Contract selection orchestration:</p>
+            <ul>
+                <li><code>day_based_selector()</code>: Calendar strategy selection</li>
+                <li><code>signal_based_selector()</code>: Reactive strategy selection</li>
+                <li><code>release_based_selector()</code>: Event-driven selection</li>
+                <li>Strategy-specific timing and validation</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>option_selector_routines.py</code></h4>
+            <p>Selection utility functions:</p>
+            <ul>
+                <li><code>get_selected_option()</code>: Delta/moneyness targeting</li>
+                <li><code>options_selections()</code>: Comprehensive trade record generation</li>
+                <li><code>get_curtailed_options()</code>: Performance-optimized filtering</li>
+                <li><code>trading_days_count()</code>: Business day arithmetic</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layer-box">
+        <h3>Layer 5: Performance Optimization Framework (1 module)</h3>
+        
+        <div class="module-box">
+            <h4><code>profiling.py</code></h4>
+            <p>Performance monitoring and optimization system:</p>
+            <ul>
+                <li><code>start_profiler()</code>/<code>end_profiler()</code>: Code analysis tools</li>
+                <li>Multiple filtering function versions (<code>filter_v1</code> through <code>filter_v4</code>)</li>
+                <li>Lookup optimization evolution (<code>lookup_v1</code> through <code>lookup_v3</code>)</li>
+                <li>Visual performance graph generation</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layer-box">
+        <h3>Layer 6: Signal Processing Abstraction (1 module)</h3>
+        
+        <div class="module-box">
+            <h4><code>sigdata.py</code></h4>
+            <p>Signal state machine implementation:</p>
+            <ul>
+                <li><code>get_list_newsig_cycle()</code>: Entry/exit state management</li>
+                <li>Duplicate entry prevention during continuous signals</li>
+                <li><code>create_exit_on_day()</code>: Fixed holding period exits</li>
+                <li><code>create_exit_around_release()</code>: Event-based exit timing</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layer-box">
+        <h3>Layer 7: Position Management System (3 modules)</h3>
+        
+        <div class="module-box">
+            <h4><code>option_feeder.py</code></h4>
+            <p>Trade execution engine:</p>
+            <ul>
+                <li><code>feed_trades_into_dict_options()</code>: Signal-to-position conversion</li>
+                <li><code>fill_why_tradetype_nopnl()</code>: Exit logic and P&L period management</li>
+                <li>Re-entry processing for rolling strategies</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>option_strategy_simulator.py</code></h4>
+            <p>Central orchestration hub:</p>
+            <ul>
+                <li><code>initial_setup()</code>: System initialization</li>
+                <li><code>compute_pnl()</code>: P&L calculation coordination</li>
+                <li><code>compute_performance()</code>: Performance analysis orchestration</li>
+                <li>Multi-cycle organization management</li>
+                <li>Custom condition filtering integration</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>position_sizing.py</code></h4>
+            <p>Capital allocation logic:</p>
+            <ul>
+                <li>Multiple sizing methodologies: AUM-based, vega budgeting, premium budgeting</li>
+                <li><code>iv_size_mult()</code>: Volatility-based size adjustments</li>
+                <li>Risk management through position scaling</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layer-box">
+        <h3>Layer 8: Analysis and Reporting Layer (2 modules)</h3>
+        
+        <div class="module-box">
+            <h4><code>performance_metrics.py</code></h4>
+            <p>Risk-adjusted performance analysis:</p>
+            <ul>
+                <li>Comprehensive metrics: Sharpe/Sortino ratios, drawdown analysis</li>
+                <li>Correlation and beta calculations</li>
+                <li>Geometric and arithmetic return methodologies</li>
+                <li>Benchmark comparison framework</li>
+            </ul>
+        </div>
+
+        <div class="module-box">
+            <h4><code>pnl_analyzer.py</code></h4>
+            <p>P&L attribution and breakdown:</p>
+            <ul>
+                <li><code>calculate_pnl_sums()</code>: Trade-level summaries</li>
+                <li>Cycle-based performance analysis</li>
+                <li>Comprehensive P&L aggregation across strategy components</li>
+                <li>Attribution analysis for performance optimization</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="conclusion-section">
+        <h2>Engineering Achievement</h2>
+        <p>The transformation from a 1,045-line monolithic system to a 2,876-line modular framework represents a comprehensive software engineering achievement. The 8-layer architecture with 18 specialized modules demonstrates professional-grade system design principles applied to quantitative finance.</p>
+        
+        <p>The code expansion factor of 2.75x is typical for such refactoring efforts, where proper separation of concerns, comprehensive error handling, and extensive documentation naturally increase line count while dramatically improving system quality, maintainability, and extensibility.</p>
+    </div>
+
+<!-- Image section outside the main container -->
+<div style="text-align: center; padding: 40px 20px; background: #f8f9fa;">
+    <img src="pandas.png" alt="Pandas" style="width: 80%; max-width: 1400px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
+</div>
+
+
+
+<!-- Image section outside the main container -->
+<div style="text-align: center; padding: 40px 20px; background: #f8f9fa;">
+    <img src="pandas_fluency.png" alt="Pandas" style="width: 80%; max-width: 1400px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
+</div>
 
     
-    <!-- Image section outside the main container -->
-    <div style="text-align: center; padding: 40px 20px; background: #f8f9fa;">
-        <img src="pandas_fluency.png" alt="Pandas" style="width: 80%; max-width: 1400px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
-    </div>
-
-
-
-        
-    <script>
-        // Enhanced card interactions
-        document.querySelectorAll('.improvement-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-12px) scale(1.03)';
-                this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.2)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-                this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
-            });
-        });
-
-        // Code showcase interactions
-        document.querySelectorAll('.code-showcase').forEach(code => {
-            code.addEventListener('click', function() {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 200);
-            });
-        });
-
-        // Intersection Observer for animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        document.querySelectorAll('.section').forEach(section => {
-            observer.observe(section);
-        });
-    </script>
-
 </body>
 </html>
