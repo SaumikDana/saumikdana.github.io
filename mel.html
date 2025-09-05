@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>pandas melt — Q&amp;A</title>
+<style>
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height: 1.55; margin: 2rem; color: #111; }
+  h1 { margin-bottom: 0.25rem; }
+  .subtitle { color: #555; margin-top: 0; }
+  .qa { border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; background: #fafafa; }
+  .q { font-weight: 700; margin: 0 0 .5rem; }
+  .a { margin: 0; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; background: #f6f8fa; border-radius: 6px; }
+  pre { padding: .75rem; overflow: auto; }
+  .note { color: #444; font-size: .95rem; }
+</style>
+</head>
+<body>
+  <h1>pandas <code>DataFrame.melt</code> — Q&amp;A</h1>
+  <p class="subtitle">Your questions about <code>melt</code>, with explanations and examples.</p>
+  <section class="qa">
+    <p class="q">Q: What does <code>.melt()</code> do?</p>
+    <p class="a">A: It reshapes data from wide → long format. It takes column headers and stacks them into two columns: <code>variable</code> (the old column names) and <code>value</code> (the cell values).</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: What if I do <code>df.melt()</code> without any arguments?</p>
+    <p class="a">A: It melts <strong>all columns</strong>. You get two columns: <code>variable</code> and <code>value</code>, with every original column name and value stacked vertically.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: What do you mean by "melt all columns"?</p>
+    <p class="a">A: Every column in the original DataFrame is stacked into the two generic columns: <code>variable</code> (the old column name) and <code>value</code> (the cell value). The multi-column structure is flattened.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: By default I see <code>variable</code> and <code>value</code>. Can they be called something else?</p>
+    <p class="a">A: Yes. Use <code>var_name</code> and <code>value_name</code> to rename those columns.</p>
+    <pre><code class="language-python">df.melt(var_name="Column", value_name="Number")</code></pre>
+  </section>
+  <section class="qa">
+    <p class="q">Q: I see <code>sector</code> instead of <code>variable</code> when I melt. Why?</p>
+    <p class="a">A: If the DataFrame's <code>columns</code> index has a <code>name</code> (e.g. from a previous pivot with <code>columns="sector"</code>), melt uses that name instead of the generic <code>variable</code>.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: So <code>melt</code> gives me <code>variable</code> and <code>value</code>. What are <code>id_vars</code>?</p>
+    <p class="a">A: <code>id_vars</code> are columns you <strong>do not want to melt</strong>. They are preserved and repeated for each melted row. Everything else gets unpivoted.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: Oh yeah, so <code>id_vars</code> are the columns you do not melt. Is there something for columns you <em>do</em> want to melt?</p>
+    <p class="a">A: Yes — <code>value_vars</code>. These are the columns you explicitly want to melt. If omitted, pandas melts all columns except the <code>id_vars</code>.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: So <code>var_name</code> renames <code>variable</code>, <code>value_name</code> renames <code>value</code>, <code>id_vars</code> are columns to keep, and <code>value_vars</code> are columns to melt?</p>
+    <p class="a">A: Exactly ✅ — that's the complete picture of how <code>melt</code> works.</p>
+  </section>
+  <hr />
+  <p class="note"><strong>Defaults recap:</strong> <code>var_name="variable"</code>, <code>value_name="value"</code>, melt all columns if no <code>id_vars</code> specified.</p>
+</body>
+</html>
