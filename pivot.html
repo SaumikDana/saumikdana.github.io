@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>pandas pivot — Q&amp;A</title>
+<style>
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height: 1.55; margin: 2rem; color: #111; }
+  h1 { margin-bottom: 0.25rem; }
+  .subtitle { color: #555; margin-top: 0; }
+  .qa { border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; background: #fafafa; }
+  .q { font-weight: 700; margin: 0 0 .5rem; }
+  .a { margin: 0; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; background: #f6f8fa; border-radius: 6px; }
+  pre { padding: .75rem; overflow: auto; }
+  .note { color: #444; font-size: .95rem; }
+</style>
+</head>
+<body>
+  <h1>pandas <code>DataFrame.pivot</code> — Q&amp;A</h1>
+  <p class="subtitle">Your questions about <code>pivot</code>, with explanations and examples.</p>
+  <section class="qa">
+    <p class="q">Q: What does <code>.pivot()</code> do?</p>
+    <p class="a">A: It reshapes a DataFrame from long → wide format. You specify <code>index</code> (rows), <code>columns</code> (new columns), and <code>values</code> (cell values). It does no aggregation — it fails if there are duplicate (index, column) pairs.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: Can I call <code>.pivot()</code> with no arguments?</p>
+    <p class="a">A: No. You must provide at least <code>columns</code>. If you omit everything, pandas raises a <code>TypeError</code> because it cannot reshape without knowing the new column dimension.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: Is <code>columns</code> mandatory?</p>
+    <p class="a">A: Yes. <code>columns</code> is required because it defines the set of new column headers. <code>index</code> and <code>values</code> are optional: if <code>index</code> is omitted, pandas keeps the existing index; if <code>values</code> is omitted, all remaining columns are pivoted (often creating MultiIndex columns).</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: What does <code>columns=...</code> actually do?</p>
+    <p class="a">A: The unique values in the column you pass to <code>columns</code> become new columns in the pivoted DataFrame. For example, if <code>columns="year"</code> and there are five unique years, you will get five new columns (or groups of columns if multiple values are pivoted).</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: If every value in the <code>columns</code> column is unique, what happens?</p>
+    <p class="a">A: Then you will have exactly as many new columns in the pivoted DataFrame as there are unique values in that column.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: What happens when I also provide <code>index=...</code>?</p>
+    <p class="a">A: That column becomes the new row index and no longer appears as a regular column. Its unique values line up as the row labels, while the unique values of the <code>columns</code> argument spread across as the new columns.</p>
+  </section>
+  <section class="qa">
+    <p class="q">Q: How is <code>pivot</code> different from <code>pivot_table</code>?</p>
+    <p class="a">A: <code>pivot</code> is just reshaping and fails if duplicate index/column pairs exist. <code>pivot_table</code> handles duplicates by aggregating them with a function (mean by default). So use <code>pivot</code> when the data is guaranteed unique, and <code>pivot_table</code> when aggregation is needed.</p>
+  </section>
+  <hr />
+  <p class="note"><strong>Defaults recap:</strong> <code>columns</code> is required; <code>index</code> and <code>values</code> are optional. No aggregation is performed — that's what <code>pivot_table</code> is for.</p>
+</body>
+</html>
