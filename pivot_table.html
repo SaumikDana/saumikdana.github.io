@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>pandas pivot_table — Q&A</title>
+<style>
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height: 1.55; margin: 2rem; color: #111; }
+  h1 { margin-bottom: 0.25rem; }
+  .subtitle { color: #555; margin-top: 0; }
+  .qa { border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; background: #fafafa; }
+  .q { font-weight: 700; margin: 0 0 .5rem; }
+  .a { margin: 0; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; background: #f6f8fa; border-radius: 6px; }
+  pre { padding: .75rem; overflow: auto; }
+  .note { color: #444; font-size: .95rem; }
+</style>
+</head>
+<body>
+  <h1>pandas <code>DataFrame.pivot_table</code> — Q&amp;A</h1>
+  <p class="subtitle">Your questions about <code>pivot_table</code>, with concise answers and examples.</p>
+
+  <section class="qa">
+    <p class="q">Q: Does <code>pivot_table</code> have any mandatory arguments?</p>
+    <p class="a">A: Yes. You must supply <strong>at least one grouping key</strong>: <code>index</code> or <code>columns</code>. Without either, pandas raises <code>ValueError: No group keys passed!</code>. <code>values</code> and <code>aggfunc</code> are optional.</p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: I got "No group keys passed!" — why?</p>
+    <p class="a">A: You called <code>pivot_table</code> without providing <code>index</code> or <code>columns</code>. The method needs a grouping dimension to operate.</p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: What's the most important mandatory argument?</p>
+    <p class="a">A: A <strong>grouping key</strong> — either <code>index</code> or <code>columns</code> (one of them is required).</p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: Do I need both <code>index</code> and <code>columns</code>?</p>
+    <p class="a">A: No. <em>Either</em> one works. Use both when you want a two-dimensional pivot (rows × columns).</p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: If I pass only <code>index</code>, is that the same as just changing the DataFrame's index?</p>
+    <p class="a">A: No. <code>pivot_table(index=...)</code> does a <strong>groupby + aggregation</strong> (default mean) on numeric columns. <code>set_index</code> only relabels the index — no aggregation.</p>
+    <pre><code class="language-python"># Equivalent idea:
+df.pivot_table(index="A")  # ≈ df.groupby("A").mean(numeric_only=True)</code></pre>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: So with only <code>index</code>, it groups by that column and takes the mean?</p>
+    <p class="a">A: Yes. By default it aggregates numeric columns with <code>mean</code>. That's effectively <code>groupby(index).mean()</code> on numeric data.</p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: What does <code>values</code> do? What if I don't provide it?</p>
+    <p class="a">A: <code>values</code> selects which column(s) to aggregate. If omitted, pandas aggregates <strong>all numeric columns</strong> (excluding the grouping keys).</p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: Is the default <code>aggfunc</code> mean? Can I change it?</p>
+    <p class="a">A: Yes, default is <code>"mean"</code>. You can pass <code>aggfunc</code> like <code>"sum"</code>, <code>"count"</code>, <code>"min"</code>, <code>"max"</code>, or callables (e.g., <code>np.median</code>, <code>lambda</code>), and even a list/dict of functions.</p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: What does <code>columns</code> do?</p>
+    <p class="a">A: It defines the <strong>column grouping</strong>. The unique values in the specified column become separate columns in the pivoted output (matrix layout).</p>
+    <pre><code class="language-python"># Example: rows = A, columns = B, values = C
+df.pivot_table(index="A", columns="B", values="C")</code></pre>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: With <code>index</code> + <code>columns</code>, is it effectively grouping by both?</p>
+    <p class="a">A: Yes. It groups by <code>[index, columns]</code>, aggregates, then reshapes so that the <code>columns</code> groups are spread across actual columns (wide form).</p>
+    <p class="note">Conceptually: <code>df.groupby([index, columns]).agg(...).unstack(columns)</code></p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: Is <code>index=["col1","col2"]</code> the same as <code>index="col1", columns="col2"</code>?</p>
+    <p class="a">A: Same <em>information</em> is grouped, but the <strong>layout differs</strong>. <code>index=["col1","col2"]</code> keeps both as a row MultiIndex (longer). <code>index="col1", columns="col2"</code> pivots <code>col2</code> into separate columns (wider).</p>
+  </section>
+
+  <section class="qa">
+    <p class="q">Q: So the layout differs, but the information is the same?</p>
+    <p class="a">A: Correct. You can move between them with <code>.stack()</code>/<code>.unstack()</code>. It's the same aggregated data represented differently.</p>
+  </section>
+
+  <hr />
+  <p class="note"><strong>Defaults recap:</strong> Require at least one of <code>index</code> or <code>columns</code>; <code>aggfunc="mean"</code>; if <code>values</code> is omitted, aggregate all numeric columns.</p>
+</body>
+</html>
