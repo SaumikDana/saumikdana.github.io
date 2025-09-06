@@ -37,10 +37,6 @@
     <pre><code class="language-python">df.melt(var_name="Column", value_name="Number")</code></pre>
   </section>
   <section class="qa">
-    <p class="q">Q: I see <code>sector</code> instead of <code>variable</code> when I melt. Why?</p>
-    <p class="a">A: If the DataFrame's <code>columns</code> index has a <code>name</code> (e.g. from a previous pivot with <code>columns="sector"</code>), melt uses that name instead of the generic <code>variable</code>.</p>
-  </section>
-  <section class="qa">
     <p class="q">Q: So <code>melt</code> gives me <code>variable</code> and <code>value</code>. What are <code>id_vars</code>?</p>
     <p class="a">A: <code>id_vars</code> are columns you <strong>do not want to melt</strong>. They are preserved and repeated for each melted row. Everything else gets unpivoted.</p>
   </section>
