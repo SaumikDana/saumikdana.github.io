@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>pandas df.agg() Cheat Sheet</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  :root { 
+    --bg: #ffffff; 
+    --card: #f8fafc; 
+    --text: #1f2937; 
+    --muted: #6b7280; 
+    --accent: #0ea5e9; 
+    --good: #059669; 
+    --bad: #dc2626; 
+    --code: #f1f5f9; 
+  }
+  
+  body { 
+    margin: 0; 
+    font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; 
+    background: #ffffff; 
+    color: #1f2937; 
+  }
+  
+  .wrap { 
+    max-width: 980px; 
+    margin: 48px auto; 
+    padding: 0 20px; 
+  }
+  
+  h1 { 
+    font-size: 28px; 
+    margin: 0 0 12px; 
+    letter-spacing: .3px; 
+    color: #1f2937;
+  }
+  
+  p.lead { 
+    color: #6b7280; 
+    margin: 0 0 28px; 
+  }
+  
+  section { 
+    background: #f8fafc; 
+    border: 1px solid #e5e7eb; 
+    border-radius: 14px; 
+    padding: 20px; 
+    margin: 18px 0; 
+    box-shadow: 0 4px 6px rgba(0,0,0,.1); 
+  }
+  
+  h2 { 
+    font-size: 18px; 
+    margin: 0 0 14px; 
+    color: #0ea5e9; 
+  }
+  
+  .grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); 
+    gap: 16px; 
+  }
+  
+  .pill { 
+    display: inline-block; 
+    font-size: 12px; 
+    padding: 3px 8px; 
+    border-radius: 999px; 
+    border: 1px solid #d1d5db; 
+    color: #1e40af; 
+    background: #eff6ff; 
+    margin-left: 8px; 
+  }
+  
+  pre { 
+    background: #f1f5f9; 
+    border: 1px solid #d1d5db; 
+    color: #374151; 
+    border-radius: 10px; 
+    padding: 14px; 
+    overflow: auto; 
+  }
+  
+  code { 
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; 
+  }
+  
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    overflow: hidden; 
+    border-radius: 10px; 
+    border: 1px solid #e5e7eb; 
+  }
+  
+  th, td { 
+    padding: 10px 12px; 
+    text-align: left; 
+    vertical-align: top; 
+  }
+  
+  thead th { 
+    background: #f3f4f6; 
+    color: #374151; 
+    border-bottom: 1px solid #e5e7eb; 
+  }
+  
+  tbody tr:nth-child(odd) { 
+    background: #f9fafb; 
+  }
+  
+  .good { 
+    color: #059669; 
+    font-weight: 600; 
+  }
+  
+  .bad { 
+    color: #dc2626; 
+    font-weight: 600; 
+  }
+  
+  .rule { 
+    color: #1d4ed8; 
+    font-weight: 600; 
+  }
+  
+  .muted { 
+    color: #6b7280; 
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>pandas <code>df.agg()</code> Cheat Sheet <span class="pill">Quick Reference</span></h1>
+    <p class="lead">Valid forms on the left, common pitfalls on the right. Master the syntax contracts: <em>{}</em> vs <em>[]</em>, <em>:</em> vs <em>,</em>, and mapping vs list-of-tuples.</p>
+
+    <section>
+      <h2>✅ Valid <code>.agg()</code> usages</h2>
+      <div class="grid">
+        <div>
+          <h3>Single function → all numeric columns</h3>
+          <pre><code>df.agg("sum")</code></pre>
+        </div>
+        <div>
+          <h3>Multiple functions → all numeric columns</h3>
+          <pre><code>df.agg(["sum", "mean"])</code></pre>
+        </div>
+        <div>
+          <h3>Dict style: one column</h3>
+          <pre><code>df.agg({"Sales": "sum"})</code></pre>
+        </div>
+        <div>
+          <h3>Dict style: multiple funcs on one column</h3>
+          <pre><code>df.agg({"Sales": ["sum", "mean"]})</code></pre>
+        </div>
+        <div>
+          <h3>Dict style: multiple columns</h3>
+          <pre><code>df.agg({
+    "Sales": ["sum", "mean"],
+    "Profit": ["max", "min"]
+})</code></pre>
+        </div>
+        <div>
+          <h3>List-of-tuples style</h3>
+          <pre><code>df.agg([
+    ("Sales", "sum"),
+    ("Sales", "mean"),
+    ("Profit", "max")
+])</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>❌ Common mistakes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Wrong</th>
+            <th>Why it fails</th>
+            <th>Correct</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>df.agg()</code></td>
+            <td>No function provided</td>
+            <td><code>df.agg("sum")</code></td>
+          </tr>
+          <tr>
+            <td><code>df.agg("Sales", "sum")</code></td>
+            <td>Positional args misinterpreted (function, axis)</td>
+            <td><code>df.agg({"Sales": "sum"})</code></td>
+          </tr>
+          <tr>
+            <td><code>df.agg({"Sales", "sum"})</code></td>
+            <td><span class="bad">Set</span> not dict; no key→value</td>
+            <td><code>df.agg({"Sales": "sum"})</code></td>
+          </tr>
+          <tr>
+            <td><code>df.agg(("Sales", "sum"))</code></td>
+            <td>Tuple not wrapped in a list</td>
+            <td><code>df.agg([("Sales", "sum")])</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Rules of Thumb</h2>
+      <ul>
+        <li><span class="rule">{ }</span> + <span class="rule">:</span> → <strong>dict mapping</strong> (<code>"column": "function"</code>)</li>
+        <li><span class="rule">[ ]</span> + <span class="rule">( )</span> → <strong>list of tuples</strong> (<code>("column","function")</code>)</li>
+        <li>Never use <code>{"a", "b"}</code> for mappings (that's a set)</li>
+        <li>Don't pass multiple positional args like <code>("Sales","sum")</code> directly to <code>agg</code></li>
+        <li class="muted">You usually don't need to write <code>func=</code> or <code>aggfunc=</code> explicitly.</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
