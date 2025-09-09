@@ -1829,5 +1829,99 @@ input:focus {
             });
         });
     </script>
+
+
+
+  <div class="container">
+
+    <h1>Proof: Quantile Functions Are Not Convex</h1>
+
+    <h2>Standard Convexity Test</h2>
+    <p>For ANY function f to be convex, it must satisfy:</p>
+
+    <div class="formula">
+        f(λx + (1-λ)y) ≤ λf(x) + (1-λ)f(y)
+    </div>
+    
+    <p>for all x, y in the domain and λ ∈ [0,1].</p>
+
+    <h2>Applied to Quantiles</h2>
+    <p>Here:</p>
+    <ul>
+        <li><span class="math">f = Q<sub>p</sub></span> (the quantile function)</li>
+        <li><span class="math">x = X</span> (first distribution)</li>
+        <li><span class="math">y = Y</span> (second distribution)</li>
+        <li><span class="math">λx + (1-λ)y = Z</span> (the mixture distribution)</li>
+    </ul>
+
+    <p>So the test becomes:</p>
+
+    <div class="formula">
+        Q<sub>p</sub>(mixture) ≤ λQ<sub>p</sub>(X) + (1-λ)Q<sub>p</sub>(Y)
+    </div>
+
+    <h2>Finding Q<sub>0.6</sub>(X)</h2>
+    
+    <div class="step">
+        <p>X is a degenerate distribution that always equals 2.</p>
+        <p>For any probability level p, including p = 0.6:</p>
+        <p class="math">Q<sub>0.6</sub>(X) = 2</p>
+    </div>
+
+    <h2>Finding Q<sub>0.6</sub>(Y)</h2>
+
+    <div class="step">
+        <p>Y is a degenerate distribution that always equals 10.</p>
+        <p>For any probability level p, including p = 0.6:</p>
+        <p class="math">Q<sub>0.6</sub>(Y) = 10</p>
+    </div>
+
+    <h2>What the Mixture Distribution Z Actually Is</h2>
+    
+    <div class="highlight">
+        <p>The mixture Z = 0.3X + 0.7Y creates a discrete distribution:</p>
+        <ul>
+            <li>Takes value <strong>2</strong> with probability <strong>0.3</strong></li>
+            <li>Takes value <strong>10</strong> with probability <strong>0.7</strong></li>
+        </ul>
+    </div>
+
+    <h2>Finding Q<sub>0.6</sub>(Z) - The Key Step</h2>
+    
+    <div class="step">
+        <p>To find the 60th percentile of Z:</p>
+        <ul>
+            <li>At value 2: cumulative probability = 0.3 < 0.6 ❌ (not enough)</li>
+            <li>At value 10: cumulative probability = 1.0 ≥ 0.6 ✅ (sufficient)</li>
+        </ul>
+        <p>Therefore: <span class="math">Q<sub>0.6</sub>(Z) = 10</span></p>
+    </div>
+
+    <h2>Our Numbers</h2>
+    <ul>
+        <li>Left side: <span class="math">Q<sub>p</sub>(Z) = 10</span> (quantile jumps to 10)</li>
+        <li>Right side: <span class="math">0.3(2) + 0.7(10) = 7.6</span> (smooth weighted average)</li>
+        <li>Test: <span class="math">10 ≤ 7.6</span> ❌</li>
+    </ul>
+
+    <h2>Convexity Fails!</h2>
+    
+    <div class="failure">
+        <p>The quantile function gives us 10 for the mixture, but convexity would require it to be ≤ 7.6. The quantile <strong>jumps discontinuously</strong> from 2 to 10, skipping over the weighted average of 7.6 entirely.</p>
+        
+        <p>Since <strong>10 > 7.6</strong>, the quantile function violates convexity.</p>
+    </div>
+
+    <div class="conclusion">
+        <p>This discontinuous jump is exactly why VaR optimization is non-convex and computationally problematic. Standard optimization algorithms fail because the risk landscape has sudden jumps and multiple local optima.</p>
+    </div>
+
+  </div>
+
+
+
+
+
+
 </body>
 </html>
