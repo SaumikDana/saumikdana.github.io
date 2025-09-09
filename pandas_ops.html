@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandas Work</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #2c3e50;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 0;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(10px, 10px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #f0f8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .nav-link {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            color: #2c3e50;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Stats Dashboard */
+        .stats-dashboard {
+            background: rgba(248, 249, 250, 0.9);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+        }
+
+        .stats-dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.05), transparent);
+            animation: statsShimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes statsShimmer {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
+        }
+
+        .stats-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .stat-improvement {
+            font-size: 0.9rem;
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        /* Architecture Layers */
+        .architecture-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #27ae60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .layer {
+            background: rgba(248, 249, 250, 0.6);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 15px rgba(102, 126, 234, 0.08);
+        }
+
+        .layer:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .layer-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-right: 20px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .layer-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .layer-subtitle {
+            opacity: 0.7;
+            font-size: 1rem;
+            margin-top: 5px;
+            color: #34495e;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .module {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.03), rgba(39, 174, 96, 0.03));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.05);
+        }
+
+        .module:hover {
+            transform: scale(1.02);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+        }
+
+        .module-name {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .module-description {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            opacity: 0.9;
+            color: #34495e;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+            font-size: 0.95rem;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .features-list li:hover {
+            opacity: 1;
+            color: #27ae60;
+        }
+
+        .features-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-size: 0.8rem;
+        }
+
+        .features-list li code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #ff6b6b;
+            font-size: 0.85rem;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 40px 0;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.08);
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            font-weight: 700;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .comparison-table td {
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        /* Conclusion Section */
+        .conclusion {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conclusion::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: floatPattern 20s linear infinite;
+        }
+
+        @keyframes floatPattern {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(30px, 30px) rotate(360deg); }
+        }
+
+        .conclusion-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .conclusion h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .conclusion p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+
+        /* Image Sections */
+        .image-section {
+            text-align: center;
+            padding: 60px 0;
+            background: rgba(248, 249, 250, 0.5);
+            margin: 40px 0;
+            border-radius: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .image-section img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 80px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-link {
+                display: block;
+                margin: 10px 0;
+            }
+
+            .layer-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .layer-number {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .card-subtitle {
+            font-size: 0.95rem;
+            color: #718096;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .operations {
+            list-style: none;
+        }
+
+        .operations li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+
+        .operations li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .code {
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .priority-1 { border-left: 5px solid #e53e3e; }
+        .priority-2 { border-left: 5px solid #dd6b20; }
+        .priority-3 { border-left: 5px solid #38a169; }
+        .priority-4 { border-left: 5px solid #3182ce; }
+        .priority-5 { border-left: 5px solid #805ad5; }
+        .priority-6 { border-left: 5px solid #d69e2e; }
+
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Pandas Work</h1>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <!-- Image Sections -->
+        <section class="image-section">
+            <img src="pandas_cat_backtesting.png" alt="Pandas Backtesting Framework" style="width: 90%; max-width: 800px;">
+        </section>
+
+
+        <div class="grid">
+            <div class="card priority-1">
+                <div class="card-header">
+                    <span class="icon">🔄</span>
+                    <div>
+                        <div class="card-title">RESHAPING & PIVOTING</div>
+                        <div class="card-subtitle">Your Biggest Gap - Priority #1</div>
+                    </div>
+                </div>
+                <ul class="operations">
+                    <li><span class="code">.pivot()</span> - Long to wide format</li>
+                    <li><span class="code">.pivot_table()</span> - Pivot with aggregation</li>
+                    <li><span class="code">.melt()</span> - Wide to long transformation</li>
+                    <li><span class="code">.stack()</span> / <span class="code">.unstack()</span> - Index manipulation</li>
+                    <li><span class="code">.crosstab()</span> - Cross-tabulation tables</li>
+                    <li><span class="code">.transpose()</span> / <span class="code">.T</span> - Matrix transposition</li>
+                    <li><span class="code">.explode()</span> - Expand list-like columns</li>
+                    <li><span class="code">.concat()</span> - Concatenate DataFrames</li>
+                    <li><span class="code">.merge()</span> - SQL-style joins</li>
+                    <li><span class="code">.join()</span> - Index-based joining</li>
+                </ul>
+            </div>
+
+            <div class="card priority-2">
+                <div class="card-header">
+                    <span class="icon">⚡</span>
+                    <div>
+                        <div class="card-title">ADVANCED GROUPBY</div>
+                        <div class="card-subtitle">Build Beyond Basic .groupby()</div>
+                    </div>
+                </div>
+                <ul class="operations">
+                    <li><span class="code">.groupby().agg(custom_function)</span> - Complex ops</li>
+                    <li><span class="code">.groupby().apply(col='sum')</span> - Multi agg</li>
+                    <li><span class="code">.groupby().transform()</span> - Broadcast back</li>
+                    <li><span class="code">.groupby().filter()</span> - Group filtering</li>
+                    <li><span class="code">.groupby().rolling()</span> - Rolling within groups</li>
+                    <li><span class="code">.groupby().nth()</span> - Get nth row per group</li>
+                    <li><span class="code">.groupby().head()</span> / <span class="code">.tail()</span> - First/last n rows</li>
+                    <li><span class="code">.groupby().size()</span> vs <span class="code">.count()</span> - Differences</li>
+                    <li><span class="code">.sum()</span> / <span class="code">.mean()</span> / <span class="code">.std()</span> - Basic aggregation</li>
+                    <li><span class="code">.value_counts()</span> - Frequency analysis</li>
+                </ul>
+            </div>
+
+            <div class="card priority-3">
+                <div class="card-header">
+                    <span class="icon">🔤</span>
+                    <div>
+                        <div class="card-title">STRING OPERATIONS</div>
+                        <div class="card-subtitle">Almost Never Used - Big Gap</div>
+                    </div>
+                </div>
+                <ul class="operations">
+                    <li><span class="code">.str.extract()</span> - Regex pattern extraction</li>
+                    <li><span class="code">.str.split()</span> + <span class="code">.str.get()</span> - String parsing</li>
+                    <li><span class="code">.str.replace()</span> - Regex replacements</li>
+                    <li><span class="code">.str.contains()</span> - Complex patterns</li>
+                    <li><span class="code">.str.findall()</span> - Find all matches</li>
+                    <li><span class="code">.fillna()</span> / <span class="code">.dropna()</span> - Handle missing values</li>
+                    <li><span class="code">.duplicated()</span> / <span class="code">.drop_duplicates()</span> - Clean duplicates</li>
+                    <li><span class="code">.isna()</span> / <span class="code">.notna()</span> - Missing data detection</li>
+                    <li><span class="code">.drop()</span> - Remove columns/rows</li>
+                    <li><span class="code">.rename()</span> - Rename columns/index</li>
+                </ul>
+            </div>
+
+            <div class="card priority-5">
+                <div class="card-header">
+                    <span class="icon">🎯</span>
+                    <div>
+                        <div class="card-title">ADVANCED INDEXING</div>
+                        <div class="card-subtitle">Beyond Basic .loc[] and .iloc[]</div>
+                    </div>
+                </div>
+                <ul class="operations">
+                    <li><span class="code">.xs()</span> - Cross-section from MultiIndex</li>
+                    <li><span class="code">.query()</span> - SQL-like filtering syntax</li>
+                    <li><span class="code">.eval()</span> - Expression evaluation</li>
+                    <li><span class="code">.where()</span> / <span class="code">.mask()</span> - Conditional selection</li>
+                    <li>MultiIndex operations</li>
+                    <li><span class="code">.loc[]</span> / <span class="code">.iloc[]</span> - Label/position indexing</li>
+                    <li><span class="code">.at[]</span> / <span class="code">.iat[]</span> - Single value access</li>
+                    <li><span class="code">.set_index()</span> / <span class="code">.reset_index()</span> - Index manipulation</li>
+                    <li><span class="code">.reindex()</span> - Conform to new index</li>
+                    <li><span class="code">.sort_values()</span> / <span class="code">.sort_index()</span> - Sorting</li>
+                </ul>
+            </div>
+
+            <div class="card priority-6">
+                <div class="card-header">
+                    <span class="icon">🏷️</span>
+                    <div>
+                        <div class="card-title">DATA TYPES & CATEGORICAL</div>
+                        <div class="card-subtitle">Memory Optimization & Binning</div>
+                    </div>
+                </div>
+                <ul class="operations">
+                    <li><span class="code">astype('category')</span> - Categorical data</li>
+                    <li><span class="code">.cut()</span> / <span class="code">.qcut()</span> - Binning continuous data</li>
+                    <li><span class="code">pd.get_dummies()</span> - One-hot encoding</li>
+                    <li><span class="code">.factorize()</span> - Convert to numeric codes</li>
+                    <li>Categorical operations (<span class="code">.cat</span> accessor)</li>
+                    <li><span class="code">.select_dtypes()</span> - Filter columns by type</li>
+                    <li><span class="code">.convert_dtypes()</span> - Auto type inference</li>
+                    <li><span class="code">.info()</span> / <span class="code">.describe()</span> - Data overview</li>
+                    <li><span class="code">.dtypes</span> / <span class="code">.shape</span> - Basic properties</li>
+                    <li><span class="code">.memory_usage()</span> - Memory profiling</li>
+                </ul>
+            </div>
+
+            <div class="card priority-6">
+                <div class="card-header">
+                    <span class="icon">⏰</span>
+                    <div>
+                        <div class="card-title">ADVANCED TIME SERIES</div>
+                        <div class="card-subtitle">Beyond .shift() and .diff()</div>
+                    </div>
+                </div>
+                <ul class="operations">
+                    <li><span class="code">.resample()</span> - Time-based grouping</li>
+                    <li><span class="code">.rolling()</span> - Custom windows</li>
+                    <li><span class="code">.expanding()</span> - Expanding windows</li>
+                    <li><span class="code">pd.date_range()</span> - Complex frequencies</li>
+                    <li>Advanced datetime indexing</li>
+                    <li><span class="code">.tz_localize()</span> / <span class="code">.tz_convert()</span> - Timezone handling</li>
+                    <li><span class="code">.dt</span> accessor methods - Date/time operations</li>
+                    <li><span class="code">.interpolate()</span> - Smart missing value filling</li>
+                    <li><span class="code">.head()</span> / <span class="code">.tail()</span> / <span class="code">.sample()</span> - Data sampling</li>
+                    <li><span class="code">.corr()</span> / <span class="code">.cov()</span> - Statistical relationships</li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+
+
+</body>
+</html>
