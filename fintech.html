@@ -383,7 +383,113 @@
            margin-left: 1rem;
            color: #64748b;
         }    
-       
+
+        .original-mse {
+            background: #e8f4f8;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .original-mse h2 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        
+        .split-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .split-section:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .best-split {
+            background: #fff3cd;
+            border: 3px solid #ff6b6b;
+            position: relative;
+        }
+        
+        .best-split::before {
+            content: "🔴 BEST SPLIT";
+            position: absolute;
+            top: -15px;
+            right: 15px;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .split-title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .group {
+            background: white;
+            border-left: 4px solid #3498db;
+            margin: 10px 0;
+            padding: 10px 15px;
+        }
+        
+        .weighted-mse {
+            background: #e9ecef;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .information-gain {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #155724;
+        }
+        
+        .best-split .information-gain {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            font-size: 16px;
+        }
+        
+        .result {
+            background: #d1ecf1;
+            border: 2px solid #bee5eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .result h3 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+        
+        .math {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
     </style>
 </head>
 <body>
