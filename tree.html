@@ -547,21 +547,19 @@
                </div>
                
                <div class="continuation-section">
-                   <h4>**After finding the best split:**</h4>
+                   <h4>After finding the best split:</h4>
                    <div class="continuation-steps">
                        <div class="continuation-step">
-                           <div class="step-title">**Create the split**</div>
+                           <div class="step-title">Create the split</div>
                            <div class="step-content">
-                               Use the best split (e.g., X < 5) to divide the data into two child nodes
-                               <div class="sub-step">• Left child: all data points where X < 5</div>
-                               <div class="sub-step">• Right child: all data points where X ≥ 5</div>
+                               Use the best split to divide the data into two child nodes
                            </div>
                        </div>
                        
                        <div class="continuation-step">
-                           <div class="step-title">**Recursively repeat the process**</div>
+                           <div class="step-title">Recursively repeat the process</div>
                            <div class="step-content">
-                               on each child node:
+                               On each child node:
                                <div class="sub-step">• For the left child, find the best split among all its data points</div>
                                <div class="sub-step">• For the right child, find the best split among all its data points</div>
                                <div class="sub-step">• Each child becomes a new decision node with its own best split</div>
@@ -569,9 +567,8 @@
                        </div>
                        
                        <div class="continuation-step">
-                           <div class="step-title">**Continue until stopping criteria**</div>
+                           <div class="step-title">Continue until stopping criteria are met</div>
                            <div class="step-content">
-                               are met:
                                <div class="sub-step">• Maximum depth reached</div>
                                <div class="sub-step">• Minimum samples per leaf reached</div>
                                <div class="sub-step">• Information gain below threshold</div>
@@ -580,7 +577,7 @@
                        </div>
                        
                        <div class="continuation-step">
-                           <div class="step-title">**Create leaf nodes**</div>
+                           <div class="step-title">Create leaf nodes</div>
                            <div class="step-content">
                                When splitting stops, the node becomes a leaf that predicts the **mean** of all Y values in that node
                            </div>
