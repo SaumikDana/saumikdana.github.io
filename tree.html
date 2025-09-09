@@ -890,51 +890,134 @@
         <h3 style="text-align: center;">Classification Models</h3>
         
         <div class="algorithm-container">
-            <div class="algorithm-card">
-                <div class="algorithm-header">
-                    <h3>Decision Tree Classifier</h3>
-                    <p>Recursive binary splitting based on Gini reduction</p>
-                </div>
-                <div class="algorithm-steps">
-                    <div class="step">
-                        <span class="bullet">•</span>
-                        <span><span class="keyword">Original Gini Impurity</span> from all Y values</span>
-                    </div>
-                    <div class="step">
-                        <span class="bullet">•</span>
-                        <span>For each feature</span>
-                    </div>
-                    <div class="step nested-level-1">
-                        <span class="bullet">•</span>
-                        <span>For each possible split (based on X values)</span>
-                    </div>
-                    <div class="step nested-level-2">
-                        <span class="bullet">•</span>
-                        <span><span class="keyword">Split Y values</span> into two groups</span>
-                    </div>
-                    <div class="step nested-level-2">
-                        <span class="bullet">•</span>
-                        <span><span class="keyword">Calculate class counts and Gini</span> for each group</span>
-                    </div>
-                    <div class="step nested-level-2">
-                        <span class="bullet">•</span>
-                        <span><span class="keyword">Combine Gini scores</span> with weighted average</span>
-                    </div>
-                    <div class="step nested-level-2">
-                        <span class="bullet">•</span>
-                        <span><span class="emphasis">Information Gain</span> = Original Gini - Weighted Gini</span>
-                    </div>
-                    <div class="step nested-level-1">
-                        <span class="bullet">•</span>
-                        <span><span class="emphasis">Track split with highest gain</span> for this feature</span>
-                    </div>
-                    <div class="step">
-                        <span class="bullet">•</span>
-                        <span><span class="emphasis">Select best split</span> across all features</span>
-                    </div>
-                </div>
-            </div>
 
+
+
+
+
+
+
+            <div class="algorithm-card">
+                <div class="algorithm-header"> 
+                   <h3>Decision Tree Classifier</h3> 
+                   <p>Recursive binary splitting based on Gini impurity reduction</p> 
+               </div>
+               
+               <div class="preprocessing">
+                   <h4>Data Preprocessing:</h4>
+                   <p>Convert continuous Y values [10, 20, 30, 40, 50] into categorical classes: ["low", "low", "medium", "high", "high"]</p>
+               </div>
+               
+                <div class="algorithm-steps"> 
+                    <div class="step"> 
+                       <span class="bullet">•</span> 
+                       <span><span class="keyword">Original Gini impurity</span> from all Y classes</span> 
+                   </div> 
+                   
+                    <div class="step"> 
+                       <span class="bullet">•</span> 
+                       <span>For each feature</span> 
+                   </div> 
+                   
+                    <div class="step nested-level-1"> 
+                       <span class="bullet">•</span> 
+                       <span>For each possible split (based on X values)</span> 
+                   </div> 
+                   
+                    <div class="step nested-level-2"> 
+                       <span class="bullet">•</span> 
+                       <span><span class="keyword">Split Y classes</span> into two groups</span> 
+                   </div> 
+                   
+                    <div class="step nested-level-2"> 
+                       <span class="bullet">•</span> 
+                       <span><span class="keyword">Calculate class frequencies and Gini impurity</span> for each group</span> 
+                   </div> 
+                   
+                    <div class="step nested-level-2"> 
+                       <span class="bullet">•</span> 
+                       <span><span class="keyword">Combine Gini impurities</span> with weighted average</span> 
+                   </div> 
+                   
+                    <div class="step nested-level-2"> 
+                       <span class="bullet">•</span> 
+                       <span><span class="emphasis">Information Gain</span> = Original Gini - Weighted Gini</span> 
+                   </div> 
+                   
+                    <div class="step nested-level-1"> 
+                       <span class="bullet">•</span> 
+                       <span><span class="emphasis">Track split with highest gain</span> for this feature</span> 
+                   </div> 
+                   
+                    <div class="step"> 
+                       <span class="bullet">•</span> 
+                       <span><span class="emphasis">Select best split</span> across all features</span> 
+                   </div> 
+                </div>
+               
+               <div class="continuation-section">
+                   <h4>After finding the best split:</h4>
+                   
+                   <div class="continuation-steps">
+                   
+                       <div class="continuation-step">
+                           <div class="step-title">Create the split</div>
+                           <div class="step-content">
+                               Use the best split to divide the data into two child nodes
+                           </div>
+                       </div>
+                       
+                       <div class="continuation-step">
+                           <div class="step-title">Recursively repeat the process</div>
+                           <div class="step-content">
+                               On each child node:
+                               <div class="sub-step">• For the left child, find the best split among all its data points</div>
+                               <div class="sub-step">• For the right child, find the best split among all its data points</div>
+                               <div class="sub-step">• Each child becomes a new decision node with its own best split</div>
+                           </div>
+                       </div>
+                       
+                       <div class="continuation-step">
+                           <div class="step-title">Continue until stopping criteria are met</div>
+                           <div class="step-content">
+                               <div class="sub-step">• Maximum depth reached</div>
+                               <div class="sub-step">• Minimum samples per leaf reached</div>
+                               <div class="sub-step">• Information gain below threshold</div>
+                               <div class="sub-step">• Node becomes "pure enough"</div>
+                           </div>
+                       </div>
+                       
+                       <div class="continuation-step">
+                           <div class="step-title">Create leaf nodes</div>
+                           <div class="step-content">
+                               When splitting stops, the node becomes a leaf that predicts the most frequent class of all Y values in that node
+                           </div>
+                       </div>
+                   </div> 
+               </div> 
+            
+               <div class="prediction-example">
+                   <h4>Prediction Example:</h4>
+                   <div class="example-content">
+                       <div class="data-point"><strong>New data point:</strong> X₁=4, X₂=7</div>
+                       <div class="navigation">
+                           <div class="nav-title">Tree navigation:</div>
+                           <div class="nav-step">• Root: "X₁ < 5?" → YES (4 < 5) → go left</div>
+                           <div class="nav-step">• Left node: "X₂ < 6?" → NO (7 ≥ 6) → go right</div>
+                           <div class="nav-step">• Right node: LEAF → contains training Y classes ["low", "medium", "low"]</div>
+                           <div class="nav-step"><strong>• Prediction: class = "low" (most frequent)</strong></div>
+                       </div>
+                   </div>
+               </div>
+            </div>
+            
+            
+            
+
+
+            
+
+            
             <div class="algorithm-card">
                 <div class="algorithm-header">
                     <h3>Random Forest Classifier</h3>
