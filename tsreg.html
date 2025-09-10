@@ -263,74 +263,6 @@
             <li><strong>Gradient explosion:</strong> Optimization algorithms receive conflicting signals</li>
         </ol>
         
-        <div class="code-block">
-# What happens in the matrix:
-X = [[1, 250.1, 1],      # Intercept, lag, trend
-     [1, 251.3, 2],
-     [1, 252.8, 3], ...]
-
-# Condition number calculation:
-XtX = X.T @ X
-condition_number = np.linalg.cond(XtX)
-# Result: ~10^16 for levels, ~10^2 for changes
-        </div>
-        
-        <h2><span class="emoji">🤖</span>The Optimization Algorithms</h2>
-        
-        <p>We test three adaptive optimizers to see how they handle the ill-conditioned problem:</p>
-        
-        <div class="optimizer-grid">
-            <div class="optimizer-card">
-                <h4>🔵 Adam Optimizer</h4>
-                <p><strong>Strategy:</strong> Combines momentum with adaptive learning rates</p>
-                <ul>
-                    <li>Maintains moving averages of gradients and squared gradients</li>
-                    <li>Includes bias correction</li>
-                    <li>Generally robust across different problems</li>
-                </ul>
-            </div>
-            
-            <div class="optimizer-card">
-                <h4>🟡 RMSprop Optimizer</h4>
-                <p><strong>Strategy:</strong> Adaptive learning rates without momentum</p>
-                <ul>
-                    <li>Uses moving average of squared gradients</li>
-                    <li>No momentum component</li>
-                    <li>Can be more sensitive to local variations</li>
-                </ul>
-            </div>
-            
-            <div class="optimizer-card">
-                <h4>🟠 AdaGrad Optimizer</h4>
-                <p><strong>Strategy:</strong> Accumulates all past squared gradients</p>
-                <ul>
-                    <li>Becomes increasingly conservative over time</li>
-                    <li>Learning rate decreases as optimization progresses</li>
-                    <li>Can handle sparse gradients well</li>
-                </ul>
-            </div>
-        </div>
-        
-        <h2><span class="emoji">🎯</span>Learning Rate Adaptation</h2>
-        
-        <p>To make the comparison fair, we use different learning rates for each data type:</p>
-        
-        <div class="code-block">
-# Learning rates tuned for each problem:
-if optimizer_name == 'adam':
-    levels_optimizer = AdamOptimizer(learning_rate=0.0001)  # Much smaller!
-    changes_optimizer = AdamOptimizer(learning_rate=0.01)
-elif optimizer_name == 'rmsprop':
-    levels_optimizer = RMSpropOptimizer(learning_rate=0.001)
-    changes_optimizer = RMSpropOptimizer(learning_rate=0.01)
-elif optimizer_name == 'adagrad':
-    levels_optimizer = AdaGradOptimizer(learning_rate=0.01)
-    changes_optimizer = AdaGradOptimizer(learning_rate=0.1)
-        </div>
-        
-        <div class="warning">
-            <strong>⚠️ Critical Point:</strong> Even with careful learning rate tuning, the fundamental ill-conditioning of the levels problem remains. This demonstrates why data preprocessing and scaling are crucial in machine learning.
-        </div>
         
         <h2><span class="emoji">📈</span>The Optimization Animations</h2>
         
@@ -421,21 +353,21 @@ elif optimizer_name == 'adagrad':
             <h3>🛠️ How to Fix the CPI Levels Problem:</h3>
             
             <div class="code-block">
-# Option 1: Standardization
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
-# Option 2: Log transformation
-Y_log = np.log(Y / Y.shift(1))  # Convert to log returns
-
-# Option 3: Differencing
-Y_diff = Y.diff()  # First differences
-
-# Option 4: Min-Max scaling
-from sklearn.preprocessing import MinMaxScaler
-scaler = MinMaxScaler()
-X_normalized = scaler.fit_transform(X)
+                # Option 1: Standardization
+                from sklearn.preprocessing import StandardScaler
+                scaler = StandardScaler()
+                X_scaled = scaler.fit_transform(X)
+                
+                # Option 2: Log transformation
+                Y_log = np.log(Y / Y.shift(1))  # Convert to log returns
+                
+                # Option 3: Differencing
+                Y_diff = Y.diff()  # First differences
+                
+                # Option 4: Min-Max scaling
+                from sklearn.preprocessing import MinMaxScaler
+                scaler = MinMaxScaler()
+                X_normalized = scaler.fit_transform(X)
             </div>
         </div>
         
