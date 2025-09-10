@@ -877,9 +877,18 @@ input:focus {
 
 
 
-    <script src="js/distributions.js"></script>
-
-
+    <script>
+    // Load the distributions script dynamically
+    fetch('distributions.js')
+      .then(response => response.text())
+      .then(script => {
+        const scriptElement = document.createElement('script');
+        scriptElement.textContent = script;
+        document.head.appendChild(scriptElement);
+      })
+      .catch(error => console.error('Error loading distributions.js:', error));
+    </script>
+    
 
 
     
