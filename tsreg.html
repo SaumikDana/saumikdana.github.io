@@ -135,6 +135,15 @@
             overflow-x: auto;
             font-family: 'Courier New', monospace;
             margin: 15px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .code-block code {
+            display: block;
+            white-space: pre-line;
+            font-family: inherit;
         }
         
         .highlight {
@@ -332,21 +341,21 @@
             <h3>🛠️ How to Fix the CPI Levels Problem:</h3>
             
             <div class="code-block">
-                # Option 1: Standardization
-                from sklearn.preprocessing import StandardScaler
-                scaler = StandardScaler()
-                X_scaled = scaler.fit_transform(X)
-                
-                # Option 2: Log transformation
-                Y_log = np.log(Y / Y.shift(1))  # Convert to log returns
-                
-                # Option 3: Differencing
-                Y_diff = Y.diff()  # First differences
-                
-                # Option 4: Min-Max scaling
-                from sklearn.preprocessing import MinMaxScaler
-                scaler = MinMaxScaler()
-                X_normalized = scaler.fit_transform(X)
+<code># Option 1: Standardization
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Option 2: Log transformation
+Y_log = np.log(Y / Y.shift(1))  # Convert to log returns
+
+# Option 3: Differencing
+Y_diff = Y.diff()  # First differences
+
+# Option 4: Min-Max scaling
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+X_normalized = scaler.fit_transform(X)</code>
             </div>
         </div>
         
