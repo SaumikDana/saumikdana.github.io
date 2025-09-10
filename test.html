@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Loading Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Loading Diagnostic Test</h1>
+    
+    <div class="test-box">
+        <h2>Test 1: Inline JavaScript</h2>
+        <div id="inline-status" class="status warning">Testing...</div>
+        <script>
+            document.getElementById('inline-status').innerHTML = '✅ Inline JavaScript works!';
+            document.getElementById('inline-status').className = 'status success';
+        </script>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 2: External JavaScript (distributions.js)</h2>
+        <div id="external-status" class="status warning">Testing external script...</div>
+        <p>If this stays yellow, your distributions.js file isn't loading.</p>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 3: Console Check</h2>
+        <p>Open your browser's Developer Tools (F12) and check the Console tab for any error messages.</p>
+        <button onclick="console.log('Button click test - this should appear in console')">Test Console Log</button>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 4: Network Check</h2>
+        <p>In Developer Tools, go to the Network tab, refresh this page, and look for:</p>
+        <ul>
+            <li>A request for "distributions.js"</li>
+            <li>Its status code (should be 200 if successful, 404 if not found)</li>
+        </ul>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 5: File Structure Check</h2>
+        <p>Make sure your files are organized like this:</p>
+        <pre>
+your-folder/
+├── test.html (this file)
+├── distributions.js
+└── your-main-file.html
+        </pre>
+    </div>
+
+    <div class="test-box">
+        <h2>Debugging Steps</h2>
+        <ol>
+            <li>Save this file as <code>test.html</code> in the same folder as your distributions.js</li>
+            <li>Open it in your browser</li>
+            <li>Check what happens with Test 2</li>
+            <li>Open Developer Tools (F12) and look for errors</li>
+            <li>Report back what you see!</li>
+        </ol>
+    </div>
+
+    <!-- Try to load your actual distributions.js file -->
+    <script src="distributions.js"></script>
+    <script>
+        // This will run after distributions.js loads (if it loads)
+        setTimeout(() => {
+            const statusEl = document.getElementById('external-status');
+            
+            // Check if any of the expected variables/functions from distributions.js exist
+            if (typeof distributions !== 'undefined' || 
+                typeof currentChart !== 'undefined' || 
+                typeof updateVisualization !== 'undefined') {
+                statusEl.innerHTML = '✅ distributions.js loaded successfully!';
+                statusEl.className = 'status success';
+            } else {
+                statusEl.innerHTML = '❌ distributions.js did not load or has no expected content';
+                statusEl.className = 'status error';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
