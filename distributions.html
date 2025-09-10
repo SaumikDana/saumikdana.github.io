@@ -10,27 +10,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 <style>
 :root {
-    --primary-color: #667eea;
-    --primary-dark: #4c51bf;
-    --secondary-color: #764ba2;
-    --accent-color: #f093fb;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
-    --danger-color: #ef4444;
-    --text-primary: #1a202c;
-    --text-secondary: #4a5568;
-    --text-muted: #718096;
-    --bg-primary: #ffffff;
-    --bg-secondary: #f7fafc;
-    --bg-tertiary: #edf2f7;
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    --gradient-accent: linear-gradient(135deg, var(--accent-color), var(--primary-color));
-    --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --primary: #3b82f6;
+    --primary-dark: #1e40af;
+    --secondary: #8b5cf6;
+    --accent: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --bg: #ffffff;
+    --bg-alt: #f8fafc;
+    --bg-dark: #0f172a;
+    --border: #e2e8f0;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-lg: rgba(0, 0, 0, 0.15);
+    --radius: 16px;
+    --radius-sm: 8px;
 }
 
 * {
@@ -40,194 +36,220 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
+    color: var(--text);
+    background: var(--bg-alt);
     overflow-x: hidden;
 }
 
+/* Utility Classes */
 .container {
-    max-width: 1600px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
-/* Header Styles */
-header {
-    background: var(--gradient-bg);
-    padding: 60px 0;
-    text-align: center;
+.grid {
+    display: grid;
+    gap: 32px;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.gap-4 { gap: 16px; }
+.gap-6 { gap: 24px; }
+
+.text-center { text-align: center; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 1.875rem; }
+.text-4xl { font-size: 2.25rem; }
+
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.p-6 { padding: 24px; }
+.p-8 { padding: 32px; }
+.py-16 { padding: 64px 0; }
+.py-20 { padding: 80px 0; }
+
+.rounded { border-radius: var(--radius-sm); }
+.rounded-lg { border-radius: var(--radius); }
+.rounded-full { border-radius: 9999px; }
+
+.shadow { box-shadow: 0 4px 6px -1px var(--shadow); }
+.shadow-lg { box-shadow: 0 10px 15px -3px var(--shadow-lg); }
+.shadow-xl { box-shadow: 0 20px 25px -5px var(--shadow-lg); }
+
+.transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
     position: relative;
     overflow: hidden;
 }
 
-header::before {
+.hero::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="rgba(255,255,255,0.05)" fill-opacity="0.1"><circle cx="30" cy="30" r="2"/></g></svg>') repeat;
-    animation: float 20s ease-in-out infinite;
+    inset: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+    animation: float 30s linear infinite;
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(-100px, -100px) rotate(360deg); }
 }
 
-.header-content {
+.hero-content {
     position: relative;
     z-index: 2;
 }
 
-.header-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 400;
-    color: white;
-    margin-bottom: 20px;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    animation: slideInUp 1s ease-out;
+.hero-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    margin-bottom: 24px;
+    background: linear-gradient(to right, white, rgba(255,255,255,0.8));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: slideUp 1s ease-out;
 }
 
-.header-subtitle {
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 400;
+.hero-subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    opacity: 0.9;
     max-width: 600px;
     margin: 0 auto;
-    animation: slideInUp 1s ease-out 0.2s both;
+    animation: slideUp 1s ease-out 0.2s both;
 }
 
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Video Section */
-.video-section {
-    padding: 80px 0;
-    background: var(--bg-primary);
+/* Section Headers */
+.section-header {
+    margin-bottom: 64px;
 }
 
 .section-title {
-    text-align: center;
     font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 60px;
+    font-weight: 700;
+    margin-bottom: 16px;
     position: relative;
 }
 
 .section-title::after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -8px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
+    width: 60px;
     height: 4px;
-    background: var(--gradient-primary);
+    background: linear-gradient(to right, var(--primary), var(--accent));
     border-radius: 2px;
 }
 
+/* Video Grid */
 .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    margin-top: 60px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 }
 
-.video-container {
-    background: var(--bg-primary);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: var(--shadow-lg);
-    transition: all 0.3s ease;
-    position: relative;
+.video-card {
+    background: var(--bg);
+    border-radius: var(--radius);
     overflow: hidden;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.video-container::before {
+.video-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--gradient-primary);
+    background: linear-gradient(to right, var(--primary), var(--secondary));
 }
 
-.video-container:hover {
-    transform: translateY(-10px);
+.video-card:hover {
+    transform: translateY(-8px);
     box-shadow: var(--shadow-xl);
 }
 
-.video-container h3 {
-    font-size: 1.5rem;
+.video-card h3 {
+    padding: 24px 24px 16px;
+    font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+}
+
+.video-content {
+    padding: 0 24px 24px;
 }
 
 .video-placeholder {
     width: 100%;
-    height: 200px;
-    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
-    border-radius: 15px;
+    height: 240px;
+    background: linear-gradient(135deg, var(--bg-alt), #e2e8f0);
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-muted);
     font-size: 14px;
-    text-align: center;
-    border: 2px dashed var(--border-color);
+    border: 2px dashed var(--border);
+    margin-bottom: 16px;
 }
 
-/* Probability Section */
-.probability-section {
-    padding: 80px 0;
-    background: var(--bg-secondary);
+/* Interactive Section */
+.interactive-section {
+    background: var(--bg);
 }
 
 .distribution-selector {
-    text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 48px;
 }
 
-.distribution-buttons {
+.dist-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
-    margin-top: 30px;
+    gap: 12px;
+    margin-top: 32px;
 }
 
 .dist-btn {
     padding: 12px 24px;
-    border: 2px solid transparent;
-    border-radius: 50px;
-    background: var(--bg-primary);
-    color: var(--text-primary);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-sm);
+    font-family: inherit;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 .dist-btn::before {
@@ -237,7 +259,7 @@ header::before {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: var(--gradient-primary);
+    background: linear-gradient(to right, var(--primary), var(--secondary));
     transition: left 0.3s ease;
     z-index: 0;
 }
@@ -247,195 +269,149 @@ header::before {
     z-index: 1;
 }
 
-.dist-btn:hover::before {
-    left: 0;
-}
-
-.dist-btn:hover {
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.dist-btn.active {
-    background: var(--gradient-primary);
-    color: white;
-    box-shadow: var(--shadow-md);
-    border-color: var(--primary-color);
-}
-
+.dist-btn:hover::before,
 .dist-btn.active::before {
     left: 0;
 }
 
-.visualization-area {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 40px;
-    margin-top: 40px;
+.dist-btn:hover,
+.dist-btn.active {
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
 }
 
-.controls {
-    background: var(--bg-primary);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: var(--shadow-lg);
+/* Visualization Layout */
+.viz-layout {
+    grid-template-columns: 400px 1fr;
+    gap: 40px;
+    margin-top: 48px;
+}
+
+.controls-panel {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 32px;
+    border: 1px solid var(--border);
     height: fit-content;
     position: sticky;
-    top: 20px;
+    top: 24px;
 }
 
-.distribution-info {
-    background: linear-gradient(135deg, #e0f2fe 0%, #e1f5fe 100%);
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    border-left: 4px solid var(--primary-color);
+.info-card {
+    background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
+    padding: 24px;
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+    border-left: 4px solid var(--primary);
     position: relative;
-    overflow: hidden;
 }
 
-.distribution-info::before {
+.info-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 60px;
-    height: 60px;
-    background: var(--primary-color);
+    top: -8px;
+    right: -8px;
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
     opacity: 0.1;
     border-radius: 50%;
-    transform: translate(20px, -20px);
 }
 
-.distribution-info h3 {
+.info-card h3 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
-.distribution-info p {
-    color: var(--text-secondary);
+.info-card p {
+    color: var(--text-muted);
     font-size: 14px;
-    line-height: 1.5;
 }
 
 .control-group {
-    margin-bottom: 25px;
+    margin-bottom: 24px;
 }
 
 .control-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
-    color: var(--text-primary);
     font-size: 14px;
 }
 
 .control-group input {
     width: 100%;
     padding: 12px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
     font-size: 14px;
     font-family: 'JetBrains Mono', monospace;
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+    background: var(--bg-alt);
+    color: var(--text);
     transition: all 0.3s ease;
 }
 
 .control-group input:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    background: var(--bg-primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: var(--bg);
 }
 
-.applications-list {
-    background: linear-gradient(135deg, #fef7e0 0%, #fef3c7 100%);
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 20px;
-    border-left: 4px solid var(--warning-color);
-}
-
-.applications-list h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 12px;
-}
-
-.applications-list ul {
-    margin: 0;
-    padding-left: 20px;
-}
-
-.applications-list li {
-    margin-bottom: 8px;
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.4;
-}
-
-.stats-display {
+.stats-card {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 30px;
-    border: 1px solid rgba(102, 126, 234, 0.2);
+    padding: 24px;
+    border-radius: var(--radius);
+    margin-top: 32px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
-.stats-display h4 {
+.stats-card h4 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.stats-display h4::before {
-    content: '📊';
-    font-size: 16px;
-}
-
-.stat-item {
+.stat-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     padding: 8px 0;
-    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
     font-size: 14px;
 }
 
-.stat-item:last-child {
+.stat-row:last-child {
     border-bottom: none;
     margin-bottom: 0;
 }
 
-.stat-item span:first-child {
-    color: var(--text-secondary);
+.stat-label {
+    color: var(--text-muted);
     font-weight: 500;
 }
 
-.stat-item span:last-child {
-    color: var(--text-primary);
+.stat-value {
+    color: var(--text);
     font-weight: 600;
     font-family: 'JetBrains Mono', monospace;
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(59, 130, 246, 0.1);
     padding: 4px 8px;
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 .chart-container {
-    background: var(--bg-primary);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: var(--shadow-lg);
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 32px;
+    border: 1px solid var(--border);
     height: 600px;
     position: relative;
     overflow: hidden;
@@ -448,61 +424,67 @@ header::before {
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--gradient-primary);
+    background: linear-gradient(to right, var(--primary), var(--accent));
 }
 
 /* VaR Section */
 .var-section {
-    padding: 80px 0;
-    background: var(--bg-primary);
+    background: var(--bg-alt);
 }
 
-.var-card {
+.var-container {
     max-width: 1200px;
     margin: 0 auto;
-    background: linear-gradient(180deg, #ffffff, #fefefe 70%, #ffffff);
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.var-header {
+    background: linear-gradient(135deg, var(--bg-alt), var(--bg));
+    padding: 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
 }
 
 .var-title {
-    font-size: 24px;
-    margin: 0 0 20px;
-    text-align: center;
-    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
 }
 
 .var-content {
     display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 24px;
-    align-items: start;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    padding: 32px;
 }
 
-.var-chart-container {
+.var-chart-area {
     position: relative;
 }
 
 .var-canvas {
     width: 100%;
     height: 500px;
-    border-radius: 12px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    border: 1px solid var(--border);
     display: block;
 }
 
 .var-controls {
-    background: var(--bg-secondary);
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 16px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    height: fit-content;
 }
 
 .var-control-group {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .var-control-group label {
@@ -511,111 +493,242 @@ header::before {
     color: var(--text-muted);
     margin-bottom: 8px;
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .var-btn {
     appearance: none;
-    border: 1px solid #e2e8f0;
-    background: linear-gradient(180deg, #f8fafc, #f1f5f9);
-    color: #1e293b;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
     padding: 12px 16px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     width: 100%;
     font-weight: 500;
     margin-bottom: 8px;
+    font-size: 14px;
     transition: all 0.3s ease;
 }
 
 .var-btn:hover {
-    filter: brightness(1.05);
+    background: var(--bg-alt);
+    transform: translateY(-1px);
 }
 
 .var-btn.active {
-    background: linear-gradient(180deg, var(--primary-color), #1e40af);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: white;
-    border-color: var(--primary-color);
+    border-color: var(--primary);
 }
 
 .var-btn.play {
-    background: linear-gradient(180deg, var(--success-color), #047857);
+    background: linear-gradient(135deg, var(--success), #047857);
     color: white;
-    border-color: var(--success-color);
+    border-color: var(--success);
+}
+
+.var-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--danger);
+    text-align: center;
+    padding: 16px;
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border-radius: var(--radius-sm);
+    margin: 16px 0;
+    border: 1px solid #fecaca;
 }
 
 .var-stats {
     font-size: 13px;
-    line-height: 1.5;
-    margin-top: 16px;
-    padding: 12px;
-    background: #f9fafb;
-    border-radius: 8px;
-}
-
-.var-stats strong {
-    color: var(--text-primary);
-}
-
-.var-display {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--danger-color);
-    text-align: center;
-    padding: 8px;
+    line-height: 1.6;
+    padding: 16px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
 }
 
 .var-legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 16px;
     font-size: 12px;
     color: var(--text-muted);
-    margin-top: 12px;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
 }
 
-.var-legend span {
+.var-legend-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
-.chip {
-    width: 14px;
-    height: 14px;
-    border-radius: 3px;
+.legend-chip {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
 }
 
-.chip.blue { background: var(--primary-color); }
-.chip.red { background: var(--danger-color); }
-.chip.green { background: var(--success-color); }
+.chip-blue { background: var(--primary); }
+.chip-red { background: var(--danger); }
+.chip-green { background: var(--success); }
 
 .var-explanation {
     margin-top: 16px;
-    padding: 16px;
-    background: #f0f9ff;
-    border: 1px solid #bae6fd;
-    border-radius: 8px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f0f9ff, #dbeafe);
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius-sm);
     font-size: 13px;
+    line-height: 1.6;
 }
 
-/* Footer */
-footer {
-    background: var(--text-primary);
-    color: rgba(255, 255, 255, 0.8);
+/* Proof Section */
+.proof-section {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+}
+
+.proof-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.proof-title {
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: center;
-    padding: 40px 0;
-    font-size: 14px;
+    margin-bottom: 48px;
+    color: var(--text);
+}
+
+.proof-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    color: var(--primary);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+}
+
+.proof-content p {
+    margin-bottom: 16px;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.formula {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    padding: 24px;
+    border-radius: var(--radius);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 24px 0;
+    border: 1px solid #f59e0b;
+    color: var(--text);
+}
+
+.proof-content ul {
+    margin: 16px 0;
+    padding-left: 24px;
+}
+
+.proof-content li {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.math {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg-alt);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.step {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    padding: 24px;
+    border-radius: var(--radius);
+    margin: 24px 0;
+    border-left: 4px solid var(--primary);
+}
+
+.highlight {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    padding: 24px;
+    border-radius: var(--radius);
+    margin: 24px 0;
+    border-left: 4px solid var(--success);
+}
+
+.failure {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    padding: 24px;
+    border-radius: var(--radius);
+    margin: 24px 0;
+    border-left: 4px solid var(--danger);
+}
+
+.conclusion {
+    background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+    padding: 32px;
+    border-radius: var(--radius);
+    margin: 32px 0;
+    border: 2px solid var(--secondary);
+    text-align: center;
+}
+
+.conclusion p {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--text);
+}
+
+/* Applications section styles */
+.applications-list {
+    background: linear-gradient(135deg, #fef7e0 0%, #fef3c7 100%);
+    padding: 20px;
+    border-radius: var(--radius);
+    margin-top: 20px;
+    border-left: 4px solid var(--warning);
+}
+
+.applications-list h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.applications-list ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.applications-list li {
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .visualization-area,
+    .viz-layout,
     .var-content {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 32px;
     }
     
-    .controls {
+    .controls-panel {
         position: static;
     }
     
@@ -630,62 +743,79 @@ footer {
 
 @media (max-width: 768px) {
     .container {
-        padding: 0 15px;
+        padding: 0 16px;
     }
     
-    .video-section, 
-    .probability-section,
-    .var-section {
-        padding: 60px 0;
+    .py-20 {
+        padding: 48px 0;
     }
     
     .video-grid {
         grid-template-columns: 1fr;
-        gap: 30px;
     }
     
-    .video-container {
-        padding: 20px;
-    }
-    
-    .distribution-buttons {
+    .dist-buttons {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
     }
     
     .dist-btn {
-        width: 200px;
-    }
-    
-    .chart-container,
-    .var-card {
-        padding: 20px;
-    }
-    
-    .controls,
-    .var-controls {
-        padding: 20px;
+        width: 240px;
     }
     
     .var-legend {
         justify-content: center;
+        gap: 16px;
+    }
+    
+    .p-8 {
+        padding: 24px;
+    }
+    
+    .section-title::after {
+        width: 40px;
     }
 }
 
 @media (max-width: 480px) {
-    .header-title {
+    .hero-title {
         font-size: 2rem;
     }
     
-    .section-title,
-    .var-title {
+    .section-title {
         font-size: 1.75rem;
     }
     
-    .video-container {
-        padding: 15px;
+    .var-title {
+        font-size: 1.5rem;
     }
+    
+    .proof-title {
+        font-size: 2rem;
+    }
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Focus States */
+button:focus,
+input:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
 }
 
 /* Loading Animation */
@@ -693,84 +823,80 @@ footer {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 3px solid rgba(102, 126, 234, 0.3);
+    border: 3px solid rgba(59, 130, 246, 0.3);
     border-radius: 50%;
-    border-top-color: var(--primary-color);
+    border-top-color: var(--primary);
     animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
-
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Focus styles for accessibility */
-button:focus,
-input:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
 </style>
-
 </head>
 <body>
-    <header>
+    <!-- Hero Section -->
+    <section class="hero py-20">
         <div class="container">
-            <div class="header-content">
-                <h1 class="header-title">Probability Distributions</h1>
-            </div>
-        </div>
-    </header>
-
-    <section class="video-section">
-        <div class="container">
-            <h2 class="section-title">Statistical Concepts</h2>
-            
-            <div class="video-grid">
-
-                
-
-                <div class="video-container">
-                    <h3>🔵 Skewness</h3>
-                    <video width="100%" height="400" controls style="border-radius: 15px;">
-                        <source src="skew_distribution_animation.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                
-                <div class="video-container">
-                    <h3>🟠 Kurtosis</h3>
-                    <video width="100%" height="400" controls style="border-radius: 15px;">
-                        <source src="kurtosis_distribution_animation.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                
-                <div class="video-container">
-                    <h3>⚖️ Value at Risk</h3>
-                    <video width="100%" height="400" controls style="border-radius: 15px;">
-                        <source src="simple_var_animation.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-
-
-                
-                
+            <div class="hero-content text-center">
+                <h1 class="hero-title">Probability Distributions</h1>
+                <p class="hero-subtitle">Explore interactive visualizations and advanced concepts in statistical analysis</p>
             </div>
         </div>
     </section>
 
-    <section class="probability-section">
+    <!-- Video Section -->
+    <section class="py-20">
         <div class="container">
-            <h2 class="section-title">Interactive Distributions</h2>
+            <div class="section-header text-center">
+                <h2 class="section-title">Statistical Concepts</h2>
+                <p class="text-lg" style="color: var(--text-muted);">Understanding key statistical measures through visual demonstrations</p>
+            </div>
+            
+            <div class="grid video-grid">
+                <div class="video-card">
+                    <h3>🔵 Skewness</h3>
+                    <div class="video-content">
+                        <video width="100%" height="240" controls style="border-radius: 8px;">
+                            <source src="skew_distribution_animation.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <h3>🟠 Kurtosis</h3>
+                    <div class="video-content">
+                        <video width="100%" height="240" controls style="border-radius: 8px;">
+                            <source src="kurtosis_distribution_animation.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <h3>⚖️ Value at Risk</h3>
+                    <div class="video-content">
+                        <video width="100%" height="240" controls style="border-radius: 8px;">
+                            <source src="simple_var_animation.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Distributions -->
+    <section class="interactive-section py-20">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Interactive Distributions</h2>
+                <p class="text-lg" style="color: var(--text-muted);">Manipulate parameters and observe real-time changes in probability distributions</p>
+            </div>
             
             <div class="distribution-selector">
-                <div class="distribution-buttons">
+                <div class="dist-buttons">
                     <button class="dist-btn active" data-distribution="binomial">
                         <span>Binomial</span>
                     </button>
@@ -792,31 +918,48 @@ input:focus {
                 </div>
             </div>
 
-            <div class="visualization-area">
-                <div class="controls">
-                    <div class="distribution-info" id="distInfo">
+            <div class="grid viz-layout">
+                <div class="controls-panel">
+                    <div class="info-card" id="distInfo">
                         <h3>Binomial Distribution</h3>
-                        <p>Models the number of successes in n independent trials.</p>
+                        <p>Models the number of successes in n independent trials with constant probability of success.</p>
                     </div>
                     
                     <div id="parameterControls">
-                        <!-- Parameters will be dynamically inserted here -->
+                        <div class="control-group">
+                            <label for="param1">Number of trials (n)</label>
+                            <input type="number" id="param1" value="10" min="1" max="100">
+                        </div>
+                        <div class="control-group">
+                            <label for="param2">Probability of success (p)</label>
+                            <input type="number" id="param2" value="0.5" min="0" max="1" step="0.01">
+                        </div>
                     </div>
 
-                    <div class="stats-display" id="statsDisplay">
-                        <h4>Statistics</h4>
-                        <div class="stat-item">
-                            <span>Mean (μ)</span>
-                            <span id="meanValue">-</span>
+                    <div class="stats-card" id="statsDisplay">
+                        <h4>📊 Statistics</h4>
+                        <div class="stat-row">
+                            <span class="stat-label">Mean (μ)</span>
+                            <span class="stat-value" id="meanValue">5.0</span>
                         </div>
-                        <div class="stat-item">
-                            <span>Variance (σ²)</span>
-                            <span id="varianceValue">-</span>
+                        <div class="stat-row">
+                            <span class="stat-label">Variance (σ²)</span>
+                            <span class="stat-value" id="varianceValue">2.5</span>
                         </div>
-                        <div class="stat-item">
-                            <span>Std Dev (σ)</span>
-                            <span id="stddevValue">-</span>
+                        <div class="stat-row">
+                            <span class="stat-label">Std Dev (σ)</span>
+                            <span class="stat-value" id="stddevValue">1.58</span>
                         </div>
+                    </div>
+
+                    <div class="applications-list">
+                        <h4>Real-world Applications</h4>
+                        <ul>
+                            <li>Quality control in manufacturing</li>
+                            <li>Medical test accuracy</li>
+                            <li>Marketing campaign success rates</li>
+                            <li>Financial risk modeling</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -827,18 +970,34 @@ input:focus {
         </div>
     </section>
 
-    <section class="var-section">
+    <!-- VaR Section -->
+    <section class="var-section py-20">
         <div class="container">
-            <div class="var-card">
-                <h1 class="var-title">VaR Portfolio Optimization Animation</h1>
+            <div class="var-container">
+                <div class="var-header">
+                    <h2 class="var-title">VaR Portfolio Optimization</h2>
+                    <p style="color: var(--text-muted);">Interactive demonstration of risk optimization through portfolio rebalancing</p>
+                </div>
+                
                 <div class="var-content">
-                    <div class="var-chart-container">
+                    <div class="var-chart-area">
                         <canvas id="varPlot" class="var-canvas" width="850" height="500"></canvas>
+                        
                         <div class="var-legend">
-                            <span><i class="chip blue"></i> Initial Portfolio</span>
-                            <span><i class="chip red"></i> Fixed Loss Threshold (initial VaR₉₅)</span>
-                            <span><i class="chip green"></i> Optimized Portfolio</span>
+                            <div class="var-legend-item">
+                                <div class="legend-chip chip-blue"></div>
+                                <span>Initial Portfolio</span>
+                            </div>
+                            <div class="var-legend-item">
+                                <div class="legend-chip chip-red"></div>
+                                <span>Fixed Loss Threshold (initial VaR₉₅)</span>
+                            </div>
+                            <div class="var-legend-item">
+                                <div class="legend-chip chip-green"></div>
+                                <span>Optimized Portfolio</span>
+                            </div>
                         </div>
+                        
                         <div class="var-explanation">
                             <strong>What you're seeing:</strong> The red line stays fixed at the original VaR₉₅ level. As we optimize the portfolio (green curve), the distribution shifts right, dramatically reducing the probability of losses worse than our original threshold. The red shaded area shrinks from 5% to much less!
                         </div>
@@ -875,98 +1034,98 @@ input:focus {
         </div>
     </section>
 
-    
+    <!-- Mathematical Proof Section -->
+    <section class="proof-section py-20">
+        <div class="container">
+            <div class="proof-container">
+                <h1 class="proof-title">Proof: Quantile Functions Are Not Convex</h1>
 
-  <div class="container">
+                <div class="proof-content">
+                    <h2>Standard Convexity Test</h2>
+                    <p>For ANY function f to be convex, it must satisfy:</p>
 
-    <h1>Proof: Quantile Functions Are Not Convex</h1>
+                    <div class="formula">
+                        f(λx + (1-λ)y) ≤ λf(x) + (1-λ)f(y)
+                    </div>
+                    
+                    <p>for all x, y in the domain and λ ∈ [0,1].</p>
 
-    <h2>Standard Convexity Test</h2>
-    <p>For ANY function f to be convex, it must satisfy:</p>
+                    <h2>Applied to Quantiles</h2>
+                    <p>Here:</p>
+                    <ul>
+                        <li><span class="math">f = Q<sub>p</sub></span> (the quantile function)</li>
+                        <li><span class="math">x = X</span> (first distribution)</li>
+                        <li><span class="math">y = Y</span> (second distribution)</li>
+                        <li><span class="math">λx + (1-λ)y = Z</span> (the mixture distribution)</li>
+                    </ul>
 
-    <div class="formula">
-        f(λx + (1-λ)y) ≤ λf(x) + (1-λ)f(y)
-    </div>
-    
-    <p>for all x, y in the domain and λ ∈ [0,1].</p>
+                    <p>So the test becomes:</p>
 
-    <h2>Applied to Quantiles</h2>
-    <p>Here:</p>
-    <ul>
-        <li><span class="math">f = Q<sub>p</sub></span> (the quantile function)</li>
-        <li><span class="math">x = X</span> (first distribution)</li>
-        <li><span class="math">y = Y</span> (second distribution)</li>
-        <li><span class="math">λx + (1-λ)y = Z</span> (the mixture distribution)</li>
-    </ul>
+                    <div class="formula">
+                        Q<sub>p</sub>(mixture) ≤ λQ<sub>p</sub>(X) + (1-λ)Q<sub>p</sub>(Y)
+                    </div>
 
-    <p>So the test becomes:</p>
+                    <h2>Finding Q<sub>0.6</sub>(X)</h2>
+                    
+                    <div class="step">
+                        <p>X is a degenerate distribution that always equals 2.</p>
+                        <p>For any probability level p, including p = 0.6:</p>
+                        <p class="math">Q<sub>0.6</sub>(X) = 2</p>
+                    </div>
 
-    <div class="formula">
-        Q<sub>p</sub>(mixture) ≤ λQ<sub>p</sub>(X) + (1-λ)Q<sub>p</sub>(Y)
-    </div>
+                    <h2>Finding Q<sub>0.6</sub>(Y)</h2>
 
-    <h2>Finding Q<sub>0.6</sub>(X)</h2>
-    
-    <div class="step">
-        <p>X is a degenerate distribution that always equals 2.</p>
-        <p>For any probability level p, including p = 0.6:</p>
-        <p class="math">Q<sub>0.6</sub>(X) = 2</p>
-    </div>
+                    <div class="step">
+                        <p>Y is a degenerate distribution that always equals 10.</p>
+                        <p>For any probability level p, including p = 0.6:</p>
+                        <p class="math">Q<sub>0.6</sub>(Y) = 10</p>
+                    </div>
 
-    <h2>Finding Q<sub>0.6</sub>(Y)</h2>
+                    <h2>What the Mixture Distribution Z Actually Is</h2>
+                    
+                    <div class="highlight">
+                        <p>The mixture Z = 0.3X + 0.7Y creates a discrete distribution:</p>
+                        <ul>
+                            <li>Takes value <strong>2</strong> with probability <strong>0.3</strong></li>
+                            <li>Takes value <strong>10</strong> with probability <strong>0.7</strong></li>
+                        </ul>
+                    </div>
 
-    <div class="step">
-        <p>Y is a degenerate distribution that always equals 10.</p>
-        <p>For any probability level p, including p = 0.6:</p>
-        <p class="math">Q<sub>0.6</sub>(Y) = 10</p>
-    </div>
+                    <h2>Finding Q<sub>0.6</sub>(Z) - The Key Step</h2>
+                    
+                    <div class="step">
+                        <p>To find the 60th percentile of Z:</p>
+                        <ul>
+                            <li>At value 2: cumulative probability = 0.3 < 0.6 ❌ (not enough)</li>
+                            <li>At value 10: cumulative probability = 1.0 ≥ 0.6 ✅ (sufficient)</li>
+                        </ul>
+                        <p>Therefore: <span class="math">Q<sub>0.6</sub>(Z) = 10</span></p>
+                    </div>
 
-    <h2>What the Mixture Distribution Z Actually Is</h2>
-    
-    <div class="highlight">
-        <p>The mixture Z = 0.3X + 0.7Y creates a discrete distribution:</p>
-        <ul>
-            <li>Takes value <strong>2</strong> with probability <strong>0.3</strong></li>
-            <li>Takes value <strong>10</strong> with probability <strong>0.7</strong></li>
-        </ul>
-    </div>
+                    <h2>Our Numbers</h2>
+                    <ul>
+                        <li>Left side: <span class="math">Q<sub>p</sub>(Z) = 10</span> (quantile jumps to 10)</li>
+                        <li>Right side: <span class="math">0.3(2) + 0.7(10) = 7.6</span> (smooth weighted average)</li>
+                        <li>Test: <span class="math">10 ≤ 7.6</span> ❌</li>
+                    </ul>
 
-    <h2>Finding Q<sub>0.6</sub>(Z) - The Key Step</h2>
-    
-    <div class="step">
-        <p>To find the 60th percentile of Z:</p>
-        <ul>
-            <li>At value 2: cumulative probability = 0.3 < 0.6 ❌ (not enough)</li>
-            <li>At value 10: cumulative probability = 1.0 ≥ 0.6 ✅ (sufficient)</li>
-        </ul>
-        <p>Therefore: <span class="math">Q<sub>0.6</sub>(Z) = 10</span></p>
-    </div>
+                    <h2>Convexity Fails!</h2>
+                    
+                    <div class="failure">
+                        <p>The quantile function gives us 10 for the mixture, but convexity would require it to be ≤ 7.6. The quantile <strong>jumps discontinuously</strong> from 2 to 10, skipping over the weighted average of 7.6 entirely.</p>
+                        
+                        <p>Since <strong>10 > 7.6</strong>, the quantile function violates convexity.</p>
+                    </div>
 
-    <h2>Our Numbers</h2>
-    <ul>
-        <li>Left side: <span class="math">Q<sub>p</sub>(Z) = 10</span> (quantile jumps to 10)</li>
-        <li>Right side: <span class="math">0.3(2) + 0.7(10) = 7.6</span> (smooth weighted average)</li>
-        <li>Test: <span class="math">10 ≤ 7.6</span> ❌</li>
-    </ul>
-
-    <h2>Convexity Fails!</h2>
-    
-    <div class="failure">
-        <p>The quantile function gives us 10 for the mixture, but convexity would require it to be ≤ 7.6. The quantile <strong>jumps discontinuously</strong> from 2 to 10, skipping over the weighted average of 7.6 entirely.</p>
-        
-        <p>Since <strong>10 > 7.6</strong>, the quantile function violates convexity.</p>
-    </div>
-
-    <div class="conclusion">
-        <p>This discontinuous jump is exactly why VaR optimization is non-convex and computationally problematic. Standard optimization algorithms fail because the risk landscape has sudden jumps and multiple local optima.</p>
-    </div>
-
-  </div>
-
+                    <div class="conclusion">
+                        <p>This discontinuous jump is exactly why VaR optimization is non-convex and computationally problematic. Standard optimization algorithms fail because the risk landscape has sudden jumps and multiple local optima.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
-<script src="distributions.js"></script>
-
-
+    <script src="distributions.js"></script>
 </body>
 </html>
