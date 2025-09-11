@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -72,32 +72,6 @@
             opacity: 0.9;
             margin-bottom: 20px;
             font-weight: 300;
-        }
-
-        /* Navigation */
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 60px;
-        }
-
-        .nav-link {
-            background: rgba(102, 126, 234, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            color: #2c3e50;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-weight: 600;
-        }
-
-        .nav-link:hover {
-            background: rgba(102, 126, 234, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
         }
 
         /* Stats Dashboard */
@@ -248,81 +222,41 @@
             color: #34495e;
         }
 
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 25px;
-        }
-
-        .module {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.03), rgba(39, 174, 96, 0.03));
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 15px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.05);
-        }
-
-        .module:hover {
-            transform: scale(1.02);
-            border-color: rgba(102, 126, 234, 0.4);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
-        }
-
-        .module-name {
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ff6b6b;
-            margin-bottom: 15px;
-            padding: 8px 12px;
-            background: rgba(255, 107, 107, 0.1);
-            border-radius: 8px;
-            display: inline-block;
-        }
-
-        .module-description {
-            margin-bottom: 20px;
-            font-size: 1rem;
-            opacity: 0.9;
-            color: #34495e;
-        }
-
         .features-list {
             list-style: none;
             padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
         }
 
         .features-list li {
-            padding: 8px 0;
+            padding: 12px 0;
             position: relative;
             padding-left: 25px;
-            font-size: 0.95rem;
-            opacity: 0.8;
+            font-size: 1rem;
+            opacity: 0.9;
             transition: all 0.3s ease;
             color: #2c3e50;
+            background: rgba(102, 126, 234, 0.03);
+            border-radius: 8px;
+            padding: 15px 25px;
+            border-left: 3px solid #667eea;
         }
 
         .features-list li:hover {
             opacity: 1;
             color: #27ae60;
+            background: rgba(39, 174, 96, 0.05);
+            border-left-color: #27ae60;
         }
 
         .features-list li::before {
             content: '▶';
             position: absolute;
-            left: 0;
+            left: 8px;
             color: #27ae60;
             font-size: 0.8rem;
-        }
-
-        .features-list li code {
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(255, 107, 107, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: #ff6b6b;
-            font-size: 0.85rem;
         }
 
         /* Comparison Table */
@@ -416,29 +350,6 @@
             line-height: 1.8;
         }
 
-        /* Image Sections */
-        .image-section {
-            text-align: center;
-            padding: 60px 0;
-            background: rgba(248, 249, 250, 0.5);
-            margin: 40px 0;
-            border-radius: 20px;
-            border: 1px solid rgba(102, 126, 234, 0.1);
-        }
-
-        .image-section img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
-            transition: all 0.3s ease;
-        }
-
-        .image-section img:hover {
-            transform: scale(1.02);
-            box-shadow: 0 30px 80px rgba(102, 126, 234, 0.2);
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero h1 {
@@ -453,15 +364,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .modules-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-link {
-                display: block;
-                margin: 10px 0;
-            }
-
             .layer-header {
                 flex-direction: column;
                 text-align: center;
@@ -470,6 +372,10 @@
             .layer-number {
                 margin-right: 0;
                 margin-bottom: 15px;
+            }
+
+            .features-list {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -490,90 +396,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(45deg, #764ba2, #667eea);
         }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .icon {
-            font-size: 1.5rem;
-            margin-right: 12px;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #2d3748;
-        }
-
-        .card-subtitle {
-            font-size: 0.95rem;
-            color: #718096;
-            margin-top: 5px;
-            font-weight: 500;
-        }
-
-        .operations {
-            list-style: none;
-        }
-
-        .operations li {
-            margin-bottom: 8px;
-            padding-left: 20px;
-            position: relative;
-            font-size: 0.95rem;
-            color: #4a5568;
-        }
-
-        .operations li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .code {
-            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-            background: rgba(102, 126, 234, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .priority-1 { border-left: 5px solid #e53e3e; }
-        .priority-2 { border-left: 5px solid #dd6b20; }
-        .priority-3 { border-left: 5px solid #38a169; }
-        .priority-4 { border-left: 5px solid #3182ce; }
-        .priority-5 { border-left: 5px solid #805ad5; }
-        .priority-6 { border-left: 5px solid #d69e2e; }
-
     </style>
 </head>
 <body>
@@ -588,11 +410,6 @@
     </section>
 
     <div class="container">
-        <!-- Navigation -->
-        <div class="nav-container">
-            <a href="improv.html" class="nav-link">🚀 Speed & Efficiency</a>
-        </div>
-
         <!-- Stats Dashboard -->
         <section class="stats-dashboard">
             <h2 class="stats-title">System Transformation Metrics</h2>
@@ -680,50 +497,16 @@
                     </div>
                 </div>
 
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">data_processing.py</div>
-                        <div class="module-description">Core data pipeline engine</div>
-                        <ul class="features-list">
-                            <li>Options chain processing via <code>csv_to_pandas()</code></li>
-                            <li>Holiday-aware business day calculations</li>
-                            <li>Complex expiration rules handling</li>
-                            <li>Bloomberg pricing integration through <code>merge_bbg()</code></li>
-                            <li>Moneyness calculations for contract selection</li>
-                        </ul>
-                    </div>
-
-                    <div class="module">
-                        <div class="module-name">csv_to_pandas.py</div>
-                        <div class="module-description">Data orchestration hub with three entry points</div>
-                        <ul class="features-list">
-                            <li><code>main()</code>: Standard strategy coordination</li>
-                            <li><code>main_releases()</code>: Event-driven preparation</li>
-                            <li><code>main_monthly()</code>: Monthly expiration focus</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">monthly_expiry_trade_setup.py</div>
-                        <div class="module-description">Specialized monthly expiration processor</div>
-                        <ul class="features-list">
-                            <li><code>third_entry_per_month()</code>: Third Friday extraction</li>
-                            <li>Market convention compliance for high-liquidity contracts</li>
-                        </ul>
-                    </div>
-
-                    <div class="module">
-                        <div class="module-name">release_based_trade_setup.py</div>
-                        <div class="module-description">Economic event processor</div>
-                        <ul class="features-list">
-                            <li>Comprehensive indicator mapping (CPI, NFP, FOMC)</li>
-                            <li>Regex pattern matching for event identification</li>
-                            <li><code>find_nearest_expiration_dates()</code>: Release-to-expiration mapping</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul class="features-list">
+                    <li>Options chain processing and validation</li>
+                    <li>Holiday-aware business day calculations</li>
+                    <li>Complex expiration rules handling</li>
+                    <li>Bloomberg pricing integration</li>
+                    <li>Moneyness calculations for contract selection</li>
+                    <li>Third Friday extraction for monthly expirations</li>
+                    <li>Economic event processor with 50+ indicators</li>
+                    <li>Regex pattern matching for event identification</li>
+                </ul>
             </div>
 
             <!-- Layer 2 -->
@@ -736,39 +519,16 @@
                     </div>
                 </div>
 
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">config_entry_around_release.py</div>
-                        <div class="module-description">Event-driven strategy engine</div>
-                        <ul class="features-list">
-                            <li>Sophisticated backward date calculation in <code>fill_entry_days()</code></li>
-                            <li>Consistent timing relative to economic announcements</li>
-                            <li>Monte Carlo optimization with intelligent caching</li>
-                        </ul>
-                    </div>
-
-                    <div class="module">
-                        <div class="module-name">config_entry_on_day_and_sig.py</div>
-                        <div class="module-description">Calendar-based strategy processor</div>
-                        <ul class="features-list">
-                            <li>DataFrame index arithmetic for business day precision</li>
-                            <li>Custom entry/exit condition support</li>
-                            <li>Systematic calendar scheduling maintenance</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">config_entry_on_sig.py</div>
-                        <div class="module-description">Signal-based reactive strategy engine</div>
-                        <ul class="features-list">
-                            <li>Market condition responsiveness</li>
-                            <li>Direct simulation without preprocessing</li>
-                            <li>Irregular timing accommodation</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul class="features-list">
+                    <li>Event-driven strategy engine</li>
+                    <li>Sophisticated backward date calculation</li>
+                    <li>Monte Carlo optimization with intelligent caching</li>
+                    <li>Calendar-based strategy processor</li>
+                    <li>Business day precision arithmetic</li>
+                    <li>Custom entry/exit condition support</li>
+                    <li>Signal-based reactive strategy engine</li>
+                    <li>Market condition responsiveness</li>
+                </ul>
             </div>
 
             <!-- Layer 3 -->
@@ -781,30 +541,16 @@
                     </div>
                 </div>
 
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">pnl_computor.py</div>
-                        <div class="module-description">Comprehensive P&L calculation engine</div>
-                        <ul class="features-list">
-                            <li><code>pnl_init()</code>: Transaction cost calculation</li>
-                            <li><code>pnl_exist()</code>: Mark-to-market computation</li>
-                            <li><code>pnl_exit()</code>: Early close cost assessment</li>
-                            <li><code>pnl_expiry()</code>: Intrinsic value settlement</li>
-                            <li><code>zero_out_pnl()</code>: Corporate action handling</li>
-                        </ul>
-                    </div>
-
-                    <div class="module">
-                        <div class="module-name">delta_hedger.py</div>
-                        <div class="module-description">Delta-neutral hedging implementation</div>
-                        <ul class="features-list">
-                            <li><code>calculate_hedges_single_cycle()</code>: Per-cycle hedge P&L</li>
-                            <li>Previous day delta exposure utilization</li>
-                            <li>Target delta management</li>
-                            <li>Initiation/expiration day special handling</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul class="features-list">
+                    <li>Transaction cost calculation</li>
+                    <li>Mark-to-market computation</li>
+                    <li>Early close cost assessment</li>
+                    <li>Intrinsic value settlement</li>
+                    <li>Corporate action handling</li>
+                    <li>Delta-neutral hedging implementation</li>
+                    <li>Per-cycle hedge P&L tracking</li>
+                    <li>Target delta management</li>
+                </ul>
             </div>
 
             <!-- Layer 4 -->
@@ -817,29 +563,16 @@
                     </div>
                 </div>
 
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">option_selector.py</div>
-                        <div class="module-description">Contract selection orchestration</div>
-                        <ul class="features-list">
-                            <li><code>day_based_selector()</code>: Calendar strategy selection</li>
-                            <li><code>signal_based_selector()</code>: Reactive strategy selection</li>
-                            <li><code>release_based_selector()</code>: Event-driven selection</li>
-                            <li>Strategy-specific timing and validation</li>
-                        </ul>
-                    </div>
-
-                    <div class="module">
-                        <div class="module-name">option_selector_routines.py</div>
-                        <div class="module-description">Selection utility functions</div>
-                        <ul class="features-list">
-                            <li><code>get_selected_option()</code>: Delta/moneyness targeting</li>
-                            <li><code>options_selections()</code>: Comprehensive trade record generation</li>
-                            <li><code>get_curtailed_options()</code>: Performance-optimized filtering</li>
-                            <li><code>trading_days_count()</code>: Business day arithmetic</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul class="features-list">
+                    <li>Contract selection orchestration</li>
+                    <li>Calendar strategy selection</li>
+                    <li>Reactive strategy selection</li>
+                    <li>Event-driven selection</li>
+                    <li>Delta/moneyness targeting</li>
+                    <li>Comprehensive trade record generation</li>
+                    <li>Performance-optimized filtering</li>
+                    <li>Business day arithmetic utilities</li>
+                </ul>
             </div>
 
             <!-- Layer 5 -->
@@ -852,18 +585,14 @@
                     </div>
                 </div>
 
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">profiling.py</div>
-                        <div class="module-description">Performance monitoring and optimization system</div>
-                        <ul class="features-list">
-                            <li><code>start_profiler()</code>/<code>end_profiler()</code>: Code analysis tools</li>
-                            <li>Multiple filtering function versions (<code>filter_v1</code> through <code>filter_v4</code>)</li>
-                            <li>Lookup optimization evolution (<code>lookup_v1</code> through <code>lookup_v3</code>)</li>
-                            <li>Visual performance graph generation</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul class="features-list">
+                    <li>Code analysis and profiling tools</li>
+                    <li>Multiple filtering function optimizations</li>
+                    <li>Lookup optimization evolution tracking</li>
+                    <li>Visual performance graph generation</li>
+                    <li>Systematic performance monitoring</li>
+                    <li>Caching implementation strategies</li>
+                </ul>
             </div>
 
             <!-- Layer 6 -->
@@ -876,18 +605,14 @@
                     </div>
                 </div>
 
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">sigdata.py</div>
-                        <div class="module-description">Signal state machine implementation</div>
-                        <ul class="features-list">
-                            <li><code>get_list_newsig_cycle()</code>: Entry/exit state management</li>
-                            <li>Duplicate entry prevention during continuous signals</li>
-                            <li><code>create_exit_on_day()</code>: Fixed holding period exits</li>
-                            <li><code>create_exit_around_release()</code>: Event-based exit timing</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul class="features-list">
+                    <li>Signal state machine implementation</li>
+                    <li>Entry/exit state management</li>
+                    <li>Duplicate entry prevention during continuous signals</li>
+                    <li>Fixed holding period exits</li>
+                    <li>Event-based exit timing</li>
+                    <li>Signal cycle orchestration</li>
+                </ul>
             </div>
 
             <!-- Layer 7 -->
@@ -900,41 +625,18 @@
                     </div>
                 </div>
 
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">option_feeder.py</div>
-                        <div class="module-description">Trade execution engine</div>
-                        <ul class="features-list">
-                            <li><code>feed_trades_into_dict_options()</code>: Signal-to-position conversion</li>
-                            <li><code>fill_why_tradetype_nopnl()</code>: Exit logic and P&L period management</li>
-                            <li>Re-entry processing for rolling strategies</li>
-                        </ul>
-                    </div>
-
-                    <div class="module">
-                        <div class="module-name">option_strategy_simulator.py</div>
-                        <div class="module-description">Central orchestration hub</div>
-                        <ul class="features-list">
-                            <li><code>initial_setup()</code>: System initialization</li>
-                            <li><code>compute_pnl()</code>: P&L calculation coordination</li>
-                            <li><code>compute_performance()</code>: Performance analysis orchestration</li>
-                            <li>Multi-cycle organization management</li>
-                            <li>Custom condition filtering integration</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">position_sizing.py</div>
-                        <div class="module-description">Capital allocation logic</div>
-                        <ul class="features-list">
-                            <li>Multiple sizing methodologies: AUM-based, vega budgeting, premium budgeting</li>
-                            <li><code>iv_size_mult()</code>: Volatility-based size adjustments</li>
-                            <li>Risk management through position scaling</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul class="features-list">
+                    <li>Trade execution engine</li>
+                    <li>Signal-to-position conversion</li>
+                    <li>Exit logic and P&L period management</li>
+                    <li>Re-entry processing for rolling strategies</li>
+                    <li>Central orchestration hub</li>
+                    <li>System initialization coordination</li>
+                    <li>Multi-cycle organization management</li>
+                    <li>Multiple sizing methodologies</li>
+                    <li>Volatility-based size adjustments</li>
+                    <li>Risk management through position scaling</li>
+                </ul>
             </div>
 
             <!-- Layer 8 -->
@@ -947,97 +649,18 @@
                     </div>
                 </div>
 
-                <div class="modules-grid">
-                    <div class="module">
-                        <div class="module-name">performance_metrics.py</div>
-                        <div class="module-description">Risk-adjusted performance analysis</div>
-                        <ul class="features-list">
-                            <li>Comprehensive metrics: Sharpe/Sortino ratios, drawdown analysis</li>
-                            <li>Correlation and beta calculations</li>
-                            <li>Geometric and arithmetic return methodologies</li>
-                            <li>Benchmark comparison framework</li>
-                        </ul>
-                    </div>
-
-                    <div class="module">
-                        <div class="module-name">pnl_analyzer.py</div>
-                        <div class="module-description">P&L attribution and breakdown</div>
-                        <ul class="features-list">
-                            <li><code>calculate_pnl_sums()</code>: Trade-level summaries</li>
-                            <li>Cycle-based performance analysis</li>
-                            <li>Comprehensive P&L aggregation across strategy components</li>
-                            <li>Attribution analysis for performance optimization</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Original vs Refactored Comparison -->
-        <section class="stats-dashboard">
-            <h2 class="stats-title">Architectural Evolution Overview</h2>
-            
-            <div class="comparison-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>System Component</th>
-                            <th>Original Monolithic</th>
-                            <th>Refactored Modular</th>
-                            <th>Key Improvements</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Code Organization</td>
-                            <td>2 files, 1,045 lines</td>
-                            <td>18 files, 2,876 lines</td>
-                            <td>Modular separation of concerns</td>
-                        </tr>
-                        <tr>
-                            <td>Data Processing</td>
-                            <td>Hardcoded, mixed with logic</td>
-                            <td>Dedicated pipeline with 4 modules</td>
-                            <td>Holiday-aware, Bloomberg integration</td>
-                        </tr>
-                        <tr>
-                            <td>Strategy Support</td>
-                            <td>Single approach</td>
-                            <td>3 distinct strategies</td>
-                            <td>Calendar, Signal-based, Event-driven</td>
-                        </tr>
-                        <tr>
-                            <td>P&L Calculation</td>
-                            <td>Monolithic function</td>
-                            <td>4 separated components</td>
-                            <td>Init, Exist, Exit, Expiry attribution</td>
-                        </tr>
-                        <tr>
-                            <td>Risk Management</td>
-                            <td>Basic position sizing</td>
-                            <td>Delta hedging + advanced sizing</td>
-                            <td>Volatility adjustments, multiple methods</td>
-                        </tr>
-                        <tr>
-                            <td>Performance Monitoring</td>
-                            <td>None</td>
-                            <td>Dedicated profiling module</td>
-                            <td>4 optimization versions, caching</td>
-                        </tr>
-                        <tr>
-                            <td>Economic Events</td>
-                            <td>Not supported</td>
-                            <td>50+ indicators mapped</td>
-                            <td>Fed, CPI, NFP, FOMC integration</td>
-                        </tr>
-                        <tr>
-                            <td>Testing & Maintenance</td>
-                            <td>Monolithic, difficult to test</td>
-                            <td>Independent module testing</td>
-                            <td>Isolated validation, easier debugging</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <ul class="features-list">
+                    <li>Risk-adjusted performance analysis</li>
+                    <li>Sharpe/Sortino ratios calculation</li>
+                    <li>Drawdown analysis</li>
+                    <li>Correlation and beta calculations</li>
+                    <li>Geometric and arithmetic return methodologies</li>
+                    <li>Benchmark comparison framework</li>
+                    <li>Trade-level summaries</li>
+                    <li>Cycle-based performance analysis</li>
+                    <li>Comprehensive P&L aggregation</li>
+                    <li>Attribution analysis for optimization</li>
+                </ul>
             </div>
         </section>
 
@@ -1069,9 +692,6 @@
             </div>
         </section>
 
-        
     </div>
-
-
 </body>
 </html>
