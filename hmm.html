@@ -3,1172 +3,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regime Detection Explained</title>
+    <title>HMM Framework Explainer</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #1a202c;
-            background: #f7fafc;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
         }
-
-        .hero {
-            background: linear-gradient(135deg, #4c51bf 0%, #805ad5 100%);
-            color: white;
-            padding: 100px 20px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .hero p {
-            font-size: 1.5em;
-            max-width: 1500px;
-            margin: 0 auto;
-            opacity: 0.95;
-            line-height: 1.6;
-        }
-
+        
         .container {
-            max-width: 1500px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 80px 40px;
-        }
-
-        .section {
             background: white;
-            border-radius: 16px;
-            padding: 60px;
-            margin-bottom: 50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
         }
-
-        h2 {
-            color: #4c51bf;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            font-weight: 700;
-        }
-
-        h3 {
-            color: #805ad5;
-            font-size: 1.8em;
-            margin: 40px 0 20px 0;
-            font-weight: 600;
-        }
-
-        p {
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            color: #2d3748;
-        }
-
-        .essence {
-            background: linear-gradient(135deg, #4c51bf 0%, #805ad5 100%);
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
-            padding: 50px;
-            border-radius: 16px;
-            font-size: 1.5em;
-            text-align: center;
-            margin: 50px 0;
-            font-weight: 500;
-            line-height: 1.8;
-        }
-
-        .math-box {
-            background: #edf2f7;
-            border-left: 6px solid #4c51bf;
-            padding: 35px;
-            margin: 35px 0;
-            border-radius: 10px;
-            font-size: 1.15em;
-        }
-
-        .equation {
-            text-align: center;
-            font-size: 1.5em;
-            margin: 30px 0;
-            padding: 25px;
-            background: white;
-            border-radius: 10px;
-            font-family: 'Times New Roman', serif;
-        }
-
-        .visual-demo {
-            background: #f7fafc;
             padding: 40px;
-            border-radius: 12px;
-            margin: 40px 0;
+            text-align: center;
         }
-
-        .data-row {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            justify-content: center;
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
-
-        .data-point {
-            width: 70px;
-            height: 70px;
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-weight: bold;
-            color: white;
-            font-size: 1.1em;
+            gap: 10px;
         }
-
-        .high {
-            background: #48bb78;
-        }
-
-        .low {
-            background: #f56565;
-        }
-
-        .regime-box {
-            background: white;
-            border: 3px solid #4c51bf;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 25px 0;
-        }
-
-        .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-
-        .concept-card {
-            background: #f7fafc;
-            padding: 35px;
-            border-radius: 12px;
-            border: 2px solid #e2e8f0;
-        }
-
-        .concept-card h4 {
-            color: #4c51bf;
-            font-size: 1.4em;
+        
+        .section h3 {
+            color: #34495e;
+            margin-top: 25px;
             margin-bottom: 15px;
+            font-size: 1.4em;
         }
-
+        
         .step {
-            margin: 50px 0;
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
+        
         .step-number {
             display: inline-block;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #4c51bf 0%, #805ad5 100%);
+            width: 35px;
+            height: 35px;
+            background: #667eea;
             color: white;
             border-radius: 50%;
             text-align: center;
-            line-height: 60px;
-            font-size: 1.8em;
+            line-height: 35px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-right: 10px;
         }
-
-        .timeline {
-            position: relative;
-            padding: 30px 0;
-            margin: 40px 0;
+        
+        .formula {
+            background: #e8eaf6;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 4px solid #5c6bc0;
         }
-
-        .timeline-bar {
-            height: 80px;
-            display: flex;
-            border-radius: 10px;
-            overflow: hidden;
+        
+        .example {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
         }
-
-        .timeline-segment {
+        
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .keyword {
+            color: #ff79c6;
+        }
+        
+        .function {
+            color: #50fa7b;
+        }
+        
+        .comment {
+            color: #6272a4;
+        }
+        
+        .highlight {
+            background: #fff9c4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        .warning {
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #f44336;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #4caf50;
+            margin: 15px 0;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .flow-diagram {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.1em;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
-
-        .comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 40px 0;
+        
+        .flow-box {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid #667eea;
+            min-width: 150px;
+            text-align: center;
         }
-
-        .comp-panel {
-            padding: 30px;
-            border-radius: 12px;
-            border: 3px solid;
+        
+        .arrow {
+            font-size: 2em;
+            color: #667eea;
         }
-
-        .comp-panel.before {
-            background: #fff5f5;
-            border-color: #fc8181;
-        }
-
-        .comp-panel.after {
-            background: #f0fff4;
-            border-color: #68d391;
-        }
-
-        .comp-panel h4 {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-        }
-
+        
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 30px 0;
-        }
-
-        th, td {
-            padding: 18px;
-            text-align: left;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        th {
-            background: #4c51bf;
-            color: white;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-        tr:hover {
-            background: #f7fafc;
-        }
-
-        .formula-breakdown {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-            border: 2px solid #e2e8f0;
-        }
-
-        .formula-breakdown .part {
-            margin: 20px 0;
-            padding-left: 30px;
-            border-left: 4px solid #4c51bf;
-        }
-
-        @media (max-width: 1500px) {
-            .container {
-                padding: 40px 20px;
-            }
-            
-            .section {
-                padding: 30px 20px;
-            }
-            
-            .comparison {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero h1 {
-                font-size: 2em;
-            }
+            margin: 15px 0;
         }
         
-        /* Navigation */
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 60px;
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
-
-        .nav-link {
-            background: rgba(102, 126, 234, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            color: #2c3e50;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            font-weight: 600;
+        
+        th {
+            background: #667eea;
+            color: white;
         }
-
-        .nav-link:hover {
-            background: rgba(102, 126, 234, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        
+        tr:hover {
+            background: #f5f5f5;
         }
     </style>
 </head>
 <body>
-
-
-    <div class="hero">
-        <h1>Regime Detection</h1>
-        <p>Understanding hidden patterns in any time series data</p>
-
-            <!-- Navigation -->
-            <div class="nav-container">
-            <a href="hmm_vis.html" class="nav-link">🚀 Interactive Visualization</a>
-            </div>
-
-    </div>
-
-
     <div class="container">
+        <header>
+            <h1>🎯 Hidden Markov Model (HMM) Framework</h1>
+            <p>Understanding Regime Detection with Expectation-Maximization</p>
+        </header>
         
-        <!-- Core Concept -->
-        <div class="section">
-            <h2>What Is This?</h2>
-            <div class="essence">
-                You have numbers that change over time. Sometimes they're high, sometimes they're low. 
-                Regime detection finds the <strong>hidden states</strong> that explain why the numbers behave differently at different times.
-            </div>
-            
-            <p>Think of it this way: your data doesn't just randomly bounce around. There are underlying "modes" or "states" the system is in. When it's in State A, the numbers look one way. When it's in State B, they look another way.</p>
-            
-            <p><strong>The goal:</strong> Automatically discover these states and figure out which state you're in right now.</p>
-        </div>
-
-        <!-- Visual Example -->
-        <div class="section">
-            <h2>A Simple Example</h2>
-            <p>Imagine you're measuring something over 20 time periods. Here's what you observe:</p>
-            
-            <div class="visual-demo">
-                <h3 style="text-align: center; margin-bottom: 30px;">Your Observations</h3>
-                <div class="data-row">
-                    <div class="data-point high">8.2</div>
-                    <div class="data-point high">8.5</div>
-                    <div class="data-point high">8.1</div>
-                    <div class="data-point high">8.4</div>
-                    <div class="data-point high">8.3</div>
-                    <div class="data-point low">3.1</div>
-                    <div class="data-point low">3.4</div>
-                    <div class="data-point low">2.9</div>
-                    <div class="data-point low">3.2</div>
-                    <div class="data-point high">8.6</div>
-                    <div class="data-point high">8.2</div>
-                    <div class="data-point high">8.7</div>
-                    <div class="data-point high">8.3</div>
-                    <div class="data-point low">3.3</div>
-                    <div class="data-point low">2.8</div>
-                    <div class="data-point low">3.1</div>
-                    <div class="data-point high">8.4</div>
-                    <div class="data-point high">8.1</div>
-                    <div class="data-point high">8.5</div>
-                    <div class="data-point high">8.2</div>
-                </div>
-            </div>
-
-            <p>You can see with your eyes that there are two distinct "levels" - values cluster around 8 and around 3. But <strong>which state are you in at each moment?</strong></p>
-
-            <div class="timeline">
-                <div class="timeline-bar">
-                    <div class="timeline-segment high" style="flex: 5;">HIGH STATE</div>
-                    <div class="timeline-segment low" style="flex: 4; background: #f56565;">LOW STATE</div>
-                    <div class="timeline-segment high" style="flex: 4;">HIGH STATE</div>
-                    <div class="timeline-segment low" style="flex: 3; background: #f56565;">LOW STATE</div>
-                    <div class="timeline-segment high" style="flex: 4;">HIGH STATE</div>
-                </div>
-            </div>
-
-            <div class="math-box">
-                <strong>What the algorithm discovered:</strong><br><br>
-                <strong>State 1 (HIGH):</strong> Values cluster around μ₁ = 8.3<br>
-                <strong>State 2 (LOW):</strong> Values cluster around μ₂ = 3.1<br><br>
-                The system switches between these two states over time.
-            </div>
-        </div>
-
-        <!-- The Core Math -->
-        <div class="section">
-            <h2>The Mathematics</h2>
-            
-            <h3>Three Key Components</h3>
-            
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>1. States</h4>
-                    <p>The system can be in one of N different states at any time.</p>
-                    <p>Example: State 1, State 2, State 3</p>
-                    <p><strong>These are hidden</strong> - you don't directly observe which state you're in.</p>
+        <div class="content">
+            <!-- OVERVIEW -->
+            <div class="section">
+                <h2>📋 Overview</h2>
+                <p><strong>Goal:</strong> Detect different "regimes" (states) in a time series where each regime has different statistical properties.</p>
+                
+                <div class="example">
+                    <strong>Example:</strong> Model accuracy time series might have:
+                    <ul>
+                        <li><strong>HIGH regime:</strong> Mean accuracy ≈ 0.83</li>
+                        <li><strong>MED regime:</strong> Mean accuracy ≈ 0.65</li>
+                        <li><strong>LOW regime:</strong> Mean accuracy ≈ 0.46</li>
+                    </ul>
                 </div>
                 
-                <div class="concept-card">
-                    <h4>2. Observations</h4>
-                    <p>What you actually measure at each time point.</p>
-                    <p>Example: 8.2, 3.4, 8.5, ...</p>
-                    <p><strong>These are visible</strong> - this is your data.</p>
-                </div>
+                <p>The challenge: We <strong>don't observe</strong> which regime each time point belongs to - it's "hidden"! We only see the accuracy values.</p>
+            </div>
+            
+            <!-- THE PROBLEM -->
+            <div class="section">
+                <h2>❓ The Problem Setup</h2>
                 
-                <div class="concept-card">
-                    <h4>3. Relationships</h4>
-                    <p>How states produce observations and how states transition to other states.</p>
-                    <p><strong>This is what we learn</strong> from the data.</p>
-                </div>
-            </div>
-
-            <h3>Mathematical Framework</h3>
-            
-            <div class="math-box">
-                <strong>At time t, you have:</strong><br><br>
-                • <strong>Sₜ</strong> = the hidden state (which regime you're in)<br>
-                • <strong>Oₜ</strong> = the observed value (what you measure)<br><br>
-                The model learns the probability rules connecting these.
-            </div>
-
-            <h3>Component 1: Emission Probabilities</h3>
-            <p>How does each state generate observations?</p>
-            
-            <div class="equation">
-                P(Oₜ | Sₜ = i) = Normal(μᵢ, σᵢ²)
-            </div>
-            
-            <div class="formula-breakdown">
-                <div class="part">
-                    <strong>μᵢ</strong> = mean value when in state i<br>
-                    <small>Example: State 1 produces values around 8.3 on average</small>
-                </div>
-                <div class="part">
-                    <strong>σᵢ²</strong> = variance when in state i<br>
-                    <small>Example: Values in State 1 vary by about ±0.3</small>
-                </div>
-            </div>
-
-            <div class="regime-box">
-                <strong>What this means:</strong><br><br>
-                If you observe a value of 8.4, it's more likely you're in the HIGH state (where μ = 8.3) than the LOW state (where μ = 3.1).
-            </div>
-
-            <h3>Component 2: Transition Probabilities</h3>
-            <p>How does the system move between states?</p>
-            
-            <div class="equation">
-                P(Sₜ₊₁ = j | Sₜ = i) = aᵢⱼ
-            </div>
-            
-            <div class="math-box">
-                This is a <strong>transition matrix</strong> A:<br><br>
-                <table style="width: auto; margin: 20px auto;">
+                <h3>What We Have:</h3>
+                <ul>
+                    <li>Time series of values: <code>[0.82, 0.85, 0.83, 0.45, 0.48, 0.44, 0.81, 0.84, ...]</code></li>
+                    <li>We want to find <strong>n regimes</strong> (e.g., n=3 for HIGH, MED, LOW)</li>
+                </ul>
+                
+                <h3>What We Need to Learn:</h3>
+                <table>
                     <tr>
-                        <th></th>
-                        <th>To State 1</th>
-                        <th>To State 2</th>
+                        <th>Parameter</th>
+                        <th>Meaning</th>
                     </tr>
                     <tr>
-                        <td><strong>From State 1</strong></td>
-                        <td>0.90</td>
-                        <td>0.10</td>
+                        <td><strong>μ (mu)</strong></td>
+                        <td>Mean value for each regime</td>
                     </tr>
                     <tr>
-                        <td><strong>From State 2</strong></td>
-                        <td>0.15</td>
-                        <td>0.85</td>
+                        <td><strong>σ² (sigma²)</strong></td>
+                        <td>Variance for each regime (how spread out)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transitions</strong></td>
+                        <td>Probability of switching from one regime to another</td>
                     </tr>
                 </table>
-                <br>
-                <strong>Interpretation:</strong><br>
-                • If in State 1: 90% chance to stay in State 1, 10% chance to switch to State 2<br>
-                • If in State 2: 85% chance to stay in State 2, 15% chance to switch to State 1
-            </div>
-
-            <div class="regime-box">
-                <strong>Why this matters:</strong><br><br>
-                States are "persistent" or "sticky". If you're in the HIGH state, you tend to stay there for a while. This explains why you see clusters of high values, then clusters of low values.
-            </div>
-
-            <h3>Component 3: Initial Distribution</h3>
-            <p>Where does the system start?</p>
-            
-            <div class="equation">
-                P(S₁ = i) = πᵢ
             </div>
             
-            <div class="math-box">
-                Example: π = [0.6, 0.4]<br>
-                60% chance of starting in State 1, 40% chance in State 2
-            </div>
-        </div>
-
-        <!-- The Learning Process -->
-        <div class="section">
-            <h2>How Does It Learn?</h2>
-            
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Start with Random Guesses</h3>
-                <div class="math-box">
-                    Initial guess:<br>
-                    • State 1: μ₁ = 5, σ₁ = 2<br>
-                    • State 2: μ₂ = 7, σ₂ = 2<br>
-                    • Random transition probabilities
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Expectation Step (E-Step)</h3>
-                <p>Given current parameters, calculate: <em>"How likely was each state at each time point?"</em></p>
-                <div class="equation">
-                    γₜ(i) = P(Sₜ = i | O₁, O₂, ..., O_T)
-                </div>
-                <div class="regime-box">
-                    For each time point t and each state i, calculate the probability that the system was in state i at time t, given all the observations.
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Maximization Step (M-Step)</h3>
-                <p>Update parameters based on these probabilities:</p>
+            <!-- EM ALGORITHM -->
+            <div class="section">
+                <h2>🔄 The EM Algorithm (How It Works)</h2>
                 
-                <div class="formula-breakdown">
-                    <div class="part">
-                        <strong>New mean for state i:</strong><br>
-                        <div class="equation">
-                            μᵢ = Σₜ γₜ(i) × Oₜ / Σₜ γₜ(i)
-                        </div>
-                        <small>Weighted average of observations, weighted by probability of being in state i</small>
+                <div class="flow-diagram">
+                    <div class="flow-box">1️⃣ INITIALIZE<br/>(Random)</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">2️⃣ E-STEP<br/>(Calculate Probs)</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">3️⃣ M-STEP<br/>(Update Params)</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">4️⃣ REPEAT<br/>(Until Converge)</div>
+                </div>
+                
+                <h3>Step 1: Initialization</h3>
+                <div class="step">
+                    <p><span class="step-number">1</span> Start with <strong>random guesses</strong> for all parameters:</p>
+                    <ul>
+                        <li>Random μ for each regime (e.g., μ_HIGH = 0.75, μ_MED = 0.60, μ_LOW = 0.50)</li>
+                        <li>Random σ² for each regime</li>
+                        <li>Random transition probabilities</li>
+                    </ul>
+                    
+                    <div class="code">
+<span class="keyword">model</span> = hmm.<span class="function">GaussianHMM</span>(
+    n_components=<span class="highlight">3</span>,  <span class="comment"># 3 regimes</span>
+    random_state=<span class="highlight">42</span>   <span class="comment"># Reproducible random init</span>
+)</div>
+                </div>
+                
+                <h3>Step 2: E-Step (Expectation)</h3>
+                <div class="step">
+                    <p><span class="step-number">2</span> <strong>Calculate probabilities</strong> that each value belongs to each regime:</p>
+                    
+                    <div class="formula">
+P(value | regime) = (1 / √(2πσ²)) × exp(-(value - μ)² / (2σ²))
                     </div>
                     
-                    <div class="part">
-                        <strong>New variance for state i:</strong><br>
-                        <div class="equation">
-                            σᵢ² = Σₜ γₜ(i) × (Oₜ - μᵢ)² / Σₜ γₜ(i)
-                        </div>
-                        <small>Weighted variance of observations around the mean</small>
+                    <div class="example">
+                        <strong>Example:</strong> For value = 0.82
+                        <ul>
+                            <li>P(0.82 | HIGH with μ=0.80, σ²=0.01) = 3.90 (close to mean → high!)</li>
+                            <li>P(0.82 | MED with μ=0.65, σ²=0.02) = 1.38 (medium distance)</li>
+                            <li>P(0.82 | LOW with μ=0.45, σ²=0.01) = 0.004 (far from mean → low!)</li>
+                        </ul>
+                        
+                        <strong>Normalize:</strong> Total = 3.90 + 1.38 + 0.004 = 5.28
+                        <ul>
+                            <li>P(HIGH | 0.82) = 3.90 / 5.28 = <strong>74%</strong></li>
+                            <li>P(MED | 0.82) = 1.38 / 5.28 = <strong>26%</strong></li>
+                            <li>P(LOW | 0.82) = 0.004 / 5.28 = <strong>0.1%</strong></li>
+                        </ul>
                     </div>
                     
-                    <div class="part">
-                        <strong>New transition probability:</strong><br>
-                        <div class="equation">
-                            aᵢⱼ = (# expected transitions from i to j) / (# expected times in state i)
-                        </div>
+                    <p>Do this for <strong>every value</strong> in the time series!</p>
+                </div>
+                
+                <h3>Step 3: M-Step (Maximization)</h3>
+                <div class="step">
+                    <p><span class="step-number">3</span> <strong>Update parameters</strong> using the probabilities from E-step:</p>
+                    
+                    <div class="formula">
+μ_HIGH = Σ(value × P(HIGH|value)) / Σ(P(HIGH|value))
+                    </div>
+                    
+                    <div class="example">
+                        <strong>Example:</strong> Update μ_HIGH using 5 values:
+                        <pre>
+Time 0 (0.82): 40% HIGH → contributes 0.82 × 0.40 = 0.328
+Time 1 (0.85): 50% HIGH → contributes 0.85 × 0.50 = 0.425
+Time 2 (0.45): 10% HIGH → contributes 0.45 × 0.10 = 0.045
+Time 3 (0.48): 20% HIGH → contributes 0.48 × 0.20 = 0.096
+Time 4 (0.81): 60% HIGH → contributes 0.81 × 0.60 = 0.486
+
+μ_HIGH = (0.328 + 0.425 + 0.045 + 0.096 + 0.486) / (0.40 + 0.50 + 0.10 + 0.20 + 0.60)
+       = 1.38 / 1.80 = <strong>0.767</strong>
+                        </pre>
+                    </div>
+                    
+                    <p>Similarly update σ² and transition probabilities.</p>
+                </div>
+                
+                <h3>Step 4: Repeat Until Convergence</h3>
+                <div class="step">
+                    <p><span class="step-number">4</span> Go back to E-step with the new parameters and repeat:</p>
+                    
+                    <ul>
+                        <li><strong>Early iterations:</strong> Big changes in probabilities</li>
+                        <li><strong>Later iterations:</strong> Smaller and smaller changes</li>
+                        <li><strong>Convergence:</strong> Probabilities stabilize (barely change)</li>
+                    </ul>
+                    
+                    <div class="success">
+                        ✅ After ~100 iterations (or convergence), you have:
+                        <ul>
+                            <li>Final stable μ, σ² for each regime</li>
+                            <li>Final transition probabilities</li>
+                            <li>Sharp probability assignments like: Time 0 is 98% HIGH, Time 3 is 95% LOW</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-
-            <div class="step">
-                <div class="step-number">4</div>
-                <h3>Repeat Until Convergence</h3>
-                <p>Keep alternating between E-step and M-step until the parameters stop changing significantly.</p>
-                <div class="math-box">
-                    After 50-100 iterations, you get:<br><br>
-                    • <strong>State 1:</strong> μ₁ = 8.3, σ₁ = 0.2<br>
-                    • <strong>State 2:</strong> μ₂ = 3.1, σ₂ = 0.2<br>
-                    • <strong>Transitions:</strong> Both states are sticky (high probability of staying)
-                </div>
-            </div>
-        </div>
-
-        <!-- The Critical Innovation -->
-        <div class="section">
-            <h2>The Critical Innovation: No Look-Ahead</h2>
             
-            <p>There are two ways to figure out which state you were in at time t:</p>
-            
-            <div class="comparison">
-                <div class="comp-panel before">
-                    <h4>❌ The Wrong Way (Smoothing)</h4>
-                    <p>Use ALL data (past AND future):</p>
-                    <div class="equation" style="font-size: 1.2em;">
-                        P(Sₜ | O₁, O₂, ..., O_T)
-                    </div>
-                    <p>This uses observations from time T (the end) to determine the state at time t.</p>
-                    <p><strong>Problem:</strong> You're using information you wouldn't have in real-time!</p>
+            <!-- MODEL SELECTION -->
+            <div class="section">
+                <h2>📊 Model Selection with BIC</h2>
+                
+                <p>How do we know if 3 regimes is better than 2 or 4? Use <strong>BIC (Bayesian Information Criterion)</strong>!</p>
+                
+                <div class="formula">
+BIC = -2 × log_likelihood + n_params × log(n_samples)
                 </div>
                 
-                <div class="comp-panel after">
-                    <h4>✓ The Right Way (Filtering)</h4>
-                    <p>Use only past data up to time t:</p>
-                    <div class="equation" style="font-size: 1.2em;">
-                        P(Sₜ | O₁, O₂, ..., Oₜ)
-                    </div>
-                    <p>This uses ONLY observations up to time t to determine the state at time t.</p>
-                    <p><strong>Benefit:</strong> This is what you'd actually know in real-time!</p>
-                </div>
-            </div>
-
-            <h3>Forward Algorithm (The Math)</h3>
-            <p>Define the <strong>forward variable</strong>:</p>
-            
-            <div class="equation">
-                αₜ(i) = P(O₁, O₂, ..., Oₜ, Sₜ = i)
-            </div>
-            
-            <div class="regime-box">
-                This is the probability of observing the first t observations AND being in state i at time t.
-            </div>
-            
-            <p><strong>Recursive computation:</strong></p>
-            
-            <div class="formula-breakdown">
-                <div class="part">
-                    <strong>Initialization (t=1):</strong><br>
-                    <div class="equation">
-                        α₁(i) = πᵢ × P(O₁ | S₁ = i)
-                    </div>
-                </div>
-                
-                <div class="part">
-                    <strong>Recursion (t=2,3,...):</strong><br>
-                    <div class="equation">
-                        αₜ(j) = P(Oₜ | Sₜ = j) × Σᵢ αₜ₋₁(i) × aᵢⱼ
-                    </div>
-                    <small>The probability of being in state j at time t equals:<br>
-                    (probability of observing Oₜ from state j) × (sum over all ways to get to state j)</small>
-                </div>
-                
-                <div class="part">
-                    <strong>Get the probability distribution:</strong><br>
-                    <div class="equation">
-                        P(Sₜ = i | O₁,...,Oₜ) = αₜ(i) / Σⱼ αₜ(j)
-                    </div>
-                    <small>Normalize to get a proper probability distribution</small>
-                </div>
-            </div>
-
-            <div class="essence">
-                At each time step, you update your belief about which state you're in based ONLY on what you've seen so far.
-            </div>
-        </div>
-
-        <!-- Model Selection -->
-        <div class="section">
-            <h2>Choosing the Number of States</h2>
-            
-            <p>How do you know if you should use 2 states, 3 states, or more?</p>
-            
-            <h3>Bayesian Information Criterion (BIC)</h3>
-            
-            <div class="equation">
-                BIC = -2 × log(L) + k × log(n)
-            </div>
-            
-            <div class="formula-breakdown">
-                <div class="part">
-                    <strong>L</strong> = likelihood of the data given the model<br>
-                    <small>How well does the model explain what you observed?</small>
-                </div>
-                <div class="part">
-                    <strong>k</strong> = number of parameters in the model<br>
-                    <small>More states = more parameters = more complexity</small>
-                </div>
-                <div class="part">
-                    <strong>n</strong> = number of observations<br>
-                    <small>Your sample size</small>
-                </div>
-            </div>
-
-            <div class="math-box">
-                <strong>The tradeoff:</strong><br><br>
-                • First term (−2 log L): Rewards models that fit the data well (smaller = better fit)<br>
-                • Second term (k log n): Penalizes complex models (larger = more penalty)<br><br>
-                <strong>Choose the model with the lowest BIC</strong>
-            </div>
-
-            <table>
-                <tr>
-                    <th>Number of States</th>
-                    <th>Fit Quality</th>
-                    <th>Complexity Penalty</th>
-                    <th>BIC Score</th>
-                    <th>Decision</th>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Good</td>
-                    <td>Low</td>
-                    <td>157.3</td>
-                    <td>-</td>
-                </tr>
-                <tr style="background: #d1fae5;">
-                    <td>3</td>
-                    <td>Better</td>
-                    <td>Medium</td>
-                    <td>149.1</td>
-                    <td><strong>✓ BEST</strong></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Best</td>
-                    <td>High</td>
-                    <td>152.8</td>
-                    <td>Too complex</td>
-                </tr>
-            </table>
-
-            <div class="regime-box">
-                <strong>Validation checks:</strong><br><br>
-                Even if BIC selects 3 states, verify that:<br>
-                • States are meaningfully different (μ₁ ≠ μ₂ ≠ μ₃)<br>
-                • States are stable (not flipping every time period)<br>
-                • Each state appears frequently enough to be real
-            </div>
-        </div>
-
-        <!-- What You Get -->
-        <div class="section">
-            <h2>What You Get At The End</h2>
-            
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>Learned Parameters</h4>
-                    <p>• Mean and variance for each state</p>
-                    <p>• Transition probabilities between states</p>
-                    <p>• Initial state probabilities</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>State Sequence</h4>
-                    <p>• Most likely state at each time point</p>
-                    <p>• Confidence level for each assignment</p>
-                    <p>• Detected regime changes</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>Current State</h4>
-                    <p>• Which state you're in right now</p>
-                    <p>• Probability distribution over all states</p>
-                    <p>• Expected value going forward</p>
-                </div>
-            </div>
-
-            <div class="essence">
-                You now have a complete probabilistic understanding of the hidden states driving your time series.
-            </div>
-        </div>
-
-        <!-- Summary -->
-        <div class="section">
-            <h2>Core Concepts Summary</h2>
-            
-            <div class="math-box">
-                <strong>1. Hidden States:</strong> Your system has N distinct modes it switches between<br><br>
-                
-                <strong>2. Emissions:</strong> Each state generates observations from a probability distribution (typically Normal with mean μᵢ and variance σᵢ²)<br><br>
-                
-                <strong>3. Transitions:</strong> States change according to a Markov process - future depends only on present, not past<br><br>
-                
-                <strong>4. Learning:</strong> Use EM algorithm to find parameters that maximize likelihood of observed data<br><br>
-                
-                <strong>5. Inference:</strong> Use forward algorithm (filtering) to determine current state using only past observations<br><br>
-                
-                <strong>6. Selection:</strong> Use BIC to choose optimal number of states, balancing fit and complexity
-            </div>
-        </div>
-
-    </div>
-
-        <!-- Worked Example -->
-        <div class="section">
-            <h2>Complete Worked Example</h2>
-            
-            <p>Let's walk through a concrete example with actual numbers.</p>
-            
-            <h3>The Data</h3>
-            <div class="math-box">
-                Observations: [8.2, 8.5, 8.1, 3.1, 3.4, 2.9, 8.6, 8.2]<br>
-                Time periods: t = 1, 2, 3, 4, 5, 6, 7, 8
-            </div>
-
-            <h3>Assume 2 States</h3>
-            <p>After running the EM algorithm, we learn:</p>
-            
-            <div class="regime-box">
-                <strong>State 1 (HIGH):</strong><br>
-                • μ₁ = 8.3, σ₁ = 0.2<br><br>
-                
-                <strong>State 2 (LOW):</strong><br>
-                • μ₂ = 3.1, σ₂ = 0.2<br><br>
-                
-                <strong>Transition Matrix A:</strong><br>
-                <table style="width: auto; margin: 20px 0;">
+                <h3>Two Parts:</h3>
+                <table>
                     <tr>
-                        <td></td>
-                        <td>To HIGH</td>
-                        <td>To LOW</td>
+                        <th>Part</th>
+                        <th>What It Measures</th>
+                        <th>Effect</th>
                     </tr>
                     <tr>
-                        <td>From HIGH</td>
-                        <td>0.85</td>
-                        <td>0.15</td>
+                        <td><strong>-2 × log_likelihood</strong></td>
+                        <td>How well model fits data</td>
+                        <td>Lower = better fit (good!)</td>
                     </tr>
                     <tr>
-                        <td>From LOW</td>
-                        <td>0.20</td>
-                        <td>0.80</td>
+                        <td><strong>n_params × log(n_samples)</strong></td>
+                        <td>Model complexity</td>
+                        <td>More params = higher penalty (bad!)</td>
                     </tr>
                 </table>
                 
-                <strong>Initial:</strong> π = [0.6, 0.4] (60% chance start in HIGH)
+                <div class="example">
+                    <strong>Example:</strong> Compare different n values
+                    <ul>
+                        <li>n=2: BIC=150 (underfits, too simple)</li>
+                        <li>n=3: BIC=124 ✅ <strong>BEST!</strong> (good balance)</li>
+                        <li>n=4: BIC=135 (overfits, too complex)</li>
+                        <li>n=5: BIC=148 (definitely overfitting)</li>
+                    </ul>
+                    Pick <strong>n=3</strong> (lowest BIC)
+                </div>
             </div>
-
-            <h3>Forward Algorithm - Step by Step</h3>
             
-            <div class="step">
-                <div class="step-number">t=1</div>
-                <h3>First Observation: O₁ = 8.2</h3>
+            <!-- VALIDATION -->
+            <div class="section">
+                <h2>✅ Validation Checks</h2>
                 
-                <div class="formula-breakdown">
-                    <div class="part">
-                        <strong>Calculate emission probabilities:</strong><br>
-                        P(O₁=8.2 | S₁=HIGH) = Normal(8.2 | μ=8.3, σ=0.2) ≈ 0.68<br>
-                        P(O₁=8.2 | S₁=LOW) = Normal(8.2 | μ=3.1, σ=0.2) ≈ 0.00
+                <p>Even with good BIC, the solution might be garbage! Check:</p>
+                
+                <h3>Check 1: Too Many Regime Switches?</h3>
+                <div class="step">
+                    <p>If regimes switch more than 10% of the time → <strong>INVALID</strong></p>
+                    
+                    <div class="warning">
+                        ❌ <strong>Bad:</strong> 100 time points with 50 switches = model is just chasing noise!
                     </div>
                     
-                    <div class="part">
-                        <strong>Initialize forward variables:</strong><br>
-                        α₁(HIGH) = π(HIGH) × P(O₁ | HIGH) = 0.6 × 0.68 = 0.408<br>
-                        α₁(LOW) = π(LOW) × P(O₁ | LOW) = 0.4 × 0.00 ≈ 0.000
+                    <div class="success">
+                        ✅ <strong>Good:</strong> 100 time points with 5 switches = stable regimes
+                    </div>
+                </div>
+                
+                <h3>Check 2: Are Regimes Distinct?</h3>
+                <div class="step">
+                    <p>If two regime means are closer than 0.05 → <strong>INVALID</strong></p>
+                    
+                    <div class="warning">
+                        ❌ <strong>Bad:</strong> μ_HIGH = 0.820, μ_MED = 0.825 (only 0.005 apart!)
+                        <br/>These are basically the same regime!
                     </div>
                     
-                    <div class="part">
-                        <strong>Normalize to get probabilities:</strong><br>
-                        P(S₁=HIGH | O₁) = 0.408 / (0.408 + 0.000) ≈ 1.00<br>
-                        P(S₁=LOW | O₁) = 0.000 / (0.408 + 0.000) ≈ 0.00<br><br>
-                        <strong>Conclusion:</strong> Almost certainly in HIGH state (makes sense - observed 8.2)
+                    <div class="success">
+                        ✅ <strong>Good:</strong> μ_HIGH = 0.83, μ_MED = 0.65, μ_LOW = 0.46 (well separated)
                     </div>
                 </div>
             </div>
-
-            <div class="step">
-                <div class="step-number">t=4</div>
-                <h3>Fourth Observation: O₄ = 3.1</h3>
+            
+            <!-- CODE MAPPING -->
+            <div class="section">
+                <h2>💻 Code Mapping</h2>
                 
-                <div class="formula-breakdown">
-                    <div class="part">
-                        <strong>Calculate emission probabilities:</strong><br>
-                        P(O₄=3.1 | S₄=HIGH) = Normal(3.1 | μ=8.3, σ=0.2) ≈ 0.00<br>
-                        P(O₄=3.1 | S₄=LOW) = Normal(3.1 | μ=3.1, σ=0.2) ≈ 0.70
-                    </div>
-                    
-                    <div class="part">
-                        <strong>Recursion (using α₃ from previous step):</strong><br>
-                        α₄(HIGH) = P(O₄|HIGH) × [α₃(HIGH)×0.85 + α₃(LOW)×0.20]<br>
-                        α₄(LOW) = P(O₄|LOW) × [α₃(HIGH)×0.15 + α₃(LOW)×0.80]
-                    </div>
-                    
-                    <div class="part">
-                        <strong>Result after normalization:</strong><br>
-                        P(S₄=HIGH | O₁,...,O₄) ≈ 0.05<br>
-                        P(S₄=LOW | O₁,...,O₄) ≈ 0.95<br><br>
-                        <strong>Conclusion:</strong> Very likely switched to LOW state
+                <h3>Where Each Step Happens:</h3>
+                
+                <div class="step">
+                    <h4>🔹 Initialization (Random Start)</h4>
+                    <div class="code">
+model = hmm.<span class="function">GaussianHMM</span>(n_components=n, random_state=42)
+<span class="comment"># Creates model with random μ, σ², transitions</span>
                     </div>
                 </div>
-            </div>
+                
+                <div class="step">
+                    <h4>🔹 EM Loop (E-step + M-step repeated)</h4>
+                    <div class="code">
+model.<span class="function">fit</span>(accuracies)
+<span class="comment"># *** THIS IS WHERE THE ENTIRE EM ALGORITHM RUNS ***</span>
+<span class="comment"># Internally alternates E-step and M-step until convergence</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h4>🔹 Calculate BIC</h4>
+                    <div class="code">
+log_likelihood = model.<span class="function">score</span>(accuracies) * <span class="function">len</span>(accuracies)
+n_params = n**2 + 2*n
+bic = -2 * log_likelihood + n_params * np.<span class="function">log</span>(<span class="function">len</span>(accuracies))
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h4>🔹 Detect Regimes (After Fitting)</h4>
+                    <div class="code">
+regime_probs = model.<span class="function">predict_proba</span>(accuracies)
+<span class="comment"># Uses fitted μ, σ² to calculate P(regime | value)</span>
+<span class="comment"># Returns: [[0.95, 0.03, 0.02], [0.97, 0.02, 0.01], ...]</span>
 
-            <div class="regime-box">
-                <strong>Final state sequence:</strong><br><br>
-                t=1: HIGH (99%)<br>
-                t=2: HIGH (98%)<br>
-                t=3: HIGH (97%)<br>
-                t=4: LOW (95%) ← <strong>Regime change detected</strong><br>
-                t=5: LOW (96%)<br>
-                t=6: LOW (94%)<br>
-                t=7: HIGH (93%) ← <strong>Regime change detected</strong><br>
-                t=8: HIGH (95%)
+regimes = np.<span class="function">argmax</span>(regime_probs, axis=1)
+<span class="comment"># Convert to hard labels: [0, 0, 2, 2, ...]</span>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <!-- Why This Matters -->
-        <div class="section">
-            <h2>Why This Framework Matters</h2>
             
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>1. Noise vs Signal</h4>
-                    <p>A single observation might be ambiguous, but the probabilistic framework weighs all the evidence.</p>
-                    <p>Example: If you observe 5.5, is it a low value in the HIGH state or a high value in the LOW state? The history helps you decide.</p>
+            <!-- SUMMARY -->
+            <div class="section">
+                <h2>🎯 Summary</h2>
+                
+                <div class="flow-diagram">
+                    <div class="flow-box" style="background: #e3f2fd;">
+                        <strong>Start</strong><br/>
+                        Time Series
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box" style="background: #f3e5f5;">
+                        <strong>For n=2,3,4,5,6</strong><br/>
+                        Random Init
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box" style="background: #fff3e0;">
+                        <strong>EM Loop</strong><br/>
+                        E-step + M-step
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box" style="background: #e8f5e9;">
+                        <strong>Validate</strong><br/>
+                        Check switches & distinctness
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box" style="background: #c8e6c9;">
+                        <strong>Select Best</strong><br/>
+                        Lowest BIC (valid)
+                    </div>
                 </div>
                 
-                <div class="concept-card">
-                    <h4>2. Quantified Uncertainty</h4>
-                    <p>You don't just get "State 2". You get "85% probability of State 2".</p>
-                    <p>This uncertainty quantification is crucial for decision-making under uncertainty.</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>3. Persistence Modeling</h4>
-                    <p>The transition matrix captures that states tend to persist.</p>
-                    <p>This is why temporary fluctuations don't immediately trigger state changes.</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>4. Real-Time Applicable</h4>
-                    <p>The forward algorithm means you can run this live, updating beliefs as new data arrives.</p>
-                    <p>No need to reprocess all historical data each time.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Common Questions -->
-        <div class="section">
-            <h2>Common Questions</h2>
-            
-            <h3>Q: Why not just use thresholds?</h3>
-            <div class="math-box">
-                <strong>Simple threshold approach:</strong><br>
-                If Oₜ > 6, then HIGH state. If Oₜ < 6, then LOW state.<br><br>
-                
-                <strong>Problems:</strong><br>
-                • No memory - one outlier immediately changes state<br>
-                • No uncertainty quantification<br>
-                • No learning from data<br>
-                • Doesn't capture state persistence<br><br>
-                
-                <strong>HMM advantage:</strong><br>
-                Uses all historical context and transition dynamics to make better inferences.
-            </div>
-
-            <h3>Q: Why Normal distributions?</h3>
-            <div class="math-box">
-                We assumed P(Oₜ | Sₜ=i) = Normal(μᵢ, σᵢ²), but this is just one choice.<br><br>
-                
-                <strong>Alternatives:</strong><br>
-                • Exponential distribution for wait times<br>
-                • Poisson distribution for count data<br>
-                • Mixture of Gaussians for multimodal data<br>
-                • Any probability distribution that fits your data<br><br>
-                
-                The framework works the same way, just with different emission probabilities.
-            </div>
-
-            <h3>Q: How many observations do I need?</h3>
-            <div class="math-box">
-                <strong>Rule of thumb:</strong><br>
-                At least 10-20 observations per state you want to detect.<br><br>
-                
-                For 3 states: need ~50-60 observations minimum<br>
-                For 5 states: need ~100+ observations<br><br>
-                
-                With too little data, the model will overfit or fail to converge.
-            </div>
-
-            <h3>Q: What if states change over time?</h3>
-            <div class="math-box">
-                Standard HMM assumes <strong>stationary</strong> parameters:<br>
-                • μᵢ and σᵢ don't change over time<br>
-                • Transition matrix A is constant<br><br>
-                
-                <strong>If parameters evolve:</strong><br>
-                • Use sliding windows (refit model on recent data)<br>
-                • Use time-varying HMM extensions<br>
-                • Detect parameter drift and trigger refitting<br><br>
-                
-                This is a limitation of the basic framework.
-            </div>
-        </div>
-
-        <!-- Relationship to Other Methods -->
-        <div class="section">
-            <h2>Connection to Other Methods</h2>
-            
-            <h3>vs K-Means Clustering</h3>
-            <div class="comparison">
-                <div class="comp-panel before">
-                    <h4>K-Means</h4>
-                    <p>• Clusters data points into groups</p>
-                    <p>• No time structure</p>
-                    <p>• Hard assignments (point belongs to one cluster)</p>
-                    <p>• No state transitions</p>
-                </div>
-                <div class="comp-panel after">
-                    <h4>HMM</h4>
-                    <p>• Clusters time series into state sequences</p>
-                    <p>• Explicitly models time evolution</p>
-                    <p>• Soft assignments (probability over states)</p>
-                    <p>• Models how states transition</p>
-                </div>
-            </div>
-
-            <h3>vs Kalman Filter</h3>
-            <div class="comparison">
-                <div class="comp-panel before">
-                    <h4>Kalman Filter</h4>
-                    <p>• Continuous state space (state can be any real number)</p>
-                    <p>• Linear dynamics</p>
-                    <p>• Gaussian noise</p>
-                    <p>• Best for tracking smooth trajectories</p>
-                </div>
-                <div class="comp-panel after">
-                    <h4>HMM</h4>
-                    <p>• Discrete state space (finite number of states)</p>
-                    <p>• Can be nonlinear</p>
-                    <p>• Flexible noise models</p>
-                    <p>• Best for identifying distinct regimes</p>
-                </div>
-            </div>
-
-            <h3>vs Change Point Detection</h3>
-            <div class="comparison">
-                <div class="comp-panel before">
-                    <h4>Change Point</h4>
-                    <p>• Detects when distribution parameters change</p>
-                    <p>• Assumes changes are permanent</p>
-                    <p>• Finds breakpoints in time series</p>
-                    <p>• No return to previous states</p>
-                </div>
-                <div class="comp-panel after">
-                    <h4>HMM</h4>
-                    <p>• Models recurring states</p>
-                    <p>• States can repeat (LOW → HIGH → LOW)</p>
-                    <p>• Probabilistic framework</p>
-                    <p>• Captures cyclical patterns</p>
+                <div class="success">
+                    <strong>Key Takeaways:</strong>
+                    <ul>
+                        <li>HMM learns <span class="highlight">hidden regime structure</span> from data</li>
+                        <li>EM algorithm alternates between <span class="highlight">E-step (calculate probs)</span> and <span class="highlight">M-step (update params)</span></li>
+                        <li>BIC helps choose the <span class="highlight">right number of regimes</span></li>
+                        <li>Validation ensures solutions are <span class="highlight">meaningful, not garbage</span></li>
+                        <li>Final model can <span class="highlight">classify new data</span> into regimes</li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <!-- Extensions -->
-        <div class="section">
-            <h2>Extensions & Variations</h2>
-            
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h4>Continuous Observations</h4>
-                    <p>What we covered: Gaussian HMM for continuous data</p>
-                    <p>Extension: Use any continuous distribution (exponential, gamma, mixture models)</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>Discrete Observations</h4>
-                    <p>When observations are categorical (e.g., {A, B, C})</p>
-                    <p>Use discrete emission probabilities instead of Gaussian</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>Multivariate Observations</h4>
-                    <p>When each observation is a vector (e.g., [temperature, pressure, humidity])</p>
-                    <p>Use multivariate Normal or other multivariate distributions</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>Input-Output HMM</h4>
-                    <p>When observations depend on external inputs</p>
-                    <p>Emission probability: P(Oₜ | Sₜ, Xₜ) where Xₜ is input</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>Hierarchical HMM</h4>
-                    <p>States have sub-states</p>
-                    <p>Models systems with multiple time scales</p>
-                </div>
-                
-                <div class="concept-card">
-                    <h4>Semi-Markov Models</h4>
-                    <p>Explicitly model duration in each state</p>
-                    <p>Relaxes geometric duration assumption</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mathematical Properties -->
-        <div class="section">
-            <h2>Key Mathematical Properties</h2>
-            
-            <h3>1. Markov Property</h3>
-            <div class="equation">
-                P(Sₜ₊₁ | S₁, S₂, ..., Sₜ) = P(Sₜ₊₁ | Sₜ)
-            </div>
-            <div class="regime-box">
-                The future state depends only on the current state, not on how you got there.<br>
-                This is a <strong>memoryless</strong> property that makes computation tractable.
-            </div>
-
-            <h3>2. Conditional Independence</h3>
-            <div class="equation">
-                P(Oₜ | S₁,...,Sₜ, O₁,...,Oₜ₋₁) = P(Oₜ | Sₜ)
-            </div>
-            <div class="regime-box">
-                Given the current state, the observation is independent of all past states and observations.<br>
-                The state captures all relevant information for generating observations.
-            </div>
-
-            <h3>3. Ergodicity</h3>
-            <div class="math-box">
-                If the transition matrix is <strong>ergodic</strong> (you can eventually reach any state from any other state), then:<br><br>
-                • There exists a stationary distribution π<sub>∞</sub><br>
-                • Long-run proportion of time in each state converges to π<sub>∞</sub><br>
-                • π<sub>∞</sub> satisfies: π<sub>∞</sub> = π<sub>∞</sub> A
-            </div>
-
-            <h3>4. Likelihood Computation</h3>
-            <div class="equation">
-                P(O₁,...,O_T) = Σⱼ α_T(j)
-            </div>
-            <div class="regime-box">
-                The forward algorithm not only tells you the state probabilities, but also efficiently computes the total likelihood of the observed sequence.<br>
-                This is used for model comparison and parameter learning.
-            </div>
-        </div>
-
-        <!-- Practical Considerations -->
-        <div class="section">
-            <h2>Practical Considerations</h2>
-            
-            <h3>Computational Complexity</h3>
-            <div class="math-box">
-                For T observations and N states:<br><br>
-                <strong>Forward algorithm:</strong> O(N² × T)<br>
-                • For each time step: compute N states<br>
-                • For each state: sum over N previous states<br><br>
-                
-                <strong>EM algorithm:</strong> O(N² × T × iterations)<br>
-                • Typically 50-100 iterations to converge<br><br>
-                
-                <strong>Conclusion:</strong> Scales well even for large datasets<br>
-                Example: 1000 observations, 5 states → ~25,000 operations per iteration
-            </div>
-
-            <h3>Initialization Sensitivity</h3>
-            <div class="math-box">
-                EM algorithm can get stuck in local optima.<br><br>
-                <strong>Solution:</strong><br>
-                • Run multiple times with different random initializations<br>
-                • Keep the solution with highest likelihood<br>
-                • Use K-means clustering to initialize means<br>
-                • Use domain knowledge to set reasonable starting values
-            </div>
-
-            <h3>Numerical Stability</h3>
-            <div class="math-box">
-                Forward probabilities α_t(i) can become very small (underflow).<br><br>
-                <strong>Solution:</strong> Work in log space<br>
-                • Instead of α_t(i), compute log(α_t(i))<br>
-                • Use log-sum-exp trick for numerical stability<br>
-                • This is handled automatically by good implementations
-            </div>
-        </div>
-
-    </div>
-
-    <div style="background: linear-gradient(135deg, #4c51bf 0%, #805ad5 100%); color: white; padding: 60px 40px; text-align: center;">
-        <h2 style="color: white; font-size: 2em; margin-bottom: 20px;">The Bottom Line</h2>
-        <p style="font-size: 1.4em; max-width: 900px; margin: 0 auto; line-height: 1.7;">
-            You observe numbers over time. Hidden beneath those numbers are distinct states the system moves between. 
-            This mathematical framework discovers those states, characterizes them, and tells you which one you're in right now—all without peeking at the future.
-        </p>
-        <p style="font-size: 1.2em; margin-top: 30px; opacity: 0.9;">
-            It's a principled, probabilistic approach to understanding temporal patterns in any sequential data.
-        </p>
     </div>
 </body>
 </html>
