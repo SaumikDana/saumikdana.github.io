@@ -277,25 +277,23 @@
                 </div>
 
                 <h3>📈 Sentiment Components & Weights</h3>
-                <div class="code-block">
-<span class="keyword">def</span> <span class="function">get_sentiment_components_weights</span>(df):
-    <span class="comment"># Core indicators with dynamic weighting</span>
+                <div class="code-block">def get_sentiment_components_weights(df):
+    # Core indicators with dynamic weighting
     sentiment_components = []
     weights = []
     
-    <span class="comment"># Unemployment (25% weight - negative change is positive)</span>
-    sentiment_components.append(-df[<span class="string">'unemployment_change'</span>])
-    weights.append(<span class="string">0.25</span>)
+    # Unemployment (25% weight - negative change is positive)
+    sentiment_components.append(-df['unemployment_change'])
+    weights.append(0.25)
     
-    <span class="comment"># Payroll changes (20% weight)</span>
-    <span class="keyword">if</span> <span class="string">'payroll_change'</span> <span class="keyword">in</span> df.columns:
-        payroll_scaled = df[<span class="string">'payroll_change'</span>] / <span class="string">1000</span>
+    # Payroll changes (20% weight)
+    if 'payroll_change' in df.columns:
+        payroll_scaled = df['payroll_change'] / 1000
         sentiment_components.append(payroll_scaled)
-        weights.append(<span class="string">0.20</span>)
+        weights.append(0.20)
     
-    <span class="comment"># Additional indicators: wages, participation, etc.</span>
-    <span class="keyword">return</span> sentiment_components, weights
-                </div>
+    # Additional indicators: wages, participation, etc.
+    return sentiment_components, weights</div>
 
                 <h3>📊 Visualizations</h3>
                 <div class="visualization-section">
@@ -359,25 +357,23 @@
                 </div>
 
                 <h3>🤖 Model Implementation</h3>
-                <div class="code-block">
-<span class="keyword">from</span> transformers <span class="keyword">import</span> BertForSequenceClassification, pipeline
+                <div class="code-block">from transformers import BertForSequenceClassification, pipeline
 
-<span class="keyword">def</span> <span class="function">load_bert_model</span>():
-    <span class="comment"># Load FOMC-specific FinBERT model</span>
+def load_bert_model():
+    # Load FOMC-specific FinBERT model
     model = BertForSequenceClassification.from_pretrained(
-        <span class="string">'ZiweiChen/FinBERT-FOMC'</span>, 
-        num_labels=<span class="string">3</span>
+        'ZiweiChen/FinBERT-FOMC', 
+        num_labels=3
     )
     
-    <span class="comment"># Create sentiment classification pipeline</span>
+    # Create sentiment classification pipeline
     sentiment_model = pipeline(
-        <span class="string">"text-classification"</span>, 
+        "text-classification", 
         model=model,
         tokenizer=tokenizer
     )
     
-    <span class="keyword">return</span> sentiment_model
-                </div>
+    return sentiment_model</div>
 
                 <h3>📊 Policy Evolution Timeline</h3>
                 <div class="visualization-section">
@@ -430,29 +426,27 @@
                 </div>
 
                 <h3>🎨 Custom Sentiment Axis Construction</h3>
-                <div class="code-block">
-<span class="keyword">def</span> <span class="function">create_corporate_axis</span>(vectorizer):
-    <span class="comment"># Positive terms: growth, acquisition, synergies, etc.</span>
+                <div class="code-block">def create_corporate_axis(vectorizer):
+    # Positive terms: growth, acquisition, synergies, etc.
     POSITIVE_TERMS = [
-        <span class="string">'growth'</span>, <span class="string">'expansion'</span>, <span class="string">'acquisition'</span>, 
-        <span class="string">'synergies'</span>, <span class="string">'breakthrough'</span>, <span class="string">'dividend'</span>
+        'growth', 'expansion', 'acquisition', 
+        'synergies', 'breakthrough', 'dividend'
     ]
     
-    <span class="comment"># Negative terms: restructuring, layoff, litigation, etc.</span>
+    # Negative terms: restructuring, layoff, litigation, etc.
     NEGATIVE_TERMS = [
-        <span class="string">'restructuring'</span>, <span class="string">'layoff'</span>, <span class="string">'litigation'</span>, 
-        <span class="string">'impairment'</span>, <span class="string">'writedown'</span>, <span class="string">'loss'</span>
+        'restructuring', 'layoff', 'litigation', 
+        'impairment', 'writedown', 'loss'
     ]
     
-    <span class="comment"># Create weighted axis vector</span>
+    # Create weighted axis vector
     axis = np.zeros(len(feature_names))
-    <span class="keyword">for</span> idx <span class="keyword">in</span> positive_indices:
-        axis[idx] = <span class="string">1.0</span>
-    <span class="keyword">for</span> idx <span class="keyword">in</span> negative_indices:
-        axis[idx] = <span class="string">-1.0</span>
+    for idx in positive_indices:
+        axis[idx] = 1.0
+    for idx in negative_indices:
+        axis[idx] = -1.0
     
-    <span class="keyword">return</span> axis / np.linalg.norm(axis)
-                </div>
+    return axis / np.linalg.norm(axis)</div>
 
                 <h3>📈 Apple's Corporate Event Timeline</h3>
                 <div class="visualization-section">
@@ -505,25 +499,23 @@
                 </div>
 
                 <h3>⚖️ Fiscal Policy Axis Design</h3>
-                <div class="code-block">
-<span class="keyword">def</span> <span class="function">create_policy_axis</span>(vectorizer):
-    <span class="comment"># Expansionary terms</span>
+                <div class="code-block">def create_policy_axis(vectorizer):
+    # Expansionary terms
     EXPANSIONARY = [
-        <span class="string">'stimulus'</span>, <span class="string">'spending'</span>, <span class="string">'investment'</span>, 
-        <span class="string">'infrastructure'</span>, <span class="string">'jobs'</span>, <span class="string">'relief'</span>
+        'stimulus', 'spending', 'investment', 
+        'infrastructure', 'jobs', 'relief'
     ]
     
-    <span class="comment"># Contractionary terms</span>
+    # Contractionary terms
     CONTRACTIONARY = [
-        <span class="string">'deficit'</span>, <span class="string">'debt'</span>, <span class="string">'reduction'</span>, 
-        <span class="string">'austerity'</span>, <span class="string">'consolidation'</span>, <span class="string">'restraint'</span>
+        'deficit', 'debt', 'reduction', 
+        'austerity', 'consolidation', 'restraint'
     ]
     
-    <span class="comment"># Calculate sentiment scores with projection</span>
+    # Calculate sentiment scores with projection
     sentiment_scores = np.dot(document_embeddings, axis)
     
-    <span class="keyword">return</span> sentiment_scores
-                </div>
+    return sentiment_scores</div>
 
                 <h3>🌊 Policy Evolution Patterns</h3>
                 <div class="visualization-section">
