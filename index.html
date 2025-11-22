@@ -84,7 +84,7 @@
         .hero {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 4rem 2rem;
+            padding: 2rem 2rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -112,17 +112,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3rem;
-            margin-bottom: 2rem;
+            gap: 2rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
         }
 
         .profile-pic {
-            width: 180px;
-            height: 180px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid rgba(255, 255, 255, 0.3);
+            border: 4px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease;
         }
@@ -132,17 +132,17 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .hero .tagline {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 300;
             opacity: 0.95;
-            margin-bottom: 2rem;
+            margin-bottom: 1.25rem;
         }
 
         .social-links {
@@ -156,13 +156,14 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1.25rem;
             background: rgba(255, 255, 255, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
             color: white;
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
@@ -174,8 +175,8 @@
         }
 
         .social-icon {
-            width: 24px;
-            height: 24px;
+            width: 18px;
+            height: 18px;
         }
 
         /* Navigation */
@@ -588,7 +589,7 @@
                 <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
                 <div>
                     <h1>Saumik Dana</h1>
-                    <p class="tagline">Quantitative Researcher | Volatility Trading & ML Specialist</p>
+                    <p class="tagline">Quantitative Researcher | Volatility & Options Specialist</p>
                 </div>
             </div>
             
@@ -629,7 +630,7 @@
         <section class="section about-content">
             <h2 class="section-title">About Me</h2>
             <p class="about-text">
-                I am a quantitative researcher specializing in volatility trading and index rebalancing at a Connecticut-based buy-side firm. My work focuses on developing sophisticated ML-driven options strategies, building production trading systems, and optimizing portfolio construction through rigorous statistical methods. I hold a PhD from the University of Texas at Austin and am a US permanent resident.
+                I build ML-driven trading systems at Asset Management Firm, a Connecticut-based asset management firm. My work spans the full quantitative stack—from discovering alpha in options microstructure to deploying serverless execution infrastructure on AWS. I hold a PhD in Engineering Mechanics from UT Austin and am a US green card holder with experience across volatility, FX, and crypto markets.
             </p>
             <div class="audio-player">
                 <audio controls>
@@ -647,15 +648,15 @@
                     <h4>Programming & Infrastructure</h4>
                     <ul>
                         <li>Python (Pandas, NumPy, SciPy)</li>
-                        <li>AWS Lambda & Docker</li>
-                        <li>CI/CD with GitHub Actions</li>
-                        <li>Poetry Package Management</li>
+                        <li>AWS Lambda, Docker, S3</li>
+                        <li>SAM/CloudFormation, EventBridge</li>
+                        <li>GitHub Actions CI/CD</li>
                     </ul>
                 </div>
                 <div class="skill-card">
                     <h4>Financial Engineering</h4>
                     <ul>
-                        <li>Options Trading Strategies</li>
+                        <li>Multi-leg Options Strategies</li>
                         <li>Volatility Modeling (SVI, SSVI)</li>
                         <li>Delta Hedging & Greeks</li>
                         <li>Portfolio Optimization (CVXPY)</li>
@@ -664,9 +665,9 @@
                 <div class="skill-card">
                     <h4>Machine Learning</h4>
                     <ul>
-                        <li>XGBoost, Random Forest, Decision Trees</li>
+                        <li>XGBoost, CatBoost, Random Forest</li>
                         <li>SHAP Feature Importance</li>
-                        <li>MLflow & Model Deployment</li>
+                        <li>MLflow Experiment Tracking</li>
                         <li>Hidden Markov Models</li>
                     </ul>
                 </div>
@@ -674,9 +675,9 @@
                     <h4>Quantitative Methods</h4>
                     <ul>
                         <li>Black-Scholes PDE</li>
-                        <li>Convex Optimization</li>
-                        <li>Monte Carlo Simulations</li>
-                        <li>Time Series Analysis</li>
+                        <li>Convex & Quadratic Programming</li>
+                        <li>Monte Carlo Simulation</li>
+                        <li>Walk-Forward Validation</li>
                     </ul>
                 </div>
             </div>
@@ -688,31 +689,54 @@
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-date">Feb 2024 - Present</div>
+                    <div class="timeline-date">Feb 2024 – Present</div>
                     <div class="timeline-content">
                         <h3>Quantitative Researcher | Asset Management Firm</h3>
-                        <p><strong>High-Performance Options Strategies:</strong> Developed backtesting framework achieving 1.5+ Sharpe on SPY/QQQ with 10% max drawdown. Discovered single-stock strategies (TSLA, XOM) generating 50%+ CAGR with positive skew > 4.</p>
-                        <p><strong>Production ML Trading System:</strong> Deployed automated options trading system on AWS with Lambda, Docker, and EventBridge scheduling. Integrated Alpaca Trading API for real-time execution with multi-leg order management.</p>
-                        <p><strong>MLOps & Feature Engineering:</strong> Built MLflow pipeline analyzing 6 multi-leg strategies across 18 assets. Implemented walk-forward validation with SHAP-based feature selection revealing optimal strategy-asset pairings.</p>
-                        <p><strong>Systematic Portfolio Strategies:</strong> Developed index rebalancing system minimizing S&P 500 tracking error using quadratic programming. Created sector rotation strategy generating 15% annualized alpha using SHAP-based ML.</p>
+                        <p><strong>Automated Options Trading (Live on AWS):</strong> Developed backtesting framework achieving 1.5+ Sharpe on SPY/QQQ with 10% max drawdown. Discovered single-stock strategies (TSLA, XOM) generating 50%+ CAGR with positive skew > 4. Deployed serverless options bot on AWS Lambda with Alpaca API integration for multi-leg order management.</p>
+                        <p><strong>ML Pipeline & Feature Engineering:</strong> Trained Decision Tree, Random Forest, and XGBoost classifiers with walk-forward validation and SHAP-based consensus feature selection. Built HMM regime detection on trade PnL to filter trades in unfavorable regimes.</p>
+                        <p><strong>ETF Sector Rotation (Live on AWS):</strong> Developed beta- and dollar-neutral weekly rotation strategy over 11 sector ETFs, integrating CatBoost + SHAP to deliver 40% mean annualized alpha. Added HMM regime detection for adaptive rebalancing, cutting transaction costs by 80%.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-date">Aug 2023 - Nov 2023</div>
+                    <div class="timeline-date">Aug 2023 – Nov 2023</div>
                     <div class="timeline-content">
                         <h3>Computational Engineer | VISIE Inc.</h3>
-                        <p>Implemented TCP/UDP protocol in Python for robotic arm control in surgical navigation prototype. Integrated robotic module with image registration framework using Poetry and deployed to Azure Artifacts. Contributed to securing <strong>$8.2M Series A investment</strong>.</p>
+                        <p>Implemented TCP/UDP communication for robotic-arm control and integrated the module into the surgical navigation prototype's image-registration framework. Packaged the system using Poetry, deployed through Azure Artifacts, and contributed to securing the company's <strong>$8.2M Series A investment</strong>.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-date">Aug 2022 - Mar 2023</div>
+                    <div class="timeline-date">Aug 2022 – Mar 2023</div>
                     <div class="timeline-content">
                         <h3>Computational Lead | Sophelio</h3>
-                        <p>Developed sparse PDE discovery framework for automated stock price prediction from time series data. Engineered 1000+ derivative features (temporal/phase-space up to 4th order), reduced to 5-10 predictors via sequential greedy sparse regression. Achieved robust forward prediction by discovering interpretable cross-stock dependencies.</p>
+                        <p>Identified governing mathematical relationships (5–10 terms) from a library of 1000+ candidates using sparse greedy regression, yielding an interpretable PDE representation of multi-stock dynamics. Built an end-to-end forecasting pipeline transforming raw time-series data into forward predictions using discovered differential equations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Relevant Projects -->
+        <section class="section">
+            <h2 class="section-title">Side Projects</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">Live on AWS</div>
+                    <div class="timeline-content">
+                        <h3>Automated Forex Trading</h3>
+                        <p>Built a serverless FX trading bot targeting the WM/Reuters 4pm London Fix, powered by a daily-retraining logistic-regression ensemble trained on preprocessed tick-level HistData.com feeds. Dockerized and deployed to AWS Lambda using SAM/CloudFormation with EventBridge scheduling and OANDA v20 API integration.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">Live on AWS</div>
+                    <div class="timeline-content">
+                        <h3>Automated Crypto Trading</h3>
+                        <p>Designed a crypto trading bot for BTC/ETH/SOL pairs using price-pattern features on minute-bar Coinbase Pro data, powered by a daily-retraining logistic-regression ensemble. Integrated Alpaca API for execution, deployed via Docker + SAM/CloudFormation with GitHub Actions CI/CD.</p>
                     </div>
                 </div>
             </div>
