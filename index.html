@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saumik Dana | Quantitative Researcher</title>
-    <meta name="description" content="Saumik Dana - Quantitative Researcher specializing in volatility trading, options strategies, and ML-driven portfolio optimization at Asset Management Firm. PhD from UT Austin.">
+    <meta name="description" content="Saumik Dana - Quantitative Researcher specializing in volatility, FX and crypto trading. Building automated trading systems with ML and serverless infrastructure. PhD from UT Austin.">
     <meta name="author" content="Saumik Dana">
-    <meta name="keywords" content="Saumik Dana, Quantitative Research, Volatility Trading, Options Trading, Machine Learning, Portfolio Optimization, Index Rebalancing, PhD, UT Austin">
+    <meta name="keywords" content="Saumik Dana, Quantitative Research, Volatility Trading, Options Trading, FX Trading, Crypto Trading, Machine Learning, AWS Lambda, PhD, UT Austin">
     
     <!-- Open Graph Tags -->
     <meta property="og:title" content="Saumik Dana | Quantitative Researcher">
-    <meta property="og:description" content="Quantitative Researcher specializing in volatility trading, options strategies, and ML-driven portfolio optimization.">
+    <meta property="og:description" content="Quantitative Researcher specializing in volatility, FX and crypto trading with automated serverless systems.">
     <meta property="og:image" content="https://saumikdana.github.io/saumik.jpg">
     <meta property="og:url" content="https://saumikdana.github.io">
     <meta property="og:type" content="website">
@@ -19,7 +19,7 @@
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Saumik Dana | Quantitative Researcher">
-    <meta name="twitter:description" content="Specializing in volatility trading, options strategies, and ML-driven portfolio optimization.">
+    <meta name="twitter:description" content="Specializing in volatility, FX and crypto trading with automated systems.">
     <meta name="twitter:image" content="https://saumikdana.github.io/saumik.jpg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +48,7 @@
         "name": "University of Texas at Austin"
       },
       "image": "https://saumikdana.github.io/saumik.jpg",
-      "description": "Quantitative Researcher specializing in volatility trading, options strategies, and ML-driven portfolio optimization"
+      "description": "Quantitative Researcher specializing in volatility, FX and crypto trading"
     }
     </script>
     
@@ -391,9 +391,26 @@
             font-weight: 600;
         }
 
+        .timeline-content h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.75rem 0;
+            font-weight: 600;
+        }
+
         .timeline-content p {
             color: var(--text-secondary);
             margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+
+        .timeline-content ul {
+            margin: 0.75rem 0 0.75rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .timeline-content li {
+            margin-bottom: 0.5rem;
             line-height: 1.7;
         }
 
@@ -589,7 +606,7 @@
                 <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
                 <div>
                     <h1>Saumik Dana</h1>
-                    <p class="tagline">Quantitative Researcher | Volatility & Options Specialist</p>
+                    <p class="tagline">Quantitative Researcher | Volatility, FX & Crypto Trading</p>
                 </div>
             </div>
             
@@ -630,7 +647,10 @@
         <section class="section about-content">
             <h2 class="section-title">About Me</h2>
             <p class="about-text">
-                I build ML-driven trading systems at Asset Management Firm, a Connecticut-based asset management firm. My work spans the full quantitative stack—from discovering alpha in options microstructure to deploying serverless execution infrastructure on AWS. I hold a PhD in Engineering Mechanics from UT Austin and am a US green card holder with experience across volatility, FX, and crypto markets.
+                I build quantitative trading systems that actually run in production. My work spans options volatility, FX, and crypto markets—combining ML with serverless infrastructure to go from research idea to live deployment. Currently at an asset management firm in Connecticut, previously PhD at UT Austin working on computational mechanics (which turns out to be surprisingly useful for modeling market dynamics).
+            </p>
+            <p class="about-text">
+                Most of my systems run on AWS Lambda with daily model retraining, real-time execution via Alpaca/OANDA APIs, and full CI/CD automation. I care about things like Sharpe ratios, transaction costs, and not overfitting—basically trying to make money without lying to myself about the results.
             </p>
             <div class="audio-player">
                 <audio controls>
@@ -642,42 +662,40 @@
 
         <!-- Technical Skills -->
         <section class="section">
-            <h2 class="section-title">Technical Expertise</h2>
+            <h2 class="section-title">Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-card">
-                    <h4>Programming & Infrastructure</h4>
+                    <h4>Languages & Core</h4>
                     <ul>
-                        <li>Python (Pandas, NumPy, SciPy)</li>
+                        <li>Python (pandas, numpy, scikit-learn, scipy)</li>
+                        <li>Statistical modeling & time series</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>ML & Data Science</h4>
+                    <ul>
+                        <li>XGBoost, CatBoost, MLflow</li>
+                        <li>SHAP, statsmodels, PyTorch</li>
+                        <li>Walk-forward validation</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>Infrastructure</h4>
+                    <ul>
                         <li>AWS Lambda, Docker, S3</li>
-                        <li>SAM/CloudFormation, EventBridge</li>
                         <li>GitHub Actions CI/CD</li>
+                        <li>CloudFormation, EventBridge</li>
+                        <li>Serverless design patterns</li>
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h4>Financial Engineering</h4>
+                    <h4>Finance & Tools</h4>
                     <ul>
-                        <li>Multi-leg Options Strategies</li>
-                        <li>Volatility Modeling (SVI, SSVI)</li>
-                        <li>Delta Hedging & Greeks</li>
-                        <li>Portfolio Optimization (CVXPY)</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h4>Machine Learning</h4>
-                    <ul>
-                        <li>XGBoost, CatBoost, Random Forest</li>
-                        <li>SHAP Feature Importance</li>
-                        <li>MLflow Experiment Tracking</li>
-                        <li>Hidden Markov Models</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h4>Quantitative Methods</h4>
-                    <ul>
-                        <li>Black-Scholes PDE</li>
-                        <li>Convex & Quadratic Programming</li>
-                        <li>Monte Carlo Simulation</li>
-                        <li>Walk-Forward Validation</li>
+                        <li>Volatility modeling</li>
+                        <li>Portfolio optimization, factor models</li>
+                        <li>Regime detection (HMM)</li>
+                        <li>CVXPY, Alpaca/OANDA APIs</li>
+                        <li>Monte Carlo simulation</li>
                     </ul>
                 </div>
             </div>
@@ -685,16 +703,30 @@
 
         <!-- Professional Experience -->
         <section class="section">
-            <h2 class="section-title">Professional Experience</h2>
+            <h2 class="section-title">Experience</h2>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Feb 2024 – Present</div>
                     <div class="timeline-content">
-                        <h3>Quantitative Researcher | Asset Management Firm</h3>
-                        <p><strong>Automated Options Trading (Live on AWS):</strong> Developed backtesting framework achieving 1.5+ Sharpe on SPY/QQQ with 10% max drawdown. Discovered single-stock strategies (TSLA, XOM) generating 50%+ CAGR with positive skew > 4. Deployed serverless options bot on AWS Lambda with Alpaca API integration for multi-leg order management.</p>
-                        <p><strong>ML Pipeline & Feature Engineering:</strong> Trained Decision Tree, Random Forest, and XGBoost classifiers with walk-forward validation and SHAP-based consensus feature selection. Built HMM regime detection on trade PnL to filter trades in unfavorable regimes.</p>
-                        <p><strong>ETF Sector Rotation (Live on AWS):</strong> Developed beta- and dollar-neutral weekly rotation strategy over 11 sector ETFs, integrating CatBoost + SHAP to deliver 40% mean annualized alpha. Added HMM regime detection for adaptive rebalancing, cutting transaction costs by 80%.</p>
+                        <h3>Asset Management Firm | Quantitative Researcher</h3>
+                        
+                        <h4>Automated Options Trading — Live on AWS</h4>
+                        <ul>
+                            <li>1.5+ Sharpe on index options, 50%+ CAGR on single stocks with XGBoost + HMM regime filtering</li>
+                            <li>Serverless Lambda bot with Alpaca API for multi-leg execution</li>
+                        </ul>
+
+                        <h4>ETF Sector Rotation — Live on AWS</h4>
+                        <ul>
+                            <li>Weekly 11-sector strategies with CatBoost features: 20-40% rolling alpha, 70-80% cost reduction via HMM</li>
+                            <li>Full CI/CD: GitHub Actions → Docker → Lambda</li>
+                        </ul>
+
+                        <h4>Intraday Options Monitoring</h4>
+                        <ul>
+                            <li>Lambda system tracking IV surfaces (SVI fitting), Greeks, and gamma exposure signals</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -702,8 +734,10 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Aug 2023 – Nov 2023</div>
                     <div class="timeline-content">
-                        <h3>Computational Engineer | VISIE Inc.</h3>
-                        <p>Implemented TCP/UDP communication for robotic-arm control and integrated the module into the surgical navigation prototype's image-registration framework. Packaged the system using Poetry, deployed through Azure Artifacts, and contributed to securing the company's <strong>$8.2M Series A investment</strong>.</p>
+                        <h3>VISIE Inc. | Computational Engineer</h3>
+                        <ul>
+                            <li>Built TCP/UDP comms for robotic surgical navigation, helped close $8.2M Series A</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -711,23 +745,27 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Aug 2022 – Mar 2023</div>
                     <div class="timeline-content">
-                        <h3>Computational Lead | Sophelio</h3>
-                        <p>Identified governing mathematical relationships (5–10 terms) from a library of 1000+ candidates using sparse greedy regression, yielding an interpretable PDE representation of multi-stock dynamics. Built an end-to-end forecasting pipeline transforming raw time-series data into forward predictions using discovered differential equations.</p>
+                        <h3>Sophelio | Computational Lead</h3>
+                        <ul>
+                            <li>Sparse PDE discovery for multi-stock forecasting from 1000+ candidate terms</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Relevant Projects -->
+        <!-- Projects -->
         <section class="section">
-            <h2 class="section-title">Side Projects</h2>
+            <h2 class="section-title">Relevant Projects</h2>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Live on AWS</div>
                     <div class="timeline-content">
                         <h3>Automated Forex Trading</h3>
-                        <p>Built a serverless FX trading bot targeting the WM/Reuters 4pm London Fix, powered by a daily-retraining logistic-regression ensemble trained on preprocessed tick-level HistData.com feeds. Dockerized and deployed to AWS Lambda using SAM/CloudFormation with EventBridge scheduling and OANDA v20 API integration.</p>
+                        <ul>
+                            <li>FX bot targeting 4pm London Fix with daily-retraining logistic regression on tick data, OANDA execution</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -736,7 +774,9 @@
                     <div class="timeline-date">Live on AWS</div>
                     <div class="timeline-content">
                         <h3>Automated Crypto Trading</h3>
-                        <p>Designed a crypto trading bot for BTC/ETH/SOL pairs using price-pattern features on minute-bar Coinbase Pro data, powered by a daily-retraining logistic-regression ensemble. Integrated Alpaca API for execution, deployed via Docker + SAM/CloudFormation with GitHub Actions CI/CD.</p>
+                        <ul>
+                            <li>BTC/ETH/SOL bot with price-pattern features, daily-retraining models, Alpaca execution</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -751,7 +791,25 @@
                     <div class="timeline-date">PhD</div>
                     <div class="timeline-content">
                         <h3>University of Texas at Austin</h3>
-                        <p>Doctor of Philosophy in Engineering Mechanics</p>
+                        <p>Engineering Mechanics — worked on computational modeling that turned out useful for markets</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">MS</div>
+                    <div class="timeline-content">
+                        <h3>Indian Institute of Science</h3>
+                        <p>Mechanical Engineering</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">BS</div>
+                    <div class="timeline-content">
+                        <h3>University of Mumbai</h3>
+                        <p>Mechanical Engineering</p>
                     </div>
                 </div>
             </div>
