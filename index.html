@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saumik Dana | Quantitative Researcher</title>
-    <meta name="description" content="Saumik Dana - Quantitative Researcher specializing in volatility, FX and crypto trading. Building automated trading systems with ML and serverless infrastructure. PhD from UT Austin.">
+    <meta name="description" content="Saumik Dana - Quantitative Researcher specializing in systematic trading strategies across equity options, sector ETFs, and FX. Building production ML systems with serverless infrastructure. PhD from UT Austin.">
     <meta name="author" content="Saumik Dana">
-    <meta name="keywords" content="Saumik Dana, Quantitative Research, Volatility Trading, Options Trading, FX Trading, Crypto Trading, Machine Learning, AWS Lambda, PhD, UT Austin">
+    <meta name="keywords" content="Saumik Dana, Quantitative Research, Options Trading, Portfolio Optimization, Machine Learning, AWS Lambda, PhD, UT Austin">
     
     <!-- Open Graph Tags -->
     <meta property="og:title" content="Saumik Dana | Quantitative Researcher">
-    <meta property="og:description" content="Quantitative Researcher specializing in volatility, FX and crypto trading with automated serverless systems.">
+    <meta property="og:description" content="Quantitative Researcher specializing in systematic trading strategies and production ML systems.">
     <meta property="og:image" content="https://saumikdana.github.io/saumik.jpg">
     <meta property="og:url" content="https://saumikdana.github.io">
     <meta property="og:type" content="website">
@@ -19,7 +19,7 @@
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Saumik Dana | Quantitative Researcher">
-    <meta name="twitter:description" content="Specializing in volatility, FX and crypto trading with automated systems.">
+    <meta name="twitter:description" content="Specializing in systematic trading strategies and production ML systems.">
     <meta name="twitter:image" content="https://saumikdana.github.io/saumik.jpg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +48,7 @@
         "name": "University of Texas at Austin"
       },
       "image": "https://saumikdana.github.io/saumik.jpg",
-      "description": "Quantitative Researcher specializing in volatility, FX and crypto trading"
+      "description": "Quantitative Researcher specializing in systematic trading strategies"
     }
     </script>
     
@@ -387,8 +387,15 @@
         .timeline-content h3 {
             color: var(--text-primary);
             font-size: 1.4rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
+        }
+
+        .timeline-content .company {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-style: italic;
         }
 
         .timeline-content h4 {
@@ -512,11 +519,11 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
 
             .hero .tagline {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
 
             .profile-section {
@@ -524,8 +531,8 @@
             }
 
             .profile-pic {
-                width: 140px;
-                height: 140px;
+                width: 100px;
+                height: 100px;
             }
 
             .section {
@@ -606,7 +613,7 @@
                 <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
                 <div>
                     <h1>Saumik Dana</h1>
-                    <p class="tagline">Quantitative Researcher | Volatility, FX & Crypto Trading</p>
+                    <p class="tagline">Quantitative Researcher | Systematic Trading & ML Infrastructure</p>
                 </div>
             </div>
             
@@ -652,10 +659,10 @@
         <section class="section about-content">
             <h2 class="section-title">About Me</h2>
             <p class="about-text">
-                I build quantitative trading systems that actually run in production. My work spans options volatility, FX, and crypto markets—combining ML with serverless infrastructure to go from research idea to live deployment. Currently at an asset management firm in Connecticut, previously PhD at UT Austin working on computational mechanics (which turns out to be surprisingly useful for modeling market dynamics).
+                Quantitative researcher at a buy-side firm developing and deploying systematic trading strategies across equity options, sector ETFs, and FX markets. I specialize in building production ML systems that integrate rigorous backtesting, walk-forward validation, and serverless cloud infrastructure for live execution.
             </p>
             <p class="about-text">
-                Most of my systems run on AWS Lambda with daily model retraining, real-time execution via Alpaca/OANDA APIs, and full CI/CD automation. I care about things like Sharpe ratios, transaction costs, and not overfitting—basically trying to make money without lying to myself about the results.
+                My work combines portfolio optimization, volatility modeling, and machine learning with engineering best practices—automated deployment pipelines, daily model retraining, and comprehensive risk management. PhD from UT Austin in computational mechanics, with a focus on numerical methods that translate naturally to quantitative finance applications.
             </p>
             <div class="audio-player">
                 <audio controls>
@@ -673,33 +680,34 @@
                     <h4>Languages & Core</h4>
                     <ul>
                         <li>Python (pandas, numpy, scikit-learn, scipy)</li>
-                        <li>Statistical modeling & time series</li>
+                        <li>Statistical modeling & time series analysis</li>
                     </ul>
                 </div>
                 <div class="skill-card">
                     <h4>ML & Data Science</h4>
                     <ul>
                         <li>XGBoost, CatBoost, MLflow</li>
-                        <li>SHAP, statsmodels, PyTorch</li>
+                        <li>SHAP feature selection</li>
                         <li>Walk-forward validation</li>
+                        <li>PyTorch, statsmodels</li>
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h4>Infrastructure</h4>
+                    <h4>Infrastructure & Deployment</h4>
                     <ul>
-                        <li>AWS Lambda, Docker, S3</li>
+                        <li>AWS Lambda, S3, EventBridge</li>
+                        <li>Docker containerization</li>
                         <li>GitHub Actions CI/CD</li>
-                        <li>CloudFormation, EventBridge</li>
-                        <li>Serverless design patterns</li>
+                        <li>SAM/CloudFormation IaC</li>
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h4>Finance & Tools</h4>
+                    <h4>Finance & Optimization</h4>
                     <ul>
+                        <li>Portfolio optimization (CVXPY)</li>
                         <li>Volatility modeling</li>
-                        <li>Portfolio optimization, factor models</li>
-                        <li>Regime detection (HMM)</li>
-                        <li>CVXPY, Alpaca/OANDA APIs</li>
+                        <li>Factor models & regime detection (HMM)</li>
+                        <li>Alpaca & OANDA APIs</li>
                         <li>Monte Carlo simulation</li>
                     </ul>
                 </div>
@@ -714,23 +722,27 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Feb 2024 – Present</div>
                     <div class="timeline-content">
-                        <h3>Asset Management Firm | Quantitative Researcher</h3>
+                        <h3>Quantitative Researcher</h3>
+                        <p class="company">Asset Management Firm, Stamford, CT</p>
                         
-                        <h4>Automated Options Trading — Live on AWS</h4>
+                        <h4>Options Strategies</h4>
                         <ul>
-                            <li>1.5+ Sharpe on index options, 50%+ CAGR on single stocks with XGBoost + HMM regime filtering</li>
-                            <li>Serverless Lambda bot with Alpaca API for multi-leg execution</li>
+                            <li>Built modular backtesting framework achieving 1.5+ Sharpe, 50%+ CAGR with Monte Carlo stress testing</li>
+                            <li>Deployed interday options trading system using XGBoost + Random Forest with walk-forward validation and SHAP feature selection</li>
+                            <li>Live on AWS Lambda with Alpaca API integration, EventBridge scheduling, and Docker containerization</li>
                         </ul>
 
-                        <h4>ETF Sector Rotation — Live on AWS</h4>
+                        <h4>Sector Rotation System</h4>
                         <ul>
-                            <li>Weekly 11-sector strategies with CatBoost features: 20-40% rolling alpha, 70-80% cost reduction via HMM</li>
-                            <li>Full CI/CD: GitHub Actions → Docker → Lambda</li>
+                            <li>Weekly dollar-neutral rotation on 11 sector ETFs with CatBoost features delivering 40% annualized alpha</li>
+                            <li>CVXPY-based optimizer with HMM regime detection reducing transaction costs by 80%</li>
+                            <li>Full CI/CD pipeline: GitHub Actions → Docker → AWS Lambda with daily retraining</li>
                         </ul>
 
-                        <h4>Intraday Options Monitoring</h4>
+                        <h4>Portfolio Optimization & Options Monitoring</h4>
                         <ul>
-                            <li>Lambda system tracking IV surfaces (SVI fitting), Greeks, and gamma exposure signals</li>
+                            <li>Validated systematic equity rebalancing system using multi-horizon tracking error minimization and adaptive turnover constraints</li>
+                            <li>Built serverless infrastructure for intraday options monitoring with real-time volatility signals and programmatic execution</li>
                         </ul>
                     </div>
                 </div>
@@ -739,9 +751,10 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Aug 2023 – Nov 2023</div>
                     <div class="timeline-content">
-                        <h3>VISIE Inc. | Computational Engineer</h3>
+                        <h3>Computational Engineer</h3>
+                        <p class="company">VISIE Inc., Austin, TX</p>
                         <ul>
-                            <li>Built TCP/UDP comms for robotic surgical navigation, helped close $8.2M Series A</li>
+                            <li>Implemented TCP/UDP module for robotic-arm control integrated with surgical navigation, contributed to $8.2M Series A</li>
                         </ul>
                     </div>
                 </div>
@@ -750,9 +763,10 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Aug 2022 – Mar 2023</div>
                     <div class="timeline-content">
-                        <h3>Sophelio | Computational Lead</h3>
+                        <h3>Computational Lead</h3>
+                        <p class="company">Sophelio, Austin, TX</p>
                         <ul>
-                            <li>Sparse PDE discovery for multi-stock forecasting from 1000+ candidate terms</li>
+                            <li>Applied sparse greedy regression on differential operators to discover interpretable PDEs representing multi-stock dynamics and built forecasting pipeline</li>
                         </ul>
                     </div>
                 </div>
@@ -769,7 +783,7 @@
                     <div class="timeline-content">
                         <h3>Automated Forex Trading</h3>
                         <ul>
-                            <li>FX bot targeting 4pm London Fix with daily-retraining logistic regression on tick data, OANDA execution</li>
+                            <li>Logistic regression bot targeting 4pm London Fix with OANDA API, deployed on AWS Lambda with GitHub Actions CI/CD</li>
                         </ul>
                     </div>
                 </div>
@@ -780,7 +794,7 @@
                     <div class="timeline-content">
                         <h3>Automated Crypto Trading</h3>
                         <ul>
-                            <li>BTC/ETH/SOL bot with price-pattern features, daily-retraining models, Alpaca execution</li>
+                            <li>Price-pattern classification on minute-bar crypto data with Alpaca API execution, deployed via Docker on AWS Lambda</li>
                         </ul>
                     </div>
                 </div>
@@ -796,7 +810,7 @@
                     <div class="timeline-date">PhD</div>
                     <div class="timeline-content">
                         <h3>University of Texas at Austin</h3>
-                        <p>Engineering Mechanics — worked on computational modeling that turned out useful for markets</p>
+                        <p>Doctor of Philosophy in Engineering Mechanics</p>
                     </div>
                 </div>
 
@@ -805,7 +819,7 @@
                     <div class="timeline-date">MS</div>
                     <div class="timeline-content">
                         <h3>Indian Institute of Science</h3>
-                        <p>Mechanical Engineering</p>
+                        <p>Master of Engineering in Mechanical Engineering</p>
                     </div>
                 </div>
 
@@ -814,7 +828,7 @@
                     <div class="timeline-date">BS</div>
                     <div class="timeline-content">
                         <h3>University of Mumbai</h3>
-                        <p>Mechanical Engineering</p>
+                        <p>Bachelor of Engineering in Mechanical Engineering</p>
                     </div>
                 </div>
             </div>
