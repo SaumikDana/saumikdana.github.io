@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Actions Workflow Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .workflow-column {
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .workflow-header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        
+        .workflow-content {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            overflow-x: auto;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+        
+        .workflow-content pre {
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; font-style: italic; }
+        .number { color: #b5cea8; }
+        .variable { color: #9cdcfe; }
+        
+        .analysis-section {
+            margin-top: 40px;
+        }
+        
+        .analysis-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        .diff-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .diff-table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .diff-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .diff-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .options-col {
+            background: #fff3cd;
+        }
+        
+        .sector-col {
+            background: #d1ecf1;
+        }
+        
+        .highlight-box {
+            border-left: 4px solid #e74c3c;
+            background: #fee;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .highlight-box.success {
+            border-left-color: #27ae60;
+            background: #eeffee;
+        }
+        
+        .highlight-box h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box.success h3 {
+            color: #27ae60;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .step-flow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .step-box {
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .arrow {
+            font-size: 1.5em;
+            color: #95a5a6;
+        }
+        
+        .bug-icon {
+            color: #e74c3c;
+            font-size: 1.2em;
+        }
+        
+        .check-icon {
+            color: #27ae60;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 GitHub Actions Workflow Comparison: Two Valid Approaches</h1>
+        
+        <div class="comparison-grid">
+            <div class="workflow-column">
+                <div class="workflow-header">Options Trading System</div>
+                <div class="workflow-content">
+<pre>name: Deploy Options Trading Systems to AWS Lambda
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install AWS SAM CLI
+        run: |
+          pip install aws-sam-cli
+      # Deploy live trading system
+      - name: Build and deploy live trading
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: options-trading-system
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd Enter_Mon_Hold_Till_Fri
+          docker buildx build \
+            --cache-from type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY:cache-live \
+            --cache-to type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY:cache-live,mode=max \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+            --push \
+            --provenance=false .
+          sam deploy \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset \
+            --stack-name options-trading-system \
+            --capabilities CAPABILITY_IAM \
+            --region us-east-1 \
+            --resolve-s3 \
+            --resolve-image-repos \
+            --parameter-overrides ImageUri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Clean up old ECR images
+        env:
+          ECR_REPOSITORY: options-trading-system
+        run: |
+          echo "🧹 Cleaning up old Docker images from $ECR_REPOSITORY..."
+          OLD_IMAGES=$(aws ecr describe-images \
+            --repository-name $ECR_REPOSITORY \
+            --region us-east-1 \
+            --query 'sort_by(imageDetails,&imagePushedAt)[:-3].imageDigest' \
+            --output text)
+          if [ -n "$OLD_IMAGES" ]; then
+            echo "$OLD_IMAGES" | tr '\t' '\n' | while read digest; do
+              if [ -n "$digest" ]; then
+                echo "  ❌ Deleting image: $digest"
+                aws ecr batch-delete-image \
+                  --repository-name $ECR_REPOSITORY \
+                  --image-ids imageDigest=$digest \
+                  --region us-east-1 \
+                  --no-cli-pager || true
+              fi
+            done
+          else
+            echo "  ✅ No old images to delete (keeping 3 most recent)"
+          fi
+          REMAINING=$(aws ecr describe-images \
+            --repository-name $ECR_REPOSITORY \
+            --region us-east-1 \
+            --query 'length(imageDetails)' \
+            --output text)
+          echo "🎉 Cleanup complete! $ECR_REPOSITORY now has $REMAINING images"
+</pre>
+                </div>
+            </div>
+            
+            <div class="workflow-column">
+                <div class="workflow-header">Sector Rotation System</div>
+                <div class="workflow-content">
+<pre>name: Deploy Sector Rotation System to AWS Lambda
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: etf-trading-system
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd live_trading
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install AWS SAM CLI
+        run: |
+          pip install aws-sam-cli
+      - name: Deploy with SAM
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: etf-trading-system
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          sam deploy \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset \
+            --stack-name etf-trading-system \
+            --capabilities CAPABILITY_IAM \
+            --region us-east-1 \
+            --resolve-s3 \
+            --resolve-image-repos \
+            --parameter-overrides ImageUri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Clean up old ECR images
+        env:
+          ECR_REPOSITORY: etf-trading-system
+        run: |
+          echo "🧹 Cleaning up old Docker images from $ECR_REPOSITORY..."
+          OLD_IMAGES=$(aws ecr describe-images \
+            --repository-name $ECR_REPOSITORY \
+            --region us-east-1 \
+            --query 'sort_by(imageDetails,&imagePushedAt)[:-3].imageDigest' \
+            --output text)
+          if [ -n "$OLD_IMAGES" ]; then
+            echo "$OLD_IMAGES" | tr '\t' '\n' | while read digest; do
+              if [ -n "$digest" ]; then
+                echo "  ❌ Deleting image: $digest"
+                aws ecr batch-delete-image \
+                  --repository-name $ECR_REPOSITORY \
+                  --image-ids imageDigest=$digest \
+                  --region us-east-1 \
+                  --no-cli-pager || true
+              fi
+            done
+          else
+            echo "  ✅ No old images to delete (keeping 3 most recent)"
+          fi
+          REMAINING=$(aws ecr describe-images \
+            --repository-name $ECR_REPOSITORY \
+            --region us-east-1 \
+            --query 'length(imageDetails)' \
+            --output text)
+          echo "🎉 Cleanup complete! $ECR_REPOSITORY now has $REMAINING images"
+</pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="analysis-section">
+            <h2>📊 Key Structural Differences</h2>
+            
+            <div style="background: #e8f4f8; padding: 20px; border-radius: 6px; margin-bottom: 30px;">
+                <h3 style="color: #2980b9; margin-bottom: 15px;">✓ Both Workflows Work Correctly</h3>
+                <p style="margin-bottom: 10px;">
+                    These are two valid organizational patterns with different tradeoffs:
+                </p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><strong>Options Trading:</strong> Self-contained subdirectory with template + code, combined build/deploy step</li>
+                    <li><strong>Sector Rotation:</strong> Template at repo root, code in subdirectory, separate build/deploy steps</li>
+                </ul>
+            </div>
+            
+            <table class="diff-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th class="options-col">Options Trading</th>
+                        <th class="sector-col">Sector Rotation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Directory Structure</strong></td>
+                        <td class="options-col">
+                            <strong>Self-contained approach:</strong><br>
+                            Enter_Mon_Hold_Till_Fri/<br>
+                            ├── template.yaml<br>
+                            ├── Dockerfile<br>
+                            └── lambda_function.py
+                        </td>
+                        <td class="sector-col">
+                            <strong>Separated approach:</strong><br>
+                            ├── template.yaml<br>
+                            └── live_trading/<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;├── Dockerfile<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;└── lambda_function.py
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Step Organization</strong></td>
+                        <td class="options-col">
+                            1. Checkout<br>
+                            2. AWS Creds<br>
+                            3. ECR Login<br>
+                            4. <strong>Docker Buildx Setup</strong><br>
+                            5. Python Setup<br>
+                            6. SAM Install<br>
+                            7. <strong>Build + Deploy (COMBINED)</strong><br>
+                            8. Cleanup
+                        </td>
+                        <td class="sector-col">
+                            1. Checkout<br>
+                            2. AWS Creds<br>
+                            3. ECR Login<br>
+                            4. <strong>Docker Build (SEPARATE)</strong><br>
+                            5. Python Setup<br>
+                            6. SAM Install<br>
+                            7. <strong>SAM Deploy (SEPARATE)</strong><br>
+                            8. Cleanup
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Docker Tool</strong></td>
+                        <td class="options-col">docker buildx (advanced)</td>
+                        <td class="sector-col">docker build (standard)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Build Directory</strong></td>
+                        <td class="options-col">Enter_Mon_Hold_Till_Fri/</td>
+                        <td class="sector-col">live_trading/</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SAM Deploy Directory</strong></td>
+                        <td class="options-col"><span class="check-icon">✓</span> Enter_Mon_Hold_Till_Fri/ (finds template.yaml there)</td>
+                        <td class="sector-col"><span class="check-icon">✓</span> Repo root (finds template.yaml there)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Docker Push</strong></td>
+                        <td class="options-col">Integrated with --push flag</td>
+                        <td class="sector-col">Separate docker push command</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registry Caching</strong></td>
+                        <td class="options-col">✓ Uses --cache-from/--cache-to</td>
+                        <td class="sector-col">✗ No caching</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>🎯 Pattern 1: Self-Contained Subdirectory (Options Trading)</h2>
+            
+            <div class="highlight-box success">
+                <h3>✓ Self-Contained Approach</h3>
+                <p><strong>Philosophy:</strong> Everything for this system lives in one subdirectory</p>
+                
+                <div class="step-flow">
+                    <div class="step-box">cd Enter_Mon_Hold_Till_Fri</div>
+                    <span class="arrow">→</span>
+                    <div class="step-box">docker buildx build</div>
+                    <span class="arrow">→</span>
+                    <div class="step-box" style="background: #27ae60;">sam deploy (finds template.yaml here)</div>
+                </div>
+                
+                <div class="code-block">
+Enter_Mon_Hold_Till_Fri/
+├── template.yaml              # Template with the code
+├── Dockerfile                 
+├── lambda_function.py
+├── requirements.txt
+└── (data files, models, etc)
+
+Workflow step:
+- name: Build and deploy live trading
+  run: |
+    cd Enter_Mon_Hold_Till_Fri         # Enter the self-contained directory
+    docker buildx build ...             # Build
+    sam deploy ...                      # Deploy (finds template.yaml here)
+                </div>
+                
+                <p><strong>Benefits:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Everything in one place - easy to move/copy the entire system</li>
+                    <li>Clear module boundary - this directory IS the trading system</li>
+                    <li>Single step deployment - build and deploy together</li>
+                    <li>Uses advanced Docker buildx with layer caching</li>
+                </ul>
+                
+                <p><strong>Tradeoffs:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Template and code tightly coupled in same directory</li>
+                    <li>If you have multiple systems, each needs its own subdirectory with template</li>
+                </ul>
+            </div>
+            
+            <h2>🎯 Pattern 2: Root Template with Code Subdirectory (Sector Rotation)</h2>
+            
+            <div class="highlight-box success">
+                <h3>✓ Separated Approach</h3>
+                <p><strong>Philosophy:</strong> Infrastructure config (template) at root, application code in subdirectory</p>
+                
+                <div class="step-flow">
+                    <div class="step-box">Step 1: cd live_trading</div>
+                    <span class="arrow">→</span>
+                    <div class="step-box">docker build</div>
+                </div>
+                
+                <div style="text-align: center; margin: 10px 0; color: #27ae60; font-weight: bold;">
+                    ⬇ Step ends - directory resets to repo root ⬇
+                </div>
+                
+                <div class="step-flow">
+                    <div class="step-box" style="background: #27ae60;">Step 2: sam deploy (finds template.yaml at root)</div>
+                </div>
+                
+                <div class="code-block">
+repo-root/
+├── template.yaml              # Infrastructure at top level
+└── live_trading/
+    ├── Dockerfile             
+    ├── lambda_function.py
+    ├── requirements.txt
+    └── (trading logic)
+
+Workflow steps:
+- name: Build Docker image
+  run: |
+    cd live_trading                    # Build code in subdirectory
+    docker build ...
+    # Step ends → back to root
+
+- name: Deploy with SAM
+  run: |
+    sam deploy ...                     # Deploy from root (finds template.yaml)
+                </div>
+                
+                <p><strong>Benefits:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Clean separation: infrastructure vs application code</li>
+                    <li>Template visible at top level - easy to find and modify</li>
+                    <li>Separate build/deploy steps - clearer logging, easier debugging</li>
+                    <li>Common pattern in many repos</li>
+                </ul>
+                
+                <p><strong>Tradeoffs:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Code and infrastructure split across directories</li>
+                    <li>No Docker buildx caching (uses standard docker build)</li>
+                    <li>Two steps instead of one</li>
+                </ul>
+            </div>
+            
+            <h2>🔧 Docker Build Comparison</h2>
+            
+            <table class="diff-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th class="options-col">Options Trading</th>
+                        <th class="sector-col">Sector Rotation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Build Command</strong></td>
+                        <td class="options-col"><code>docker buildx build</code></td>
+                        <td class="sector-col"><code>docker build</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cache Strategy</strong></td>
+                        <td class="options-col">
+                            <code>--cache-from type=registry</code><br>
+                            <code>--cache-to type=registry,mode=max</code><br>
+                            <strong>Benefit:</strong> Faster builds by reusing layers
+                        </td>
+                        <td class="sector-col">
+                            None<br>
+                            <strong>Impact:</strong> Rebuilds from scratch each time
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Push Method</strong></td>
+                        <td class="options-col">
+                            Integrated: <code>--push</code> flag<br>
+                            <strong>Benefit:</strong> Single command
+                        </td>
+                        <td class="sector-col">
+                            Separate: <code>docker push</code><br>
+                            <strong>Impact:</strong> Two commands needed
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Provenance</strong></td>
+                        <td class="options-col"><code>--provenance=false</code></td>
+                        <td class="sector-col">Default (not specified)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Requires Buildx Setup</strong></td>
+                        <td class="options-col">✓ Yes (separate step)</td>
+                        <td class="sector-col">✗ No (uses standard Docker)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>💡 GitHub Actions Step Behavior</h2>
+            
+            <div style="background: #e8f4f8; padding: 20px; border-radius: 6px; margin: 20px 0;">
+                <h3 style="color: #2980b9; margin-bottom: 15px;">Important: Each Step Resets Working Directory</h3>
+                <p style="margin-bottom: 15px;">
+                    In GitHub Actions, <strong>every step starts with a fresh shell session</strong> at the repository root. 
+                    Any <code>cd</code> commands only affect that specific step.
+                </p>
+                
+                <div class="code-block">
+- name: Step 1
+  run: |
+    cd some/subdirectory
+    echo "I'm in $(pwd)"
+    # Step ends → directory change is forgotten
+
+- name: Step 2
+  run: |
+    echo "I'm in $(pwd)"    # Back at repo root!
+                </div>
+                
+                <p style="margin-top: 15px;">
+                    This is why Sector Rotation works: the Docker build step changes directory, but the SAM deploy step 
+                    starts fresh at the repo root.
+                </p>
+            </div>
+            
+            <h2>🤔 Which Pattern Should You Use?</h2>
+            
+            <table class="diff-table">
+                <thead>
+                    <tr>
+                        <th>Consideration</th>
+                        <th class="options-col">Self-Contained (Options)</th>
+                        <th class="sector-col">Root Template (Sector)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Multiple systems in repo</strong></td>
+                        <td class="options-col">✓ Each system is independent directory</td>
+                        <td class="sector-col">⚠️ Need multiple templates at root or complex template</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Easy to relocate</strong></td>
+                        <td class="options-col">✓ Copy entire directory</td>
+                        <td class="sector-col">⚠️ Need to move both root template and subdirectory</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Infrastructure visibility</strong></td>
+                        <td class="options-col">⚠️ Template buried in subdirectory</td>
+                        <td class="sector-col">✓ Template obvious at repo root</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Build performance</strong></td>
+                        <td class="options-col">✓ Docker buildx with layer caching</td>
+                        <td class="sector-col">Standard build, no caching</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Step clarity</strong></td>
+                        <td class="options-col">Single combined step</td>
+                        <td class="sector-col">✓ Separate steps, clearer logs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Common convention</strong></td>
+                        <td class="options-col">Less common (but valid)</td>
+                        <td class="sector-col">✓ More typical repo structure</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>🔄 Converting Between Patterns</h2>
+            
+            <h3>From Self-Contained → Root Template</h3>
+            <div class="code-block">
+# Move template to root
+mv Enter_Mon_Hold_Till_Fri/template.yaml ./
+
+# Split workflow steps
+- name: Build Docker image
+  run: |
+    cd Enter_Mon_Hold_Till_Fri
+    docker build ...
+
+- name: Deploy with SAM
+  run: |
+    sam deploy ...
+            </div>
+            
+            <h3>From Root Template → Self-Contained</h3>
+            <div class="code-block">
+# Move template into subdirectory
+mv template.yaml live_trading/
+
+# Combine workflow steps
+- name: Build and deploy
+  run: |
+    cd live_trading
+    docker build ...
+    sam deploy ...
+            </div>
+            
+            <h2>📝 Summary</h2>
+            
+            <table class="diff-table">
+                <thead>
+                    <tr>
+                        <th>Pattern</th>
+                        <th>Status</th>
+                        <th>Key Characteristic</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Options Trading<br>(Self-Contained)</strong></td>
+                        <td style="color: #27ae60; font-weight: bold;">✓ WORKS</td>
+                        <td>Everything in subdirectory, single combined step, buildx caching</td>
+                        <td>Multi-system repos where each system should be independent and portable</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sector Rotation<br>(Root Template)</strong></td>
+                        <td style="color: #27ae60; font-weight: bold;">✓ WORKS</td>
+                        <td>Template at root, code in subdirectory, separate build/deploy steps</td>
+                        <td>Single-system repos following conventional project structure</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="background: #fff9e6; padding: 20px; border-left: 4px solid #f39c12; margin-top: 30px; border-radius: 4px;">
+                <h3 style="color: #f39c12; margin-bottom: 10px;">💡 Key Takeaways</h3>
+                <ul style="line-height: 1.8; margin-left: 20px;">
+                    <li><strong>Both patterns are valid and work correctly</strong> - choose based on your repo structure needs</li>
+                    <li><strong>Options Trading</strong> uses a self-contained approach where template.yaml lives WITH the code</li>
+                    <li><strong>Sector Rotation</strong> uses a separated approach where template.yaml lives at repo root</li>
+                    <li><strong>The key difference</strong> is organizational philosophy, not correctness</li>
+                    <li><strong>GitHub Actions step behavior:</strong> Each step starts fresh at repo root, but you can cd anywhere within a step</li>
+                </ul>
+            </div>
+            
+            <h2>🔍 Technical Deep Dive: Docker Build Differences</h2>
+            
+            <h3>Why Options Trading Uses Docker Buildx</h3>
+            <div class="code-block">
+# Standard docker build (Sector Rotation)
+docker build -t image:tag .
+docker push image:tag
+
+# Advanced docker buildx (Options Trading)  
+docker buildx build \
+  --cache-from type=registry,ref=image:cache \
+  --cache-to type=registry,ref=image:cache,mode=max \
+  -t image:tag \
+  --push \
+  --provenance=false .
+            </div>
+            
+            <p style="margin: 15px 0;"><strong>Buildx advantages:</strong></p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>Layer caching:</strong> Reuses unchanged layers from previous builds → faster CI/CD</li>
+                <li><strong>Integrated push:</strong> Build and push in one command</li>
+                <li><strong>Registry-backed cache:</strong> Cache survives across CI runners</li>
+                <li><strong>Advanced features:</strong> Multi-platform builds, attestations, etc.</li>
+            </ul>
+            
+            <p style="margin: 15px 0;"><strong>When is buildx overkill?</strong></p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li>Small codebases with fast builds (like Sector Rotation)</li>
+                <li>Infrequent deployments where build time doesn't matter</li>
+                <li>Simple Docker images without complex dependency chains</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
