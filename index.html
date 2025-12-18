@@ -267,16 +267,6 @@
             color: var(--text-secondary);
         }
 
-        .audio-player {
-            margin-top: 1.5rem;
-        }
-
-        .audio-player audio {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 8px;
-        }
-
         /* Skills Grid */
         .skills-grid {
             display: grid;
@@ -421,6 +411,16 @@
             line-height: 1.7;
         }
 
+        /* Highlight Box for Performance Metrics */
+        .performance-highlight {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
         /* Images Section */
         .images-grid {
             display: grid;
@@ -550,7 +550,7 @@
                 <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
                 <div>
                     <h1>Saumik Dana</h1>
-                    <p class="tagline">Quantitative Researcher | Options Trading & Production ML Systems</p>
+                    <p class="tagline">Quantitative Researcher | Machine Learning & Production Systems</p>
                 </div>
             </div>
             
@@ -596,7 +596,7 @@
         <section class="section about-content">
             <h2 class="section-title">About Me</h2>
             <p class="about-text">
-                Computational scientist with expertise in numerical methods, machine learning, and production system deployment. Experience developing predictive models and optimization frameworks on cloud infrastructure. PhD from UT Austin. US green card holder.
+                Computational scientist with expertise in machine learning, statistical modeling, and scalable system deployment. Developing predictive frameworks and optimization algorithms on cloud infrastructure. PhD from UT Austin with publications in computational physics and data-driven modeling.
             </p>
         </section>
 
@@ -605,35 +605,35 @@
             <h2 class="section-title">Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-card">
-                    <h4>Languages & Core Libraries</h4>
+                    <h4>ML/Data Science</h4>
                     <ul>
-                        <li>Python (pandas, numpy, scikit-learn, scipy)</li>
+                        <li>XGBoost, CatBoost, scikit-learn</li>
+                        <li>PyTorch, SHAP, MLflow</li>
+                        <li>Hidden Markov Models</li>
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h4>ML & Data Science</h4>
+                    <h4>Core Libraries</h4>
                     <ul>
-                        <li>XGBoost, CatBoost, MLflow, SHAP</li>
-                        <li>statsmodels, PyTorch</li>
-                        <li>Walk-forward validation</li>
+                        <li>Python (pandas, numpy, scipy)</li>
+                        <li>Statistical modeling</li>
+                        <li>Time series analysis</li>
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h4>Infrastructure & Deployment</h4>
+                    <h4>Optimization</h4>
                     <ul>
-                        <li>AWS Lambda, S3, EventBridge</li>
-                        <li>Docker, GitHub Actions</li>
-                        <li>CloudFormation, serverless design</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h4>Finance & Optimization</h4>
-                    <ul>
-                        <li>CVXPY portfolio optimization</li>
-                        <li>Volatility modeling, factor modeling</li>
-                        <li>Hidden Markov Models regime detection</li>
-                        <li>Alpaca & OANDA APIs</li>
+                        <li>CVXPY, quadratic programming</li>
                         <li>Monte Carlo simulation</li>
+                        <li>Sparse regression</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>Cloud & DevOps</h4>
+                    <ul>
+                        <li>AWS Lambda, Docker</li>
+                        <li>GitHub Actions, CloudFormation</li>
+                        <li>Serverless architecture</li>
                     </ul>
                 </div>
             </div>
@@ -648,24 +648,25 @@
                     <div class="timeline-date">Feb 2024 – Present</div>
                     <div class="timeline-content">
                         <h3>Quantitative Researcher</h3>
-                        <p class="company">Asset Management Firm</p>
+                        <p class="company">Zebra Capital Management LLC, Stamford, CT</p>
                         
-                        <h4>Options Strategies</h4>
+                        <div class="performance-highlight">
+                            ⚡ Achieved 1.5+ Sharpe ratio with 10% maximum drawdown and 50%+ CAGR on backtested options strategies
+                        </div>
+
+                        <h4>Machine Learning & Modeling</h4>
                         <ul>
-                            <li>Built modular backtesting framework achieving 1.5+ Sharpe with Monte Carlo stress testing</li>
-                            <li>Deployed interday trading system with ML classification pipeline live on AWS Lambda</li>
+                            <li>Built ensemble classification system with consensus voting for equity options strategies across multiple expiration cycles</li>
+                            <li>Deployed CatBoost models with SHAP interpretability for sector rotation achieving 40% annualized alpha</li>
+                            <li>Designed Hidden Markov Model for regime detection reducing spurious trades by 80%</li>
                         </ul>
 
-                        <h4>Sector Rotation System</h4>
+                        <h4>Optimization & Infrastructure</h4>
                         <ul>
-                            <li>Developed dollar-neutral weekly rotation strategy with CVXPY optimizer and HMM regime detection</li>
-                            <li>Live execution via AWS Lambda with automated deployment and daily retraining</li>
-                        </ul>
-
-                        <h4>Portfolio Optimization & Intraday Monitoring</h4>
-                        <ul>
-                            <li>Validated systematic equity rebalancing with multi-horizon tracking error minimization</li>
-                            <li>Architected serverless infrastructure for real-time options chain monitoring and execution</li>
+                            <li>Developed dollar-neutral optimizer using CVXPY with beta neutrality constraints</li>
+                            <li>Architected modular backtesting framework achieving 100–1000x speedup through pandas optimization</li>
+                            <li>Deployed containerized ML pipeline on AWS Lambda with automated daily execution</li>
+                            <li>Built serverless infrastructure for real-time option chain monitoring and volatility surface calibration</li>
                         </ul>
                     </div>
                 </div>
@@ -677,7 +678,8 @@
                         <h3>Computational Engineer</h3>
                         <p class="company">VISIE Inc., Austin, TX</p>
                         <ul>
-                            <li>Built TCP/UDP control module for surgical robotics, contributed to $8.2M Series A</li>
+                            <li>Implemented TCP/UDP communication modules for robotic-arm control integrated with surgical navigation</li>
+                            <li>Packaged production system using Poetry and deployed via Azure Artifacts for Series A fundraising</li>
                         </ul>
                     </div>
                 </div>
@@ -689,7 +691,8 @@
                         <h3>Computational Lead</h3>
                         <p class="company">Sophelio, Austin, TX</p>
                         <ul>
-                            <li>Discovered interpretable PDEs for multi-stock dynamics using sparse regression, built forecasting pipeline</li>
+                            <li>Applied sparse regression on differential operators to discover interpretable governing equations from multi-asset time series</li>
+                            <li>Built forecasting pipeline using data-driven partial differential equations</li>
                         </ul>
                     </div>
                 </div>
@@ -714,7 +717,7 @@
                     <div class="timeline-date">MS</div>
                     <div class="timeline-content">
                         <h3>Indian Institute of Science</h3>
-                        <p>Master of Engineering in Mechanical Engineering</p>
+                        <p>Master of Engineering in Mechanical Engineering, Bangalore, India</p>
                     </div>
                 </div>
 
@@ -723,7 +726,7 @@
                     <div class="timeline-date">BS</div>
                     <div class="timeline-content">
                         <h3>University of Mumbai</h3>
-                        <p>Bachelor of Engineering in Mechanical Engineering</p>
+                        <p>Bachelor of Engineering in Mechanical Engineering, Mumbai, India</p>
                     </div>
                 </div>
             </div>
@@ -734,9 +737,9 @@
             <h2 class="section-title">Selected Publications</h2>
             <div class="timeline-content">
                 <ul>
-                    <li>Dana, S., Ganis, B., and Wheeler, M.F. (2018). A multiscale fixed stress split iterative scheme for coupled flow and poromechanics in deep subsurface reservoirs. <em>Journal of Computational Physics</em>, 352, 1-22.</li>
-                    <li>Dana, S., Srinivasan, S., Karra, S., Makedonska, N., Hyman, J.D., O'Malley, D., Viswanathan, H., and Srinivasan, G. (2020). Towards real-time forecasting of natural gas production by harnessing graph theory for stochastic discrete fracture networks. <em>Journal of Petroleum Science and Engineering</em>, 195, 107791.</li>
-                    <li>Dana, S., Zhao, X., and Jha, B. (2022). A two-grid simulation framework for fast monitoring of fault stability and ground deformation in multiphase geomechanics. <em>Journal of Computational Physics</em>, 466, 111405.</li>
+                    <li><strong>Dana, S.</strong>, Ganis, B., and Wheeler, M.F. (2018). A multiscale fixed stress split iterative scheme for coupled flow and poromechanics in deep subsurface reservoirs. <em>Journal of Computational Physics</em>, 352, 1-22.</li>
+                    <li><strong>Dana, S.</strong>, Srinivasan, S., et al. (2020). Towards real-time forecasting of natural gas production by harnessing graph theory for stochastic discrete fracture networks. <em>Journal of Petroleum Science and Engineering</em>, 195, 107791.</li>
+                    <li><strong>Dana, S.</strong>, Zhao, X., and Jha, B. (2022). A two-grid simulation framework for fast monitoring of fault stability and ground deformation in multiphase geomechanics. <em>Journal of Computational Physics</em>, 466, 111405.</li>
                 </ul>
             </div>
         </section>
