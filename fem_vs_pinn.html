@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variational Formulation vs Physics-Informed Neural Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --fem-primary: #1a472a;
+            --fem-accent: #2d5f3f;
+            --fem-light: #e8f3ed;
+            --pinn-primary: #4a1a47;
+            --pinn-accent: #6f2d6c;
+            --pinn-light: #f3e8f2;
+            --neutral-dark: #1a1a1a;
+            --neutral-medium: #666;
+            --neutral-light: #f8f8f8;
+            --paper: #fdfdf9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            line-height: 1.7;
+            color: var(--neutral-dark);
+            background: linear-gradient(135deg, #fdfdf9 0%, #f5f5f0 100%);
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--neutral-dark) 0%, #2a2a2a 100%);
+            color: var(--paper);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.85;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .intro {
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 6px solid var(--neutral-dark);
+        }
+
+        .intro h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--neutral-dark);
+        }
+
+        .intro p {
+            font-size: 1.15rem;
+            color: var(--neutral-medium);
+            line-height: 1.8;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .method-column {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .method-column:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .method-column.fem {
+            border-top: 8px solid var(--fem-primary);
+        }
+
+        .method-column.pinn {
+            border-top: 8px solid var(--pinn-primary);
+        }
+
+        .method-header {
+            padding: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .method-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+        }
+
+        .fem .method-header {
+            background: linear-gradient(135deg, var(--fem-primary) 0%, var(--fem-accent) 100%);
+        }
+
+        .pinn .method-header {
+            background: linear-gradient(135deg, var(--pinn-primary) 0%, var(--pinn-accent) 100%);
+        }
+
+        .method-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .method-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .method-content {
+            padding: 2rem;
+        }
+
+        .step {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 2px solid var(--neutral-light);
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .step:nth-child(1) { animation-delay: 0.1s; }
+        .step:nth-child(2) { animation-delay: 0.2s; }
+        .step:nth-child(3) { animation-delay: 0.3s; }
+        .step:nth-child(4) { animation-delay: 0.4s; }
+        .step:nth-child(5) { animation-delay: 0.5s; }
+        .step:nth-child(6) { animation-delay: 0.6s; }
+
+        .step:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-right: 0.75rem;
+            color: white;
+        }
+
+        .fem .step-number {
+            background: var(--fem-primary);
+        }
+
+        .pinn .step-number {
+            background: var(--pinn-primary);
+        }
+
+        .step h3 {
+            display: inline;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--neutral-dark);
+        }
+
+        .step-description {
+            margin: 1rem 0 1rem 2.7rem;
+            color: var(--neutral-medium);
+            font-size: 1.05rem;
+        }
+
+        .math-block {
+            background: var(--neutral-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0 1rem 2.7rem;
+            border-left: 4px solid var(--neutral-medium);
+            overflow-x: auto;
+            font-size: 1.1rem;
+        }
+
+        .fem .math-block {
+            border-left-color: var(--fem-accent);
+            background: var(--fem-light);
+        }
+
+        .pinn .math-block {
+            border-left-color: var(--pinn-accent);
+            background: var(--pinn-light);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0 1rem 2.7rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .highlight {
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0 1rem 2.7rem;
+            border-left: 4px solid;
+            font-weight: 500;
+        }
+
+        .fem .highlight {
+            background: var(--fem-light);
+            border-left-color: var(--fem-primary);
+            color: var(--fem-primary);
+        }
+
+        .pinn .highlight {
+            background: var(--pinn-light);
+            border-left-color: var(--pinn-primary);
+            color: var(--pinn-primary);
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .comparison-table h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--neutral-dark) 0%, #2a2a2a 100%);
+            color: white;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--neutral-light);
+        }
+
+        th {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--neutral-dark);
+            border-bottom: 2px solid var(--neutral-medium);
+        }
+
+        td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--neutral-light);
+            vertical-align: top;
+        }
+
+        tbody tr:hover {
+            background: var(--neutral-light);
+        }
+
+        .aspect {
+            font-weight: 600;
+            color: var(--neutral-dark);
+            font-size: 1.05rem;
+        }
+
+        .check {
+            color: #2d5f3f;
+            font-weight: 600;
+        }
+
+        .cross {
+            color: #8b3a3a;
+            font-weight: 600;
+        }
+
+        footer {
+            background: var(--neutral-dark);
+            color: var(--paper);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            opacity: 0.85;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 1200px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            header {
+                padding: 3rem 1rem 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .intro {
+                padding: 2rem;
+            }
+
+            .method-content {
+                padding: 1.5rem;
+            }
+
+            .math-block, .code-block, .highlight, .step-description {
+                margin-left: 0;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Two Paradigms for Solving PDEs</h1>
+        <p class="subtitle">Variational Formulation (FEM) vs Physics-Informed Neural Networks (PINNs)</p>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <h2>The Fundamental Question</h2>
+            <p>
+                How do we solve partial differential equations numerically? For decades, the answer has been the 
+                <strong>variational formulation</strong> leading to finite element methods—a mathematically rigorous 
+                approach with proven convergence guarantees. Recently, <strong>physics-informed neural networks</strong> 
+                have emerged, bypassing variational principles entirely and working directly with the strong form. 
+                This comparison explores both approaches through the lens of Mandel's problem in poromechanics.
+            </p>
+        </div>
+
+        <div class="comparison-grid">
+            <!-- FEM Column -->
+            <div class="method-column fem">
+                <div class="method-header">
+                    <h2>Variational Formulation</h2>
+                    <p class="method-tag">Classical Approach • Weak Form • FEM</p>
+                </div>
+                <div class="method-content">
+                    
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <h3>Start with Strong Form (PDE)</h3>
+                        <p class="step-description">
+                            Begin with the governing equations in their original form. For Mandel's problem 
+                            (coupled poromechanics):
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \begin{aligned}
+                            \nabla \cdot \boldsymbol{\sigma} + \mathbf{f} &= 0 \\
+                            \frac{\partial}{\partial t}\left(\frac{1}{M}p + \alpha\nabla \cdot \mathbf{u}\right) - \kappa\nabla^2 p &= 0
+                            \end{aligned}
+                            \]
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <h3>Derive Weak Form</h3>
+                        <p class="step-description">
+                            Multiply by test functions and integrate by parts. This reduces smoothness requirements 
+                            and naturally incorporates boundary conditions.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \begin{aligned}
+                            &\text{Find } \mathbf{u} \in V, p \in Q \text{ such that } \forall \mathbf{w} \in V, q \in Q: \\
+                            &\int_\Omega \boldsymbol{\sigma}(\mathbf{u}) : \nabla \mathbf{w} \, d\Omega = \int_{\partial\Omega} \mathbf{t} \cdot \mathbf{w} \, d\Gamma \\
+                            &\int_\Omega \left[\frac{1}{M}\frac{\partial p}{\partial t}q + \kappa \nabla p \cdot \nabla q + \alpha \frac{\partial}{\partial t}(\nabla \cdot \mathbf{u})q\right] d\Omega = 0
+                            \end{aligned}
+                            \]
+                        </div>
+                        <div class="highlight">
+                            Key: Integration by parts transfers derivatives from solution to test function
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <h3>Choose Finite Element Space</h3>
+                        <p class="step-description">
+                            Select finite-dimensional subspaces with prescribed basis functions (shape functions). 
+                            Common choices: linear, quadratic, or higher-order polynomials.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \begin{aligned}
+                            V_h &\subset V, \quad \dim(V_h) = N \\
+                            \mathbf{u}_h(x) &= \sum_{i=1}^{N} \mathbf{u}_i \phi_i(x) \\
+                            p_h(x) &= \sum_{j=1}^{M} p_j \psi_j(x)
+                            \end{aligned}
+                            \]
+                        </div>
+                        <p class="step-description">
+                            where \(\phi_i\) and \(\psi_j\) are pre-defined polynomial basis functions with compact support.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <h3>Discretize: Galerkin Method</h3>
+                        <p class="step-description">
+                            Substitute finite element approximations into weak form. This converts the infinite-dimensional 
+                            problem into a finite system.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \begin{aligned}
+                            a(\mathbf{u}_h, \mathbf{w}_h) &= L(\mathbf{w}_h) \quad \forall \mathbf{w}_h \in V_h \\
+                            \Rightarrow \mathbf{K}\mathbf{u} &= \mathbf{f}
+                            \end{aligned}
+                            \]
+                        </div>
+                        <p class="step-description">
+                            where stiffness matrix: \(K_{ij} = \int_\Omega \nabla \phi_j : \mathbb{C} : \nabla \phi_i \, d\Omega\)
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">5</span>
+                        <h3>Assembly and Integration</h3>
+                        <p class="step-description">
+                            Compute integrals element-by-element using numerical quadrature (Gaussian integration), 
+                            then assemble global system.
+                        </p>
+                        <div class="code-block">for each element K:
+    compute K_local via quadrature
+    for i,j in element nodes:
+        K_global[i,j] += K_local[i,j]
+                        </div>
+                        <div class="highlight">
+                            Requires mesh generation and element connectivity
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">6</span>
+                        <h3>Solve Linear/Nonlinear System</h3>
+                        <p class="step-description">
+                            Apply boundary conditions and solve using direct methods (LU decomposition) or 
+                            iterative solvers (CG, GMRES, multigrid).
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \begin{aligned}
+                            \mathbf{K}\mathbf{u} &= \mathbf{f} \\
+                            \text{or nonlinear: } \mathbf{R}(\mathbf{u}) &= 0 \text{ (Newton-Raphson)}
+                            \end{aligned}
+                            \]
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">7</span>
+                        <h3>Error Estimation & Refinement</h3>
+                        <p class="step-description">
+                            Compute a posteriori error estimates and adaptively refine mesh where error is large.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \|u - u_h\|_{H^1} \leq Ch^k |u|_{H^{k+1}}
+                            \]
+                        </div>
+                        <div class="highlight">
+                            Guaranteed convergence rates with mesh refinement!
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PINN Column -->
+            <div class="method-column pinn">
+                <div class="method-header">
+                    <h2>Physics-Informed Neural Network</h2>
+                    <p class="method-tag">Modern Approach • Strong Form • Deep Learning</p>
+                </div>
+                <div class="method-content">
+                    
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <h3>Start with Strong Form (PDE)</h3>
+                        <p class="step-description">
+                            Same starting point! Begin directly with the differential equations. 
+                            No need to derive a weak form.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \begin{aligned}
+                            \nabla \cdot \boldsymbol{\sigma} + \mathbf{f} &= 0 \\
+                            \frac{\partial}{\partial t}\left(\frac{1}{M}p + \alpha\nabla \cdot \mathbf{u}\right) - \kappa\nabla^2 p &= 0
+                            \end{aligned}
+                            \]
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <h3>Skip Weak Form Entirely!</h3>
+                        <p class="step-description">
+                            PINNs work directly with the strong form. No integration by parts, no test functions, 
+                            no variational principles needed.
+                        </p>
+                        <div class="highlight">
+                            This is the key difference: bypass all the variational machinery
+                        </div>
+                        <p class="step-description">
+                            Instead, we'll enforce the PDEs at specific collocation points using automatic differentiation.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <h3>Define Neural Network Ansatz</h3>
+                        <p class="step-description">
+                            Represent the solution as a neural network. The network parameters (weights and biases) 
+                            are the unknowns to optimize.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \begin{aligned}
+                            \hat{\mathbf{u}}(x,y,t) &= \mathcal{N}_u(x,y,t; \mathbf{W}_u, \mathbf{b}_u) \\
+                            \hat{p}(x,y,t) &= \mathcal{N}_p(x,y,t; \mathbf{W}_p, \mathbf{b}_p)
+                            \end{aligned}
+                            \]
+                        </div>
+                        <p class="step-description">
+                            Each network: \(\mathbf{o}^{(l)} = \varphi(\mathbf{W}^{(l)}\mathbf{o}^{(l-1)} + \mathbf{b}^{(l)})\)
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <h3>Sample Collocation Points</h3>
+                        <p class="step-description">
+                            No mesh needed! Randomly sample points in the domain using Latin hypercube or uniform sampling.
+                        </p>
+                        <div class="code-block">N_interior = 15000  # Interior points
+N_boundary = 500    # Per boundary
+N_initial = 200     # Initial condition
+
+X_interior = latin_hypercube_sample(N_interior)
+X_boundary = sample_boundaries(N_boundary)
+                        </div>
+                        <div class="highlight">
+                            Meshless approach: no connectivity, no element assembly
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">5</span>
+                        <h3>Formulate Loss Function</h3>
+                        <p class="step-description">
+                            The objective directly enforces PDE residuals at collocation points, plus boundary/initial conditions.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \begin{aligned}
+                            \mathcal{L} &= \underbrace{\frac{1}{N_f}\sum_{i=1}^{N_f} \|\Pi(\hat{\mathbf{u}}, \hat{p})\|^2}_{\text{PDE residuals}} \\
+                            &\quad + \underbrace{\frac{1}{N_b}\sum_{j=1}^{N_b} \|BC_j\|^2}_{\text{Boundary conditions}} \\
+                            &\quad + \underbrace{\frac{1}{N_0}\sum_{k=1}^{N_0} \|IC_k\|^2}_{\text{Initial conditions}}
+                            \end{aligned}
+                            \]
+                        </div>
+                        <p class="step-description">
+                            where \(\Pi\) represents the PDE operators (computed via automatic differentiation).
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">6</span>
+                        <h3>Automatic Differentiation</h3>
+                        <p class="step-description">
+                            Compute derivatives of neural network outputs with respect to inputs automatically 
+                            using the chain rule through the computational graph.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \frac{\partial \hat{p}}{\partial x} = \frac{\partial \mathcal{N}_p}{\partial x}, \quad 
+                            \frac{\partial^2 \hat{p}}{\partial x^2} = \frac{\partial^2 \mathcal{N}_p}{\partial x^2}
+                            \]
+                        </div>
+                        <div class="code-block">import tensorflow as tf
+
+with tf.GradientTape() as tape:
+    p_pred = neural_net(X)
+    dp_dx = tape.gradient(p_pred, X[:, 0])
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">7</span>
+                        <h3>Optimize via Gradient Descent</h3>
+                        <p class="step-description">
+                            Minimize loss function using Adam, L-BFGS, or other optimizers. Update network weights iteratively.
+                        </p>
+                        <div class="math-block">
+                            \[
+                            \mathbf{W}^{k+1} = \mathbf{W}^k - \eta \nabla_{\mathbf{W}}\mathcal{L}(\mathbf{W}^k)
+                            \]
+                        </div>
+                        <div class="highlight">
+                            No convergence guarantees—success depends on optimization landscape and hyperparameters
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-table">
+            <h2>Key Differences Summary</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Variational Formulation (FEM)</th>
+                        <th>Physics-Informed Neural Networks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="aspect">Starting Point</td>
+                        <td>Strong form → <strong>Weak form</strong> (variational)</td>
+                        <td><strong>Strong form directly</strong> (no weak form)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Mathematical Tool</td>
+                        <td>Integration by parts, test functions</td>
+                        <td>Automatic differentiation</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Basis Functions</td>
+                        <td><strong>Pre-defined</strong> (polynomials, FE shape functions)</td>
+                        <td><strong>Learned</strong> (neural network discovers representation)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Discretization</td>
+                        <td><strong>Mesh required</strong> (elements, nodes, connectivity)</td>
+                        <td><strong>Meshless</strong> (random collocation points)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Integration</td>
+                        <td><strong>Numerical quadrature</strong> (Gaussian integration)</td>
+                        <td><strong>Point evaluation</strong> (no integration needed)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">System Type</td>
+                        <td>Linear/nonlinear algebraic system: \(\mathbf{K}\mathbf{u} = \mathbf{f}\)</td>
+                        <td>Non-convex optimization problem: \(\min \mathcal{L}(\mathbf{W})\)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Solver</td>
+                        <td>Direct (LU) or iterative (CG, GMRES)</td>
+                        <td>Gradient descent (Adam, L-BFGS)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Convergence Theory</td>
+                        <td><span class="check">✓ Well-established</span> (Céa's lemma, error estimates)</td>
+                        <td><span class="cross">✗ Largely unknown</span> (empirical, no guarantees)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Error Estimates</td>
+                        <td><span class="check">✓ A priori & a posteriori</span> available</td>
+                        <td><span class="cross">✗ No computable bounds</span></td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Convergence Rate</td>
+                        <td><span class="check">✓ Known:</span> \(\mathcal{O}(h^k)\) for degree \(k\)</td>
+                        <td><span class="cross">✗ Unknown</span> (depends on architecture, optimizer)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Hyperparameters</td>
+                        <td>Mesh size \(h\), polynomial degree \(k\)</td>
+                        <td>Layers, neurons, learning rate, activation, batch size...</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Complexity for User</td>
+                        <td>Moderate (requires mesh generation expertise)</td>
+                        <td>High (requires ML expertise, hyperparameter tuning)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Computational Cost</td>
+                        <td>Predictable (depends on DOF count)</td>
+                        <td>Variable (depends on convergence, architecture)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Maturity</td>
+                        <td><span class="check">✓ 50+ years</span> of development and theory</td>
+                        <td><span class="cross">~5 years</span> of active research</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Trust for Engineering</td>
+                        <td><span class="check">✓ High</span> (certified, proven)</td>
+                        <td><span class="cross">✗ Low</span> (research stage, no guarantees)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="intro">
+            <h2>The Bottom Line</h2>
+            <p>
+                <strong>FEM</strong> provides a mathematically rigorous path: variational formulation → discretization → 
+                guaranteed convergence. You know exactly what to expect and can prove your solution is correct.
+            </p>
+            <p style="margin-top: 1rem;">
+                <strong>PINNs</strong> offer conceptual elegance: skip the weak form, work directly with PDEs, and let 
+                the network learn the solution. But you're navigating in the dark—no convergence theory, no error bounds, 
+                just empirical observation and hope that gradient descent finds something reasonable.
+            </p>
+            <p style="margin-top: 1rem; font-weight: 600;">
+                For Mandel's problem specifically, the non-monotonic pressure response and disparate magnitude scales 
+                challenge PINNs significantly, requiring careful choice of activation functions (truncated sine) and 
+                optimizers (L-BFGS) with no theoretical guidance on why these choices work.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Mathematical comparison for coupled poromechanics • Based on Dana & Kadeethum's work on Mandel's problem</p>
+    </footer>
+
+    <script>
+        // Add smooth scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.step').forEach(step => {
+            observer.observe(step);
+        });
+    </script>
+</body>
+</html>
