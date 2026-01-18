@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black-Scholes Derivation</title>
+    <title>Black-Scholes Derivation - Two Fundamental Principles</title>
     <script>
         window.MathJax = {
             tex: {
@@ -57,6 +57,45 @@
             font-size: 1.2em;
             margin-bottom: 40px;
             opacity: 0.9;
+        }
+        
+        /* Two Principles Highlight Box */
+        .principles-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .principles-box h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        
+        .principle {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #ffd700;
+        }
+        
+        .principle h3 {
+            color: #ffd700;
+            margin-top: 0;
+            font-size: 1.4em;
+        }
+        
+        .principle-highlight {
+            background: rgba(255, 215, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #ffd700;
         }
         
         .step {
@@ -127,6 +166,22 @@
             border-left: 3px solid #007acc;
         }
         
+        .principle-1-highlight {
+            background: rgba(255, 107, 107, 0.15);
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .principle-2-highlight {
+            background: rgba(78, 205, 196, 0.15);
+            border-left: 4px solid #4ecdc4;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
         .mjx-math {
             font-size: 1.1em !important;
         }
@@ -138,12 +193,53 @@
         li {
             margin: 8px 0;
         }
+        
+        .connection-badge {
+            display: inline-block;
+            background: #ffd700;
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Black-Scholes Derivation</h1>
-        <p class="subtitle">The Step-by-Step Mathematical Journey</p>
+        <p class="subtitle">Understanding Through the Two Fundamental Principles</p>
+        
+        <!-- TWO FUNDAMENTAL PRINCIPLES BOX -->
+        <div class="principles-box">
+            <h2>🎯 The Two Fundamental Principles</h2>
+            
+            <div class="principle">
+                <h3>Principle 1: Construct a Riskless Portfolio</h3>
+                <p><strong>Value must be agnostic to outcome</strong></p>
+                <ul>
+                    <li>Hold Δ = ∂C/∂S shares of stock</li>
+                    <li>Short 1 option</li>
+                    <li>This eliminates all randomness!</li>
+                </ul>
+                <div class="principle-highlight">
+                    <strong>In the math:</strong> The random term σS(∂C/∂S)dW<sub>t</sub> gets cancelled out when we hold the right number of shares.
+                </div>
+            </div>
+            
+            <div class="principle">
+                <h3>Principle 2: Riskless Investments Earn Risk-Free Rate</h3>
+                <p><strong>No arbitrage condition</strong></p>
+                <ul>
+                    <li>Since the portfolio is riskless, it must earn rate r</li>
+                    <li>Otherwise, arbitrage exists!</li>
+                </ul>
+                <div class="principle-highlight">
+                    <strong>In the math:</strong> The drift term must equal rC (enforced by the martingale property).
+                </div>
+            </div>
+        </div>
         
         <div class="step">
             <div class="step-number">1</div>
@@ -175,21 +271,27 @@
         <div class="step">
             <div class="step-number">3</div>
             <h3>Model Stock Price Dynamics (dS)</h3>
-            <p>Under the risk-neutral measure, stock prices follow:</p>
+            <span class="connection-badge">🎯 PRINCIPLE 2 APPEARS HERE</span>
+            <p>Under the <strong>risk-neutral measure</strong>, stock prices follow:</p>
             <div class="math-box">
                 $$dS_t = rS_t dt + \sigma S_t dW_t$$
             </div>
+            
+            <div class="principle-2-highlight">
+                <strong>⚡ Principle 2 Connection:</strong> Notice the expected return is <strong>r</strong> (the risk-free rate), not some higher rate μ! This is risk-neutral valuation in action - we're already assuming riskless investments earn the risk-free rate.
+            </div>
+            
             <p>Where:</p>
             <ul>
-                <li><strong>r</strong> = risk-free interest rate</li>
+                <li><strong>r</strong> = risk-free interest rate (not μ!)</li>
                 <li><strong>σ</strong> = volatility</li>
-                <li><strong>dW_t</strong> = Brownian motion increment</li>
+                <li><strong>dW_t</strong> = Brownian motion increment (the random part)</li>
             </ul>
             
             <p>And importantly: <span class="highlight">$(dS_t)^2 = \sigma^2 S_t^2 dt$</span></p>
             
             <div class="explanation">
-                <strong>Critical Assumption:</strong> We're treating $\sigma$ as a <strong>constant</strong>! If volatility were stochastic (i.e., $\sigma = \sigma(t, S_t)$), we'd need to include $d\sigma$ terms, which opens a whole Pandora's box of complexity. This constant volatility assumption is one of the key limitations of the basic Black-Scholes model.
+                <strong>Critical Assumption:</strong> We're treating σ as a <strong>constant</strong>! If volatility were stochastic (i.e., σ = σ(t, S_t)), we'd need to include dσ terms, which opens a whole Pandora's box of complexity. This constant volatility assumption is one of the key limitations of the basic Black-Scholes model.
             </div>
         </div>
         
@@ -205,29 +307,60 @@
             <div class="math-box">
                 $$dC = \left(\frac{\partial C}{\partial t} + rS_t\frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2\frac{\partial^2 C}{\partial S^2}\right)dt + \sigma S_t\frac{\partial C}{\partial S}dW_t$$
             </div>
+            
+            <div class="math-box" style="background: #fff3cd; border-color: #ff6b6b;">
+                $$dC = \underbrace{\left(\text{drift terms}\right)dt}_{\text{Deterministic part}} + \underbrace{\sigma S_t\frac{\partial C}{\partial S}dW_t}_{\text{Random part - this is what we eliminate!}}$$
+            </div>
+            
+            <div class="principle-1-highlight">
+                <strong>⚡ Principle 1 Connection:</strong> See that random term $\sigma S_t\frac{\partial C}{\partial S}dW_t$? This is the uncertainty in the option value. By holding exactly <strong>Δ = ∂C/∂S shares</strong> of stock, we can eliminate this randomness and create a riskless portfolio!
+                <br><br>
+                <strong>How?</strong> The stock also has a random component: $\sigma S_t dW_t$. When we hold ∂C/∂S shares, the random movements in the stock perfectly offset the random movements in the option!
+            </div>
         </div>
         
         <div class="step">
             <div class="step-number">5</div>
             <h3>Apply Martingale Property</h3>
-            <p>Under the risk-neutral measure, the discounted option price $e^{-rt}C(t,S_t)$ must be a martingale.</p>
+            <span class="connection-badge">🎯 BOTH PRINCIPLES UNITE HERE</span>
+            
+            <p>Under the risk-neutral measure, the discounted option price $e^{-rt}C(t,S_t)$ must be a <strong>martingale</strong>.</p>
             
             <div class="explanation">
                 <strong>What this means:</strong> The expected return on the option must equal the risk-free rate. This eliminates arbitrage opportunities!
             </div>
             
-            <p>For a martingale, the drift term must be zero when we discount:</p>
+            <div class="principle-2-highlight">
+                <strong>⚡ Principle 2 Connection:</strong> This is where we enforce that the riskless portfolio must earn the risk-free rate! The martingale property is the mathematical way of saying "no arbitrage."
+            </div>
+            
+            <p>For a martingale, the drift term (after discounting) must equal zero. This gives us:</p>
             <div class="math-box">
                 $$\frac{\partial C}{\partial t} + rS_t\frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2\frac{\partial^2 C}{\partial S^2} - rC = 0$$
+            </div>
+            
+            <p>Rearranging:</p>
+            <div class="math-box">
+                $$\frac{\partial C}{\partial t} + rS_t\frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S_t^2\frac{\partial^2 C}{\partial S^2} = rC$$
+            </div>
+            
+            <div class="principle-2-highlight">
+                <strong>See it?</strong> The right side is <strong>rC</strong> - the option earning the risk-free rate! This is Principle 2 enforced mathematically.
             </div>
         </div>
         
         <div class="final-result">
             <h3>🎉 THE BLACK-SCHOLES PDE! 🎉</h3>
             <div class="math-box" style="background: rgba(0,0,0,0.2); border-color: #1e3c72;">
-                $\frac{\partial C}{\partial t} + rS\frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S^2\frac{\partial^2 C}{\partial S^2} = rC$
+                $$\frac{\partial C}{\partial t} + rS\frac{\partial C}{\partial S} + \frac{1}{2}\sigma^2 S^2\frac{\partial^2 C}{\partial S^2} = rC$$
             </div>
-            <p style="margin-top: 20px;">This is the famous Black-Scholes partial differential equation that governs option pricing!</p>
+            <p style="margin-top: 20px;">This is the famous Black-Scholes partial differential equation!</p>
+            
+            <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <h4 style="margin-top: 0;">How the Two Principles Appear:</h4>
+                <p><strong>Principle 1 (Riskless Portfolio):</strong> By holding Δ = ∂C/∂S shares, we eliminated the random dW<sub>t</sub> term</p>
+                <p><strong>Principle 2 (Earns Risk-Free Rate):</strong> The equation states the drift = rC, meaning the portfolio earns rate r</p>
+            </div>
         </div>
         
         <div class="step">
@@ -261,21 +394,72 @@
             
             <div class="math-box">
                 <strong>European Call Option:</strong><br>
-                $C = S_0 N(d_1) - Ke^{-rT}N(d_2)$
+                $$C = S_0 N(d_1) - Ke^{-rT}N(d_2)$$
             </div>
             
             <div class="math-box">
                 <strong>European Put Option:</strong><br>
-                $P = Ke^{-rT}N(-d_2) - S_0 N(-d_1)$
+                $$P = Ke^{-rT}N(-d_2) - S_0 N(-d_1)$$
             </div>
             
             <p><strong>Where:</strong></p>
             <div class="math-box">
-                $d_1 = \frac{\ln(S_0/K) + (r + \sigma^2/2)T}{\sigma\sqrt{T}}$
-                $d_2 = d_1 - \sigma\sqrt{T}$
+                $$d_1 = \frac{\ln(S_0/K) + (r + \sigma^2/2)T}{\sigma\sqrt{T}}$$
+                $$d_2 = d_1 - \sigma\sqrt{T}$$
             </div>
             
             <p>And $N(\cdot)$ is the cumulative standard normal distribution function.</p>
+            
+            <div class="explanation">
+                <strong>Connection to Binomial:</strong> Remember from Chapter 13 appendix? As you increase the number of steps in a binomial tree to infinity, you get these exact formulas! Same principles, different mathematical framework.
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">📊</div>
+            <h3>Binomial Trees vs. Black-Scholes: Same Principles!</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr style="background: #007acc; color: white;">
+                        <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Aspect</th>
+                        <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Binomial Trees</th>
+                        <th style="padding: 15px; text-align: left; border: 1px solid #ddd;">Black-Scholes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #ddd;"><strong>Time</strong></td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Discrete steps</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Continuous</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 12px; border: 1px solid #ddd;"><strong>Principle 1</strong></td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Hold Δ shares to make portfolio value same in up/down</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Hold Δ = ∂C/∂S shares to eliminate dW<sub>t</sub> term</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #ddd;"><strong>Principle 2</strong></td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Portfolio earns e<sup>rΔt</sup></td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Drift = rC (martingale property)</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 12px; border: 1px solid #ddd;"><strong>Probabilities</strong></td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">p = (e<sup>rΔt</sup> - d)/(u - d)</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">Risk-neutral measure (Q-measure)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; border: 1px solid #ddd;"><strong>Result</strong></td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">f = e<sup>-rΔt</sup>[pf<sub>u</sub> + (1-p)f<sub>d</sub>]</td>
+                        <td style="padding: 12px; border: 1px solid #ddd;">C = S₀N(d₁) - Ke<sup>-rT</sup>N(d₂)</td>
+                    </tr>
+                    <tr style="background: #fffacd;">
+                        <td colspan="3" style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                            <strong>As n → ∞ in binomial trees, you get Black-Scholes!</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         
         <div class="step">
@@ -296,7 +480,7 @@
                 <li><strong>Accessibility:</strong> Any trader could use it - no need to solve PDEs!</li>
                 <li><strong>Standardization:</strong> Markets could agree on "fair value"</li>
                 <li><strong>Foundation:</strong> Launched quantitative finance as a field</li>
-                <li><strong>Gateway drug:</strong> Got everyone thinking about mathematical finance</li>
+                <li><strong>Same principles as binomial:</strong> Just expressed in continuous time!</li>
             </ul>
             
             <div class="explanation">
@@ -318,7 +502,7 @@
             </ul>
             
             <div class="explanation">
-                <strong>Reality Check:</strong> Once you relax these assumptions (American options, stochastic volatility, barriers), you lose the analytical solution and must use numerical methods like finite differences, Monte Carlo, or other computational techniques.
+                <strong>Reality Check:</strong> Once you relax these assumptions (American options, stochastic volatility, barriers), you lose the analytical solution and must use numerical methods like finite differences, Monte Carlo, or... go back to binomial trees!
             </div>
             
             <p><strong>But the foundation remains:</strong> Even complex models like Heston and SABR build on the Black-Scholes framework - they just require more computational firepower!</p>
@@ -326,16 +510,29 @@
         
         <div class="step">
             <div class="step-number">✓</div>
-            <h3>The Journey Complete</h3>
-            <p><strong>What we did:</strong></p>
-            <ol>
-                <li>Started with $C = C(t, S_t)$</li>
-                <li>Applied Itô's lemma to get $dC$</li>
-                <li>Defined stock dynamics $dS$</li>
-                <li>Substituted $dS$ into $dC$</li>
-                <li>Used martingale property to eliminate drift</li>
-                <li>Arrived at the Black-Scholes PDE!</li>
-            </ol>
+            <h3>The Journey Complete: Two Principles, Two Methods</h3>
+            
+            <div class="principles-box">
+                <h3>🎯 Summary: The Same Two Principles Throughout</h3>
+                
+                <p><strong>Binomial Trees (Discrete):</strong></p>
+                <ol>
+                    <li>Hold Δ shares → portfolio value same regardless of up/down</li>
+                    <li>Riskless portfolio earns risk-free rate → solve for option price</li>
+                </ol>
+                
+                <p><strong>Black-Scholes-Merton (Continuous):</strong></p>
+                <ol>
+                    <li>Hold Δ = ∂C/∂S shares → eliminate random dW<sub>t</sub> term</li>
+                    <li>Enforce drift = rC → arrive at Black-Scholes PDE</li>
+                </ol>
+                
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px; margin-top: 20px; text-align: center;">
+                    <h3 style="color: #ffd700; margin-top: 0;">The Beautiful Unity</h3>
+                    <p style="font-size: 1.2em;">Whether you use discrete binomial trees or continuous Black-Scholes, you're applying the SAME fundamental no-arbitrage logic!</p>
+                    <p style="font-size: 1.1em; margin-bottom: 0;">As n → ∞, binomial converges to Black-Scholes. They're not different theories - they're the same theory at different levels of granularity.</p>
+                </div>
+            </div>
         </div>
     </div>
 </body>
