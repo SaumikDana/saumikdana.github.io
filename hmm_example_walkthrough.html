@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMM Step-by-Step Example: t=0 through t=1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #2c3e50;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2d3436 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 6px solid #667eea;
+        }
+        
+        .timestep {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin: 30px 0 20px 0;
+            text-align: center;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            font-weight: 600;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .section h4 {
+            color: #546e7a;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .step {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #667eea;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 700;
+            margin-right: 10px;
+            font-size: 1.05em;
+        }
+        
+        .formula {
+            background: #e8eaf6;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', Consolas, monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 4px solid #5c6bc0;
+            font-size: 0.95em;
+            white-space: pre-wrap;
+        }
+        
+        .calculation {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', Consolas, monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 4px solid #ff9800;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+        }
+        
+        .result {
+            background: #e8f5e9;
+            padding: 18px;
+            border-radius: 6px;
+            border-left: 4px solid #4caf50;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #2196f3;
+            margin: 15px 0;
+        }
+        
+        .highlight {
+            background: #fff176;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .parameter-box {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 2px solid #667eea;
+            margin: 10px 0;
+        }
+        
+        .prob-display {
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        strong {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 HMM Complete Walkthrough</h1>
+            <p>Step-by-Step Example: t=0 through t=1</p>
+        </header>
+        
+        <div class="content">
+            <!-- SETUP -->
+            <div class="section">
+                <h2>📋 Setup</h2>
+                
+                <h3>Time Series</h3>
+                <div class="parameter-box">
+                    <strong>Data:</strong> [0.82, 0.85]
+                    <br/>
+                    <em>We'll process these two time points</em>
+                </div>
+                
+                <h3>Model Parameters (After Training)</h3>
+                
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td><strong>n_components</strong></td>
+                        <td>3 (LOW, MED, HIGH)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Means (μ)</strong></td>
+                        <td>LOW: 0.45, MED: 0.65, HIGH: 0.82</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Variances (σ²)</strong></td>
+                        <td>0.01 for all regimes (simplified)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Start Probabilities</strong></td>
+                        <td>[0.33, 0.33, 0.33]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transition Matrix</strong></td>
+                        <td>
+                            <div class="formula">[[0.80, 0.10, 0.10],
+ [0.10, 0.80, 0.10],
+ [0.10, 0.10, 0.80]]</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- T=0 -->
+            <div class="timestep">
+                🔵 TIME STEP t=0
+            </div>
+            
+            <div class="section">
+                <div class="info">
+                    <strong>Observed Value:</strong> 0.82
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">1</span> P(regime) = startprob</h3>
+                    
+                    <p>At the first time step, we use the start probabilities:</p>
+                    
+                    <div class="result">
+                        <span class="prob-display">P(regime at t=0) = [0.33, 0.33, 0.33]</span>
+                        <br/>
+                        <span style="margin-left: 100px; font-size: 0.9em;">LOW   MED   HIGH</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">2</span> Calculate P(value | regime) using Gaussian</h3>
+                    
+                    <h4>Gaussian Formula:</h4>
+                    <div class="formula">P(x | regime) = (1/√(2π×σ²)) × exp(-(x-μ)²/(2×σ²))</div>
+                    
+                    <h4>For our case (σ² = 0.01 for all):</h4>
+                    <div class="formula">Constant = 1/√(2π×0.01) = 1/0.251 = 3.99</div>
+                    
+                    <h4>P(0.82 | LOW):</h4>
+                    <div class="calculation">= 3.99 × exp(-(0.82-0.45)²/(2×0.01))
+= 3.99 × exp(-0.37²/0.02)
+= 3.99 × exp(-6.845)
+= 3.99 × 0.001
+= <strong>0.004</strong></div>
+                    
+                    <h4>P(0.82 | MED):</h4>
+                    <div class="calculation">= 3.99 × exp(-(0.82-0.65)²/(2×0.01))
+= 3.99 × exp(-0.17²/0.02)
+= 3.99 × exp(-1.445)
+= 3.99 × 0.236
+= <strong>0.94</strong></div>
+                    
+                    <h4>P(0.82 | HIGH):</h4>
+                    <div class="calculation">= 3.99 × exp(-(0.82-0.82)²/(2×0.01))
+= 3.99 × exp(0)
+= 3.99 × 1
+= <strong>3.99</strong></div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">3</span> Apply Bayes' Rule</h3>
+                    
+                    <h4>Multiply by prior:</h4>
+                    <div class="calculation">P(value | regime) × P(regime):
+
+LOW:  0.004 × 0.33 = 0.00132
+MED:  0.94  × 0.33 = 0.31
+HIGH: 3.99  × 0.33 = 1.32</div>
+                    
+                    <h4>Normalize (sum = 0.00132 + 0.31 + 1.32 = 1.63):</h4>
+                    <div class="calculation">P(LOW  | 0.82) = 0.00132 / 1.63 = 0.0008 ≈ 0.08%
+P(MED  | 0.82) = 0.31    / 1.63 = 0.19   ≈ 19%
+P(HIGH | 0.82) = 1.32    / 1.63 = 0.81   ≈ 81%</div>
+                    
+                    <div class="result">
+                        ✅ <strong>Result at t=0:</strong>
+                        <br/>
+                        <span class="prob-display">P(regime | 0.82) = [0.001, 0.19, 0.81]</span>
+                        <br/>
+                        <span style="margin-left: 100px; font-size: 0.9em;">LOW    MED   HIGH</span>
+                        <br/><br/>
+                        <strong>Interpretation:</strong> We're <span class="highlight">81% confident</span> we're in HIGH regime at t=0.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TRANSITION -->
+            <div class="flow-arrow">
+                ↓
+                <br/>
+                <span style="font-size: 0.6em;">Multiply by transition matrix</span>
+                <br/>
+                ↓
+            </div>
+            
+            <!-- T=1 -->
+            <div class="timestep">
+                🔵 TIME STEP t=1
+            </div>
+            
+            <div class="section">
+                <div class="info">
+                    <strong>Observed Value:</strong> 0.85
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">1</span> Calculate P(regime at t=1) from t=0</h3>
+                    
+                    <p>Use the posterior from t=0 and propagate through transmat:</p>
+                    
+                    <div class="formula">P(regime at t=0) = [0.001, 0.19, 0.81]
+
+transmat = [[0.80, 0.10, 0.10],
+            [0.10, 0.80, 0.10],
+            [0.10, 0.10, 0.80]]</div>
+                    
+                    <h4>P(LOW at t=1):</h4>
+                    <div class="calculation">= P(was LOW)×P(LOW→LOW) + P(was MED)×P(MED→LOW) + P(was HIGH)×P(HIGH→LOW)
+= 0.001×0.80 + 0.19×0.10 + 0.81×0.10
+= 0.0008 + 0.019 + 0.081
+= <strong>0.101</strong></div>
+                    
+                    <h4>P(MED at t=1):</h4>
+                    <div class="calculation">= 0.001×0.10 + 0.19×0.80 + 0.81×0.10
+= 0.0001 + 0.152 + 0.081
+= <strong>0.233</strong></div>
+                    
+                    <h4>P(HIGH at t=1):</h4>
+                    <div class="calculation">= 0.001×0.10 + 0.19×0.10 + 0.81×0.80
+= 0.0001 + 0.019 + 0.648
+= <strong>0.667</strong></div>
+                    
+                    <div class="result">
+                        <strong>Prior for t=1:</strong>
+                        <br/>
+                        <span class="prob-display">P(regime at t=1) = [0.10, 0.23, 0.67]</span>
+                        <br/>
+                        <span style="margin-left: 100px; font-size: 0.9em;">LOW   MED   HIGH</span>
+                        <br/><br/>
+                        <strong>Notice:</strong> Still likely HIGH because we were 81% HIGH at t=0 and there's 80% chance of staying in HIGH.
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">2</span> Calculate P(0.85 | regime) using Gaussian</h3>
+                    
+                    <h4>P(0.85 | LOW):</h4>
+                    <div class="calculation">= 3.99 × exp(-(0.85-0.45)²/(2×0.01))
+= 3.99 × exp(-0.40²/0.02)
+= 3.99 × exp(-8.0)
+= 3.99 × 0.0003
+= <strong>0.0012</strong></div>
+                    
+                    <h4>P(0.85 | MED):</h4>
+                    <div class="calculation">= 3.99 × exp(-(0.85-0.65)²/(2×0.01))
+= 3.99 × exp(-0.20²/0.02)
+= 3.99 × exp(-2.0)
+= 3.99 × 0.135
+= <strong>0.54</strong></div>
+                    
+                    <h4>P(0.85 | HIGH):</h4>
+                    <div class="calculation">= 3.99 × exp(-(0.85-0.82)²/(2×0.01))
+= 3.99 × exp(-0.03²/0.02)
+= 3.99 × exp(-0.045)
+= 3.99 × 0.956
+= <strong>3.81</strong></div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">3</span> Apply Bayes' Rule</h3>
+                    
+                    <h4>Multiply by prior:</h4>
+                    <div class="calculation">P(0.85 | regime) × P(regime at t=1):
+
+LOW:  0.0012 × 0.10 = 0.00012
+MED:  0.54   × 0.23 = 0.124
+HIGH: 3.81   × 0.67 = 2.55</div>
+                    
+                    <h4>Normalize (sum = 0.00012 + 0.124 + 2.55 = 2.67):</h4>
+                    <div class="calculation">P(LOW  | 0.85) = 0.00012 / 2.67 = 0.00004 ≈ 0.004%
+P(MED  | 0.85) = 0.124   / 2.67 = 0.046   ≈ 4.6%
+P(HIGH | 0.85) = 2.55    / 2.67 = 0.954   ≈ 95.4%</div>
+                    
+                    <div class="result">
+                        ✅ <strong>Result at t=1:</strong>
+                        <br/>
+                        <span class="prob-display">P(regime | 0.85) = [0.00004, 0.046, 0.954]</span>
+                        <br/>
+                        <span style="margin-left: 100px; font-size: 0.9em;">LOW      MED    HIGH</span>
+                        <br/><br/>
+                        <strong>Interpretation:</strong> We're now <span class="highlight">95% confident</span> we're in HIGH regime at t=1 (even more confident than at t=0!).
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SUMMARY -->
+            <div class="section">
+                <h2>📊 Summary</h2>
+                
+                <table>
+                    <tr>
+                        <th>Time</th>
+                        <th>Value</th>
+                        <th>Prior P(regime)</th>
+                        <th>Posterior P(regime | value)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>t=0</strong></td>
+                        <td>0.82</td>
+                        <td>[0.33, 0.33, 0.33]<br/><em>startprob</em></td>
+                        <td>[0.001, 0.19, 0.81]<br/><em>81% HIGH</em></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center; background: #f5f5f5;">
+                            ↓ <strong>× transmat</strong> ↓
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>t=1</strong></td>
+                        <td>0.85</td>
+                        <td>[0.10, 0.23, 0.67]<br/><em>propagated from t=0</em></td>
+                        <td>[0.00004, 0.046, 0.954]<br/><em>95% HIGH</em></td>
+                    </tr>
+                </table>
+                
+                <div class="info">
+                    <strong>🎯 Key Insight:</strong>
+                    <br/><br/>
+                    The high value at t=0 (0.82) made us think we're in HIGH regime with 81% confidence.
+                    <br/><br/>
+                    The transition matrix kept us likely in HIGH for t=1 (67% prior, due to 80% diagonal stay probability).
+                    <br/><br/>
+                    Another high value at t=1 (0.85) confirmed it even more strongly, pushing confidence to 95%!
+                    <br/><br/>
+                    This is how HMMs use <span class="highlight">temporal continuity</span> to make stronger inferences about hidden states.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

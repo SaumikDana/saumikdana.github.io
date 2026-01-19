@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMM Pipeline: Three Stages</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            color: #2c3e50;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2d3436 0%, #34495e 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.15em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        .pipeline-overview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .pipeline-overview h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .stage {
+            margin-bottom: 50px;
+            padding: 35px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 6px solid #2a5298;
+        }
+        
+        .stage-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+        
+        .stage-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .stage-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .stage h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+        
+        .code-block {
+            background: #263238;
+            color: #aed581;
+            padding: 22px;
+            border-radius: 6px;
+            font-family: 'Courier New', Consolas, monospace;
+            overflow-x: auto;
+            margin: 18px 0;
+            font-size: 0.9em;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .keyword {
+            color: #ff6b6b;
+        }
+        
+        .function {
+            color: #4fc3f7;
+        }
+        
+        .comment {
+            color: #78909c;
+        }
+        
+        .string {
+            color: #ffd54f;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            padding: 18px;
+            border-radius: 6px;
+            border-left: 4px solid #2196f3;
+            margin: 18px 0;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            padding: 18px;
+            border-radius: 6px;
+            border-left: 4px solid #4caf50;
+            margin: 18px 0;
+        }
+        
+        .warning {
+            background: #fff3e0;
+            padding: 18px;
+            border-radius: 6px;
+            border-left: 4px solid #ff9800;
+            margin: 18px 0;
+        }
+        
+        .parameter-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+            margin: 15px 0;
+        }
+        
+        .parameter-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .flow-step {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid #667eea;
+            text-align: center;
+            min-width: 300px;
+            font-weight: 600;
+        }
+        
+        .flow-arrow {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 14px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .highlight {
+            background: #fff176;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-top: 12px;
+        }
+        
+        li {
+            margin: 10px 0;
+        }
+        
+        strong {
+            font-weight: 600;
+        }
+        
+        .formula {
+            background: #e8eaf6;
+            padding: 18px;
+            border-radius: 6px;
+            font-family: 'Courier New', Consolas, monospace;
+            margin: 18px 0;
+            overflow-x: auto;
+            border-left: 4px solid #5c6bc0;
+            font-size: 0.95em;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 HMM Regime Detection Pipeline</h1>
+            <p>The Three Stages: Initialization → Training → Inference</p>
+        </header>
+        
+        <div class="content">
+            <!-- OVERVIEW -->
+            <div class="pipeline-overview">
+                <h2>📊 Complete Pipeline Overview</h2>
+                <p style="font-size: 1.1em; margin-top: 15px;">
+                    The HMM regime detection framework operates in three distinct stages that work together to identify the current market regime.
+                </p>
+            </div>
+            
+            <div class="flow-diagram">
+                <div class="flow-step" style="background: #e3f2fd;">
+                    <strong>Stage 1: Initialization</strong><br/>
+                    Set smart starting values
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step" style="background: #f3e5f5;">
+                    <strong>Stage 2: EM Training</strong><br/>
+                    Learn optimal parameters + BIC selection
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step" style="background: #e8f5e9;">
+                    <strong>Stage 3: Inference</strong><br/>
+                    Get probabilities + hard assignment
+                </div>
+            </div>
+            
+            <!-- STAGE 1 -->
+            <div class="stage">
+                <div class="stage-header">
+                    <div class="stage-number">1</div>
+                    <div class="stage-title">Initialization</div>
+                </div>
+                
+                <p><strong>Function:</strong> <code>_safe_deterministic_init(model, series)</code></p>
+                
+                <div class="info">
+                    <strong>Purpose:</strong> Give the model smart starting values based on the actual data distribution, rather than random initialization.
+                </div>
+                
+                <h3>What Gets Initialized</h3>
+                
+                <div class="parameter-box">
+                    <h4>1. Means (μ) - Based on Quantiles</h4>
+                    <div class="code-block">qs = np.<span class="function">linspace</span>(<span class="string">0.0</span>, <span class="string">1.0</span>, n_components + <span class="string">2</span>)[<span class="string">1</span>:-<span class="string">1</span>]
+means[:, f] = np.<span class="function">quantile</span>(col, qs)
+
+<span class="comment"># For n=3 regimes:</span>
+<span class="comment"># means[0] = 25th percentile (LOW)</span>
+<span class="comment"># means[1] = 50th percentile (MED)</span>
+<span class="comment"># means[2] = 75th percentile (HIGH)</span></div>
+                    
+                    <div class="success">
+                        <strong>Example:</strong> If your data is [0.45, 0.48, 0.65, 0.82, 0.85]<br/>
+                        μ_LOW ≈ 0.48, μ_MED ≈ 0.65, μ_HIGH ≈ 0.82
+                    </div>
+                </div>
+                
+                <div class="parameter-box">
+                    <h4>2. Covariances (σ²) - Shared Base Variance</h4>
+                    <div class="code-block"><span class="comment"># All regimes start with same variance</span>
+base_var = <span class="function">float</span>(np.<span class="function">var</span>(series))
+covars = np.<span class="function">full</span>((n_components, <span class="string">1</span>, <span class="string">1</span>), base_var)
+
+<span class="comment"># Example: σ² = 0.015 for all regimes</span></div>
+                </div>
+                
+                <div class="parameter-box">
+                    <h4>3. Start Probabilities (π) - Uniform</h4>
+                    <div class="code-block">startprob = np.<span class="function">full</span>(n_components, <span class="string">1.0</span> / n_components)
+
+<span class="comment"># For n=3: [0.33, 0.33, 0.33]</span></div>
+                </div>
+                
+                <div class="parameter-box">
+                    <h4>4. Transition Matrix (A) - Diagonal Bias</h4>
+                    <div class="code-block">transmat = np.<span class="function">full</span>((n_components, n_components), <span class="string">1.0</span> / n_components)
+np.<span class="function">fill_diagonal</span>(transmat, <span class="string">0.80</span>)
+
+<span class="comment"># For n=3:</span>
+<span class="comment"># [[0.80, 0.10, 0.10],</span>
+<span class="comment">#  [0.10, 0.80, 0.10],</span>
+<span class="comment">#  [0.10, 0.10, 0.80]]</span></div>
+                    
+                    <div class="info">
+                        80% chance of staying in current regime, 20% split among others
+                    </div>
+                </div>
+                
+                <h3>Why Deterministic?</h3>
+                <div class="warning">
+                    <strong>Random initialization problems:</strong>
+                    <ul>
+                        <li>Different results each run</li>
+                        <li>Hard to debug and reproduce</li>
+                        <li>May converge to poor local optima</li>
+                    </ul>
+                    
+                    <strong>Deterministic initialization benefits:</strong>
+                    <ul>
+                        <li>Same input → same output (reproducible)</li>
+                        <li>Data-driven starting points</li>
+                        <li>Better convergence</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- STAGE 2 -->
+            <div class="stage">
+                <div class="stage-header">
+                    <div class="stage-number">2</div>
+                    <div class="stage-title">EM Training & Model Selection</div>
+                </div>
+                
+                <p><strong>Function:</strong> <code>model.fit(series)</code> + BIC calculation</p>
+                
+                <div class="info">
+                    <strong>Purpose:</strong> Learn the optimal parameters for each candidate model (different number of regimes), then select the best model using BIC.
+                </div>
+                
+                <h3>The Training Loop</h3>
+                
+                <div class="code-block"><span class="keyword">for</span> n <span class="keyword">in</span> <span class="function">range</span>(min_regimes, max_regimes + <span class="string">1</span>):  <span class="comment"># e.g., n=2,3,4,5,6</span>
+    
+    <span class="comment"># Create model with n regimes</span>
+    model = <span class="function">GaussianHMM</span>(n_components=n)
+    
+    <span class="comment"># Initialize with smart starting values</span>
+    <span class="function">_safe_deterministic_init</span>(model, series)
+    
+    <span class="comment"># *** EM ALGORITHM RUNS HERE ***</span>
+    model.<span class="function">fit</span>(series)
+    
+    <span class="comment"># Calculate BIC for this model</span>
+    logL_avg = model.<span class="function">score</span>(series)
+    logL = logL_avg * n_samples
+    n_params = <span class="function">_num_hmm_params</span>(n, n_features)
+    bic = -<span class="string">2.0</span> * logL + n_params * np.<span class="function">log</span>(n_samples)
+    
+    bic_scores.<span class="function">append</span>(bic)
+    models.<span class="function">append</span>(model)
+
+<span class="comment"># Pick the model with LOWEST BIC</span>
+best_idx = <span class="function">int</span>(np.<span class="function">argmin</span>(bic_scores))
+best_model = models[best_idx]</div>
+                
+                <h3>What EM Algorithm Does</h3>
+                
+                <div class="parameter-box">
+                    <h4>Expectation-Maximization (EM) Iterations</h4>
+                    
+                    <p><strong>E-Step:</strong> Calculate probabilities</p>
+                    <div class="formula">P(regime | data) using current parameters (μ, σ², transmat)</div>
+                    
+                    <p><strong>M-Step:</strong> Update parameters</p>
+                    <div class="formula">Update μ, σ², transmat based on calculated probabilities</div>
+                    
+                    <p><strong>Repeat until convergence</strong> (typically 10-100 iterations)</p>
+                </div>
+                
+                <div class="success">
+                    <strong>What Changes During EM:</strong>
+                    <ul>
+                        <li><strong>Means:</strong> [0.48, 0.65, 0.82] → [0.45, 0.65, 0.82] (refined)</li>
+                        <li><strong>Variances:</strong> [0.015, 0.015, 0.015] → [0.01, 0.02, 0.01] (learned per regime)</li>
+                        <li><strong>Transition Matrix:</strong> 0.80 diagonal → [0.88, 0.90, 0.91] diagonal (learned from data)</li>
+                        <li><strong>Start Probs:</strong> [0.33, 0.33, 0.33] → [0.30, 0.35, 0.35] (adjusted)</li>
+                    </ul>
+                    
+                    All parameters are <span class="highlight">learned from the data</span>!
+                </div>
+                
+                <h3>BIC Model Selection</h3>
+                
+                <div class="formula">BIC = -2 × log_likelihood + n_params × log(n_samples)</div>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>n_regimes</th>
+                        <th>n_params</th>
+                        <th>Log-Likelihood</th>
+                        <th>BIC</th>
+                        <th>Result</th>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>7</td>
+                        <td>-65</td>
+                        <td>152</td>
+                        <td>Too simple</td>
+                    </tr>
+                    <tr style="background: #c8e6c9;">
+                        <td><strong>3</strong></td>
+                        <td><strong>15</strong></td>
+                        <td><strong>-50</strong></td>
+                        <td><strong>128</strong></td>
+                        <td><strong>✅ BEST (lowest BIC)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>26</td>
+                        <td>-48</td>
+                        <td>138</td>
+                        <td>Overfitting</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>40</td>
+                        <td>-47</td>
+                        <td>151</td>
+                        <td>Too complex</td>
+                    </tr>
+                </table>
+                
+                <div class="info">
+                    <strong>BIC balances two competing forces:</strong>
+                    <ul>
+                        <li><strong>-2 × log_likelihood:</strong> Rewards better fit (lower is better)</li>
+                        <li><strong>n_params × log(n_samples):</strong> Penalizes complexity (higher n = higher penalty)</li>
+                    </ul>
+                    The model with the <span class="highlight">lowest BIC</span> provides the best trade-off.
+                </div>
+            </div>
+            
+            <!-- STAGE 3 -->
+            <div class="stage">
+                <div class="stage-header">
+                    <div class="stage-number">3</div>
+                    <div class="stage-title">Inference & Hard Assignment</div>
+                </div>
+                
+                <p><strong>Functions:</strong> <code>best_model.predict_proba()</code> + <code>np.argmax()</code></p>
+                
+                <div class="info">
+                    <strong>Purpose:</strong> Use the best model's learned parameters to classify each time point, then return the current regime.
+                </div>
+                
+                <h3>Step 1: Soft Inference (Probabilities)</h3>
+                
+                <div class="code-block">all_probs = best_model.<span class="function">predict_proba</span>(series)
+<span class="comment"># Shape: (n_samples, n_regimes)</span>
+<span class="comment"># Uses learned μ, σ², transmat to calculate P(regime | value)</span></div>
+                
+                <div class="parameter-box">
+                    <h4>Example Output (100 points, 3 regimes):</h4>
+                    <div class="formula">all_probs = [[0.001, 0.19, 0.81],   ← t=0: 0.1% LOW, 19% MED, 81% HIGH
+             [0.0001, 0.05, 0.95],  ← t=1: 0.01% LOW, 5% MED, 95% HIGH
+             [0.95, 0.04, 0.01],    ← t=2: 95% LOW, 4% MED, 1% HIGH
+             [0.92, 0.07, 0.01],    ← t=3: 92% LOW, 7% MED, 1% HIGH
+             ...
+             [0.01, 0.10, 0.89]]    ← t=99: 1% LOW, 10% MED, 89% HIGH</div>
+                    
+                    <div class="success">
+                        This is the <span class="highlight">soft assignment</span> - each point has a probability distribution across all regimes.
+                    </div>
+                </div>
+                
+                <h3>Step 2: Hard Assignment (Bucketing)</h3>
+                
+                <div class="code-block">regimes_so_far = np.<span class="function">argmax</span>(all_probs, axis=<span class="string">1</span>)
+<span class="comment"># Pick regime with highest probability for each point</span>
+<span class="comment"># Returns: [2, 2, 0, 0, ..., 2]</span></div>
+                
+                <div class="parameter-box">
+                    <h4>From Soft to Hard:</h4>
+                    <div class="formula">SOFT (probabilities):
+t=0 → [0.001, 0.19, 0.81]   "probably HIGH, maybe MED"
+t=1 → [0.0001, 0.05, 0.95]  "almost certainly HIGH"
+t=2 → [0.95, 0.04, 0.01]    "almost certainly LOW"
+
+        ↓ np.argmax() ↓
+
+HARD (regime indices):
+t=0 → 2  (HIGH)
+t=1 → 2  (HIGH)
+t=2 → 0  (LOW)</div>
+                </div>
+                
+                <h3>Step 3: Return Current Regime</h3>
+                
+                <div class="code-block">new_regime = regimes_so_far[-<span class="string">1</span>]  <span class="comment"># Get the last point's regime</span>
+<span class="keyword">return</span> new_regime  <span class="comment"># e.g., returns 2 (HIGH)</span></div>
+                
+                <div class="success">
+                    <strong>Final Output:</strong> A single integer representing the current regime
+                    <ul>
+                        <li>0 = LOW regime</li>
+                        <li>1 = MED regime</li>
+                        <li>2 = HIGH regime</li>
+                    </ul>
+                </div>
+                
+                <h3>Why Hard Assignment?</h3>
+                
+                <div class="warning">
+                    For trading decisions, you need a <span class="highlight">definitive answer</span>:
+                    <ul>
+                        <li>"Am I in regime 2 or not?" ✅</li>
+                        <li>Not: "I'm 89% in regime 2, 10% in regime 1, 1% in regime 0" ❌</li>
+                    </ul>
+                    
+                    Hard assignment gives you a clear signal for strategy selection.
+                </div>
+            </div>
+            
+            <!-- SUMMARY -->
+            <div class="stage" style="border-left-color: #4caf50;">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">🎓 Complete Pipeline Summary</h2>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Stage</th>
+                        <th>What Happens</th>
+                        <th>Input</th>
+                        <th>Output</th>
+                    </tr>
+                    <tr>
+                        <td><strong>1. Initialization</strong></td>
+                        <td>Set smart starting values based on data</td>
+                        <td>Time series</td>
+                        <td>Initial μ, σ², π, A</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. EM Training</strong></td>
+                        <td>Learn optimal parameters, calculate BIC, select best n</td>
+                        <td>Initial params</td>
+                        <td>Best fitted model</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Inference</strong></td>
+                        <td>Calculate probabilities, assign regimes</td>
+                        <td>Best model + data</td>
+                        <td>Current regime (integer)</td>
+                    </tr>
+                </table>
+                
+                <div class="flow-diagram" style="margin-top: 30px;">
+                    <div class="flow-step" style="background: #e3f2fd;">
+                        <strong>Your Data</strong><br/>
+                        [0.82, 0.85, 0.48, ..., 0.81]
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step" style="background: #f3e5f5;">
+                        <strong>Stage 1</strong><br/>
+                        Initialize parameters
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step" style="background: #fff3e0;">
+                        <strong>Stage 2 (Loop)</strong><br/>
+                        For n=2,3,4,5,6: EM → BIC
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step" style="background: #e8f5e9;">
+                        <strong>Stage 2 (Select)</strong><br/>
+                        Pick model with lowest BIC (e.g., n=3)
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step" style="background: #c8e6c9;">
+                        <strong>Stage 3</strong><br/>
+                        Inference → Hard assignment
+                    </div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step" style="background: #a5d6a7; font-size: 1.2em;">
+                        <strong>Result</strong><br/>
+                        Current regime: 2 (HIGH)
+                    </div>
+                </div>
+                
+                <div class="success" style="margin-top: 30px;">
+                    <strong>🎯 Key Takeaways:</strong>
+                    <ul>
+                        <li><strong>Deterministic initialization</strong> ensures reproducibility</li>
+                        <li><strong>EM algorithm</strong> learns all parameters from data</li>
+                        <li><strong>BIC selection</strong> automatically finds optimal number of regimes</li>
+                        <li><strong>Forward algorithm</strong> provides causal inference (no look-ahead)</li>
+                        <li><strong>Hard assignment</strong> gives clear regime classification for trading</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
