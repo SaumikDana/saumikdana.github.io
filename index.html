@@ -4,21 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saumik Dana | Quantitative Researcher</title>
-    <meta name="description" content="Saumik Dana - Quantitative Researcher specializing in systematic trading strategies, options modeling, and production ML infrastructure. PhD from UT Austin.">
+    <title>Saumik Dana | Machine Learning & Quantitative Systems</title>
+    <meta name="description" content="Saumik Dana - Machine learning engineer specializing in systematic trading strategies, production ML infrastructure, and quantitative modeling. PhD from UT Austin.">
     <meta name="author" content="Saumik Dana">
-    <meta name="keywords" content="Saumik Dana, Quantitative Research, Options Trading, Portfolio Optimization, Machine Learning, AWS Lambda, PhD, UT Austin">
+    <meta name="keywords" content="Saumik Dana, Machine Learning, Quantitative Finance, Options Trading, Portfolio Optimization, AWS Lambda, PhD, UT Austin">
     
     <!-- Open Graph Tags -->
-    <meta property="og:title" content="Saumik Dana | Quantitative Researcher">
-    <meta property="og:description" content="Quantitative Researcher specializing in systematic trading strategies and production ML systems.">
+    <meta property="og:title" content="Saumik Dana | Machine Learning & Quantitative Systems">
+    <meta property="og:description" content="Machine learning engineer specializing in systematic trading strategies and production ML systems.">
     <meta property="og:image" content="https://saumikdana.github.io/saumik.jpg">
     <meta property="og:url" content="https://saumikdana.github.io">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Saumik Dana | Quantitative Researcher">
+    <meta name="twitter:title" content="Saumik Dana | Machine Learning & Quantitative Systems">
     <meta name="twitter:description" content="Specializing in systematic trading strategies and production ML systems.">
     <meta name="twitter:image" content="https://saumikdana.github.io/saumik.jpg">
     
@@ -38,17 +38,13 @@
         "https://github.com/SaumikDana",
         "https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en"
       ],
-      "jobTitle": "Quantitative Researcher",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Asset Management Firm"
-      },
+      "jobTitle": "Machine Learning Engineer",
       "alumniOf": {
         "@type": "CollegeOrUniversity",
         "name": "University of Texas at Austin"
       },
       "image": "https://saumikdana.github.io/saumik.jpg",
-      "description": "Quantitative Researcher specializing in systematic trading strategies"
+      "description": "Machine learning engineer specializing in systematic trading strategies and production systems"
     }
     </script>
     
@@ -182,88 +178,69 @@
         /* Navigation */
         nav {
             background: var(--bg-primary);
+            padding: 1rem 2rem;
             box-shadow: 0 2px 10px var(--shadow);
             position: sticky;
             top: 0;
             z-index: 100;
-            padding: 1rem 0;
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
             display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            scrollbar-width: thin;
-        }
-
-        .nav-container::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .nav-container::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        .nav-container::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .nav-link {
-            padding: 0.75rem 1.25rem;
             color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 500;
+            padding: 0.5rem 1rem;
             border-radius: 6px;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .nav-link:hover {
-            background: var(--bg-secondary);
             color: var(--primary);
+            background: var(--bg-secondary);
         }
 
         /* Main Container */
         .container {
-            max-width: 1500px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            padding: 2rem;
         }
 
         /* Section Styling */
         .section {
             background: var(--bg-primary);
-            border-radius: 16px;
-            padding: 3rem;
+            border-radius: 12px;
+            padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 1px 3px var(--shadow);
-            border: 1px solid var(--border);
+            box-shadow: 0 2px 10px var(--shadow);
         }
 
         .section-title {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 1.8rem;
             color: var(--text-primary);
             margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
+            padding-bottom: 0.75rem;
             border-bottom: 3px solid var(--primary);
             display: inline-block;
         }
 
         /* About Section */
         .about-content {
-            display: grid;
-            gap: 2rem;
+            line-height: 1.8;
         }
 
         .about-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1.05rem;
             color: var(--text-secondary);
         }
 
@@ -272,127 +249,106 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .skill-card {
-            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .skill-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--shadow);
-            border-color: var(--primary);
+            box-shadow: 0 5px 20px var(--shadow);
         }
 
         .skill-card h4 {
             color: var(--primary);
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
         }
 
         .skill-card ul {
             list-style: none;
+            padding-left: 0;
         }
 
         .skill-card li {
-            padding: 0.5rem 0;
+            padding: 0.4rem 0;
             color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            position: relative;
+            padding-left: 1.25rem;
         }
 
         .skill-card li::before {
-            content: '▹';
-            color: var(--primary);
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
             font-weight: bold;
-            font-size: 1.2rem;
         }
 
         /* Timeline */
         .timeline {
             position: relative;
-            padding: 2rem 0;
+            padding-left: 2rem;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            left: 30px;
+            left: 0;
             top: 0;
             bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
         }
 
         .timeline-item {
             position: relative;
-            padding-left: 80px;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
+            padding-left: 2rem;
         }
 
         .timeline-marker {
             position: absolute;
-            left: 20px;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            border: 4px solid var(--bg-primary);
+            left: -2.375rem;
+            top: 0.25rem;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
-            box-shadow: 0 0 0 4px var(--border);
-            z-index: 1;
+            background: var(--primary);
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 0 3px var(--primary);
         }
 
         .timeline-date {
-            position: absolute;
-            left: 80px;
-            top: -8px;
-            background: var(--primary);
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            color: var(--accent);
             font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .timeline-content {
-            background: var(--bg-secondary);
-            padding: 2rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
-            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .timeline-content h3 {
             color: var(--text-primary);
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .timeline-content .company {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            font-style: italic;
+            margin-bottom: 0.25rem;
+            font-size: 1.3rem;
         }
 
         .timeline-content h4 {
             color: var(--primary);
-            font-size: 1.1rem;
-            margin: 1.5rem 0 0.75rem 0;
-            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        .timeline-content .company {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 1rem;
         }
 
         .timeline-content p {
@@ -402,36 +358,38 @@
         }
 
         .timeline-content ul {
-            margin: 0.75rem 0 0.75rem 1.5rem;
-            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            padding-left: 1.5rem;
         }
 
         .timeline-content li {
+            color: var(--text-secondary);
             margin-bottom: 0.5rem;
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
-        /* Highlight Box for Performance Metrics */
+        /* Performance Highlight */
         .performance-highlight {
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             border-left: 4px solid var(--accent);
-            padding: 1rem 1.5rem;
+            padding: 1rem 1.25rem;
             margin: 1rem 0;
             border-radius: 8px;
             font-weight: 500;
+            color: var(--text-primary);
         }
 
-        /* Images Section */
+        /* Images Grid */
         .images-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .images-grid img {
             width: 100%;
-            border-radius: 12px;
+            border-radius: 10px;
             box-shadow: 0 4px 15px var(--shadow);
             transition: transform 0.3s ease;
         }
@@ -446,12 +404,7 @@
             color: white;
             text-align: center;
             padding: 2rem;
-            margin-top: 4rem;
-        }
-
-        footer p {
-            margin: 0;
-            opacity: 0.8;
+            margin-top: 3rem;
         }
 
         /* Responsive Design */
@@ -464,80 +417,26 @@
                 font-size: 1rem;
             }
 
-            .profile-section {
-                gap: 1.5rem;
-            }
-
-            .profile-pic {
-                width: 100px;
-                height: 100px;
+            .container {
+                padding: 1rem;
             }
 
             .section {
-                padding: 2rem 1.5rem;
-            }
-
-            .section-title {
-                font-size: 1.6rem;
-            }
-
-            .timeline::before {
-                left: 15px;
-            }
-
-            .timeline-item {
-                padding-left: 50px;
-            }
-
-            .timeline-marker {
-                left: 6px;
-            }
-
-            .timeline-date {
-                left: 50px;
-                font-size: 0.75rem;
-                padding: 0.3rem 0.8rem;
-            }
-
-            .timeline-content {
-                margin-top: 2.5rem;
-            }
-
-            .social-links {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .social-btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
+                padding: 1.5rem;
             }
 
             .skills-grid {
                 grid-template-columns: 1fr;
             }
-        }
 
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Loading Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+            .nav-container {
+                gap: 0.75rem;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
 
-        .section {
-            animation: fadeIn 0.6s ease-out;
+            .nav-link {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.75rem;
+            }
         }
     </style>
 </head>
@@ -550,22 +449,21 @@
                 <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
                 <div>
                     <h1>Saumik Dana</h1>
-                    <p class="tagline">Computational Scientist | Machine Learning & Production Systems</p>
+                    <p class="tagline">Machine Learning Engineer | Production Systems | PhD</p>
                 </div>
             </div>
-            
             <div class="social-links">
-                <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" rel="noopener noreferrer" class="social-btn">
-                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" class="social-btn">
+                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                     LinkedIn
                 </a>
-                <a href="https://github.com/SaumikDana" target="_blank" rel="noopener noreferrer" class="social-btn">
+                <a href="https://github.com/SaumikDana" target="_blank" class="social-btn">
                     <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     GitHub
                 </a>
-                <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="social-btn">
+                <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en" target="_blank" class="social-btn">
                     <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
-                    Google Scholar
+                    Scholar
                 </a>
             </div>
         </div>
@@ -592,7 +490,7 @@
         <section class="section about-content">
             <h2 class="section-title">About Me</h2>
             <p class="about-text">
-                Computational scientist with expertise in machine learning, statistical modeling, and scalable system deployment. Developing predictive frameworks and optimization algorithms on cloud infrastructure. PhD from UT Austin with publications in computational physics and data-driven modeling.
+                Machine learning engineer with expertise in building production-grade systems from modeling and validation through deployment and live monitoring. Experienced in systematic trading strategies, optimization algorithms, and cloud infrastructure. PhD from UT Austin with publications in computational physics and data-driven modeling.
             </p>
         </section>
 
@@ -644,10 +542,10 @@
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-date">Feb 2024 – Present</div>
+                    <div class="timeline-date">Feb 2024 – Dec 2025</div>
                     <div class="timeline-content">
                         <h3>Quantitative Researcher</h3>
-                        <p class="company">Asset Management Firm, Stamford, CT</p>
+                        <p class="company">Quantitative Trading Firm, Stamford, CT</p>
                         
                         <div class="performance-highlight">
                             ⚡ Developed ML-driven options trading system achieving 1.5+ Sharpe ratio with <10% maximum drawdown and positive skew in backtest
@@ -732,7 +630,6 @@
             <div class="timeline-content">
                 <ul>
                     <li><strong>Dana, S.</strong>, Ganis, B., and Wheeler, M.F. (2018). A multiscale fixed stress split iterative scheme for coupled flow and poromechanics in deep subsurface reservoirs. <em>Journal of Computational Physics</em>, 352, 1-22.</li>
-                    <li><strong>Dana, S.</strong>, Srinivasan, S., et al. (2020). Towards real-time forecasting of natural gas production by harnessing graph theory for stochastic discrete fracture networks. <em>Journal of Petroleum Science and Engineering</em>, 195, 107791.</li>
                     <li><strong>Dana, S.</strong>, Zhao, X., and Jha, B. (2022). A two-grid simulation framework for fast monitoring of fault stability and ground deformation in multiphase geomechanics. <em>Journal of Computational Physics</em>, 466, 111405.</li>
                 </ul>
             </div>
@@ -750,7 +647,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>© 2025 Saumik Dana. All rights reserved.</p>
+        <p>© 2026 Saumik Dana. All rights reserved.</p>
     </footer>
 
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
