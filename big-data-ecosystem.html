@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Big Data Ecosystem: Databricks, Kafka, MongoDB & Elasticsearch</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #151515;
+            --border-color: #2a2a2a;
+            --accent-databricks: #ff3621;
+            --accent-kafka: #00d4ff;
+            --accent-mongo: #00ed64;
+            --accent-elastic: #00bfb3;
+            --text-primary: #e8e8e8;
+            --text-secondary: #999;
+            --text-muted: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.02) 2px, rgba(255,255,255,.02) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,.02) 2px, rgba(255,255,255,.02) 4px);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .stat-card.databricks { --accent: var(--accent-databricks); }
+        .stat-card.kafka { --accent: var(--accent-kafka); }
+        .stat-card.mongo { --accent: var(--accent-mongo); }
+        .stat-card.elastic { --accent: var(--accent-elastic); }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 3rem;
+            color: #fff;
+        }
+
+        .company-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .company-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .company-header {
+            display: flex;
+            align-items: baseline;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .company-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .company-tagline {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .metric {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .use-cases {
+            margin-top: 2rem;
+        }
+
+        .use-cases h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .use-case-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .use-case {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.02);
+            border-left: 2px solid var(--accent);
+            transition: all 0.2s ease;
+        }
+
+        .use-case:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateX(4px);
+        }
+
+        .use-case-company {
+            font-weight: 700;
+            color: var(--text-primary);
+            min-width: 120px;
+        }
+
+        .use-case-description {
+            color: var(--text-secondary);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin: 3rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--bg-dark);
+        }
+
+        .timeline-year {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content {
+            color: var(--text-secondary);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 2rem 0;
+            overflow: hidden;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .comparison-table th {
+            background: var(--bg-card);
+            padding: 1.5rem 1rem;
+            text-align: left;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-color);
+            color: #fff;
+        }
+
+        .comparison-table td {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .code-block {
+            background: #000;
+            padding: 2rem;
+            border-radius: 4px;
+            border: 1px solid #333;
+            margin: 2rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .code-block code {
+            font-family: 'JetBrains Mono', monospace;
+            color: #0f0;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .pipeline-flow {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-step {
+            background: var(--bg-card);
+            border: 2px solid var(--accent);
+            padding: 1.5rem 2rem;
+            border-radius: 4px;
+            font-weight: 700;
+            color: var(--accent);
+            position: relative;
+        }
+
+        .pipeline-arrow {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+
+        .key-insight {
+            background: linear-gradient(135deg, rgba(255,54,33,0.1) 0%, rgba(0,237,100,0.1) 100%);
+            border-left: 4px solid var(--accent-databricks);
+            padding: 2rem;
+            margin: 3rem 0;
+            border-radius: 4px;
+        }
+
+        .key-insight h3 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .key-insight p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .company-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .metric-row {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline-flow {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .pipeline-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>The Big Data Ecosystem</h1>
+            <p class="hero-subtitle">Understanding the infrastructure giants powering modern technology</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card databricks">
+                    <div class="stat-value">$43B</div>
+                    <div class="stat-label">Databricks Valuation</div>
+                </div>
+                <div class="stat-card mongo">
+                    <div class="stat-value">$20B</div>
+                    <div class="stat-label">MongoDB Market Cap</div>
+                </div>
+                <div class="stat-card elastic">
+                    <div class="stat-value">$7B</div>
+                    <div class="stat-label">Elastic Market Cap</div>
+                </div>
+                <div class="stat-card kafka">
+                    <div class="stat-value">$3B</div>
+                    <div class="stat-label">Confluent Market Cap</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">Scroll to explore</div>
+    </section>
+
+    <section class="section">
+        <h2>The Modern Data Stack</h2>
+        
+        <div class="pipeline-flow">
+            <div class="pipeline-step" style="--accent: var(--accent-kafka);">Kafka<br><small>Streaming</small></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step" style="--accent: var(--accent-mongo);">MongoDB<br><small>Storage</small></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step" style="--accent: var(--accent-databricks);">Spark<br><small>Analytics</small></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step" style="--accent: var(--accent-elastic);">Elasticsearch<br><small>Search</small></div>
+        </div>
+
+        <div class="key-insight">
+            <h3>🎯 Real-World Example: Uber</h3>
+            <p><strong>Kafka</strong> streams live driver locations → <strong>MongoDB</strong> stores ride history → <strong>Spark</strong> calculates surge pricing → <strong>Elasticsearch</strong> enables "find my ride" search</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>The Four Giants</h2>
+
+        <!-- Databricks -->
+        <div class="company-card databricks">
+            <div class="company-header">
+                <div class="company-name">Databricks</div>
+                <div class="company-tagline">"The Analytics Engine"</div>
+            </div>
+
+            <div class="metric-row">
+                <div class="metric">
+                    <div class="metric-value">$1.6B</div>
+                    <div class="metric-label">Annual Revenue</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">100x</div>
+                    <div class="metric-label">Faster than Hadoop</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">2013</div>
+                    <div class="metric-label">Founded</div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2009</div>
+                    <div class="timeline-content">UC Berkeley researchers create Apache Spark</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2013</div>
+                    <div class="timeline-content">Spark creators found Databricks</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-content">$43B valuation, infrastructure standard</div>
+                </div>
+            </div>
+
+            <div class="use-cases">
+                <h3>Who Uses It</h3>
+                <div class="use-case-list">
+                    <div class="use-case">
+                        <div class="use-case-company">Comcast</div>
+                        <div class="use-case-description">Analyze 500TB+ customer data</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Shell</div>
+                        <div class="use-case-description">Process sensor data from oil rigs</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Regeneron</div>
+                        <div class="use-case-description">Genomics data analysis</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">HSBC</div>
+                        <div class="use-case-description">Fraud detection at scale</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block" data-lang="pyspark">
+<code># Distributed processing across cluster
+features_rdd = spark.sparkContext.parallelize(features)
+results = features_rdd.map(score_feature).collect()
+
+# Hadoop: 6 hours to process 1TB
+# Spark: 10 minutes to process 1TB</code>
+            </div>
+        </div>
+
+        <!-- Confluent/Kafka -->
+        <div class="company-card kafka">
+            <div class="company-header">
+                <div class="company-name">Confluent</div>
+                <div class="company-tagline">"The Nervous System"</div>
+            </div>
+
+            <div class="metric-row">
+                <div class="metric">
+                    <div class="metric-value">$800M</div>
+                    <div class="metric-label">Annual Revenue</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">Billions</div>
+                    <div class="metric-label">Events/Day</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">2014</div>
+                    <div class="metric-label">Founded</div>
+                </div>
+            </div>
+
+            <div class="use-cases">
+                <h3>Who Uses It</h3>
+                <div class="use-case-list">
+                    <div class="use-case">
+                        <div class="use-case-company">Netflix</div>
+                        <div class="use-case-description">Stream viewing events (billions/day)</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Uber</div>
+                        <div class="use-case-description">Real-time ride tracking</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Goldman Sachs</div>
+                        <div class="use-case-description">Financial data streaming</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">LinkedIn</div>
+                        <div class="use-case-description">Activity feeds</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-insight">
+                <h3>⚡ The Real-Time Revolution</h3>
+                <p><strong>Before Kafka:</strong> App → Database → Polling (60 second delay)<br>
+                <strong>After Kafka:</strong> App → Kafka → Instant (millisecond latency)</p>
+            </div>
+        </div>
+
+        <!-- MongoDB -->
+        <div class="company-card mongo">
+            <div class="company-header">
+                <div class="company-name">MongoDB</div>
+                <div class="company-tagline">"The Flexible Database"</div>
+            </div>
+
+            <div class="metric-row">
+                <div class="metric">
+                    <div class="metric-value">$1.7B</div>
+                    <div class="metric-label">Annual Revenue</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">60%</div>
+                    <div class="metric-label">Cloud Revenue</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">2007</div>
+                    <div class="metric-label">Founded</div>
+                </div>
+            </div>
+
+            <div class="use-cases">
+                <h3>Who Uses It</h3>
+                <div class="use-case-list">
+                    <div class="use-case">
+                        <div class="use-case-company">Adobe</div>
+                        <div class="use-case-description">User profiles and preferences</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">eBay</div>
+                        <div class="use-case-description">Product catalog</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Coinbase</div>
+                        <div class="use-case-description">Crypto transactions</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Lyft</div>
+                        <div class="use-case-description">Ride data storage</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block" data-lang="javascript">
+<code>// No schema required - just store JSON
+db.users.insert({
+  id: 1,
+  name: "John",
+  preferences: { theme: "dark" },
+  // Add new fields anytime, no migration
+  devices: ["mobile", "web"]
+})</code>
+            </div>
+        </div>
+
+        <!-- Elasticsearch -->
+        <div class="company-card elastic">
+            <div class="company-header">
+                <div class="company-name">Elastic</div>
+                <div class="company-tagline">"Google for Your Data"</div>
+            </div>
+
+            <div class="metric-row">
+                <div class="metric">
+                    <div class="metric-value">$1.3B</div>
+                    <div class="metric-label">Annual Revenue</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">100ms</div>
+                    <div class="metric-label">Search 1TB</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">2012</div>
+                    <div class="metric-label">Founded</div>
+                </div>
+            </div>
+
+            <div class="use-cases">
+                <h3>Who Uses It</h3>
+                <div class="use-case-list">
+                    <div class="use-case">
+                        <div class="use-case-company">Walmart</div>
+                        <div class="use-case-description">Product search across millions of items</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Tinder</div>
+                        <div class="use-case-description">User matching and search</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Stack Overflow</div>
+                        <div class="use-case-description">Code search</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">NASA</div>
+                        <div class="use-case-description">Mission data search</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-insight">
+                <h3>🔍 Search Performance</h3>
+                <p><strong>SQL LIKE query:</strong> Scans entire table, minutes<br>
+                <strong>Elasticsearch:</strong> Inverted indexes, 100ms for 1TB</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>The Business Model</h2>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Strategy</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Open Core</strong></td>
+                    <td>Free open source core + Paid enterprise features</td>
+                    <td>MongoDB free → MongoDB Enterprise $$$</td>
+                </tr>
+                <tr>
+                    <td><strong>Land & Expand</strong></td>
+                    <td>Developer uses free → Company pays millions</td>
+                    <td>Year 1: $0 → Year 5: $1M+/year</td>
+                </tr>
+                <tr>
+                    <td><strong>Cloud Hosting</strong></td>
+                    <td>Managed service in the cloud</td>
+                    <td>MongoDB Atlas, Databricks clusters</td>
+                </tr>
+                <tr>
+                    <td><strong>Usage-Based</strong></td>
+                    <td>Pay per compute/storage</td>
+                    <td>Databricks: $1-2/machine-hour</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="key-insight">
+            <h3>💰 Why Companies Pay</h3>
+            <p><strong>Build In-House:</strong> 5 engineers × $200K/year = $1M/year + infrastructure<br>
+            <strong>Buy Service:</strong> $100-500K/year, zero engineering overhead<br>
+            <strong>Winner:</strong> At scale, buying is cheaper than building</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Why These Won</h2>
+
+        <div class="company-card databricks">
+            <h3 style="color: var(--accent-databricks); margin-bottom: 1.5rem;">Perfect Timing + Execution</h3>
+            
+            <div class="metric-row">
+                <div class="metric">
+                    <div class="metric-value">2009-2013</div>
+                    <div class="metric-label">Launch Window</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">Cloud</div>
+                    <div class="metric-label">Perfect Timing</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">50K+</div>
+                    <div class="metric-label">Spark Jobs (2024)</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 1rem;">The Network Effect</h4>
+                <div class="use-case-list">
+                    <div class="use-case">
+                        <div class="use-case-company">Developer Adoption</div>
+                        <div class="use-case-description">Free open source → widespread use</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Resume Keywords</div>
+                        <div class="use-case-description">Skills become hiring requirements</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Industry Standard</div>
+                        <div class="use-case-description">Default choice for category</div>
+                    </div>
+                    <div class="use-case">
+                        <div class="use-case-company">Lock-In</div>
+                        <div class="use-case-description">High switching costs at scale</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="margin-bottom: 4rem;">
+        <h2>Key Takeaways</h2>
+
+        <div class="key-insight" style="background: linear-gradient(135deg, rgba(255,54,33,0.15) 0%, rgba(0,191,179,0.15) 100%); border-left-color: var(--accent-elastic);">
+            <h3>🎯 For Your Career</h3>
+            <p><strong>PySpark on Resume:</strong> ✅ You implemented distributed feature engineering<br>
+            <strong>Databricks on Resume:</strong> 🤔 Debatable (didn't use the platform)<br>
+            <strong>Understanding Ecosystem:</strong> ✅ Makes you better at architecture interviews</p>
+        </div>
+
+        <div class="key-insight" style="background: linear-gradient(135deg, rgba(0,237,100,0.15) 0%, rgba(255,54,33,0.15) 100%); border-left-color: var(--accent-mongo);">
+            <h3>💡 When to Use These Tools</h3>
+            <p><strong>Your FX System (2GB data):</strong> PySpark locally is perfect<br>
+            <strong>Enterprise (100TB+ data):</strong> Databricks makes sense<br>
+            <strong>Real-time events:</strong> Kafka is the standard<br>
+            <strong>Flexible schema:</strong> MongoDB wins<br>
+            <strong>Search/Logs:</strong> Elasticsearch is default</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem; padding: 3rem; background: rgba(255,255,255,0.02); border-radius: 4px;">
+            <p style="font-size: 1.2rem; color: var(--text-secondary); line-height: 1.8;">
+                These four companies represent <span class="highlight" style="color: #fff;">$73B</span> in combined market value,<br>
+                powering the infrastructure behind every major tech company,<br>
+                processing <span class="highlight" style="color: #fff;">petabytes</span> of data daily.
+            </p>
+        </div>
+    </section>
+</body>
+</html>
