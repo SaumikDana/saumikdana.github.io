@@ -4,22 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saumik Dana | Machine Learning & Quantitative Systems</title>
-    <meta name="description" content="Saumik Dana - Machine learning engineer specializing in systematic trading strategies, production ML infrastructure, and quantitative modeling. PhD from UT Austin.">
+    <title>Saumik Dana | ML Engineer & Quantitative Researcher</title>
+    <meta name="description" content="Saumik Dana - Computational scientist with 3 years of experience building production-grade ML systems. Specializing in quantitative finance, systematic trading, and cloud infrastructure. PhD from UT Austin.">
     <meta name="author" content="Saumik Dana">
-    <meta name="keywords" content="Saumik Dana, Machine Learning, Quantitative Finance, Options Trading, Portfolio Optimization, AWS Lambda, PhD, UT Austin">
+    <meta name="keywords" content="Saumik Dana, Machine Learning, Quantitative Finance, AWS Lambda, Production ML, Options Trading, Portfolio Optimization, PhD, UT Austin">
     
     <!-- Open Graph Tags -->
-    <meta property="og:title" content="Saumik Dana | Machine Learning & Quantitative Systems">
-    <meta property="og:description" content="Machine learning engineer specializing in systematic trading strategies and production ML systems.">
+    <meta property="og:title" content="Saumik Dana | ML Engineer & Quantitative Researcher">
+    <meta property="og:description" content="Computational scientist building production-grade ML systems for quantitative finance.">
     <meta property="og:image" content="https://saumikdana.github.io/saumik.jpg">
     <meta property="og:url" content="https://saumikdana.github.io">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Saumik Dana | Machine Learning & Quantitative Systems">
-    <meta name="twitter:description" content="Specializing in systematic trading strategies and production ML systems.">
+    <meta name="twitter:title" content="Saumik Dana | ML Engineer & Quantitative Researcher">
+    <meta name="twitter:description" content="Production ML systems for quantitative finance and systematic trading.">
     <meta name="twitter:image" content="https://saumikdana.github.io/saumik.jpg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,13 +38,13 @@
         "https://github.com/SaumikDana",
         "https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en"
       ],
-      "jobTitle": "Machine Learning Engineer",
+      "jobTitle": "Quantitative Researcher",
       "alumniOf": {
         "@type": "CollegeOrUniversity",
         "name": "University of Texas at Austin"
       },
       "image": "https://saumikdana.github.io/saumik.jpg",
-      "description": "Machine learning engineer specializing in systematic trading strategies and production systems"
+      "description": "Computational scientist specializing in production ML systems for quantitative finance"
     }
     </script>
     
@@ -54,6 +54,7 @@
             --primary-dark: #1e40af;
             --secondary: #8b5cf6;
             --accent: #06b6d4;
+            --success: #10b981;
             --text-primary: #1e293b;
             --text-secondary: #64748b;
             --bg-primary: #ffffff;
@@ -80,7 +81,7 @@
         .hero {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 2rem 2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -109,7 +110,7 @@
             align-items: center;
             justify-content: center;
             gap: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             flex-wrap: wrap;
         }
 
@@ -130,15 +131,22 @@
         .hero h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .hero .tagline {
-            font-size: 1.1rem;
-            font-weight: 300;
+            font-size: 1.15rem;
+            font-weight: 400;
             opacity: 0.95;
-            margin-bottom: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .status {
+            font-size: 0.95rem;
+            font-weight: 300;
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
         }
 
         .social-links {
@@ -146,13 +154,14 @@
             gap: 1.5rem;
             justify-content: center;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .social-btn {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1.25rem;
+            padding: 0.6rem 1.25rem;
             background: rgba(255, 255, 255, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
@@ -234,20 +243,21 @@
             display: inline-block;
         }
 
-        /* About Section */
-        .about-content {
+        /* Summary Section */
+        .summary-content {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
             line-height: 1.8;
-        }
-
-        .about-text {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
+            color: var(--text-primary);
         }
 
         /* Skills Grid */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
@@ -340,8 +350,8 @@
 
         .timeline-content h4 {
             color: var(--primary);
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
             font-size: 1.05rem;
         }
 
@@ -349,6 +359,7 @@
             color: var(--text-secondary);
             font-style: italic;
             margin-bottom: 1rem;
+            font-size: 1rem;
         }
 
         .timeline-content p {
@@ -364,19 +375,29 @@
 
         .timeline-content li {
             color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
+            margin-bottom: 0.6rem;
+            line-height: 1.7;
         }
 
-        /* Performance Highlight */
-        .performance-highlight {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border-left: 4px solid var(--accent);
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left: 4px solid var(--success);
             padding: 1rem 1.25rem;
             margin: 1rem 0;
             border-radius: 8px;
             font-weight: 500;
             color: var(--text-primary);
+        }
+
+        /* Code tag styling */
+        code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: var(--primary);
         }
 
         /* Images Grid */
@@ -437,6 +458,14 @@
                 font-size: 0.85rem;
                 padding: 0.4rem 0.75rem;
             }
+
+            .timeline {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-item {
+                padding-left: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -449,7 +478,8 @@
                 <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
                 <div>
                     <h1>Saumik Dana</h1>
-                    <p class="tagline">Machine Learning Engineer | Production Systems | PhD</p>
+                    <p class="tagline">Quantitative Researcher | Production ML Systems | PhD</p>
+                    <p class="status">US Green Card Holder</p>
                 </div>
             </div>
             <div class="social-links">
@@ -487,53 +517,11 @@
 
     <!-- Main Content -->
     <main class="container">
-        <!-- About Section -->
-        <section class="section about-content">
-            <h2 class="section-title">About Me</h2>
-            <p class="about-text">
-                Computational scientist building production-grade machine learning systems from modeling and validation through deployment and live monitoring. PhD from UT Austin with publications in computational physics and data-driven modeling.
-            </p>
-        </section>
-
-        <!-- Technical Skills -->
+        <!-- Summary Section -->
         <section class="section">
-            <h2 class="section-title">Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h4>Machine Learning</h4>
-                    <ul>
-                        <li>XGBoost, CatBoost, Random Forest</li>
-                        <li>PyTorch, Hugging Face Transformers</li>
-                        <li>SHAP, MLflow, Foundation Models</li>
-                        <li>Time Series Forecasting</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h4>Programming & Data</h4>
-                    <ul>
-                        <li>Python (pandas, NumPy, SciPy, JAX)</li>
-                        <li>Vectorized computation</li>
-                        <li>High-performance pipelines</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h4>Optimization</h4>
-                    <ul>
-                        <li>CVXPY, Quadratic Programming</li>
-                        <li>Portfolio optimization</li>
-                        <li>Monte Carlo simulation</li>
-                        <li>Constrained optimization</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h4>Cloud & Infrastructure</h4>
-                    <ul>
-                        <li>AWS (Lambda, EventBridge, S3)</li>
-                        <li>Docker, GitHub Actions</li>
-                        <li>CloudFormation, CI/CD</li>
-                        <li>Serverless architectures</li>
-                    </ul>
-                </div>
+            <h2 class="section-title">Summary</h2>
+            <div class="summary-content">
+                Computational scientist with 3 years of experience building production-grade machine learning systems from modeling and validation through deployment and live monitoring. PhD from UT Austin with expertise in systematic trading, cloud infrastructure, and algorithmic optimization.
             </div>
         </section>
 
@@ -541,44 +529,105 @@
         <section class="section">
             <h2 class="section-title">Experience</h2>
             <div class="timeline">
+                <!-- Zebra Capital -->
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Feb 2024 – Dec 2025</div>
                     <div class="timeline-content">
                         <h3>Quantitative Researcher</h3>
-                        <p class="company">Asset Management Firm, Stamford, CT</p>
+                        <p class="company">Asset Management Firm – Stamford, CT</p>
 
-                        <p>Owned end-to-end development of systematic trading strategies from research through live deployment on AWS infrastructure.</p>
+                        <p>Built end-to-end systematic trading infrastructure on AWS with serverless architecture (Lambda, EventBridge, S3, DynamoDB). Deployed automated intraday and weekly options strategies using foundation models, spike detection, and regime-adaptive rebalancing.</p>
 
-                        <h4>Key Highlights</h4>
+                        <div class="highlight-box">
+                            <strong>Performance:</strong> 1.5+ Sharpe, 10% max drawdown, 10% annualized alpha
+                        </div>
+
                         <ul>
-                            <li>Built serverless ML infrastructure (Lambda, EventBridge, S3) with CI/CD for automated real-time inference and trade execution</li>
-                            <li>Deployed vectorized option pricing with Numba JIT compilation and integrated Chronos foundation model for feature selection</li>
-                            <li>Optimized dollar-neutral portfolio construction via multi-objective optimization (NSGA-II) with alpha-beta trade-off control</li>
-                            <li>Reduced spurious trades by 60% using Hidden Markov Models for regime-adaptive rebalancing</li>
-                            <li>Developed constrained nonlinear optimization for stochastic volatility calibration with Bayesian changepoint detection</li>
+                            <li>Developed ML pipelines with Chronos embeddings, SHAP feature selection, and Bayesian optimization (TPE)</li>
+                            <li>Built RAG-enhanced LLM signal generators from FOMC statements using LangChain and FinBERT sentiment</li>
+                            <li>Implemented Hidden Markov Models, genetic algorithms, and multi-objective optimization (NSGA-II) for portfolio construction</li>
+                            <li>Optimized data processing with vectorization and Numba JIT, achieving 100-1000x speedups</li>
+                            <li>Created real-time React dashboard for volatility surface monitoring with DynamoDB backend</li>
                         </ul>
                     </div>
                 </div>
 
+                <!-- VISIE -->
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Aug 2023 – Nov 2023</div>
                     <div class="timeline-content">
                         <h3>Computational Engineer</h3>
-                        <p class="company">VISIE Inc., Austin, TX</p>
-                        <p>Contributed to robotic surgical navigation platform. Implemented TCP/UDP protocols for robotic arm control and Azure-based deployment pipelines, supporting successful Series A fundraising demonstration.</p>
+                        <p class="company">VISIE Inc. – Austin, TX</p>
+                        <p>Contributed to robotic surgical navigation platform. Implemented TCP/UDP protocols for robotic arm control and Azure deployment pipelines. Supported successful Series A demonstration.</p>
                     </div>
                 </div>
 
+                <!-- Sophelio -->
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">Aug 2022 – Mar 2023</div>
                     <div class="timeline-content">
                         <h3>Computational Lead</h3>
-                        <p class="company">Sophelio, Austin, TX</p>
-                        <p>Adapted physics-informed modeling from fusion experiments to financial time series. Reformulated system identification pipeline to discover coupled PDEs governing stock dynamics, delivering prototype with out-of-sample predictive capability. <a href="fusion.html" class="nav-link">Explainer</a></p>
+                        <p class="company">Sophelio – Austin, TX</p>
+                        <p>Adapted physics-informed modeling from fusion experiments to financial time series. Built production MLOps pipeline with sparse regression for PDE discovery, Bayesian optimization for signal thresholds, and automated execution.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Skills -->
+        <section class="section">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h4>ML Tools</h4>
+                    <ul>
+                        <li>PyTorch, Scikit-learn, XGBoost</li>
+                        <li>HuggingFace, SHAP, Optuna</li>
+                        <li>Kneed, Pymoo, d3rlpy, EconML</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>LLMs & NLP</h4>
+                    <ul>
+                        <li>LLM-based inference, RAG</li>
+                        <li>LangChain, structured prompting</li>
+                        <li>LLM evaluation pipelines</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>Cloud & MLOps</h4>
+                    <ul>
+                        <li>AWS Lambda, S3, DynamoDB</li>
+                        <li>EventBridge, CloudFormation</li>
+                        <li>Docker, GitHub Actions</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>Programming & Data</h4>
+                    <ul>
+                        <li>Python (Pandas, NumPy, SciPy)</li>
+                        <li>JAX, Numba, React</li>
+                        <li>Git, Linux/Bash</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>Specialized ML</h4>
+                    <ul>
+                        <li>Bayesian optimization</li>
+                        <li>Hidden Markov Models</li>
+                        <li>Anomaly detection, RL</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h4>Optimization & Algorithms</h4>
+                    <ul>
+                        <li>Quadratic programming (CVXPY, SLSQP)</li>
+                        <li>Genetic algorithms</li>
+                        <li>Pareto fronts, NSGA-II</li>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -591,9 +640,8 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">PhD</div>
                     <div class="timeline-content">
-                        <h3>University of Texas at Austin</h3>
-                        <p>Doctor of Philosophy in Engineering Mechanics</p>
-                        <p style="margin-top: 0.5rem; font-size: 0.95rem;">Focus: Computational methods, numerical optimization, high-performance computing</p>
+                        <h3>Doctor of Philosophy in Engineering Mechanics</h3>
+                        <p class="company">University of Texas at Austin, Austin, TX</p>
                     </div>
                 </div>
 
@@ -601,8 +649,8 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">MS</div>
                     <div class="timeline-content">
-                        <h3>Indian Institute of Science</h3>
-                        <p>Master of Engineering in Mechanical Engineering, Bangalore, India</p>
+                        <h3>Master of Engineering in Mechanical Engineering</h3>
+                        <p class="company">Indian Institute of Science, Bangalore, India</p>
                     </div>
                 </div>
 
@@ -610,8 +658,8 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-date">BS</div>
                     <div class="timeline-content">
-                        <h3>University of Mumbai</h3>
-                        <p>Bachelor of Engineering in Mechanical Engineering, Mumbai, India</p>
+                        <h3>Bachelor of Engineering in Mechanical Engineering</h3>
+                        <p class="company">University of Mumbai, Mumbai, India</p>
                     </div>
                 </div>
             </div>
