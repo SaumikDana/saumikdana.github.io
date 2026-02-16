@@ -520,15 +520,15 @@
     <main class="container">
         <!-- Summary Section -->
         <section class="section">
-            <h2 class="section-title">Summary</h2>
+            <h2 class="section-title">About</h2>
             <div class="summary-content">
-                Computational scientist with 3 years of experience building production-grade machine learning systems from modeling and validation through deployment and live monitoring. PhD from UT Austin with expertise in systematic trading, cloud infrastructure, and algorithmic optimization.
+                I build ML systems that actually make money. Three years deep in quantitative finance, specializing in turning messy market data into systematic strategies. From Chronos embeddings to regime detection, I handle the full stack—modeling, optimization, deployment, monitoring. PhD background in computational mechanics gives me an edge in algorithmic thinking and numerical methods.
             </div>
         </section>
 
         <!-- Professional Experience -->
         <section class="section">
-            <h2 class="section-title">Experience</h2>
+            <h2 class="section-title">What I've Built</h2>
             <div class="timeline">
                 <!-- Asset Management -->
                 <div class="timeline-item">
@@ -538,19 +538,15 @@
                         <h3>Quantitative Researcher</h3>
                         <p class="company">Asset Management Firm – Stamford, CT</p>
 
-                        <p>Built end-to-end systematic trading infrastructure on AWS with serverless architecture (Lambda, EventBridge, S3, DynamoDB). Deployed automated intraday and weekly options strategies using foundation models, anomaly detection, and regime-adaptive rebalancing.</p>
+                        <p>Built serverless trading infrastructure on AWS (Lambda, EventBridge, S3, DynamoDB) running automated options strategies. Deployed foundation models for time-series feature extraction, HMM for regime detection, and multi-objective optimization for portfolio construction.</p>
 
                         <div class="highlight-box">
-                            <strong>Performance:</strong> 1.5+ Sharpe, 10% max drawdown, 10% annualized alpha
+                            Backtested performance: 1.5+ Sharpe, 10% max drawdown, 10% annualized alpha
                         </div>
 
-                        <ul>
-                            <li>Developed ML pipelines with Chronos embeddings, SHAP feature selection, and Bayesian optimization (TPE)</li>
-                            <li>Built RAG-enhanced LLM analytics from policy statements using LangChain and sentiment analysis</li>
-                            <li>Implemented Hidden Markov Models, genetic algorithms, and multi-objective optimization (NSGA-II) for portfolio construction</li>
-                            <li>Optimized data processing with vectorization and Numba JIT, achieving 100-1000x speedups</li>
-                            <li>Created real-time React dashboard for volatility surface monitoring with DynamoDB backend</li>
-                        </ul>
+                        <p>Created LLM-powered analytics using RAG to parse treasury policy releases and assess market impact. Built real-time React dashboards tracking volatility surfaces and P&L with sub-second latency.</p>
+
+                        <p>Optimized data pipelines with vectorization and JIT compilation, achieving 100-1000x speedups on options chain processing. Used SHAP for feature attribution, Bayesian optimization for hyperparameters, and genetic algorithms for signal discovery.</p>
                     </div>
                 </div>
 
@@ -561,7 +557,7 @@
                     <div class="timeline-content">
                         <h3>Computational Engineer</h3>
                         <p class="company">VISIE Inc. – Austin, TX</p>
-                        <p>Contributed to robotic surgical navigation platform. Implemented TCP/UDP protocols for robotic arm control and Azure deployment pipelines. Supported successful Series A demonstration.</p>
+                        <p>Early-stage surgical robotics startup. Implemented real-time control protocols (TCP/UDP) for robotic arm motion and built Azure deployment pipelines. Contributed to successful Series A demo.</p>
                     </div>
                 </div>
 
@@ -572,7 +568,7 @@
                     <div class="timeline-content">
                         <h3>Computational Lead</h3>
                         <p class="company">Sophelio – Austin, TX</p>
-                        <p>Adapted physics-informed modeling from fusion experiments to financial time series. Built production MLOps pipeline with sparse regression for PDE discovery, Bayesian optimization for signal thresholds, and automated execution.</p>
+                        <p>Applied physics-informed ML (originally designed for fusion plasma experiments) to financial time series. Built production pipeline using sparse regression for PDE discovery and Bayesian optimization for signal thresholds. Deployed on AWS Lambda with automated execution.</p>
                     </div>
                 </div>
             </div>
@@ -580,54 +576,39 @@
 
         <!-- Technical Skills -->
         <section class="section">
-            <h2 class="section-title">Technical Skills</h2>
+            <h2 class="section-title">Tech Stack</h2>
             <div class="skills-grid">
                 <div class="skill-card">
-                    <h4>ML Tools</h4>
+                    <h4>ML & Optimization</h4>
                     <ul>
-                        <li>PyTorch, Scikit-learn, XGBoost</li>
-                        <li>HuggingFace, SHAP, Optuna</li>
-                        <li>Kneed, Pymoo, d3rlpy, EconML</li>
+                        <li>PyTorch, XGBoost, SHAP</li>
+                        <li>Bayesian optimization (Optuna, TPE)</li>
+                        <li>NSGA-II, genetic algorithms</li>
+                        <li>HMM, RL (Conservative Q-Learning)</li>
                     </ul>
                 </div>
                 <div class="skill-card">
                     <h4>LLMs & NLP</h4>
                     <ul>
-                        <li>LLM-based inference, RAG</li>
-                        <li>LangChain, structured prompting</li>
-                        <li>LLM evaluation pipelines</li>
+                        <li>LangChain, RAG pipelines</li>
+                        <li>FAISS, HuggingFace embeddings</li>
+                        <li>Chain-of-thought prompting</li>
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h4>Cloud & MLOps</h4>
+                    <h4>Cloud & Infrastructure</h4>
                     <ul>
-                        <li>AWS Lambda, S3, DynamoDB</li>
-                        <li>EventBridge, CloudFormation</li>
+                        <li>AWS (Lambda, S3, DynamoDB, EventBridge)</li>
                         <li>Docker, GitHub Actions</li>
+                        <li>CloudFormation, serverless architecture</li>
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h4>Programming & Data</h4>
+                    <h4>Programming</h4>
                     <ul>
-                        <li>Python (Pandas, NumPy, SciPy)</li>
-                        <li>JAX, Numba, React</li>
+                        <li>Python (Pandas, NumPy, JAX, Numba)</li>
+                        <li>React, FastAPI</li>
                         <li>Git, Linux/Bash</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h4>Specialized ML</h4>
-                    <ul>
-                        <li>Bayesian optimization</li>
-                        <li>Hidden Markov Models</li>
-                        <li>Anomaly detection, RL</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h4>Optimization & Algorithms</h4>
-                    <ul>
-                        <li>Quadratic programming (CVXPY, SLSQP)</li>
-                        <li>Genetic algorithms</li>
-                        <li>Pareto fronts, NSGA-II</li>
                     </ul>
                 </div>
             </div>
@@ -639,47 +620,34 @@
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-date">PhD</div>
                     <div class="timeline-content">
-                        <h3>Doctor of Philosophy in Engineering Mechanics</h3>
-                        <p class="company">University of Texas at Austin, Austin, TX</p>
+                        <h3>PhD in Engineering Mechanics</h3>
+                        <p class="company">University of Texas at Austin</p>
+                        <p>Developed multiscale numerical frameworks for coupled flow and geomechanics. Published in Journal of Computational Physics. Postdoc at USC.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-date">MS</div>
                     <div class="timeline-content">
-                        <h3>Master of Engineering in Mechanical Engineering</h3>
-                        <p class="company">Indian Institute of Science, Bangalore, India</p>
+                        <h3>MS in Mechanical Engineering</h3>
+                        <p class="company">Indian Institute of Science, Bangalore</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-date">BS</div>
                     <div class="timeline-content">
-                        <h3>Bachelor of Engineering in Mechanical Engineering</h3>
-                        <p class="company">University of Mumbai, Mumbai, India</p>
+                        <h3>BS in Mechanical Engineering</h3>
+                        <p class="company">University of Mumbai</p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Publications -->
-        <section class="section">
-            <h2 class="section-title">Selected Publications</h2>
-            <div class="timeline-content">
-                <ul>
-                    <li><strong>Dana, S.</strong>, Ganis, B., and Wheeler, M.F. (2018). A multiscale fixed stress split iterative scheme for coupled flow and poromechanics in deep subsurface reservoirs. <em>Journal of Computational Physics</em>, 352, 1-22.</li>
-                    <li><strong>Dana, S.</strong>, Zhao, X., and Jha, B. (2022). A two-grid simulation framework for fast monitoring of fault stability and ground deformation in multiphase geomechanics. <em>Journal of Computational Physics</em>, 466, 111405.</li>
-                </ul>
             </div>
         </section>
 
         <!-- Personal Section -->
         <section class="section">
-            <h2 class="section-title">Beyond the Numbers</h2>
+            <h2 class="section-title">Beyond the Code</h2>
             <div class="images-grid">
                 <img src="montage_grid.png" alt="Beer Montage">
                 <img src="montage.png" alt="Road Trip Adventures">
