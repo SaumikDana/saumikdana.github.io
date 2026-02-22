@@ -5,28 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saumik Dana | ML Engineer & Quantitative Researcher</title>
-    <meta name="description" content="Saumik Dana - Computational scientist with 3 years of experience building production-grade ML systems. Specializing in quantitative finance, systematic trading, and cloud infrastructure. PhD from UT Austin.">
+    <meta name="description" content="Saumik Dana - Computational scientist building production-grade ML systems for quantitative finance. PhD from UT Austin. Expertise in systematic trading, optimization, and cloud infrastructure.">
     <meta name="author" content="Saumik Dana">
     <meta name="keywords" content="Saumik Dana, Machine Learning, Quantitative Finance, AWS Lambda, Production ML, Options Trading, Portfolio Optimization, PhD, UT Austin">
-    
+
     <!-- Open Graph Tags -->
     <meta property="og:title" content="Saumik Dana | ML Engineer & Quantitative Researcher">
     <meta property="og:description" content="Computational scientist building production-grade ML systems for quantitative finance.">
     <meta property="og:image" content="https://saumikdana.github.io/saumik.jpg">
     <meta property="og:url" content="https://saumikdana.github.io">
     <meta property="og:type" content="website">
-    
+
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Saumik Dana | ML Engineer & Quantitative Researcher">
     <meta name="twitter:description" content="Production ML systems for quantitative finance and systematic trading.">
     <meta name="twitter:image" content="https://saumikdana.github.io/saumik.jpg">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://saumikdana.github.io">
-    
+
     <script type="application/ld+json">
     {
       "@context": "http://schema.org",
@@ -47,42 +47,43 @@
       "description": "Computational scientist specializing in production ML systems for quantitative finance"
     }
     </script>
-    
+
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --secondary: #8b5cf6;
-            --accent: #06b6d4;
-            --success: #10b981;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --border: #e2e8f0;
-            --shadow: rgba(0, 0, 0, 0.1);
+            --ink: #0d1117;
+            --ink-light: #21262d;
+            --paper: #faf9f6;
+            --paper-warm: #f3f0ea;
+            --accent: #c45d3e;
+            --accent-glow: #e87a5a;
+            --teal: #2a9d8f;
+            --teal-soft: #d4edea;
+            --slate: #6b7280;
+            --slate-light: #9ca3af;
+            --gold: #d4a843;
+            --serif: 'DM Serif Display', Georgia, serif;
+            --sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--bg-secondary);
-            font-size: 16px;
+            font-family: var(--sans);
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Header Section */
+        /* ─── HERO ─── */
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 2.5rem 2rem;
-            text-align: center;
+            background: var(--ink);
+            color: var(--paper);
+            padding: 5rem 2rem 4rem;
             position: relative;
             overflow: hidden;
         }
@@ -90,576 +91,733 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 80%, rgba(196,93,62,0.15), transparent),
+                radial-gradient(ellipse 60% 50% at 85% 20%, rgba(42,157,143,0.12), transparent);
+            pointer-events: none;
         }
 
-        .hero-content {
-            max-width: 1600px;
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60L60 0' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3C/svg%3E") repeat;
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 1100px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
-        }
-
-        .profile-section {
-            display: flex;
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 3rem;
             align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.25rem;
-            flex-wrap: wrap;
         }
 
         .profile-pic {
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
+            border: 3px solid rgba(196,93,62,0.5);
+            box-shadow: 0 0 40px rgba(196,93,62,0.2);
+            transition: transform 0.4s ease;
         }
 
-        .profile-pic:hover {
-            transform: scale(1.05);
-        }
+        .profile-pic:hover { transform: scale(1.06) rotate(-2deg); }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .hero .tagline {
-            font-size: 1.15rem;
+        .hero-text h1 {
+            font-family: var(--serif);
+            font-size: 3.5rem;
             font-weight: 400;
-            opacity: 0.95;
-            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.75rem;
         }
 
-        .hero .status {
-            font-size: 0.95rem;
+        .hero-text h1 span {
+            color: var(--accent-glow);
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.15rem;
+            color: var(--slate-light);
             font-weight: 300;
-            opacity: 0.85;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.4rem;
         }
 
-        .social-links {
+        .hero-text .credential {
+            font-size: 0.85rem;
+            color: var(--teal);
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .social-row {
             display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            align-items: center;
+            gap: 0.75rem;
             flex-wrap: wrap;
         }
 
-        .social-btn {
+        .social-pill {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.25rem;
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            color: white;
+            gap: 0.4rem;
+            padding: 0.5rem 1.1rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 100px;
+            color: var(--paper);
             text-decoration: none;
+            font-size: 0.85rem;
             font-weight: 500;
-            font-size: 0.9rem;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
 
-        .social-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .social-pill:hover {
+            background: rgba(255,255,255,0.14);
+            transform: translateY(-1px);
+            border-color: var(--accent);
         }
 
-        .social-icon {
-            width: 18px;
-            height: 18px;
-        }
+        .social-pill svg { width: 16px; height: 16px; }
 
-        /* Navigation */
+        /* ─── NAV ─── */
         nav {
-            background: var(--bg-primary);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px var(--shadow);
+            background: var(--paper);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(12px);
         }
 
-        .nav-container {
-            max-width: 1600px;
+        .nav-scroll {
+            max-width: 1100px;
             margin: 0 auto;
+            padding: 0.8rem 2rem;
             display: flex;
-            gap: 1.5rem;
+            gap: 0.25rem;
             flex-wrap: wrap;
             justify-content: center;
         }
 
-        .nav-link {
-            color: var(--text-secondary);
+        .nav-scroll a {
+            color: var(--slate);
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
+            font-size: 0.82rem;
             font-weight: 500;
-            font-size: 0.9rem;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.25s ease;
+            white-space: nowrap;
         }
 
-        .nav-link:hover {
-            color: var(--primary);
-            background: var(--bg-secondary);
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Section Styling */
-        .section {
-            background: var(--bg-primary);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px var(--shadow);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 3px solid var(--primary);
-            display: inline-block;
-        }
-
-        /* Summary Section */
-        .summary-content {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border-left: 4px solid var(--primary);
-            padding: 1.5rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-primary);
-        }
-
-        /* Skills Grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .skill-card {
-            background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid var(--primary);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px var(--shadow);
-        }
-
-        .skill-card h4 {
-            color: var(--primary);
-            margin-bottom: 0.75rem;
-            font-size: 1.1rem;
-        }
-
-        .skill-card ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .skill-card li {
-            padding: 0.4rem 0;
-            color: var(--text-secondary);
-            position: relative;
-            padding-left: 1.25rem;
-        }
-
-        .skill-card li::before {
-            content: "▸";
-            position: absolute;
-            left: 0;
+        .nav-scroll a:hover {
             color: var(--accent);
-            font-weight: bold;
+            background: rgba(196,93,62,0.06);
         }
 
-        /* Timeline */
-        .timeline {
+        /* ─── MAIN ─── */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        /* ─── SECTION BLOCKS ─── */
+        .block {
+            margin-bottom: 4rem;
+        }
+
+        .block-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .block-heading {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+        }
+
+        .prose {
+            color: var(--ink-light);
+            font-size: 1.05rem;
+            line-height: 1.85;
+            max-width: 75ch;
+        }
+
+        .prose + .prose { margin-top: 1rem; }
+
+        /* ─── STAT RIBBON ─── */
+        .stat-ribbon {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .stat-cell {
+            background: var(--ink-light);
+            padding: 1.5rem 1.75rem;
+            text-align: center;
+        }
+
+        .stat-cell .number {
+            font-family: var(--mono);
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--accent-glow);
+            line-height: 1;
+            margin-bottom: 0.35rem;
+        }
+
+        .stat-cell .label {
+            font-size: 0.78rem;
+            color: var(--slate-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        /* ─── EXPERIENCE CARDS ─── */
+        .exp-card {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
             position: relative;
-            padding-left: 2rem;
+            transition: box-shadow 0.3s ease;
         }
 
-        .timeline::before {
+        .exp-card:hover {
+            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+        }
+
+        .exp-card::before {
             content: '';
             position: absolute;
-            left: 0;
             top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
         }
 
-        .timeline-item {
-            position: relative;
-            margin-bottom: 2.5rem;
-            padding-left: 2rem;
+        .exp-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
+        .exp-card:nth-child(2)::before { background: linear-gradient(90deg, var(--teal), var(--gold)); }
+        .exp-card:nth-child(3)::before { background: linear-gradient(90deg, var(--gold), var(--accent)); }
+
+        .exp-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
         }
 
-        .timeline-marker {
-            position: absolute;
-            left: -2.375rem;
-            top: 0.25rem;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: var(--primary);
-            border: 3px solid var(--bg-primary);
-            box-shadow: 0 0 0 3px var(--primary);
+        .exp-role {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            color: var(--ink);
         }
 
-        .timeline-date {
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+        .exp-dates {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--teal);
+            font-weight: 500;
         }
 
-        .timeline-content h3 {
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-            font-size: 1.3rem;
+        .exp-company {
+            font-size: 0.95rem;
+            color: var(--slate);
+            margin-bottom: 1.25rem;
         }
 
-        .timeline-content h4 {
-            color: var(--primary);
-            margin-top: 1.25rem;
-            margin-bottom: 0.75rem;
-            font-size: 1.05rem;
-        }
-
-        .timeline-content .company {
-            color: var(--text-secondary);
-            font-style: italic;
-            margin-bottom: 1rem;
+        .exp-body {
+            color: var(--ink-light);
+            line-height: 1.85;
             font-size: 1rem;
         }
 
-        .timeline-content p {
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
-            line-height: 1.7;
-        }
+        .exp-body p { margin-bottom: 1rem; }
+        .exp-body p:last-child { margin-bottom: 0; }
 
-        .timeline-content ul {
-            margin-top: 0.75rem;
-            padding-left: 1.5rem;
-        }
-
-        .timeline-content li {
-            color: var(--text-secondary);
-            margin-bottom: 0.6rem;
-            line-height: 1.7;
-        }
-
-        /* Highlight Box */
-        .highlight-box {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            border-left: 4px solid var(--success);
+        .callout {
+            background: linear-gradient(135deg, #fef9f0, #fdf2e5);
+            border-left: 3px solid var(--gold);
             padding: 1rem 1.25rem;
-            margin: 1rem 0;
-            border-radius: 8px;
+            border-radius: 0 10px 10px 0;
+            margin: 1.25rem 0;
             font-weight: 500;
-            color: var(--text-primary);
+            font-size: 0.95rem;
+            color: var(--ink);
         }
 
-        /* Code tag styling */
-        code {
-            background: var(--bg-secondary);
-            padding: 0.2rem 0.4rem;
+        /* ─── TECH MOSAIC ─── */
+        .tech-mosaic {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tile {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 12px;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tech-tile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .tech-tile::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .tech-tile:nth-child(1)::after { background: var(--accent); }
+        .tech-tile:nth-child(2)::after { background: var(--teal); }
+        .tech-tile:nth-child(3)::after { background: var(--gold); }
+        .tech-tile:nth-child(4)::after { background: var(--ink); }
+        .tech-tile:nth-child(5)::after { background: var(--accent-glow); }
+
+        .tech-tile h4 {
+            font-family: var(--serif);
+            font-size: 1.15rem;
+            color: var(--ink);
+            margin-bottom: 0.75rem;
+        }
+
+        .tech-tile p {
+            font-size: 0.92rem;
+            color: var(--slate);
+            line-height: 1.7;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+        }
+
+        .tag {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            padding: 0.25rem 0.6rem;
+            background: var(--paper-warm);
             border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9em;
-            color: var(--primary);
+            color: var(--ink-light);
+            font-weight: 500;
         }
 
-        /* Images Grid */
-        .images-grid {
+        /* ─── EDUCATION ─── */
+        .edu-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .edu-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .edu-row:last-child { border-bottom: none; }
+
+        .edu-degree {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--ink);
+        }
+
+        .edu-school {
+            font-size: 0.95rem;
+            color: var(--slate);
+            margin-top: 0.15rem;
+        }
+
+        .edu-detail {
+            font-size: 0.95rem;
+            color: var(--ink-light);
+            line-height: 1.7;
+        }
+
+        /* ─── PHOTOS ─── */
+        .photo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
 
-        .images-grid img {
+        .photo-grid img {
             width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px var(--shadow);
-            transition: transform 0.3s ease;
+            border-radius: 12px;
+            transition: transform 0.4s ease;
         }
 
-        .images-grid img:hover {
-            transform: scale(1.02);
-        }
+        .photo-grid img:hover { transform: scale(1.015) rotate(-0.5deg); }
 
-        /* Footer */
+        /* ─── FOOTER ─── */
         footer {
-            background: var(--text-primary);
-            color: white;
+            background: var(--ink);
+            color: var(--slate-light);
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
+            padding: 2.5rem 2rem;
+            font-size: 0.85rem;
         }
 
-        /* Responsive Design */
+        footer a {
+            color: var(--accent-glow);
+            text-decoration: none;
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-inner { animation: fadeUp 0.8s ease-out; }
+        .block { animation: fadeUp 0.6s ease-out both; }
+        .block:nth-child(2) { animation-delay: 0.1s; }
+        .block:nth-child(3) { animation-delay: 0.15s; }
+        .block:nth-child(4) { animation-delay: 0.2s; }
+
+        /* ─── RESPONSIVE ─── */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero .tagline {
-                font-size: 1rem;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-
-            .section {
-                padding: 1.5rem;
-            }
-
-            .skills-grid {
+            .hero { padding: 3rem 1.5rem; }
+            .hero-inner {
                 grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1.5rem;
             }
-
-            .nav-container {
-                gap: 0.75rem;
+            .profile-pic {
+                width: 110px;
+                height: 110px;
+                margin: 0 auto;
             }
-
-            .nav-link {
-                font-size: 0.85rem;
-                padding: 0.4rem 0.75rem;
+            .hero-text h1 { font-size: 2.4rem; }
+            .social-row { justify-content: center; }
+            main { padding: 2rem 1.25rem; }
+            .block-heading { font-size: 1.7rem; }
+            .stat-ribbon { grid-template-columns: 1fr; }
+            .exp-card { padding: 1.75rem; }
+            .exp-meta { flex-direction: column; }
+            .edu-row {
+                grid-template-columns: 1fr;
+                gap: 0.25rem;
             }
-
-            .timeline {
-                padding-left: 1.5rem;
-            }
-
-            .timeline-item {
-                padding-left: 1.5rem;
-            }
+            .tech-mosaic { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 
 <body>
-    <!-- Hero Section -->
+
+    <!-- ═══════════ HERO ═══════════ -->
     <header class="hero">
-        <div class="hero-content">
-            <div class="profile-section">
-                <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
-                <div>
-                    <h1>Saumik Dana</h1>
-                    <p class="tagline">Quantitative Researcher | Production ML Systems | PhD</p>
-                    <p class="status">US Green Card Holder</p>
+        <div class="hero-inner">
+            <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
+            <div class="hero-text">
+                <h1>Saumik <span>Dana</span></h1>
+                <p class="subtitle">Quantitative Researcher &middot; Production ML Systems &middot; PhD</p>
+                <p class="credential">US Green Card Holder</p>
+                <div class="social-row">
+                    <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" class="social-pill">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        LinkedIn
+                    </a>
+                    <a href="https://github.com/SaumikDana" target="_blank" class="social-pill">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        GitHub
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en" target="_blank" class="social-pill">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+                        Scholar
+                    </a>
                 </div>
-            </div>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" class="social-btn">
-                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                    LinkedIn
-                </a>
-                <a href="https://github.com/SaumikDana" target="_blank" class="social-btn">
-                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    GitHub
-                </a>
-                <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en" target="_blank" class="social-btn">
-                    <svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
-                    Scholar
-                </a>
             </div>
         </div>
     </header>
 
-    <!-- Navigation -->
+    <!-- ═══════════ NAV ═══════════ -->
     <nav>
-        <div class="nav-container">
-            <a href="optimizers.html" class="nav-link">Optimizers</a>
-            <a href="distributions.html" class="nav-link">Distributions</a>
-            <a href="hypo.html" class="nav-link">Hypothesis Testing</a>
-            <a href="linreg.html" class="nav-link">Linear Regression</a>
-            <a href="shap.html" class="nav-link">SHAP</a>
-            <a href="fintech.html" class="nav-link">Options</a>
-            <a href="bs.html" class="nav-link">Black-Scholes</a>
-            <a href="tos.html" class="nav-link">No Arbitrage</a>
-            <a href="fem_vs_pinn.html" class="nav-link">FEM v PINN</a>
-            <a href="aws-certifications-visual.html" class="nav-link">AWS Certifications</a>
-            <a href="big-data-ecosystem.html" class="nav-link">Big Data Ecosystem</a>
-            <a href="tree_classifier.html" class="nav-link">Tree Classifiers</a>
-            <a href="tree_regressor.html" class="nav-link">Tree Regressors</a>
+        <div class="nav-scroll">
+            <a href="optimizers.html">Optimizers</a>
+            <a href="distributions.html">Distributions</a>
+            <a href="hypo.html">Hypothesis Testing</a>
+            <a href="linreg.html">Linear Regression</a>
+            <a href="shap.html">SHAP</a>
+            <a href="fintech.html">Options</a>
+            <a href="bs.html">Black-Scholes</a>
+            <a href="tos.html">No Arbitrage</a>
+            <a href="fem_vs_pinn.html">FEM v PINN</a>
+            <a href="aws-certifications-visual.html">AWS Certs</a>
+            <a href="big-data-ecosystem.html">Big Data</a>
+            <a href="tree_classifier.html">Tree Classifiers</a>
+            <a href="tree_regressor.html">Tree Regressors</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Summary Section -->
-        <section class="section">
-            <h2 class="section-title">About</h2>
-            <div class="summary-content">
-                I build ML systems that actually make money. Three years deep in quantitative finance, specializing in turning messy market data into systematic strategies. From Chronos embeddings to regime detection, I handle the full stack—modeling, optimization, deployment, monitoring. PhD background in computational mechanics gives me an edge in algorithmic thinking and numerical methods.
-            </div>
+    <!-- ═══════════ MAIN ═══════════ -->
+    <main>
+
+        <!-- ABOUT -->
+        <section class="block">
+            <div class="block-label">About</div>
+            <h2 class="block-heading">Turning market noise into systematic edge</h2>
+            <p class="prose">
+                I'm a computational scientist who builds and deploys production-grade machine learning systems end-to-end. My work sits at the intersection of quantitative finance and modern ML — taking raw, messy market data and transforming it into strategies that run autonomously in the cloud. I hold a PhD from the University of Texas at Austin, where I developed a deep foundation in numerical methods, stochastic modeling, and high-performance computing. That academic rigor now powers everything from time-series embedding models and regime detection to multi-objective portfolio optimization and reinforcement learning.
+            </p>
+            <p class="prose">
+                Over the past three years, I've shipped automated trading systems, NLP-powered analytics platforms, and real-time dashboards — always with an emphasis on clean infrastructure, rigorous backtesting, and production reliability. I care about the full lifecycle: feature engineering, model development, optimization, deployment, and monitoring.
+            </p>
         </section>
 
-        <!-- Professional Experience -->
-        <section class="section">
-            <h2 class="section-title">What I've Built</h2>
-            <div class="timeline">
-                <!-- Asset Management -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-date">Feb 2024 – Dec 2025</div>
-                    <div class="timeline-content">
-                        <h3>Quantitative Researcher</h3>
-                        <p class="company">Asset Management Firm – Stamford, CT</p>
+        <!-- EXPERIENCE -->
+        <section class="block">
+            <div class="block-label">Experience</div>
+            <h2 class="block-heading">What I've built</h2>
 
-                        <p>Built serverless trading infrastructure on AWS (Lambda, EventBridge, S3, DynamoDB) running automated options strategies. Deployed foundation models for time-series feature extraction, HMM for regime detection, and multi-objective optimization for portfolio construction.</p>
+            <!-- Zebra -->
+            <div class="exp-card">
+                <div class="exp-meta">
+                    <span class="exp-role">Quantitative Researcher</span>
+                    <span class="exp-dates">Feb 2024 – Dec 2025</span>
+                </div>
+                <div class="exp-company">Zebra Capital Management LLC &middot; Stamford, CT</div>
+                <div class="exp-body">
+                    <p>
+                        My core focus was building ML-driven alpha signals and the infrastructure to trade on them. I engineered fast data pipelines using multi-index lookups and vectorized Pandas operations, then leveraged Amazon's Chronos foundation model to extract features from time-series embeddings. Feature scoring relied on out-of-sample AUC and SHAP explainability, with the Kneedle algorithm automating feature selection. For regime awareness, I deployed Hidden Markov Models calibrated via the Bayesian Information Criterion, allowing the system to adapt its behavior across different market environments.
+                    </p>
 
-                        <div class="highlight-box">
-                            Backtested performance: 1.5+ Sharpe, 10% max drawdown, 10% annualized alpha
+                    <div class="stat-ribbon">
+                        <div class="stat-cell">
+                            <div class="number">1.5+</div>
+                            <div class="label">Sharpe Ratio</div>
                         </div>
-
-                        <p>Created LLM-powered analytics using RAG to parse treasury policy releases and assess market impact. Built real-time React dashboards tracking volatility surfaces and P&L with sub-second latency.</p>
-
-                        <p>Optimized data pipelines with vectorization and JIT compilation, achieving 100-1000x speedups on options chain processing. Used SHAP for feature attribution, Bayesian optimization for hyperparameters, and genetic algorithms for signal discovery.</p>
+                        <div class="stat-cell">
+                            <div class="number">10%</div>
+                            <div class="label">Max Drawdown</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="number">10%</div>
+                            <div class="label">Annualized Alpha</div>
+                        </div>
                     </div>
+
+                    <p>
+                        On the optimization side, I generated Pareto fronts using NSGA-II multi-objective optimization with configurable trade-off rules, and implemented constrained nonlinear optimization (SLSQP) for stochastic volatility model calibration. I also developed a reinforcement learning-based portfolio optimizer using Conservative Q-Learning, and explored optimal signal subsets through genetic algorithms with tournament selection, crossover, and mutation. Bayesian optimization with Tree-structured Parzen Estimators handled signal discovery in high-dimensional search spaces.
+                    </p>
+
+                    <p>
+                        The production stack ran on AWS: CloudFormation for infrastructure-as-code, GitHub Actions for CI/CD, Docker for packaging, and Lambda plus EventBridge for serverless orchestration. I deployed interday options trading powered by Chronos embeddings with S3-backed inference, intraday options trading driven by FFT-based anomaly detection, and a weekly regime-adaptive sector ETF rebalancing system with execution cost tracking. A React frontend backed by DynamoDB provided real-time position tracking and daily performance dashboards.
+                    </p>
+
+                    <p>
+                        I also built an NLP analytics layer — a FastAPI service powered by Groq-hosted Llama and FAISS for RAG, serving natural-language explanations of US Treasury press releases. Routing logic was derived from UMAP and HDBSCAN corpus analysis via LangGraph, with LlamaGuard for semantic injection detection, Presidio for PII redaction, and Guardrails AI for structured output enforcement. Full observability was instrumented through LangSmith tracing and an offline evaluation suite.
+                    </p>
                 </div>
+            </div>
 
-                <!-- VISIE -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-date">Aug 2023 – Nov 2023</div>
-                    <div class="timeline-content">
-                        <h3>Computational Engineer</h3>
-                        <p class="company">VISIE Inc. – Austin, TX</p>
-                        <p>Early-stage surgical robotics startup. Implemented real-time control protocols (TCP/UDP) for robotic arm motion and built Azure deployment pipelines. Contributed to successful Series A demo.</p>
-                    </div>
+            <!-- VISIE -->
+            <div class="exp-card">
+                <div class="exp-meta">
+                    <span class="exp-role">Computational Engineer</span>
+                    <span class="exp-dates">Aug 2023 – Nov 2023</span>
                 </div>
+                <div class="exp-company">VISIE Inc. &middot; Austin, TX</div>
+                <div class="exp-body">
+                    <p>
+                        I joined this early-stage startup during the critical integration phase of a robotic surgical navigation platform that combined medical imaging with robotic actuation. My work centered on implementing TCP/UDP communication protocols to control the robotic arm in real time. I also contributed to end-to-end product packaging using the Poetry dependency manager and deployment via Azure tooling. The culmination was a successful live system demonstration that supported the company's Series A fundraising.
+                    </p>
+                </div>
+            </div>
 
-                <!-- Sophelio -->
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-date">Aug 2022 – Mar 2023</div>
-                    <div class="timeline-content">
-                        <h3>Computational Lead</h3>
-                        <p class="company">Sophelio – Austin, TX</p>
-                        <p>Applied physics-informed ML (originally designed for fusion plasma experiments) to financial time series. Built production pipeline using sparse regression for PDE discovery and Bayesian optimization for signal thresholds. Deployed on AWS Lambda with automated execution.</p>
-                    </div>
+            <!-- Sophelio -->
+            <div class="exp-card">
+                <div class="exp-meta">
+                    <span class="exp-role">Computational Lead</span>
+                    <span class="exp-dates">Aug 2022 – Mar 2023</span>
+                </div>
+                <div class="exp-company">Sophelio &middot; Austin, TX</div>
+                <div class="exp-body">
+                    <p>
+                        Here I adapted physics-informed modeling — originally developed for fusion experiment data — to financial time series. The production pipeline consisted of sparse regression for PDE construction, automated signal generation, and execution. I implemented CAGR-maximizing Bayesian optimization using Tree-structured Parzen Estimators for swing trade threshold estimation. The entire system was deployed on AWS Lambda using CloudFormation/SAM, GitHub Actions, Docker, and EventBridge-based scheduling.
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- Technical Skills -->
-        <section class="section">
-            <h2 class="section-title">Tech Stack</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h4>ML & Optimization</h4>
-                    <ul>
-                        <li>PyTorch, XGBoost, SHAP</li>
-                        <li>Bayesian optimization (Optuna, TPE)</li>
-                        <li>NSGA-II, genetic algorithms</li>
-                        <li>HMM, RL (Conservative Q-Learning)</li>
-                    </ul>
+        <!-- TECH STACK -->
+        <section class="block">
+            <div class="block-label">Technical Skills</div>
+            <h2 class="block-heading">The toolkit</h2>
+            <div class="tech-mosaic">
+                <div class="tech-tile">
+                    <h4>ML &amp; Optimization</h4>
+                    <p>Deep experience across model training, feature engineering, and algorithmic optimization — from gradient-based methods to evolutionary search.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">Scikit-learn</span>
+                        <span class="tag">XGBoost</span>
+                        <span class="tag">SHAP</span>
+                        <span class="tag">Optuna</span>
+                        <span class="tag">Pymoo</span>
+                        <span class="tag">d3rlpy</span>
+                        <span class="tag">TA-Lib</span>
+                        <span class="tag">SLSQP</span>
+                        <span class="tag">Kneed</span>
+                    </div>
                 </div>
-                <div class="skill-card">
-                    <h4>LLMs & NLP</h4>
-                    <ul>
-                        <li>LangChain, RAG pipelines</li>
-                        <li>FAISS, HuggingFace embeddings</li>
-                        <li>Chain-of-thought prompting</li>
-                    </ul>
+                <div class="tech-tile">
+                    <h4>Cloud &amp; MLOps</h4>
+                    <p>Serverless-first production systems with full CI/CD, infrastructure-as-code, and container orchestration on AWS.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">Lambda</span>
+                        <span class="tag">S3</span>
+                        <span class="tag">DynamoDB</span>
+                        <span class="tag">EventBridge</span>
+                        <span class="tag">CloudFormation</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">GitHub Actions</span>
+                        <span class="tag">HuggingFace</span>
+                    </div>
                 </div>
-                <div class="skill-card">
-                    <h4>Cloud & Infrastructure</h4>
-                    <ul>
-                        <li>AWS (Lambda, S3, DynamoDB, EventBridge)</li>
-                        <li>Docker, GitHub Actions</li>
-                        <li>CloudFormation, serverless architecture</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
+                <div class="tech-tile">
                     <h4>Programming</h4>
-                    <ul>
-                        <li>Python (Pandas, NumPy, JAX, Numba)</li>
-                        <li>React, FastAPI</li>
-                        <li>Git, Linux/Bash</li>
-                    </ul>
+                    <p>Python-centric workflow with a focus on high-performance numerics and reactive frontends for data visualization.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">Pandas</span>
+                        <span class="tag">NumPy</span>
+                        <span class="tag">SciPy</span>
+                        <span class="tag">JAX</span>
+                        <span class="tag">Numba</span>
+                        <span class="tag">PySpark</span>
+                        <span class="tag">React</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">Linux/Bash</span>
+                    </div>
+                </div>
+                <div class="tech-tile">
+                    <h4>APIs &amp; Web</h4>
+                    <p>Production API design with real-time data feeds from brokerage platforms and robust request validation.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">Alpaca</span>
+                        <span class="tag">Coinbase</span>
+                        <span class="tag">OANDA</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">Pydantic</span>
+                        <span class="tag">uvicorn</span>
+                        <span class="tag">REST</span>
+                    </div>
+                </div>
+                <div class="tech-tile">
+                    <h4>NLP &amp; LLMs</h4>
+                    <p>End-to-end RAG pipelines with guardrails, observability, and semantic analysis for unstructured text at scale.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">LangChain</span>
+                        <span class="tag">LangGraph</span>
+                        <span class="tag">LangSmith</span>
+                        <span class="tag">RAG</span>
+                        <span class="tag">UMAP</span>
+                        <span class="tag">HDBSCAN</span>
+                        <span class="tag">LlamaGuard</span>
+                        <span class="tag">Presidio</span>
+                        <span class="tag">Guardrails AI</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Education -->
-        <section class="section">
-            <h2 class="section-title">Education</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>PhD in Engineering Mechanics</h3>
-                        <p class="company">University of Texas at Austin</p>
-                        <p>Developed multiscale numerical frameworks for coupled flow and geomechanics. Published in Journal of Computational Physics. Postdoc at USC.</p>
+        <!-- EDUCATION -->
+        <section class="block">
+            <div class="block-label">Education</div>
+            <h2 class="block-heading">Academic foundations</h2>
+            <div class="edu-stack">
+                <div class="edu-row">
+                    <div>
+                        <div class="edu-degree">PhD</div>
+                        <div class="edu-school">UT Austin</div>
+                    </div>
+                    <div class="edu-detail">
+                        Engineering Mechanics. Developed numerical simulation frameworks for coupled flow and geomechanics systems, with a focus on multi-scale modeling and high-performance computing. Followed by a postdoctoral appointment at the University of Southern California.
                     </div>
                 </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>MS in Mechanical Engineering</h3>
-                        <p class="company">Indian Institute of Science, Bangalore</p>
+                <div class="edu-row">
+                    <div>
+                        <div class="edu-degree">M.Eng.</div>
+                        <div class="edu-school">IISc Bangalore</div>
+                    </div>
+                    <div class="edu-detail">
+                        Mechanical Engineering at the Indian Institute of Science — one of India's premier research institutions.
                     </div>
                 </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>BS in Mechanical Engineering</h3>
-                        <p class="company">University of Mumbai</p>
+                <div class="edu-row">
+                    <div>
+                        <div class="edu-degree">B.E.</div>
+                        <div class="edu-school">Univ. of Mumbai</div>
+                    </div>
+                    <div class="edu-detail">
+                        Mechanical Engineering. Where it all began.
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Personal Section -->
-        <section class="section">
-            <h2 class="section-title">Beyond the Code</h2>
-            <div class="images-grid">
+        <!-- BEYOND THE CODE -->
+        <section class="block">
+            <div class="block-label">Life</div>
+            <h2 class="block-heading">Beyond the code</h2>
+            <div class="photo-grid">
                 <img src="montage_grid.png" alt="Beer Montage">
                 <img src="montage.png" alt="Road Trip Adventures">
             </div>
         </section>
+
     </main>
 
-    <!-- Footer -->
+    <!-- ═══════════ FOOTER ═══════════ -->
     <footer>
-        <p>© 2026 Saumik Dana. All rights reserved.</p>
+        <p>&copy; 2026 Saumik Dana. All rights reserved.</p>
     </footer>
 
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
