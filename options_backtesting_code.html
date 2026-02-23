@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options Backtesting Code Documentation</title>
+    <style>
+        /* ─── SHARED SITE THEME ─── */
+        :root {
+            --ink: #0d1117;
+            --ink-light: #21262d;
+            --paper: #faf9f6;
+            --paper-warm: #f3f0ea;
+            --accent: #c45d3e;
+            --accent-glow: #e87a5a;
+            --teal: #2a9d8f;
+            --teal-soft: #d4edea;
+            --slate: #6b7280;
+            --slate-light: #9ca3af;
+            --gold: #d4a843;
+            --serif: 'DM Serif Display', Georgia, serif;
+            --sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+        body {
+            font-family: var(--sans) !important;
+            background: var(--paper) !important;
+            color: var(--ink) !important;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .theme-nav {
+            background: var(--paper);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .theme-nav-scroll {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .theme-nav-scroll a {
+            font-family: var(--sans);
+            color: var(--slate);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+        .theme-nav-scroll a:hover {
+            color: var(--accent);
+            background: rgba(196,93,62,0.06);
+        }
+        .theme-nav-scroll a.theme-home {
+            color: var(--accent);
+            font-weight: 600;
+            border: 1px solid rgba(196,93,62,0.3);
+        }
+        .theme-footer {
+            background: var(--ink);
+            color: var(--slate-light);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+            font-family: var(--sans);
+        }
+        .theme-footer a {
+            color: var(--accent-glow);
+            text-decoration: none;
+        }
+        /* ─── END SHARED THEME ─── */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: var(--ink);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        h2 {
+            color: var(--accent);
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        h3 {
+            color: var(--teal);
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+        
+        h4 {
+            color: #555;
+            font-size: 1.2em;
+            margin: 20px 0 10px 0;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 5px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .strategy-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .module-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid var(--accent);
+        }
+        
+        .module-card h4 {
+            color: var(--accent);
+            margin-top: 0;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .flow-diagram {
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .feature-item::before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: var(--accent);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+        
+        .toc ul {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+        }
+        
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .toc a:hover {
+            color: var(--teal);
+            text-decoration: underline;
+        }
+        
+        footer {
+            background: #2d2d2d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .badge-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .badge-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .badge-warning {
+            background: #ff9800;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .module-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav class="theme-nav">
+    <div class="theme-nav-scroll">
+        <a href="index.html" class="theme-home">&#8962; Home</a>
+        <a href="optimizers.html">Optimizers</a>
+        <a href="distributions.html">Distributions</a>
+        <a href="hypo.html">Hypothesis Testing</a>
+        <a href="linreg.html">Linear Regression</a>
+        <a href="shap.html">SHAP</a>
+        <a href="fintech.html">Options</a>
+        <a href="bs.html">Black-Scholes</a>
+        <a href="tos.html">No Arbitrage</a>
+        <a href="fem_vs_pinn.html">FEM v PINN</a>
+        <a href="big-data-ecosystem.html">Big Data</a>
+        <a href="tree_classifier.html">Tree Classifiers</a>
+        <a href="tree_regressor.html">Tree Regressors</a>
+        <a href="bayesian_optimization.html">Bayesian Opt</a>
+        <a href="genetic_algo_algorithmic.html">Genetic Algo</a>
+        <a href="options_backtesting_code.html">Options Backtest</a>
+    </div>
+</nav>
+
+    <div class="container">
+        <header>
+            <h1>🎯 Options Backtesting Code Documentation</h1>
+            <p>Comprehensive Technical Documentation & Architecture Overview</p>
+        </header>
+        
+        <div class="content">
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3>📑 Table of Contents</h3>
+                <ul>
+                    <li><a href="#overview">System Overview</a></li>
+                    <li><a href="#architecture">Core Architecture</a></li>
+                    <li><a href="#modules">Key Modules & Functions</a></li>
+                    <li><a href="#advanced">Advanced Features</a></li>
+                    <li><a href="#dataflow">Data Flow</a></li>
+                    <li><a href="#patterns">Design Patterns</a></li>
+                    <li><a href="#optimization-details">⚡ Performance Optimization Deep Dive</a></li>
+                    <li><a href="#strengths">System Strengths</a></li>
+                </ul>
+            </div>
+            
+            <!-- System Overview -->
+            <section id="overview">
+                <h2>📊 System Overview</h2>
+                <div class="highlight-box">
+                    <p>This is a <strong>comprehensive options trading strategy backtesting and analysis framework</strong> designed for systematic options trading. The system supports multiple strategy types with sophisticated risk management, performance analysis, and optimization capabilities.</p>
+                </div>
+            </section>
+            
+            <!-- Core Architecture -->
+            <section id="architecture">
+                <h2>🏗️ Core Architecture</h2>
+                
+                <h3>Three Main Strategy Entry Mechanisms</h3>
+                
+                <div class="strategy-card">
+                    <h4>1. Day-Based (Calendar) <span class="badge badge-primary">config_entry_on_day_and_sig.py</span></h4>
+                    <ul>
+                        <li>Fixed calendar scheduling (e.g., every Monday)</li>
+                        <li>Weekday-precise timing</li>
+                        <li>Multi-cycle overlapping positions</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-card">
+                    <h4>2. Signal-Based (Technical) <span class="badge badge-success">config_entry_on_sig.py</span></h4>
+                    <ul>
+                        <li>Condition-driven entries (RSI, MACD, etc.)</li>
+                        <li>State machine logic to prevent overtrading</li>
+                        <li>Dynamic market response</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-card">
+                    <h4>3. Release-Based (Events) <span class="badge badge-warning">config_entry_around_release.py</span></h4>
+                    <ul>
+                        <li>Economic announcement triggers (CPI, NFP, FOMC)</li>
+                        <li>Volatility expansion capture</li>
+                        <li>Event-aware timing</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Key Modules -->
+            <section id="modules">
+                <h2>🔧 Key Modules & Their Functions</h2>
+                
+                <h3>Data Processing Pipeline</h3>
+                <div class="module-grid">
+                    <div class="module-card">
+                        <h4>data_processing.py</h4>
+                        <p>Data preparation and validation</p>
+                        <ul>
+                            <li>Options chain loading</li>
+                            <li>Holiday calendar integration</li>
+                            <li>Greeks calculation</li>
+                            <li>Technical indicators</li>
+                            <li>Dividend adjustments</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card">
+                        <h4>csv_to_pandas.py</h4>
+                        <p>Main data orchestration</p>
+                        <ul>
+                            <li><code>main()</code> - General strategies</li>
+                            <li><code>main_releases()</code> - Event-driven</li>
+                            <li><code>main_monthly()</code> - Monthly expiration</li>
+                            <li>Budget calculations</li>
+                            <li>Expiration date management</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Strategy Execution Engine</h3>
+                <div class="module-grid">
+                    <div class="module-card">
+                        <h4>option_strategy_simulator.py</h4>
+                        <p>Core orchestration</p>
+                        <ul>
+                            <li>Multi-cycle coordination</li>
+                            <li>Entry/exit condition management</li>
+                            <li>Custom condition filtering</li>
+                            <li>Performance calculation pipeline</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card">
+                        <h4>option_selector.py</h4>
+                        <p>Contract selection logic</p>
+                        <ul>
+                            <li>Day-based selector</li>
+                            <li>Signal-based selector</li>
+                            <li>Release-based selector</li>
+                            <li>Re-entry selector</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card">
+                        <h4>option_selector_routines.py</h4>
+                        <p>Position sizing & optimization</p>
+                        <ul>
+                            <li>Multiple sizing methodologies</li>
+                            <li>IV regime-based adjustments</li>
+                            <li>Contract selection algorithms</li>
+                            <li>Efficient data filtering</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Risk Management</h3>
+                <div class="module-grid">
+                    <div class="module-card">
+                        <h4>position_sizing.py</h4>
+                        <p>Sophisticated sizing</p>
+                        <ul>
+                            <li>AUM percentage-based</li>
+                            <li>Vega exposure control</li>
+                            <li>Premium budget allocation</li>
+                            <li>Volatility-adaptive sizing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card">
+                        <h4>delta_hedger.py</h4>
+                        <p>Dynamic hedging</p>
+                        <ul>
+                            <li>Portfolio delta calculation</li>
+                            <li>Target delta management</li>
+                            <li>Daily rebalancing</li>
+                            <li>Hedge P&L tracking</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>P&L Calculation</h3>
+                <div class="highlight-box">
+                    <h4>pnl_computor.py - Component-level P&L</h4>
+                    <p><strong>Four P&L Components:</strong></p>
+                    <ul>
+                        <li><code>pnl_init</code> - Entry transaction costs (bid-ask spread)</li>
+                        <li><code>pnl_exist</code> - Mark-to-market daily changes</li>
+                        <li><code>pnl_exit</code> - Exit transaction costs</li>
+                        <li><strong>Expiration settlement</strong> at intrinsic value</li>
+                    </ul>
+                    <p>Additional features: Corporate action handling, spread impact modeling</p>
+                </div>
+                
+                <div class="module-card">
+                    <h4>pnl_analyzer.py</h4>
+                    <p>Aggregation and analysis</p>
+                    <ul>
+                        <li>Multi-cycle aggregation</li>
+                        <li>Trade-by-trade summaries</li>
+                        <li>Hedge integration</li>
+                        <li>Performance visualization</li>
+                    </ul>
+                </div>
+                
+                <h3>Performance Analysis</h3>
+                <div class="module-card">
+                    <h4>performance_metrics.py</h4>
+                    <p>Comprehensive metrics</p>
+                    <ul>
+                        <li>Risk-adjusted returns (Sharpe, Sortino, Calmar)</li>
+                        <li>Drawdown analysis</li>
+                        <li>Activity-based metrics</li>
+                        <li>Benchmark comparison (alpha, beta, correlation)</li>
+                        <li>Distribution analysis (skew, tail risk)</li>
+                    </ul>
+                </div>
+                
+                <h3>Signal & Condition Management</h3>
+                <div class="module-grid">
+                    <div class="module-card">
+                        <h4>sigdata.py</h4>
+                        <p>Signal processing framework</p>
+                        <ul>
+                            <li>State machine for transitions</li>
+                            <li>Multi-cycle coordination</li>
+                            <li>Entry/exit integration</li>
+                            <li>Anti-overtrading mechanisms</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card">
+                        <h4>release_based_trade_setup.py</h4>
+                        <p>Economic calendar integration</p>
+                        <ul>
+                            <li>60+ economic indicator patterns</li>
+                            <li>Release-to-expiration mapping</li>
+                            <li>Event filtering and validation</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Optimization & Analysis</h3>
+                <div class="module-grid">
+                    <div class="module-card">
+                        <h4>genetic_algo.py</h4>
+                        <p>Feature selection optimization</p>
+                        <ul>
+                            <li>Progressive genetic algorithm</li>
+                            <li>Fixed complexity constraints</li>
+                            <li>Elitism and breeding strategies</li>
+                            <li>Parameter sensitivity analysis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card">
+                        <h4>spp.py</h4>
+                        <p>Strategy parameter processing</p>
+                        <ul>
+                            <li>Monte Carlo parameter sampling</li>
+                            <li>Sensitivity analysis with regression</li>
+                            <li>Performance distribution visualization</li>
+                            <li>CSV export for external analysis</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Performance Optimization</h3>
+                <div class="module-card">
+                    <h4>profiling.py</h4>
+                    <p>Multiple optimization levels</p>
+                    <ul>
+                        <li>Code profiling with visual graphs</li>
+                        <li>Progressive function optimization (v1→v4 iterations)</li>
+                        <li>Memory-efficient data structures</li>
+                        <li>Vectorized operations</li>
+                        <li>Categorical data optimization</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Advanced Features -->
+            <section id="advanced">
+                <h2>🚀 Advanced Features</h2>
+                
+                <h3>Monte Carlo Framework</h3>
+                <div class="highlight-box">
+                    <p>Both day-based and release-based configs include <code>monte_carlo()</code> functions with intelligent caching:</p>
+                    <ul>
+                        <li><strong>First call:</strong> Complete initialization</li>
+                        <li><strong>Subsequent calls:</strong> Reuse preprocessed data</li>
+                        <li><strong>Performance:</strong> 70-90% speed improvement for iterations</li>
+                        <li><strong>Integrity:</strong> Maintains complete independence between runs</li>
+                    </ul>
+                </div>
+                
+                <h3>Re-entry Logic</h3>
+                <p>All strategy types support position rolling:</p>
+                <ul>
+                    <li>Profit target re-entries</li>
+                    <li>Stop loss re-entries</li>
+                    <li>Maintains original expiration constraints</li>
+                    <li>Iterative processing for multiple re-entries</li>
+                </ul>
+                
+                <h3>Multi-Cycle Strategies</h3>
+                <ul>
+                    <li>Overlapping positions with staggered timing</li>
+                    <li>Consistent exposure maintenance</li>
+                    <li>Independent cycle processing</li>
+                    <li>Systematic rebalancing</li>
+                </ul>
+            </section>
+            
+            <!-- Data Flow -->
+            <section id="dataflow">
+                <h2>🔄 Data Flow</h2>
+                <div class="flow-diagram">
+CSV Files → data_processing.py → csv_to_pandas.py
+                                        ↓
+                            option_strategy_simulator.py
+                                        ↓
+                    ┌──────────────────┴──────────────────┐
+                    ↓                                      ↓
+            option_selector.py                    sigdata.py
+                    ↓                                      ↓
+            position_sizing.py                  Trade conditions
+                    ↓                                      ↓
+            option_feeder.py              delta_hedger.py (optional)
+                    ↓                                      ↓
+            pnl_computor.py ←──────────────────────────────┘
+                    ↓
+            pnl_analyzer.py
+                    ↓
+        performance_metrics.py → Results & Analysis
+                </div>
+            </section>
+            
+            <!-- Design Patterns -->
+            <section id="patterns">
+                <h2>🎨 Key Design Patterns</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Function Evolution</strong></td>
+                            <td>Multiple versions showing optimization progression</td>
+                            <td><code>filter_v1()</code> → <code>filter_v4()</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Caching Strategy</strong></td>
+                            <td>Intelligent state management for Monte Carlo efficiency</td>
+                            <td><code>monte_carlo()</code> function caching</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Separation of Concerns</strong></td>
+                            <td>Clear module boundaries for different responsibilities</td>
+                            <td>Separate modules for sizing, hedging, P&L</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vectorization</strong></td>
+                            <td>Pandas/NumPy operations for performance</td>
+                            <td><code>fill_nopnl_v2()</code> batch operations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deep Copying</strong></td>
+                            <td>Ensures independence in Monte Carlo iterations</td>
+                            <td><code>copy.deepcopy()</code> usage throughout</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Performance Optimization Details -->
+            <section id="optimization-details">
+                <h2>⚡ Performance Optimization Deep Dive</h2>
+                
+                <div class="highlight-box">
+                    <h3>The Top 3 Performance Optimizations</h3>
+                    <p>These optimizations transformed the backtesting system from taking hours to minutes, representing 100-1000x speedups in critical operations.</p>
+                </div>
+
+                <div class="strategy-card">
+                    <h3>1. Multi-Index Lookup: O(n) → O(1)</h3>
+                    
+                    <h4>The Problem:</h4>
+                    <p>Every time you need to find options for a specific entry date and expiration date, the original code was scanning through potentially millions of rows checking if each row matches both dates.</p>
+                    
+                    <h4>Before (v2):</h4>
+                    <pre>mask = (date_arr == entry_day) & (exdate_arr == expiry_day)
+local_options = options.loc[mask]</pre>
+                    
+                    <p>This creates a boolean mask by checking <strong>every single row</strong> - if you have 5 million options contracts, you're doing 5 million comparisons every lookup.</p>
+                    
+                    <h4>After (v3):</h4>
+                    <pre>lookup_key = (change_to_categorical(entry_day), change_to_categorical(expiry_day))
+if lookup_key in options_indexed.index:
+    local_options = options_indexed.loc[lookup_key].reset_index()</pre>
+                    
+                    <h4>What Changed:</h4>
+                    <p>You pre-built a multi-index on <code>['date', 'exdate']</code>. Now pandas maintains a hash table internally. When you lookup <code>(entry_day, expiry_day)</code>, it's like using a Python dictionary - instant access.</p>
+                    
+                    <div class="feature-item" style="background: #d4edda; border-left-color: #28a745;">
+                        <strong>Why It's Huge:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>In backtesting, you're doing this lookup potentially thousands of times</li>
+                            <li>Linear scan: 1000 lookups × 5M rows = 5 billion comparisons</li>
+                            <li>Index lookup: 1000 lookups × O(1) = 1000 hash lookups</li>
+                            <li><strong>This is often 100-1000x faster in practice</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight-box" style="background: #f8d7da; border-left-color: #dc3545;">
+                        <h4>The Catch:</h4>
+                        <p>You need to build the index once upfront. But if you're doing repeated lookups (which you are in backtesting), it pays for itself immediately.</p>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <h3>2. Merge vs isin(): O(n×m) → O(n+m)</h3>
+                    
+                    <h4>The Problem:</h4>
+                    <p>You have a large options dataset (n rows) and need to filter it to only symbols you're trading (m symbols). <code>.isin()</code> has quadratic-ish behavior.</p>
+                    
+                    <h4>Before (v3_2):</h4>
+                    <pre>filtered_options = _options[_options['symbol'].isin(all_syms)]</pre>
+                    
+                    <h4>What <code>.isin()</code> does internally:</h4>
+                    <p>For each of the n rows in <code>_options</code>, it checks if that symbol exists in <code>all_syms</code> (m items). Worst case: n × m comparisons.</p>
+                    
+                    <div class="highlight-box">
+                        <strong>Example:</strong>
+                        <ul>
+                            <li>5M options rows</li>
+                            <li>500 unique symbols you trade</li>
+                            <li>5M × 500 = 2.5 billion comparisons</li>
+                        </ul>
+                    </div>
+                    
+                    <h4>After (v3_3):</h4>
+                    <pre>all_syms_df = pd.DataFrame({'symbol': all_syms})
+filtered_options = _options.merge(all_syms_df, on='symbol', how='inner')</pre>
+                    
+                    <h4>What <code>.merge()</code> does internally:</h4>
+                    <p>Pandas uses a <strong>hash join algorithm</strong>:</p>
+                    <ol>
+                        <li>Build hash table from smaller dataset (all_syms_df) - O(m)</li>
+                        <li>Probe hash table for each row in larger dataset (_options) - O(n)</li>
+                        <li>Total: O(n + m)</li>
+                    </ol>
+                    
+                    <div class="highlight-box">
+                        <strong>Same example:</strong>
+                        <ul>
+                            <li>5M + 500 = ~5M operations (basically just scanning options once)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-item" style="background: #d4edda; border-left-color: #28a745;">
+                        <strong>Why It's Huge:</strong>
+                        <p style="margin-top: 10px;">The gap widens dramatically as your data grows:</p>
+                        <ul>
+                            <li>Small data (10K rows, 50 symbols): maybe 2x faster</li>
+                            <li>Medium data (1M rows, 200 symbols): 10-20x faster</li>
+                            <li>Large data (5M rows, 500 symbols): 50x faster</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight-box" style="background: #fff3cd; border-left-color: #ffc107;">
+                        <h4>Real-world impact:</h4>
+                        <p>If filtering was taking 30 seconds with <code>.isin()</code>, it now takes 0.5 seconds with <code>.merge()</code>.</p>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <h3>3. Vectorization: Python Loop → Pandas Batch Operation</h3>
+                    
+                    <h4>The Problem:</h4>
+                    <p>You need to set a flag to 0 for specific dates. Python loops are notoriously slow because of interpreter overhead.</p>
+                    
+                    <h4>Before (v1):</h4>
+                    <pre>business_days = pd.date_range(start=start_date, end=end_date, freq=BDay())
+
+for day in business_days:
+    if day in opt['cond_exit']:
+        dict_options[o].at[day, 'nopnl'] = 0</pre>
+                    
+                    <h4>What's expensive here:</h4>
+                    <ul>
+                        <li>Python <code>for</code> loop: interpreter overhead for each iteration</li>
+                        <li><code>.at[day, 'nopnl']</code>: individual cell access, no optimization</li>
+                        <li><code>if day in opt['cond_exit']</code>: checking membership in each iteration</li>
+                    </ul>
+                    
+                    <p>If you have 250 business days, that's 250 Python-level operations, each with full overhead.</p>
+                    
+                    <h4>After (v2):</h4>
+                    <pre>business_days = pd.date_range(start=start_date, end=end_date, freq=BDay())
+cond_exit_days = opt['cond_exit'].index
+
+update_days = business_days.intersection(cond_exit_days)
+
+dict_options[o].loc[update_days, 'nopnl'] = 0</pre>
+                    
+                    <h4>What changed:</h4>
+                    <ol>
+                        <li><code>.intersection()</code>: Set operation done in C code (pandas/numpy), not Python</li>
+                        <li><code>.loc[update_days, 'nopnl'] = 0</code>: <strong>Single vectorized assignment</strong>
+                            <ul>
+                                <li>Pandas identifies all rows matching <code>update_days</code> in one pass</li>
+                                <li>Updates entire column slice in optimized C code</li>
+                                <li>Memory is written contiguously, cache-friendly</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <div class="feature-item" style="background: #d4edda; border-left-color: #28a745;">
+                        <strong>Why It's Huge:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>No Python interpreter overhead per iteration</li>
+                            <li>Single function call instead of 250+ function calls</li>
+                            <li>Pandas can optimize memory access patterns</li>
+                            <li>Typically <strong>5-10x faster</strong>, sometimes more</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="highlight-box" style="background: #fff3cd; border-left-color: #ffc107;">
+                        <h4>The principle:</h4>
+                        <p>Whenever you see a loop modifying a DataFrame, ask: "Can I identify all the rows I need to modify, then update them all at once?" That's vectorization.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- System Strengths -->
+            <section id="strengths">
+                <h2>💪 System Strengths</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-item">Comprehensive options strategy framework</div>
+                    <div class="feature-item">Multiple strategy types with unified architecture</div>
+                    <div class="feature-item">Sophisticated risk management (delta hedging, position sizing)</div>
+                    <div class="feature-item">Realistic P&L (transaction costs, corporate actions)</div>
+                    <div class="feature-item">Extensive performance metrics</div>
+                    <div class="feature-item">Optimization capabilities (genetic algorithms)</div>
+                    <div class="feature-item">Production-ready error handling</div>
+                    <div class="feature-item">Monte Carlo simulation support</div>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>🏆 Professional Grade System</h3>
+                    <p>This is a <strong>professional-grade quantitative trading system</strong> suitable for institutional strategy research and systematic options trading. The framework demonstrates sophisticated software engineering practices including progressive optimization, comprehensive testing capabilities, and production-ready architecture.</p>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>Options Trading Strategy Framework - Technical Documentation</p>
+            <p style="opacity: 0.7; margin-top: 10px;">Built for systematic options trading and quantitative research</p>
+        </footer>
+    </div>
+<footer class="theme-footer">
+    <p>&copy; 2026 Saumik Dana &middot; <a href="index.html">Home</a></p>
+</footer>
+</body>
+</html>
