@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://saumikdana.github.io/sitemap.xml
-
-# Allow all bots to index the website
-# Disallow any private or admin pages if you add them in the future
