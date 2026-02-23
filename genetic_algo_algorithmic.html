@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genetic Algorithm for Feature Selection</title>
+    <style>
+        /* ─── SHARED SITE THEME ─── */
+        :root {
+            --ink: #0d1117;
+            --ink-light: #21262d;
+            --paper: #faf9f6;
+            --paper-warm: #f3f0ea;
+            --accent: #c45d3e;
+            --accent-glow: #e87a5a;
+            --teal: #2a9d8f;
+            --teal-soft: #d4edea;
+            --slate: #6b7280;
+            --slate-light: #9ca3af;
+            --gold: #d4a843;
+            --serif: 'DM Serif Display', Georgia, serif;
+            --sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+        body {
+            font-family: var(--sans) !important;
+            background: var(--paper) !important;
+            color: var(--ink) !important;
+            -webkit-font-smoothing: antialiased;
+        }
+        .theme-nav {
+            background: var(--paper);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .theme-nav-scroll {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .theme-nav-scroll a {
+            font-family: var(--sans);
+            color: var(--slate);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+        .theme-nav-scroll a:hover {
+            color: var(--accent);
+            background: rgba(196,93,62,0.06);
+        }
+        .theme-nav-scroll a.theme-home {
+            color: var(--accent);
+            font-weight: 600;
+            border: 1px solid rgba(196,93,62,0.3);
+        }
+        .theme-footer {
+            background: var(--ink);
+            color: var(--slate-light);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+            font-family: var(--sans);
+        }
+        .theme-footer a {
+            color: var(--accent-glow);
+            text-decoration: none;
+        }
+        /* ─── END SHARED THEME ─── */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .algorithm {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .algorithm-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #2980b9;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .procedure {
+            font-weight: bold;
+            color: #16a085;
+            margin: 10px 0;
+        }
+        .line {
+            margin: 5px 0;
+            padding-left: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        .line-number {
+            display: inline-block;
+            width: 30px;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+        .keyword {
+            color: #8e44ad;
+            font-weight: bold;
+        }
+        .function {
+            color: #16a085;
+        }
+        .variable {
+            color: #d35400;
+            font-style: italic;
+        }
+        .comment {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        .indent-1 { margin-left: 40px; }
+        .indent-2 { margin-left: 80px; }
+        .indent-3 { margin-left: 120px; }
+        .math {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav class="theme-nav">
+    <div class="theme-nav-scroll">
+        <a href="index.html" class="theme-home">&#8962; Home</a>
+        <a href="optimizers.html">Optimizers</a>
+        <a href="distributions.html">Distributions</a>
+        <a href="hypo.html">Hypothesis Testing</a>
+        <a href="linreg.html">Linear Regression</a>
+        <a href="shap.html">SHAP</a>
+        <a href="fintech.html">Options</a>
+        <a href="bs.html">Black-Scholes</a>
+        <a href="tos.html">No Arbitrage</a>
+        <a href="fem_vs_pinn.html">FEM v PINN</a>
+        <a href="big-data-ecosystem.html">Big Data</a>
+        <a href="tree_classifier.html">Tree Classifiers</a>
+        <a href="tree_regressor.html">Tree Regressors</a>
+        <a href="bayesian_optimization.html">Bayesian Opt</a>
+        <a href="genetic_algo_algorithmic.html">Genetic Algo</a>
+    </div>
+</nav>
+
+    <h1>Genetic Algorithm for Feature Selection</h1>
+
+    <div class="algorithm">
+        <div class="algorithm-title">Algorithm 1: Mutate Individual</div>
+        <div class="procedure"><span class="keyword">procedure</span> <span class="function">Mutate</span>(<span class="variable">individual</span>)</div>
+        <div class="line"><span class="line-number">1:</span> <span class="variable">mutated</span> ← copy(<span class="variable">individual</span>)</div>
+        <div class="line"><span class="line-number">2:</span> <span class="variable">selected</span> ← {<span class="variable">i</span> : <span class="variable">mutated</span>[<span class="variable">i</span>] = 1}</div>
+        <div class="line"><span class="line-number">3:</span> <span class="variable">unselected</span> ← {<span class="variable">i</span> : <span class="variable">mutated</span>[<span class="variable">i</span>] = 0}</div>
+        <div class="line"><span class="line-number">4:</span> <span class="keyword">if</span> <span class="variable">selected</span> ≠ ∅ <span class="keyword">and</span> <span class="variable">unselected</span> ≠ ∅ <span class="keyword">then</span></div>
+        <div class="line indent-1"><span class="line-number">5:</span> <span class="variable">swap_out</span> ← random_choice(<span class="variable">selected</span>)</div>
+        <div class="line indent-1"><span class="line-number">6:</span> <span class="variable">swap_in</span> ← random_choice(<span class="variable">unselected</span>)</div>
+        <div class="line indent-1"><span class="line-number">7:</span> <span class="variable">mutated</span>[<span class="variable">swap_out</span>] ← 0</div>
+        <div class="line indent-1"><span class="line-number">8:</span> <span class="variable">mutated</span>[<span class="variable">swap_in</span>] ← 1</div>
+        <div class="line"><span class="line-number">9:</span> <span class="keyword">end if</span></div>
+        <div class="line"><span class="line-number">10:</span> <span class="keyword">return</span> <span class="variable">mutated</span></div>
+        <div class="procedure"><span class="keyword">end procedure</span></div>
+    </div>
+
+    <div class="algorithm">
+        <div class="algorithm-title">Algorithm 2: Crossover Two Parents</div>
+        <div class="procedure"><span class="keyword">procedure</span> <span class="function">Crossover</span>(<span class="variable">parent₁</span>, <span class="variable">parent₂</span>)</div>
+        <div class="line"><span class="line-number">1:</span> <span class="variable">num_features</span> ← Σ<span class="variable">parent₁</span></div>
+        <div class="line"><span class="line-number">2:</span> <span class="variable">ones_p1</span> ← {<span class="variable">i</span> : <span class="variable">parent₁</span>[<span class="variable">i</span>] = 1}</div>
+        <div class="line"><span class="line-number">3:</span> <span class="variable">ones_p2</span> ← {<span class="variable">i</span> : <span class="variable">parent₂</span>[<span class="variable">i</span>] = 1}</div>
+        <div class="line"><span class="line-number">4:</span> <span class="variable">all_ones</span> ← <span class="variable">ones_p1</span> ∪ <span class="variable">ones_p2</span></div>
+        <div class="line"><span class="line-number">5:</span> <span class="variable">child₁</span> ← [0, 0, …, 0] <span class="comment">▷ Length = |parent₁|</span></div>
+        <div class="line"><span class="line-number">6:</span> <span class="variable">child₂</span> ← [0, 0, …, 0]</div>
+        <div class="line"><span class="line-number">7:</span> <span class="variable">selected₁</span> ← random_sample(<span class="variable">all_ones</span>, <span class="variable">num_features</span>)</div>
+        <div class="line"><span class="line-number">8:</span> <span class="keyword">for</span> <span class="variable">pos</span> ∈ <span class="variable">selected₁</span> <span class="keyword">do</span></div>
+        <div class="line indent-1"><span class="line-number">9:</span> <span class="variable">child₁</span>[<span class="variable">pos</span>] ← 1</div>
+        <div class="line"><span class="line-number">10:</span> <span class="keyword">end for</span></div>
+        <div class="line"><span class="line-number">11:</span> <span class="variable">selected₂</span> ← random_sample(<span class="variable">all_ones</span>, <span class="variable">num_features</span>)</div>
+        <div class="line"><span class="line-number">12:</span> <span class="keyword">for</span> <span class="variable">pos</span> ∈ <span class="variable">selected₂</span> <span class="keyword">do</span></div>
+        <div class="line indent-1"><span class="line-number">13:</span> <span class="variable">child₂</span>[<span class="variable">pos</span>] ← 1</div>
+        <div class="line"><span class="line-number">14:</span> <span class="keyword">end for</span></div>
+        <div class="line"><span class="line-number">15:</span> <span class="keyword">return</span> <span class="variable">child₁</span>, <span class="variable">child₂</span></div>
+        <div class="procedure"><span class="keyword">end procedure</span></div>
+    </div>
+
+    <div class="algorithm">
+        <div class="algorithm-title">Algorithm 3: Keep Elite Individuals</div>
+        <div class="procedure"><span class="keyword">procedure</span> <span class="function">KeepElite</span>(<span class="variable">new_pop</span>, <span class="variable">fitness</span>, <span class="variable">population</span>, <span class="variable">keep_top</span>)</div>
+        <div class="line"><span class="line-number">1:</span> <span class="variable">rank_indices</span> ← argsort(<span class="variable">fitness</span>, descending)</div>
+        <div class="line"><span class="line-number">2:</span> <span class="variable">elite_indices</span> ← <span class="variable">rank_indices</span>[0:<span class="variable">keep_top</span>]</div>
+        <div class="line"><span class="line-number">3:</span> <span class="keyword">for</span> <span class="variable">idx</span> ∈ <span class="variable">elite_indices</span> <span class="keyword">do</span></div>
+        <div class="line indent-1"><span class="line-number">4:</span> <span class="variable">new_pop</span>.append(copy(<span class="variable">population</span>[<span class="variable">idx</span>]))</div>
+        <div class="line"><span class="line-number">5:</span> <span class="keyword">end for</span></div>
+        <div class="line"><span class="line-number">6:</span> <span class="keyword">return</span> <span class="variable">new_pop</span>, <span class="variable">rank_indices</span></div>
+        <div class="procedure"><span class="keyword">end procedure</span></div>
+    </div>
+
+    <div class="algorithm">
+        <div class="algorithm-title">Algorithm 4: Update Population</div>
+        <div class="procedure"><span class="keyword">procedure</span> <span class="function">UpdatePopulation</span>(<span class="variable">population</span>, <span class="variable">fitness</span>, <span class="variable">keep_top</span>, <span class="variable">pop_size</span>)</div>
+        <div class="line"><span class="line-number">1:</span> <span class="variable">new_pop</span> ← [ ]</div>
+        <div class="line"><span class="line-number">2:</span> <span class="variable">new_pop</span>, <span class="variable">rank_indices</span> ← <span class="function">KeepElite</span>(<span class="variable">new_pop</span>, <span class="variable">fitness</span>, <span class="variable">population</span>, <span class="variable">keep_top</span>)</div>
+        <div class="line"><span class="line-number">3:</span> <span class="keyword">while</span> |<span class="variable">new_pop</span>| &lt; <span class="variable">pop_size</span> <span class="keyword">do</span></div>
+        <div class="line indent-1"><span class="line-number">4:</span> <span class="variable">parent₁</span> ← <span class="variable">population</span>[<span class="variable">rank_indices</span>[0]] <span class="comment">▷ Best individual</span></div>
+        <div class="line indent-1"><span class="line-number">5:</span> <span class="variable">parent₂</span> ← <span class="variable">population</span>[<span class="variable">rank_indices</span>[-1]] <span class="comment">▷ Worst individual</span></div>
+        <div class="line indent-1"><span class="line-number">6:</span> <span class="variable">child₁</span>, <span class="variable">child₂</span> ← <span class="function">Crossover</span>(<span class="variable">parent₁</span>, <span class="variable">parent₂</span>)</div>
+        <div class="line indent-1"><span class="line-number">7:</span> <span class="variable">child₁</span> ← <span class="function">Mutate</span>(<span class="variable">child₁</span>)</div>
+        <div class="line indent-1"><span class="line-number">8:</span> <span class="variable">child₂</span> ← <span class="function">Mutate</span>(<span class="variable">child₂</span>)</div>
+        <div class="line indent-1"><span class="line-number">9:</span> <span class="variable">new_pop</span>.extend([<span class="variable">child₁</span>, <span class="variable">child₂</span>])</div>
+        <div class="line"><span class="line-number">10:</span> <span class="keyword">end while</span></div>
+        <div class="line"><span class="line-number">11:</span> <span class="variable">population</span> ← <span class="variable">new_pop</span>[0:<span class="variable">pop_size</span>]</div>
+        <div class="line"><span class="line-number">12:</span> <span class="keyword">return</span> <span class="variable">population</span></div>
+        <div class="procedure"><span class="keyword">end procedure</span></div>
+    </div>
+
+    <div class="algorithm">
+        <div class="algorithm-title">Algorithm 5: Create Initial Population</div>
+        <div class="procedure"><span class="keyword">procedure</span> <span class="function">CreatePopulation</span>(<span class="variable">search_space</span>, <span class="variable">pop_size</span>, <span class="variable">num_features</span>)</div>
+        <div class="line"><span class="line-number">1:</span> <span class="variable">population</span> ← [ ]</div>
+        <div class="line"><span class="line-number">2:</span> <span class="keyword">for</span> <span class="variable">i</span> = 1 <span class="keyword">to</span> <span class="variable">pop_size</span> <span class="keyword">do</span></div>
+        <div class="line indent-1"><span class="line-number">3:</span> <span class="variable">individual</span> ← [0, 0, …, 0] <span class="comment">▷ Length = |search_space|</span></div>
+        <div class="line indent-1"><span class="line-number">4:</span> <span class="variable">available</span> ← {0, 1, …, |<span class="variable">search_space</span>| − 1}</div>
+        <div class="line indent-1"><span class="line-number">5:</span> <span class="variable">selected</span> ← random_sample(<span class="variable">available</span>, <span class="variable">num_features</span>)</div>
+        <div class="line indent-1"><span class="line-number">6:</span> <span class="keyword">for</span> <span class="variable">pos</span> ∈ <span class="variable">selected</span> <span class="keyword">do</span></div>
+        <div class="line indent-2"><span class="line-number">7:</span> <span class="variable">individual</span>[<span class="variable">pos</span>] ← 1</div>
+        <div class="line indent-1"><span class="line-number">8:</span> <span class="keyword">end for</span></div>
+        <div class="line indent-1"><span class="line-number">9:</span> <span class="variable">population</span>.append(<span class="variable">individual</span>)</div>
+        <div class="line"><span class="line-number">10:</span> <span class="keyword">end for</span></div>
+        <div class="line"><span class="line-number">11:</span> <span class="keyword">return</span> <span class="variable">population</span></div>
+        <div class="procedure"><span class="keyword">end procedure</span></div>
+    </div>
+
+    <div class="algorithm">
+        <div class="algorithm-title">Algorithm 6: Main Genetic Algorithm</div>
+        <div class="procedure"><span class="keyword">procedure</span> <span class="function">GeneticAlgorithm</span>(<span class="variable">simulate</span>, <span class="variable">search_space</span>, <span class="variable">create_entry</span>, <span class="variable">underlying</span>, <span class="variable">holidays</span>)</div>
+        <div class="line"><span class="line-number">1:</span> <span class="variable">population</span> ← <span class="function">CreatePopulation</span>(<span class="variable">search_space</span>, POP_SIZE, NUM_FEATURES)</div>
+        <div class="line"><span class="line-number">2:</span> <span class="variable">best_fitness</span> ← −999</div>
+        <div class="line"><span class="line-number">3:</span> <span class="variable">best_fitness_overall</span> ← −999</div>
+        <div class="line"><span class="line-number">4:</span> <span class="variable">best_individual_overall</span> ← None</div>
+        <div class="line"><span class="line-number">5:</span> <span class="keyword">for</span> <span class="variable">gen</span> = 1 <span class="keyword">to</span> NUM_GENERATIONS <span class="keyword">do</span></div>
+        <div class="line indent-1"><span class="line-number">6:</span> <span class="variable">fitness_scores</span> ← [ ]</div>
+        <div class="line indent-1"><span class="line-number">7:</span> <span class="keyword">for</span> <span class="variable">individual</span> ∈ <span class="variable">population</span> <span class="keyword">do</span></div>
+        <div class="line indent-2"><span class="line-number">8:</span> <span class="variable">selected_cols</span> ← {<span class="variable">search_space</span>[<span class="variable">i</span>] : <span class="variable">individual</span>[<span class="variable">i</span>] = 1}</div>
+        <div class="line indent-2"><span class="line-number">9:</span> <span class="variable">entry_func</span> ← <span class="function">CreateEntry</span>(<span class="variable">selected_cols</span>, <span class="variable">underlying</span>, <span class="variable">holidays</span>)</div>
+        <div class="line indent-2"><span class="line-number">10:</span> <span class="variable">fitness</span> ← <span class="function">Simulate</span>(<span class="variable">entry_func</span>)</div>
+        <div class="line indent-2"><span class="line-number">11:</span> <span class="variable">fitness_scores</span>.append(<span class="variable">fitness</span>)</div>
+        <div class="line indent-2"><span class="line-number">12:</span> <span class="keyword">if</span> <span class="variable">fitness</span> &gt; <span class="variable">best_fitness</span> <span class="keyword">then</span></div>
+        <div class="line indent-3"><span class="line-number">13:</span> <span class="variable">best_fitness</span> ← <span class="variable">fitness</span></div>
+        <div class="line indent-2"><span class="line-number">14:</span> <span class="keyword">end if</span></div>
+        <div class="line indent-2"><span class="line-number">15:</span> <span class="keyword">if</span> <span class="variable">fitness</span> &gt; <span class="variable">best_fitness_overall</span> <span class="keyword">then</span></div>
+        <div class="line indent-3"><span class="line-number">16:</span> <span class="variable">best_fitness_overall</span> ← <span class="variable">fitness</span></div>
+        <div class="line indent-3"><span class="line-number">17:</span> <span class="variable">best_individual_overall</span> ← copy(<span class="variable">individual</span>)</div>
+        <div class="line indent-2"><span class="line-number">18:</span> <span class="keyword">end if</span></div>
+        <div class="line indent-1"><span class="line-number">19:</span> <span class="keyword">end for</span></div>
+        <div class="line indent-1"><span class="line-number">20:</span> <span class="variable">avg_fitness</span> ← mean(<span class="variable">fitness_scores</span>)</div>
+        <div class="line indent-1"><span class="line-number">21:</span> <span class="keyword">print</span> <span class="variable">avg_fitness</span>, <span class="variable">best_fitness</span></div>
+        <div class="line indent-1"><span class="line-number">22:</span> <span class="keyword">if</span> <span class="variable">gen</span> &lt; NUM_GENERATIONS <span class="keyword">then</span></div>
+        <div class="line indent-2"><span class="line-number">23:</span> <span class="variable">population</span> ← <span class="function">UpdatePopulation</span>(<span class="variable">population</span>, <span class="variable">fitness_scores</span>, KEEP_TOP, POP_SIZE)</div>
+        <div class="line indent-1"><span class="line-number">24:</span> <span class="keyword">end if</span></div>
+        <div class="line"><span class="line-number">25:</span> <span class="keyword">end for</span></div>
+        <div class="line"><span class="line-number">26:</span> <span class="variable">selected_cols</span> ← {<span class="variable">search_space</span>[<span class="variable">i</span>] : <span class="variable">best_individual_overall</span>[<span class="variable">i</span>] = 1}</div>
+        <div class="line"><span class="line-number">27:</span> <span class="keyword">return</span> <span class="variable">selected_cols</span></div>
+        <div class="procedure"><span class="keyword">end procedure</span></div>
+    </div>
+
+<footer class="theme-footer">
+    <p>&copy; 2026 Saumik Dana &middot; <a href="index.html">Home</a></p>
+</footer>
+</body>
+</html>

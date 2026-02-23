@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayesian Optimization — Bayes' Theorem Mapped to 5 Methods</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+        /* ─── SHARED SITE THEME ─── */
+        :root {
+            --ink: #0d1117;
+            --ink-light: #21262d;
+            --paper: #faf9f6;
+            --paper-warm: #f3f0ea;
+            --accent: #c45d3e;
+            --accent-glow: #e87a5a;
+            --teal: #2a9d8f;
+            --teal-soft: #d4edea;
+            --slate: #6b7280;
+            --slate-light: #9ca3af;
+            --gold: #d4a843;
+            --serif: 'DM Serif Display', Georgia, serif;
+            --sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+        body {
+            font-family: var(--sans) !important;
+            background: var(--paper) !important;
+            color: var(--ink) !important;
+            -webkit-font-smoothing: antialiased;
+        }
+        .theme-nav {
+            background: var(--paper);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .theme-nav-scroll {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .theme-nav-scroll a {
+            font-family: var(--sans);
+            color: var(--slate);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+        .theme-nav-scroll a:hover {
+            color: var(--accent);
+            background: rgba(196,93,62,0.06);
+        }
+        .theme-nav-scroll a.theme-home {
+            color: var(--accent);
+            font-weight: 600;
+            border: 1px solid rgba(196,93,62,0.3);
+        }
+        .theme-footer {
+            background: var(--ink);
+            color: var(--slate-light);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+            font-family: var(--sans);
+        }
+        .theme-footer a {
+            color: var(--accent-glow);
+            text-decoration: none;
+        }
+        /* ─── END SHARED THEME ─── */
+
+  :root {
+    --bg: #0c0c0f;
+    --surface: #141418;
+    --surface2: #1c1c22;
+    --border: #2a2a35;
+    --text: #e8e6e1;
+    --text-dim: #9a9790;
+    --accent: #c4956a;
+    --accent2: #7ba695;
+    --accent3: #8b7ec8;
+    --engine-glow: #c4956a;
+    --fixed-color: #637a8e;
+    --bookkeep-color: #6b6770;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.7;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+  }
+
+  h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 2.4rem;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    margin-bottom: 60px;
+    font-style: italic;
+  }
+
+  /* Template section */
+  .template-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 40px;
+    margin-bottom: 56px;
+    text-align: center;
+  }
+
+  .template-box h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .template-box .formula {
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-engine { background: var(--engine-glow); box-shadow: 0 0 8px var(--engine-glow); }
+  .dot-fixed { background: var(--fixed-color); }
+  .dot-bookkeep { background: var(--bookkeep-color); }
+
+  /* Method cards */
+  .method {
+    margin-bottom: 56px;
+    position: relative;
+  }
+
+  .method-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .method-number {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .method h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .method-engine {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+
+  .engine-likelihood {
+    background: rgba(196, 149, 106, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(196, 149, 106, 0.3);
+  }
+
+  .engine-prior {
+    background: rgba(139, 126, 200, 0.15);
+    color: var(--accent3);
+    border: 1px solid rgba(139, 126, 200, 0.3);
+  }
+
+  .formula-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin: 20px 0;
+    text-align: center;
+    font-size: 1.15rem;
+  }
+
+  .terms {
+    margin: 20px 0 8px;
+  }
+
+  .term {
+    padding: 10px 0;
+    padding-left: 20px;
+    border-left: 3px solid var(--border);
+    margin-bottom: 12px;
+    margin-left: 4px;
+  }
+
+  .term-engine {
+    border-left-color: var(--engine-glow);
+    background: rgba(196, 149, 106, 0.04);
+    padding: 10px 20px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .term-engine-prior {
+    border-left-color: var(--accent3);
+    background: rgba(139, 126, 200, 0.04);
+    padding: 10px 20px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .term-fixed {
+    border-left-color: var(--fixed-color);
+  }
+
+  .term-bookkeep {
+    border-left-color: var(--bookkeep-color);
+  }
+
+  .term .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 4px;
+  }
+
+  .label-engine { color: var(--engine-glow); }
+  .label-engine-prior { color: var(--accent3); }
+  .label-fixed { color: var(--fixed-color); }
+  .label-bookkeep { color: var(--bookkeep-color); }
+
+  .term p {
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+
+  .term code, .inline-math {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+  }
+
+  .note {
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    margin-top: 12px;
+    padding-left: 20px;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 56px 0;
+  }
+
+  /* Summary table */
+  .summary h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+  }
+
+  .summary-table thead th {
+    text-align: left;
+    padding: 14px 16px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .summary-table tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .summary-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .summary-table tbody tr:hover {
+    background: var(--surface);
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .tag-likelihood {
+    background: rgba(196, 149, 106, 0.15);
+    color: var(--accent);
+  }
+
+  .tag-prior {
+    background: rgba(139, 126, 200, 0.15);
+    color: var(--accent3);
+  }
+
+  .fixed-text { color: var(--fixed-color); }
+  .bookkeep-text { color: var(--bookkeep-color); }
+
+  /* CMA update block */
+  .update-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-top: 16px;
+    text-align: center;
+    font-size: 1.05rem;
+  }
+
+  .update-block p {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    margin-top: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 40px 20px 80px; }
+    h1 { font-size: 1.8rem; }
+    .method h2 { font-size: 1.25rem; }
+    .legend { gap: 16px; }
+    .formula-block { padding: 20px 16px; }
+    .summary-table { font-size: 0.8rem; }
+    .summary-table thead th, .summary-table tbody td { padding: 10px 8px; }
+  }
+</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav class="theme-nav">
+    <div class="theme-nav-scroll">
+        <a href="index.html" class="theme-home">&#8962; Home</a>
+        <a href="optimizers.html">Optimizers</a>
+        <a href="distributions.html">Distributions</a>
+        <a href="hypo.html">Hypothesis Testing</a>
+        <a href="linreg.html">Linear Regression</a>
+        <a href="shap.html">SHAP</a>
+        <a href="fintech.html">Options</a>
+        <a href="bs.html">Black-Scholes</a>
+        <a href="tos.html">No Arbitrage</a>
+        <a href="fem_vs_pinn.html">FEM v PINN</a>
+        <a href="big-data-ecosystem.html">Big Data</a>
+        <a href="tree_classifier.html">Tree Classifiers</a>
+        <a href="tree_regressor.html">Tree Regressors</a>
+        <a href="bayesian_optimization.html">Bayesian Opt</a>
+        <a href="genetic_algo_algorithmic.html">Genetic Algo</a>
+    </div>
+</nav>
+
+<div class="page">
+
+  <h1>Bayes' Theorem Mapped to 5 Optimization Methods</h1>
+  <p class="subtitle">What exactly gets updated with every trial?</p>
+
+  <!-- Template -->
+  <div class="template-box">
+    <h2>The Template</h2>
+    <div class="formula">
+      $P(A \mid B) = \dfrac{P(B \mid A) \;\cdot\; P(A)}{P(B)}$
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-engine"></div> Engine — drives the update</div>
+      <div class="legend-item"><div class="legend-dot dot-fixed"></div> Fixed — set once, stays</div>
+      <div class="legend-item"><div class="legend-dot dot-bookkeep"></div> Bookkeeping — just normalizes</div>
+    </div>
+  </div>
+
+  <!-- METHOD 1: GP -->
+  <div class="method">
+    <div class="method-header">
+      <span class="method-number">Method 1</span>
+      <h2>GP — Gaussian Process</h2>
+    </div>
+    <div class="method-engine engine-likelihood">Engine: Likelihood</div>
+
+    <div class="formula-block">
+      $P(f \mid D_{1:t}) = \dfrac{P(D_{1:t} \mid f) \;\cdot\; P(f)}{P(D_{1:t})}$
+    </div>
+
+    <p>Where $f$ = a candidate function (one possible shape of the objective), and $D_{1:t}$ = all observed data $\{(x_1, y_1), \dots, (x_t, y_t)\}$.</p>
+
+    <div class="terms">
+      <div class="term term-fixed">
+        <div class="label label-fixed">Prior — $P(f)$ — Fixed</div>
+        <p>GP prior, defined by kernel (e.g. RBF). Chosen once at the start. Says "the function is probably smooth." Does not change across trials.</p>
+      </div>
+      <div class="term term-engine">
+        <div class="label label-engine">Likelihood — $P(D_{1:t} \mid f)$ — Engine 🔥</div>
+        <p>How well does this candidate function pass through all observed points? With 3 data points, many smooth curves could fit. With 20, very few can. Gets more constraining every trial, forcing the posterior to narrow.</p>
+      </div>
+      <div class="term term-bookkeep">
+        <div class="label label-bookkeep">Evidence — $P(D_{1:t})$ — Bookkeeping</div>
+        <p>Normalizing constant. Makes the posterior integrate to 1. Changes numerically but drives nothing.</p>
+      </div>
+    </div>
+
+    <p>Posterior $P(f \mid D_{1:t})$ = updated belief about what $f$ looks like everywhere. Gets sharper every trial.</p>
+  </div>
+
+  <!-- METHOD 2: TPE -->
+  <div class="method">
+    <div class="method-header">
+      <span class="method-number">Method 2</span>
+      <h2>TPE — Tree-structured Parzen Estimator</h2>
+    </div>
+    <div class="method-engine engine-likelihood">Engine: Likelihood</div>
+
+    <div class="formula-block">
+      $P(x \in \text{good} \mid D_{1:t}) = \dfrac{P(D_{1:t} \mid x \in \text{good}) \;\cdot\; P(x \in \text{good})}{P(D_{1:t})}$
+    </div>
+
+    <p>TPE flips the perspective. Instead of modeling $P(f \mid x)$, it models $P(x \mid y)$ — the probability of inputs given good or bad scores.</p>
+
+    <div class="terms">
+      <div class="term term-fixed">
+        <div class="label label-fixed">Prior — $P(x \in \text{good})$ — Fixed</div>
+        <p>Initial belief that any $x$ could be good. Starts uniform. Only truly in effect during startup trials. Fades as data accumulates.</p>
+      </div>
+      <div class="term term-engine">
+        <div class="label label-engine">Likelihood — $P(D_{1:t} \mid x \in \text{good})$ = $\ell(x)$ — Engine 🔥</div>
+        <p>This is the KDE density of good inputs. Similarly $P(D_{1:t} \mid x \in \text{bad}) = g(x)$. Both are rebuilt from scratch every trial with more data. The acquisition function $\ell(x) / g(x)$ is the likelihood ratio — how much more likely is this $x$ to come from the good distribution versus the bad one?</p>
+      </div>
+      <div class="term term-bookkeep">
+        <div class="label label-bookkeep">Evidence — $P(D_{1:t})$ — Bookkeeping</div>
+        <p>Normalizer. Bookkeeping.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- METHOD 3: SMAC -->
+  <div class="method">
+    <div class="method-header">
+      <span class="method-number">Method 3</span>
+      <h2>SMAC — Random Forest</h2>
+    </div>
+    <div class="method-engine engine-likelihood">Engine: Likelihood</div>
+
+    <div class="formula-block">
+      $P(\hat{f} \mid D_{1:t}) = \dfrac{P(D_{1:t} \mid \hat{f}) \;\cdot\; P(\hat{f})}{P(D_{1:t})}$
+    </div>
+
+    <p>Where $\hat{f}$ = a random forest model that approximates $f(x)$.</p>
+
+    <div class="terms">
+      <div class="term term-fixed">
+        <div class="label label-fixed">Prior — $P(\hat{f})$ — Fixed</div>
+        <p>Structural prior: tree depth, number of trees. Set once. The implicit assumption is "the function can be approximated by a piecewise-constant function" (which is what decision trees do).</p>
+      </div>
+      <div class="term term-engine">
+        <div class="label label-engine">Likelihood — $P(D_{1:t} \mid \hat{f})$ — Engine 🔥</div>
+        <p>How well does this forest predict all observed scores? Retrained on all data every trial. With more data, the forest gets better at predicting which regions yield high scores. Variance across trees gives uncertainty estimates for exploration.</p>
+      </div>
+      <div class="term term-bookkeep">
+        <div class="label label-bookkeep">Evidence — $P(D_{1:t})$ — Bookkeeping</div>
+        <p>Normalizer. Bookkeeping.</p>
+      </div>
+    </div>
+
+    <p>Posterior $P(\hat{f} \mid D_{1:t})$ = updated belief about $f(x)$, expressed as forest predictions + variance across trees.</p>
+  </div>
+
+  <!-- METHOD 4: BOHB -->
+  <div class="method">
+    <div class="method-header">
+      <span class="method-number">Method 4</span>
+      <h2>BOHB — Bayesian Optimization + Hyperband</h2>
+    </div>
+    <div class="method-engine engine-likelihood">Engine: Likelihood</div>
+
+    <div class="formula-block">
+      $P(x \in \text{good} \mid D_{1:t}) = \dfrac{P(D_{1:t} \mid x \in \text{good}) \;\cdot\; P(x \in \text{good})}{P(D_{1:t})}$
+    </div>
+
+    <p>All terms identical to TPE. BOHB uses TPE internally for the Bayesian part.</p>
+
+    <div class="terms">
+      <div class="term term-fixed">
+        <div class="label label-fixed">Prior — Same as TPE — Fixed</div>
+        <p>Uniform prior over inputs.</p>
+      </div>
+      <div class="term term-engine">
+        <div class="label label-engine">Likelihood — Same KDE densities as TPE — Engine 🔥</div>
+        <p>Same $\ell(x)$ and $g(x)$ mechanism as TPE.</p>
+      </div>
+      <div class="term term-bookkeep">
+        <div class="label label-bookkeep">Evidence — Same as TPE — Bookkeeping</div>
+        <p>Normalizer.</p>
+      </div>
+    </div>
+
+    <p class="note">The addition of Hyperband is not Bayesian — it's a resource allocation trick that decides how much budget (epochs, time) to give each trial before killing it. It makes the loop faster without changing which Bayes' theorem term is being updated.</p>
+  </div>
+
+  <!-- METHOD 5: CMA-ES -->
+  <div class="method">
+    <div class="method-header">
+      <span class="method-number">Method 5</span>
+      <h2>CMA-ES — Covariance Matrix Adaptation</h2>
+    </div>
+    <div class="method-engine engine-prior">Engine: Prior</div>
+
+    <div class="formula-block">
+      $P(\mu, C \mid D_{1:t}) = \dfrac{P(D_{1:t} \mid \mu, C) \;\cdot\; P(\mu, C)}{P(D_{1:t})}$
+    </div>
+
+    <p>Where $\mu$ = mean of the search distribution, $C$ = covariance matrix of the search distribution.</p>
+
+    <div class="terms">
+      <div class="term term-engine-prior">
+        <div class="label label-engine-prior">Prior — $P(\mu, C)$ = Gaussian $N(\mu, C)$ — Engine 🔥</div>
+        <p>A bell curve in multiple dimensions defined by mean $\mu$ and covariance $C$. Unlike all other methods, <strong>this changes every trial</strong>. The center ($\mu$) moves toward the best points. The shape ($C$) stretches in promising directions and shrinks in bad directions. The search distribution itself physically moves and reshapes.</p>
+      </div>
+      <div class="term term-bookkeep">
+        <div class="label label-bookkeep">Likelihood — $P(D_{1:t} \mid \mu, C)$ — Supporting role</div>
+        <p>How well did samples from this Gaussian score? Informs the update but isn't the main thing being refined.</p>
+      </div>
+      <div class="term term-bookkeep">
+        <div class="label label-bookkeep">Evidence — $P(D_{1:t})$ — Bookkeeping</div>
+        <p>Normalizer.</p>
+      </div>
+    </div>
+
+    <div class="update-block">
+      $\mu_{t+1} = \displaystyle\sum_{i=1}^{k} w_i \cdot x_i^{\text{best}}$
+      <br><br>
+      $C_{t+1} = \text{weighted covariance of top-}k\text{ samples}$
+      <p>The mean moves toward winners. The covariance elongates in promising directions.</p>
+    </div>
+
+    <p class="note">CMA-ES is the least "Bayesian" of the five. Some wouldn't call it Bayesian optimization at all — it's more of an evolutionary method that happens to use a probabilistic model to guide search.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Summary Table -->
+  <div class="summary">
+    <h2>The Pattern</h2>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Prior $P(A)$</th>
+          <th>Likelihood $P(B \mid A)$</th>
+          <th>Evidence $P(B)$</th>
+          <th>Engine</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>GP</strong></td>
+          <td class="fixed-text">Kernel (fixed)</td>
+          <td>Data fit to function (grows)</td>
+          <td class="bookkeep-text">Normalizer</td>
+          <td><span class="tag tag-likelihood">Likelihood</span></td>
+        </tr>
+        <tr>
+          <td><strong>TPE</strong></td>
+          <td class="fixed-text">Uniform (fixed)</td>
+          <td>KDE densities $\ell$, $g$ (rebuilt)</td>
+          <td class="bookkeep-text">Normalizer</td>
+          <td><span class="tag tag-likelihood">Likelihood</span></td>
+        </tr>
+        <tr>
+          <td><strong>SMAC</strong></td>
+          <td class="fixed-text">Tree structure (fixed)</td>
+          <td>Forest fit to data (retrained)</td>
+          <td class="bookkeep-text">Normalizer</td>
+          <td><span class="tag tag-likelihood">Likelihood</span></td>
+        </tr>
+        <tr>
+          <td><strong>BOHB</strong></td>
+          <td class="fixed-text">Same as TPE</td>
+          <td>Same as TPE</td>
+          <td class="bookkeep-text">Normalizer</td>
+          <td><span class="tag tag-likelihood">Likelihood</span></td>
+        </tr>
+        <tr>
+          <td><strong>CMA-ES</strong></td>
+          <td>$N(\mu, C)$ <strong>(moves!)</strong></td>
+          <td class="bookkeep-text">Sample scores</td>
+          <td class="bookkeep-text">Normalizer</td>
+          <td><span class="tag tag-prior">Prior</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<footer class="theme-footer">
+    <p>&copy; 2026 Saumik Dana &middot; <a href="index.html">Home</a></p>
+</footer>
+</body>
+</html>
