@@ -12,7 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-        /* ─── SHARED SITE THEME ─── */
+        /* ─── SHARED SITE THEME + PAGE VARS ─── */
         :root {
             --ink: #0d1117;
             --ink-light: #21262d;
@@ -28,12 +28,28 @@
             --serif: 'DM Serif Display', Georgia, serif;
             --sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             --mono: 'JetBrains Mono', 'Fira Code', monospace;
+            /* page-specific */
+            --bg: #faf9f6;
+            --surface: #f0ede8;
+            --surface2: #e8e4de;
+            --border: #d1ccc4;
+            --text: #0d1117;
+            --text-dim: #4b5563;
+            --accent2: #2a9d8f;
+            --accent3: #6355a3;
+            --engine-glow: #b5733a;
+            --fixed-color: #445566;
+            --bookkeep-color: #555260;
         }
         body {
             font-family: var(--sans) !important;
             background: var(--paper) !important;
             color: var(--ink) !important;
             -webkit-font-smoothing: antialiased;
+            font-size: 19px;
+            line-height: 1.7;
+            padding: 0;
+            min-height: 100vh;
         }
         .theme-nav {
             background: var(--paper);
@@ -89,35 +105,10 @@
         }
         /* ─── END SHARED THEME ─── */
 
-  :root {
-    --bg: #0c0c0f;
-    --surface: #141418;
-    --surface2: #1c1c22;
-    --border: #2a2a35;
-    --text: #e8e6e1;
-    --text-dim: #9a9790;
-    --accent: #c4956a;
-    --accent2: #7ba695;
-    --accent3: #8b7ec8;
-    --engine-glow: #c4956a;
-    --fixed-color: #637a8e;
-    --bookkeep-color: #6b6770;
-  }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 19px;
-    line-height: 1.7;
-    padding: 0;
-    min-height: 100vh;
-  }
-
-  .page {
-    max-width: 860px;
+.page {
+    max-width: 1400px;
     margin: 0 auto;
     padding: 80px 40px 120px;
   }
@@ -186,7 +177,7 @@
     flex-shrink: 0;
   }
 
-  .dot-engine { background: var(--engine-glow); box-shadow: 0 0 8px var(--engine-glow); }
+  .dot-engine { background: var(--engine-glow); }
   .dot-fixed { background: var(--fixed-color); }
   .dot-bookkeep { background: var(--bookkeep-color); }
 
@@ -207,7 +198,7 @@
     font-family: 'DM Sans', sans-serif;
     font-weight: 700;
     font-size: 0.8rem;
-    color: var(--accent);
+    color: var(--engine-glow);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     flex-shrink: 0;
@@ -233,7 +224,7 @@
 
   .engine-likelihood {
     background: rgba(196, 149, 106, 0.15);
-    color: var(--accent);
+    color: var(--engine-glow);
     border: 1px solid rgba(196, 149, 106, 0.3);
   }
 
@@ -267,14 +258,14 @@
 
   .term-engine {
     border-left-color: var(--engine-glow);
-    background: rgba(196, 149, 106, 0.04);
+    background: rgba(181, 115, 58, 0.08);
     padding: 10px 20px;
     border-radius: 0 8px 8px 0;
   }
 
   .term-engine-prior {
     border-left-color: var(--accent3);
-    background: rgba(139, 126, 200, 0.04);
+    background: rgba(99, 85, 163, 0.08);
     padding: 10px 20px;
     border-radius: 0 8px 8px 0;
   }
@@ -378,7 +369,7 @@
 
   .tag-likelihood {
     background: rgba(196, 149, 106, 0.15);
-    color: var(--accent);
+    color: var(--engine-glow);
   }
 
   .tag-prior {
