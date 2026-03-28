@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Heston at Sigma = 0</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <style>
     :root {
       --bg: #f6f1e8;
@@ -32,7 +44,7 @@
     }
 
     .wrap {
-      width: min(980px, calc(100vw - 32px));
+      width: min(1600px, calc(100vw - 32px));
       margin: 0 auto;
       padding: 40px 0 56px;
     }
@@ -114,10 +126,13 @@
       font-size: 1.02rem;
     }
 
-    .math code,
     code {
       font-family: "SFMono-Regular", Menlo, Consolas, monospace;
       font-size: 0.95em;
+    }
+
+    .math mjx-container {
+      font-size: 108% !important;
     }
 
     ul {
@@ -180,13 +195,15 @@
         <p>
           Under risk-neutral dynamics, the Heston model is usually written as:
         </p>
-        <div class="math"><code>
-          dS_t = r S_t dt + sqrt(v_t) S_t dW_t^S
-          <br><br>
-          dv_t = kappa (theta - v_t) dt + sigma sqrt(v_t) dW_t^v
-          <br><br>
-          d&lt;W^S, W^v&gt;_t = rho dt
-        </code></div>
+        <div class="math">\[
+          dS_t = r S_t \, dt + \sqrt{v_t}\, S_t \, dW_t^S
+        \]
+        \[
+          dv_t = \kappa (\theta - v_t)\, dt + \sigma \sqrt{v_t}\, dW_t^v
+        \]
+        \[
+          d\langle W^S, W^v \rangle_t = \rho \, dt
+        \]</div>
         <p>
           Here, <code>sigma</code> is the vol-of-vol parameter. It controls how random the variance process is.
         </p>
@@ -201,16 +218,16 @@
         <p>
           If <code>V = V(S, v, t)</code> is the option price, then the two-factor Heston PDE is:
         </p>
-        <div class="math"><code>
+        <div class="math">\[
           V_t
-          + (1/2) v S^2 V_SS
-          + rho sigma v S V_Sv
-          + (1/2) sigma^2 v V_vv
+          + \frac{1}{2} v S^2 V_{SS}
+          + \rho \sigma v S V_{Sv}
+          + \frac{1}{2} \sigma^2 v V_{vv}
           + r S V_S
-          + kappa (theta - v) V_v
+          + \kappa (\theta - v) V_v
           - r V
           = 0
-        </code></div>
+        \]</div>
         <p class="small">
           This is a genuine stochastic-volatility PDE: second order in both <code>S</code> and <code>v</code>.
         </p>
@@ -221,22 +238,23 @@
         <p>
           Set <code>sigma = 0</code>. Then two terms disappear immediately:
         </p>
-        <div class="math"><code>
-          rho sigma v S V_Sv = 0
-          <br><br>
-          (1/2) sigma^2 v V_vv = 0
-        </code></div>
+        <div class="math">\[
+          \rho \sigma v S V_{Sv} = 0
+        \]
+        \[
+          \frac{1}{2} \sigma^2 v V_{vv} = 0
+        \]</div>
         <p>
           So the PDE becomes:
         </p>
-        <div class="math"><code>
+        <div class="math">\[
           V_t
-          + (1/2) v S^2 V_SS
+          + \frac{1}{2} v S^2 V_{SS}
           + r S V_S
-          + kappa (theta - v) V_v
+          + \kappa (\theta - v) V_v
           - r V
           = 0
-        </code></div>
+        \]</div>
       </article>
 
       <article class="card full">
@@ -254,15 +272,15 @@
         <p>
           The variance dynamics reduce from an SDE to an ODE:
         </p>
-        <div class="math"><code>
-          dv_t = kappa (theta - v_t) dt
-        </code></div>
+        <div class="math">\[
+          dv_t = \kappa (\theta - v_t)\, dt
+        \]</div>
         <p>
           with closed-form solution:
         </p>
-        <div class="math"><code>
-          v(t) = theta + (v0 - theta) e^(-kappa t)
-        </code></div>
+        <div class="math">\[
+          v(t) = \theta + (v_0 - \theta)e^{-\kappa t}
+        \]</div>
         <p>
           So once <code>sigma = 0</code>, variance is no longer a random state variable. It is a known curve in time.
         </p>
@@ -274,9 +292,9 @@
           Your usual Heston characteristic function contains terms with <code>sigma^2</code> in the denominator.
           That formula is derived for the generic stochastic-vol case.
         </p>
-        <div class="math"><code>
-          C(...)/(sigma^2), D(...)/(sigma^2), ...
-        </code></div>
+        <div class="math">\[
+          \frac{C(\cdots)}{\sigma^2}, \quad \frac{D(\cdots)}{\sigma^2}, \quad \ldots
+        \]</div>
         <p>
           So plugging in <code>sigma = 0</code> directly makes that representation blow up.
         </p>
@@ -291,21 +309,21 @@
           Since variance is deterministic, the only thing you need for pricing over maturity <code>T</code> is the
           integrated variance:
         </p>
-        <div class="math"><code>
-          I(T) = integral from 0 to T of v(s) ds
-        </code></div>
+        <div class="math">\[
+          I(T) = \int_0^T v(s)\, ds
+        \]</div>
         <p>
           Using the deterministic variance path above:
         </p>
-        <div class="math"><code>
-          I(T) = theta T + (v0 - theta) (1 - e^(-kappa T)) / kappa
-        </code></div>
+        <div class="math">\[
+          I(T) = \theta T + (v_0 - \theta)\frac{1 - e^{-\kappa T}}{\kappa}
+        \]</div>
         <p>
           and if <code>kappa = 0</code>, then:
         </p>
-        <div class="math"><code>
-          I(T) = v0 T
-        </code></div>
+        <div class="math">\[
+          I(T) = v_0 T
+        \]</div>
       </article>
 
       <article class="card full">
@@ -313,9 +331,9 @@
         <p>
           Once you know <code>I(T)</code>, the effective variance over <code>[0, T]</code> is:
         </p>
-        <div class="math"><code>
-          sigma_eff^2 = I(T) / T
-        </code></div>
+        <div class="math">\[
+          \sigma_{\mathrm{eff}}^2 = \frac{I(T)}{T}
+        \]</div>
         <p>
           So option pricing is no longer a full two-factor Heston pricing problem. It becomes Black-Scholes-style
           pricing with deterministic time-dependent variance.
