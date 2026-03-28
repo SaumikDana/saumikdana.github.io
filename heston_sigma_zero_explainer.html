@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heston at Sigma = 0</title>
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --panel: #fffaf2;
+      --ink: #1f1c18;
+      --muted: #5f594f;
+      --accent: #0d5c63;
+      --accent-soft: #d9ecee;
+      --rule: #d9cdbb;
+      --math: #17384d;
+      --shadow: 0 18px 50px rgba(39, 33, 24, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(13, 92, 99, 0.12), transparent 30%),
+        linear-gradient(180deg, #f9f4ec 0%, var(--bg) 100%);
+      line-height: 1.6;
+    }
+
+    .wrap {
+      width: min(980px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    .hero,
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(217, 205, 187, 0.85);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 34px 28px 28px;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0 0 14px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4.1rem);
+      max-width: 12ch;
+      margin-top: 16px;
+    }
+
+    h2 {
+      font-size: clamp(1.35rem, 2.4vw, 2rem);
+      color: var(--math);
+    }
+
+    p {
+      margin: 0 0 14px;
+      font-size: 1.04rem;
+    }
+
+    .lede {
+      font-size: 1.14rem;
+      color: var(--muted);
+      max-width: 64ch;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      padding: 24px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .math {
+      margin: 18px 0;
+      padding: 16px 18px;
+      border-left: 5px solid var(--accent);
+      background: #f7fbfb;
+      color: var(--math);
+      overflow-x: auto;
+      font-size: 1.02rem;
+    }
+
+    .math code,
+    code {
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.95em;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--rule);
+      margin: 18px 0;
+    }
+
+    .highlight {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(13, 92, 99, 0.08), rgba(23, 56, 77, 0.05));
+      border: 1px solid rgba(13, 92, 99, 0.15);
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .card {
+        border-radius: 18px;
+      }
+
+      .wrap {
+        padding-top: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">Boundary Case Note</span>
+      <h1>What Really Happens in Heston When Sigma = 0?</h1>
+      <p class="lede">
+        The short answer is: the usual Heston formula becomes singular, but the model itself becomes simpler.
+        The singularity is in the representation, not in the boundary-case dynamics.
+      </p>
+    </section>
+
+    <section class="grid">
+      <article class="card full">
+        <h2>1. Start With the Core Stochastic System</h2>
+        <p>
+          Under risk-neutral dynamics, the Heston model is usually written as:
+        </p>
+        <div class="math"><code>
+          dS_t = r S_t dt + sqrt(v_t) S_t dW_t^S
+          <br><br>
+          dv_t = kappa (theta - v_t) dt + sigma sqrt(v_t) dW_t^v
+          <br><br>
+          d&lt;W^S, W^v&gt;_t = rho dt
+        </code></div>
+        <p>
+          Here, <code>sigma</code> is the vol-of-vol parameter. It controls how random the variance process is.
+        </p>
+        <div class="highlight">
+          <strong>Interpretation:</strong> when <code>sigma &gt; 0</code>, variance itself is diffusing randomly.
+          When <code>sigma = 0</code>, that random shock vanishes.
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>2. The Full Heston PDE</h2>
+        <p>
+          If <code>V = V(S, v, t)</code> is the option price, then the two-factor Heston PDE is:
+        </p>
+        <div class="math"><code>
+          V_t
+          + (1/2) v S^2 V_SS
+          + rho sigma v S V_Sv
+          + (1/2) sigma^2 v V_vv
+          + r S V_S
+          + kappa (theta - v) V_v
+          - r V
+          = 0
+        </code></div>
+        <p class="small">
+          This is a genuine stochastic-volatility PDE: second order in both <code>S</code> and <code>v</code>.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>3. What Sigma = 0 Removes</h2>
+        <p>
+          Set <code>sigma = 0</code>. Then two terms disappear immediately:
+        </p>
+        <div class="math"><code>
+          rho sigma v S V_Sv = 0
+          <br><br>
+          (1/2) sigma^2 v V_vv = 0
+        </code></div>
+        <p>
+          So the PDE becomes:
+        </p>
+        <div class="math"><code>
+          V_t
+          + (1/2) v S^2 V_SS
+          + r S V_S
+          + kappa (theta - v) V_v
+          - r V
+          = 0
+        </code></div>
+      </article>
+
+      <article class="card full">
+        <h2>4. Why This Is a Major Mathematical Change</h2>
+        <p>
+          This is not a tiny perturbation. It changes the structure of the problem.
+        </p>
+        <ul>
+          <li>The mixed derivative term <code>V_Sv</code> disappears.</li>
+          <li>The second derivative in variance <code>V_vv</code> disappears.</li>
+          <li><code>rho</code> drops out of pricing entirely.</li>
+          <li>The variance process stops being stochastic and becomes deterministic.</li>
+        </ul>
+        <div class="divider"></div>
+        <p>
+          The variance dynamics reduce from an SDE to an ODE:
+        </p>
+        <div class="math"><code>
+          dv_t = kappa (theta - v_t) dt
+        </code></div>
+        <p>
+          with closed-form solution:
+        </p>
+        <div class="math"><code>
+          v(t) = theta + (v0 - theta) e^(-kappa t)
+        </code></div>
+        <p>
+          So once <code>sigma = 0</code>, variance is no longer a random state variable. It is a known curve in time.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>5. What This Means for FFT / Characteristic Functions</h2>
+        <p>
+          Your usual Heston characteristic function contains terms with <code>sigma^2</code> in the denominator.
+          That formula is derived for the generic stochastic-vol case.
+        </p>
+        <div class="math"><code>
+          C(...)/(sigma^2), D(...)/(sigma^2), ...
+        </code></div>
+        <p>
+          So plugging in <code>sigma = 0</code> directly makes that representation blow up.
+        </p>
+        <div class="highlight">
+          <strong>Key point:</strong> the formula becomes invalid at the boundary, but the model itself does not.
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>6. The Boundary Model Is Simpler</h2>
+        <p>
+          Since variance is deterministic, the only thing you need for pricing over maturity <code>T</code> is the
+          integrated variance:
+        </p>
+        <div class="math"><code>
+          I(T) = integral from 0 to T of v(s) ds
+        </code></div>
+        <p>
+          Using the deterministic variance path above:
+        </p>
+        <div class="math"><code>
+          I(T) = theta T + (v0 - theta) (1 - e^(-kappa T)) / kappa
+        </code></div>
+        <p>
+          and if <code>kappa = 0</code>, then:
+        </p>
+        <div class="math"><code>
+          I(T) = v0 T
+        </code></div>
+      </article>
+
+      <article class="card full">
+        <h2>7. The Pricing Problem Collapses to a One-Factor Problem</h2>
+        <p>
+          Once you know <code>I(T)</code>, the effective variance over <code>[0, T]</code> is:
+        </p>
+        <div class="math"><code>
+          sigma_eff^2 = I(T) / T
+        </code></div>
+        <p>
+          So option pricing is no longer a full two-factor Heston pricing problem. It becomes Black-Scholes-style
+          pricing with deterministic time-dependent variance.
+        </p>
+        <div class="highlight">
+          That is the clean interpretation of the <code>sigma = 0</code> boundary: not a broken model, but a reduced model.
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>8. What You Should Take Away</h2>
+        <ul>
+          <li><code>sigma = 0</code> changes the math significantly.</li>
+          <li>The variance shock vanishes completely.</li>
+          <li><code>rho</code> becomes unidentifiable from prices.</li>
+          <li>The full Heston representation with <code>1 / sigma^2</code> is no longer the right formula.</li>
+          <li>The correct thing is to treat <code>sigma = 0</code> as an exact boundary case with its own closed-form structure.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>9. Practical Coding Interpretation</h2>
+        <p>
+          In calibration terms, that means:
+        </p>
+        <ul>
+          <li>If a candidate has <code>sigma &gt; 0</code>, evaluate it with the usual Heston CF plus FFT machinery.</li>
+          <li>If a candidate has <code>sigma = 0</code>, do not feed it into the singular formula.</li>
+          <li>Instead, evaluate that candidate using the deterministic-variance pricing branch.</li>
+        </ul>
+        <p class="small">
+          This is not a heuristic floor. It is the mathematically correct boundary model.
+        </p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
