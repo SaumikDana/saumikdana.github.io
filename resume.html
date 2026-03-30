@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saumik Dana – Resume</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f3;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 6px;
+    }
+
+    p {
+      font-size: 0.875rem;
+      color: #888;
+      margin-bottom: 28px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #111;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 14px;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    input[type="text"]:focus {
+      border-color: #111;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #111;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    .error {
+      font-size: 0.8rem;
+      color: #e53e3e;
+      margin-top: 10px;
+      min-height: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Saumik Dana</h1>
+    <p>Enter the access key to view resume</p>
+    <input type="text" id="keyInput" placeholder="access key" autocomplete="off" />
+    <button onclick="checkKey()">View Resume</button>
+    <div class="error" id="error"></div>
+  </div>
+
+  <script>
+    const CORRECT_KEY = "cv-sd26";
+    const RESUME_URL = "Saumik_CV.pdf";
+
+    function checkKey() {
+      const input = document.getElementById("keyInput").value.trim();
+      if (input === CORRECT_KEY) {
+        window.location.href = RESUME_URL;
+      } else {
+        document.getElementById("error").textContent = "Incorrect key. Please try again.";
+      }
+    }
+
+    document.getElementById("keyInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") checkKey();
+    });
+  </script>
+</body>
+</html>
