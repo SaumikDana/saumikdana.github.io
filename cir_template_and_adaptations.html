@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIR template and adaptations</title>
+<style>
+  :root {
+    --bg-page: #faf9f7;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f1efe8;
+    --text-primary: #1a1a1a;
+    --text-secondary: #5f5e5a;
+    --border: rgba(0, 0, 0, 0.12);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --rates: #185FA5;
+    --rates-bg: #E6F1FB;
+    --variance: #1D9E75;
+    --variance-text: #0F6E56;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-serif: Georgia, "Times New Roman", serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-page: #1a1a18;
+      --bg-primary: #26261f;
+      --bg-secondary: #2f2f28;
+      --text-primary: #f1efe8;
+      --text-secondary: #b4b2a9;
+      --border: rgba(255, 255, 255, 0.15);
+      --rates: #85B7EB;
+      --rates-bg: #0C447C;
+      --variance: #5DCAA5;
+      --variance-text: #9FE1CB;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    font-family: var(--font-sans);
+    background: var(--bg-page);
+    color: var(--text-primary);
+    line-height: 1.7;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 1.5rem;
+  }
+  .intro {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 0 0 2rem;
+  }
+  .template {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .template-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 6px;
+    letter-spacing: 0.5px;
+  }
+  .equation {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    margin: 0 0 10px;
+    color: var(--text-primary);
+  }
+  .template-caption {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+  .section-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 8px;
+    letter-spacing: 0.5px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .card {
+    background: var(--bg-primary);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--rates);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+  }
+  .card-state {
+    font-size: 12px;
+    color: var(--rates);
+    margin: 0 0 4px;
+    font-weight: 500;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 6px;
+  }
+  .card-eq {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    margin: 0 0 6px;
+    color: var(--text-primary);
+  }
+  .card-note {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .heston {
+    background: var(--bg-primary);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--variance);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+  }
+  .heston-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .heston-state {
+    font-size: 12px;
+    color: var(--variance-text);
+    margin: 0;
+    font-weight: 500;
+  }
+  .heston-attr {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .heston-eq {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    margin: 0 0 6px;
+    color: var(--text-primary);
+  }
+  .heston-note {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 10px;
+    line-height: 1.6;
+  }
+  .heston-pair {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+  }
+  .heston-pair-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0 0 4px;
+  }
+  .heston-pair-eq {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    margin: 0;
+    color: var(--text-primary);
+  }
+  footer {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>CIR template and its adaptations</h1>
+  <p class="intro">A single mean-reverting square-root SDE underlies a surprisingly large family of finance models. The state variable changes; the equation does not.</p>
+
+  <div class="template">
+    <p class="template-label">the CIR template</p>
+    <p class="equation">dX = &kappa;(&theta; &minus; X) dt + &sigma;&radic;X&nbsp;dW</p>
+    <p class="template-caption">non-negative &middot; mean-reverts to &theta; at speed &kappa; &middot; vol scales with &radic;X &middot; affine, closed-form pricing</p>
+  </div>
+
+  <p class="section-label">along the yield curve &mdash; same SDE, different point</p>
+
+  <div class="grid">
+
+    <div class="card">
+      <p class="card-state">X = r(t)</p>
+      <p class="card-title">short rate</p>
+      <p class="card-eq">dr = &kappa;(&theta;&minus;r)dt + &sigma;&radic;r&nbsp;dW</p>
+      <p class="card-note">CIR 1985 &middot; &tau;&rarr;0 rate &middot; entire curve from one SDE</p>
+    </div>
+
+    <div class="card">
+      <p class="card-state">X = &ell;(t)</p>
+      <p class="card-title">long / consol rate</p>
+      <p class="card-eq">d&ell; = &kappa;(&theta;&minus;&ell;)dt + &sigma;&radic;&ell;&nbsp;dW</p>
+      <p class="card-note">Brennan&ndash;Schwartz &middot; &tau;&rarr;&infin; end of the curve</p>
+    </div>
+
+    <div class="card">
+      <p class="card-state">X = &theta;_t</p>
+      <p class="card-title">central tendency</p>
+      <p class="card-eq">d&theta; = &alpha;(&mu;&minus;&theta;)dt + &eta;&radic;&theta;&nbsp;dW</p>
+      <p class="card-note">BDF, Chen &middot; stochastic target r reverts toward</p>
+    </div>
+
+    <div class="card">
+      <p class="card-state">X = v(t)</p>
+      <p class="card-title">forward-rate vol</p>
+      <p class="card-eq">dv = &kappa;(&theta;&minus;v)dt + &xi;&radic;v&nbsp;dW</p>
+      <p class="card-note">SV-LMM, SV-HJM &middot; vol driver for forward / LIBOR rates</p>
+    </div>
+
+    <div class="card">
+      <p class="card-state">X = s(t)</p>
+      <p class="card-title">spread / basis</p>
+      <p class="card-eq">ds = &kappa;(&theta;&minus;s)dt + &sigma;&radic;s&nbsp;dW</p>
+      <p class="card-note">credit spread, swap spread &middot; non-negative differences</p>
+    </div>
+
+    <div class="card">
+      <p class="card-state">X = X&#8321;, X&#8322;, &hellip;</p>
+      <p class="card-title">latent curve factors</p>
+      <p class="card-eq">dX&#7522; = &kappa;&#7522;(&theta;&#7522;&minus;X&#7522;)dt + &sigma;&#7522;&radic;X&#7522;&nbsp;dW&#7522;</p>
+      <p class="card-note">Duffie&ndash;Kan affine &middot; level / slope / curvature drivers</p>
+    </div>
+
+  </div>
+
+  <p class="section-label">outside rates &mdash; the Heston branch</p>
+
+  <div class="heston">
+    <div class="heston-header">
+      <p class="heston-state">X = v(t) &mdash; instantaneous variance of an asset</p>
+      <p class="heston-attr">Heston 1993</p>
+    </div>
+    <p class="heston-eq">dv = &kappa;(&theta; &minus; v) dt + &sigma;&radic;v&nbsp;dW&#8322;</p>
+    <p class="heston-note">structurally identical to the short-rate SDE &mdash; only the label on the state variable changes</p>
+    <div class="heston-pair">
+      <p class="heston-pair-label">paired with the asset SDE to form Heston's 2-SDE model:</p>
+      <p class="heston-pair-eq">dS = &mu;S dt + &radic;v&nbsp;S&nbsp;dW&#8321;,&nbsp;&nbsp;corr(dW&#8321;, dW&#8322;) = &rho;</p>
+    </div>
+  </div>
+
+  <footer>
+    Same brick, different label on the state variable.
+  </footer>
+
+</div>
+</body>
+</html>
