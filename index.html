@@ -608,10 +608,10 @@
         <section class="block">
             <div class="block-label">About</div>
             <p class="prose">
-                I'm a computational engineer building and deploying full-stack ML and LLM-based systems. I hold a PhD from the University of Texas at Austin, where I developed a strong foundation in numerical methods, stochastic modeling, and scientific computing. My work spans feature engineering, multi-objective optimization, regime detection, stochastic modeling, RAG, and multimodal document intelligence.
+                I'm a computational engineer who designs, ships, and operates full-stack ML and LLM-based systems end-to-end. My PhD at the University of Texas at Austin grounded me in numerical methods, stochastic modeling, and scientific computing — a toolkit I now turn on quantitative finance, retrieval-augmented generation, and multimodal document intelligence.
             </p>
             <p class="prose">
-                I've shipped production trading systems, LLM-backed research agents, market intelligence tools, and cloud-native analytics applications. I care about the full lifecycle from data pipelines and model development through deployment, evaluation, and monitoring.
+                In practice, that means production trading strategies, LLM-backed research and discovery agents, hybrid retrieval pipelines, and the cloud-native scaffolding around them. I care about the whole lifecycle — feature engineering, model selection, calibration, deployment, evaluation, and the boring infrastructure that keeps any of it from breaking at 3 a.m.
             </p>
         </section>
 
@@ -628,15 +628,15 @@
                 <div class="exp-company">Asset Management Firm &middot; Stamford, CT</div>
                 <div class="exp-body">
                     <p>
-                        I built production ML systems and trading infrastructure for quantitative strategies — volatility arbitrage intraday options trading on AWS Lambda, Chronos embeddings with LoRA tuning and AutoGluon-backed interday options trading on Modal, and NSGA-II-backed sector ETF portfolio construction with regime-adaptive rebalancing on AWS Lambda, all wired together with GitHub CI, Docker, EventBridge scheduling, React dashboards, and DynamoDB.
+                        I built and ran production ML and trading infrastructure on a serverless-first stack — AWS Lambda, DynamoDB, S3, EventBridge, CloudFormation, and Modal — wired together with a GitHub CI/CD pipeline using Docker buildx and an ECR registry cache, plus React dashboards over the DynamoDB/S3 state and lifecycle cleanup of stale ECR images. On top of that foundation I shipped an anomaly-detection-backed volatility arbitrage strategy for intraday options, a LoRA-tuned Chronos and TabPFN driven interday options system, and a bi-objective optimizer backed thematic equity portfolio with regime-adaptive rebalancing.
                     </p>
 
                     <p>
-                        On the LLM side, I engineered a Groq-powered FX and macro RSS feed-driven intraday trading agent on AWS Lambda, built a FAISS RAG-powered Groq agent for swing trading of commodity stocks on Modal, and deployed a news-backed LLM-triggered rebalance workflow for a Quantum Computing and AI thematic index. I also designed a query-based trade signal mining app over backtested options data using an LLM-guided workflow, and engineered a Groq vision model and two-pass LLM-enabled PDF Q&amp;A app for market research.
+                        On the LLM side, I evaluated Groq-backed agents with RSS/XML ingestion, guardrails, and structured trading-signal outputs; engineered FX and macro-news driven intraday FX signal evaluation agents; and benchmarked hand-rolled prompt architectures against LangGraph for FX trade position sizing. I also built a ticker alert pipeline with hybrid retrieval — SQLite FTS5, PostgreSQL tsvector, Whoosh, and FAISS — feeding RAG, along with a query-based signal mining Streamlit app over backtested options strategies and a multimodal embedding model wired to a Next.js PDF Q&amp;A app for market research.
                     </p>
 
                     <p>
-                        Alongside these systems I experimented with single-pass vs. multi-pass LLM prompt architectures, retrieval configurations and embedding model choice for the RAG pipeline, Pareto front selection rules for bi-objective optimization, solver benchmarking for stochastic volatility model calibration, and A/B tests comparing SHAP vs. native feature importance and LoRA fine-tuning vs. frozen Chronos embeddings.
+                        Behind all of that was a steady stream of experimentation: bi-objective optimization with different Pareto-front selection rules, A/B tests comparing SHAP versus native feature importance, Black–Litterman portfolio construction, fast jump-diffusion-aware Heston model calibration via constrained optimization, and OOS benchmarks pitting Google TimesFM against Amazon Chronos and LoRA-adapted against base Chronos.
                     </p>
                 </div>
             </div>
@@ -650,7 +650,7 @@
                 <div class="exp-company">VISIE Inc. &middot; Austin, TX</div>
                 <div class="exp-body">
                     <p>
-                        I joined during the early integration phase of a robotic surgical navigation platform combining imaging and robotic actuation. My work focused on implementing TCP/UDP communication protocols for robotic arm motion control, contributing to end-to-end packaging with Poetry, and supporting deployment through Azure tooling. The team delivered a successful live system demonstration used in Series A fundraising.
+                        I joined during the early integration phase of a surgical navigation platform combining imaging and robotic actuation. My work centered on implementing TCP/UDP communication protocols for robotic arm motion control, supporting end-to-end product packaging and deployment, and helping stage a live demonstration that anchored the company's successful Series A round.
                     </p>
                 </div>
             </div>
@@ -664,7 +664,7 @@
                 <div class="exp-company">Sophelio &middot; Austin, TX</div>
                 <div class="exp-body">
                     <p>
-                        I adapted physics-informed modeling originally developed for fusion experiment data to financial time series. The resulting production pipeline combined sparse regression for PDE construction, signal generation, and automated execution. I also implemented a CAGR-maximizing Bayesian TPE optimizer for swing-trading thresholds and deployed the system on AWS Lambda.
+                        I adapted physics-informed modeling originally developed for fusion experiment data to financial time series. The resulting production pipeline used sparse regression for PDE construction and signal generation, paired with a CAGR-maximizing Bayesian TPE optimizer driving a swing-trading system deployed on AWS Lambda.
                     </p>
                 </div>
             </div>
@@ -676,19 +676,18 @@
             <div class="tech-mosaic">
                 <div class="tech-tile">
                     <h4>ML &amp; Optimization</h4>
-                    <p>Model development, feature engineering, and optimization across classical ML, probabilistic models, and evolutionary search.</p>
+                    <p>Model development, feature engineering, and optimization across classical ML, probabilistic models, time-series foundation models, and evolutionary search.</p>
                     <div class="tag-cloud">
                         <span class="tag">PyTorch</span>
-                        <span class="tag">Scikit-learn</span>
-                        <span class="tag">AutoGluon</span>
-                        <span class="tag">Tree Models</span>
+                        <span class="tag">TabPFN</span>
+                        <span class="tag">Chronos</span>
+                        <span class="tag">PEFT/LoRA</span>
+                        <span class="tag">LightGBM</span>
                         <span class="tag">HMM</span>
                         <span class="tag">SHAP</span>
-                        <span class="tag">Optuna</span>
                         <span class="tag">Pymoo</span>
-                        <span class="tag">TA-Lib</span>
-                        <span class="tag">PEFT</span>
-                        <span class="tag">SLSQP</span>
+                        <span class="tag">SciPy</span>
+                        <span class="tag">autograd</span>
                     </div>
                 </div>
                 <div class="tech-tile">
@@ -697,11 +696,12 @@
                     <div class="tag-cloud">
                         <span class="tag">Lambda</span>
                         <span class="tag">DynamoDB</span>
+                        <span class="tag">S3</span>
+                        <span class="tag">ECR</span>
                         <span class="tag">EventBridge</span>
                         <span class="tag">CloudFormation</span>
                         <span class="tag">Docker</span>
                         <span class="tag">GitHub CI</span>
-                        <span class="tag">HuggingFace</span>
                         <span class="tag">Modal</span>
                     </div>
                 </div>
@@ -712,40 +712,39 @@
                         <span class="tag">Python</span>
                         <span class="tag">Pandas</span>
                         <span class="tag">NumPy</span>
-                        <span class="tag">SciPy</span>
-                        <span class="tag">TypeScript</span>
-                        <span class="tag">React</span>
-                        <span class="tag">Next.js</span>
+                        <span class="tag">PyArrow</span>
+                        <span class="tag">scikit-learn</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">React/JSX</span>
                         <span class="tag">HTML</span>
-                        <span class="tag">Linux/Bash</span>
                     </div>
                 </div>
                 <div class="tech-tile">
-                    <h4>APIs &amp; Web</h4>
+                    <h4>APIs &amp; Dashboards</h4>
                     <p>Production APIs and app backends connecting market data, broker integrations, feeds, and interactive analytics interfaces.</p>
                     <div class="tag-cloud">
                         <span class="tag">Alpaca</span>
                         <span class="tag">OANDA</span>
+                        <span class="tag">Schwab</span>
                         <span class="tag">yfinance</span>
                         <span class="tag">FastAPI</span>
-                        <span class="tag">RSS Feeds</span>
-                        <span class="tag">XML Feeds</span>
-                        <span class="tag">Streamlit</span>
-                        <span class="tag">Groq</span>
-                        <span class="tag">Benzinga</span>
+                        <span class="tag">Mangum</span>
+                        <span class="tag">Recharts</span>
+                        <span class="tag">Tailwind CDN</span>
+                        <span class="tag">RSS/XML</span>
                     </div>
                 </div>
                 <div class="tech-tile">
-                    <h4>NLP &amp; LLMs</h4>
-                    <p>RAG systems and LLM tooling with observability, vector retrieval, and evaluation for production use.</p>
+                    <h4>LLM &amp; RAG</h4>
+                    <p>LLM tooling and hybrid retrieval systems combining lexical and vector search for production RAG.</p>
                     <div class="tag-cloud">
+                        <span class="tag">Groq</span>
                         <span class="tag">LangChain</span>
-                        <span class="tag">LangSmith</span>
-                        <span class="tag">OpenAIGuard</span>
-                        <span class="tag">Presidio</span>
+                        <span class="tag">LangGraph</span>
                         <span class="tag">FAISS</span>
-                        <span class="tag">ChromaDB</span>
-                        <span class="tag">Qdrant</span>
+                        <span class="tag">Whoosh</span>
+                        <span class="tag">SQLite FTS5</span>
+                        <span class="tag">PostgreSQL tsvector</span>
                     </div>
                 </div>
             </div>
