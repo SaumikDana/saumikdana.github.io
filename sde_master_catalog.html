@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The master SDE and its catalog</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+    options: { renderActions: { addMenu: [] } }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+<style>
+  :root {
+    --text: #1d1d1b;
+    --text-muted: #5b5b58;
+    --text-faint: #8a8a86;
+    --bg: #fbfaf6;
+    --card: #ffffff;
+    --border: #e2e0d8;
+    --rule: #d8d6cd;
+    --accent: #b9532f;
+    --accent-soft: #efe6df;
+  }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .wrap {
+    max-width: 820px;
+    margin: 48px auto 80px;
+    padding: 0 28px;
+  }
+  header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  header .subtitle {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin: 0 0 28px;
+  }
+  p { margin: 0 0 14px; }
+  .lede p { color: var(--text); }
+  .master-eq {
+    margin: 22px 0 30px;
+    padding: 22px 16px;
+    background: var(--accent-soft);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 17px;
+  }
+  h2 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin: 38px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .model {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--rule);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+  .model.accent { border-left-color: var(--accent); }
+  .model-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .model-name {
+    font-weight: 700;
+    font-size: 15.5px;
+  }
+  .model-tag {
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .row {
+    margin: 4px 0;
+  }
+  .row .key {
+    display: inline-block;
+    width: 60px;
+    color: var(--text-faint);
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    vertical-align: top;
+  }
+  .row .val {
+    display: inline-block;
+    max-width: calc(100% - 70px);
+    vertical-align: top;
+  }
+  .note {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  .system {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    background: #faf8f2;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 4px 0;
+    font-size: 13.5px;
+  }
+  footer {
+    margin-top: 48px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  footer em { color: var(--accent); font-style: normal; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>The master SDE and its catalog</h1>
+  <p class="subtitle">Every model below is a specific $(\mu, \sigma)$ choice — possibly with jumps, multiple dimensions, or path memory — plugged into one template.</p>
+</header>
+
+<section class="lede">
+  <p>The master template (one-dimensional, Markov, Itô version) is one equation:</p>
+  <div class="master-eq">
+    $$dX_t \;=\; \mu(X_t, t)\, dt \;+\; \sigma(X_t, t)\, dW_t$$
+  </div>
+  <p>A "model" in this framework is determined entirely by your choice of the pair $(\mu, \sigma)$, plus, if needed, a jump term or a path-memory kernel. The state variable $X_t$ is just a real number; what it represents in the world — a short rate, a stock price, an instantaneous variance, a default intensity — is interpretation attached after the math is done.</p>
+  <p>There are progressively more general master templates, and each model below sits at one of four levels:</p>
+  <p style="color: var(--text-muted); font-size: 14px; margin-top: 14px;">
+    <strong>Level 1</strong> — 1D, Markov, Itô. &nbsp; <strong>Level 2</strong> — $n$-dim, Markov. &nbsp; <strong>Level 3</strong> — with jumps. &nbsp; <strong>Level 4</strong> — path-dependent / non-Markov.
+  </p>
+</section>
+
+<!-- ================= LEVEL 1 ================= -->
+<h2>Level 1 — one-dimensional Markov Itô SDEs</h2>
+
+<div class="model accent">
+  <div class="model-head"><span class="model-name">Vasicek</span><span class="model-tag">Level 1</span></div>
+  <div class="row"><span class="key">$\mu(x)$</span><span class="val">$\kappa(\theta - x)$</span></div>
+  <div class="row"><span class="key">$\sigma(x)$</span><span class="val">$\sigma_0$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">short rate $r_t$</span></div>
+  <p class="note">Simplest mean-reverting Gaussian model. Rate can go negative.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Ho-Lee</span><span class="model-tag">Level 1</span></div>
+  <div class="row"><span class="key">$\mu(x,t)$</span><span class="val">$\theta(t)$</span></div>
+  <div class="row"><span class="key">$\sigma(x)$</span><span class="val">$\sigma_0$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">short rate $r_t$</span></div>
+  <p class="note">No mean reversion; $\theta(t)$ is calibrated so the model fits today's yield curve exactly.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Hull-White (extended Vasicek)</span><span class="model-tag">Level 1</span></div>
+  <div class="row"><span class="key">$\mu(x,t)$</span><span class="val">$\theta(t) - \kappa x$</span></div>
+  <div class="row"><span class="key">$\sigma(x)$</span><span class="val">$\sigma_0$ &nbsp;(or $\sigma(t)$)</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">short rate $r_t$</span></div>
+  <p class="note">Combines Vasicek's mean reversion with Ho-Lee's curve-fitting trick.</p>
+</div>
+
+<div class="model accent">
+  <div class="model-head"><span class="model-name">CIR (Cox-Ingersoll-Ross)</span><span class="model-tag">Level 1</span></div>
+  <div class="row"><span class="key">$\mu(x)$</span><span class="val">$\kappa(\theta - x)$</span></div>
+  <div class="row"><span class="key">$\sigma(x)$</span><span class="val">$\sigma_0\sqrt{x}$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">short rate $r_t$ &nbsp;— or variance, or default intensity</span></div>
+  <p class="note">The same $(\mu,\sigma)$ pair reappears across rates, equity-vol (as Heston's variance), and credit (as default intensity). Non-central chi-squared distribution; $X \geq 0$ under Feller condition $2\kappa\theta \geq \sigma_0^2$.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">CIR++</span><span class="model-tag">Level 1 + shift</span></div>
+  <div class="row"><span class="key">SDE</span><span class="val">$dY_t = \kappa(\theta - Y_t)\,dt + \sigma_0\sqrt{Y_t}\,dW_t$, &nbsp; $r_t = Y_t + \varphi(t)$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">short rate $r_t$</span></div>
+  <p class="note">CIR with a deterministic shift $\varphi(t)$ that calibrates the model to today's curve.</p>
+</div>
+
+<div class="model accent">
+  <div class="model-head"><span class="model-name">Black-Scholes / GBM</span><span class="model-tag">Level 1</span></div>
+  <div class="row"><span class="key">$\mu(x)$</span><span class="val">$\mu_0\, x$</span></div>
+  <div class="row"><span class="key">$\sigma(x)$</span><span class="val">$\sigma_0\, x$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">stock price $S_t$</span></div>
+  <p class="note">Under the risk-neutral measure $\mu_0$ is replaced by the risk-free rate $r$. Lognormal distribution; $X > 0$ always.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Black-Karasinski</span><span class="model-tag">Level 1 (OU on $\ln X$)</span></div>
+  <div class="row"><span class="key">SDE</span><span class="val">$d(\ln X_t) = \kappa(\theta(t) - \ln X_t)\,dt + \sigma_0\, dW_t$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">short rate $r_t$</span></div>
+  <p class="note">OU dynamics on the log of the rate. Guarantees $r > 0$; not affine (no closed-form bond prices).</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Dothan</span><span class="model-tag">Level 1</span></div>
+  <div class="row"><span class="key">$\mu(x)$</span><span class="val">$a\, x$</span></div>
+  <div class="row"><span class="key">$\sigma(x)$</span><span class="val">$\sigma_0\, x$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">short rate $r_t$</span></div>
+  <p class="note">GBM applied to the short rate. Rate stays positive; not affine.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">CEV (Cox 1975)</span><span class="model-tag">Level 1</span></div>
+  <div class="row"><span class="key">$\mu(x)$</span><span class="val">$\mu_0\, x$</span></div>
+  <div class="row"><span class="key">$\sigma(x)$</span><span class="val">$\sigma_0\, x^{\beta}$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">stock price $S_t$ &nbsp;(or forward $F_t$)</span></div>
+  <p class="note">The $\beta$ exponent interpolates Gaussian ($\beta=0$), square-root ($\beta=\tfrac{1}{2}$), and lognormal ($\beta=1$) in one parametric family.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">3/2 model (variance)</span><span class="model-tag">Level 1</span></div>
+  <div class="row"><span class="key">$\mu(x)$</span><span class="val">$x\,\kappa(\theta - x)$</span></div>
+  <div class="row"><span class="key">$\sigma(x)$</span><span class="val">$\sigma_0\, x^{3/2}$</span></div>
+  <div class="row"><span class="key">$X_t$</span><span class="val">instantaneous variance $v_t$</span></div>
+  <p class="note">Alternative to CIR for variance; quadratic drift and a higher diffusion power produce steeper at-the-money vol skew.</p>
+</div>
+
+<!-- ================= LEVEL 2 ================= -->
+<h2>Level 2 — multi-dimensional Markov Itô SDEs</h2>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">G2++ (two-factor Hull-White)</span><span class="model-tag">Level 2</span></div>
+  <div class="system">$dX^1_t = -a\, X^1_t\, dt + \sigma_1\, dW^1_t$<br>
+  $dX^2_t = -b\, X^2_t\, dt + \sigma_2\, dW^2_t,\quad \text{corr}(dW^1, dW^2) = \rho$</div>
+  <div class="row"><span class="key">Label</span><span class="val">short rate $r_t = X^1_t + X^2_t + \varphi(t)$</span></div>
+  <p class="note">Two latent Gaussian factors plus a deterministic shift that fits the curve. Produces realistic level-and-slope dynamics.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Longstaff-Schwartz</span><span class="model-tag">Level 2</span></div>
+  <div class="system">$dX^1_t = \kappa_1(\theta_1 - X^1_t)\,dt + \sigma_1\sqrt{X^1_t}\, dW^1_t$<br>
+  $dX^2_t = \kappa_2(\theta_2 - X^2_t)\,dt + \sigma_2\sqrt{X^2_t}\, dW^2_t$</div>
+  <div class="row"><span class="key">Label</span><span class="val">short rate $r_t = X^1_t + X^2_t$; one factor read as rate, other as volatility</span></div>
+  <p class="note">Two independent CIR factors. The 2D square-root analog of G2++.</p>
+</div>
+
+<div class="model accent">
+  <div class="model-head"><span class="model-name">Heston</span><span class="model-tag">Level 2</span></div>
+  <div class="system">$dS_t = \mu_0\, S_t\, dt + \sqrt{v_t}\, S_t\, dW^S_t$<br>
+  $dv_t = \kappa(\theta - v_t)\,dt + \xi\sqrt{v_t}\, dW^v_t,\quad \text{corr}(dW^S, dW^v) = \rho$</div>
+  <div class="row"><span class="key">Label</span><span class="val">$S_t$ stock, $v_t$ instantaneous variance</span></div>
+  <p class="note">Stock equation is GBM with stochastic vol. Variance equation is exactly CIR — same $(\mu,\sigma)$ pair as the rates model, with $X$ relabeled as variance.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">SABR</span><span class="model-tag">Level 2</span></div>
+  <div class="system">$dF_t = \alpha_t\, F_t^{\beta}\, dW^F_t$<br>
+  $d\alpha_t = \nu\, \alpha_t\, dW^\alpha_t,\quad \text{corr}(dW^F, dW^\alpha) = \rho$</div>
+  <div class="row"><span class="key">Label</span><span class="val">$F_t$ forward (rate or price), $\alpha_t$ stochastic volatility</span></div>
+  <p class="note">CEV-type forward with lognormal stochastic vol. Workhorse for swaption and FX smiles.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Chen (three-factor)</span><span class="model-tag">Level 2 ($n=3$)</span></div>
+  <div class="system">$dr_t = \kappa_r(\theta_t - r_t)\,dt + \sqrt{v_t}\, dW^r_t$<br>
+  $d\theta_t = \kappa_\theta(\bar{\theta} - \theta_t)\,dt + \sigma_\theta\sqrt{\theta_t}\, dW^\theta_t$<br>
+  $dv_t = \kappa_v(\bar{v} - v_t)\,dt + \sigma_v\sqrt{v_t}\, dW^v_t$</div>
+  <div class="row"><span class="key">Label</span><span class="val">$r_t$ short rate, $\theta_t$ stochastic long-run mean, $v_t$ stochastic volatility</span></div>
+  <p class="note">Three-factor affine model with level, central tendency, and volatility as separate factors.</p>
+</div>
+
+<!-- ================= LEVEL 3 ================= -->
+<h2>Level 3 — Itô SDEs with jumps</h2>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Merton (1976) jump-diffusion</span><span class="model-tag">Level 3</span></div>
+  <div class="system">$dS_t = \mu_0\, S_{t^-}\, dt + \sigma_0\, S_{t^-}\, dW_t + S_{t^-}(e^{Y} - 1)\, dN_t$</div>
+  <div class="row"><span class="key">Jumps</span><span class="val">$N_t$ Poisson with intensity $\lambda$; $Y \sim \mathcal{N}(\mu_J, \sigma_J^2)$</span></div>
+  <div class="row"><span class="key">Label</span><span class="val">stock price $S_t$</span></div>
+  <p class="note">GBM plus i.i.d. lognormal jumps. Closed-form option prices via a Poisson sum of Black-Scholes terms.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Kou</span><span class="model-tag">Level 3</span></div>
+  <div class="row"><span class="key">Form</span><span class="val">Merton structure with double-exponential log-jump distribution</span></div>
+  <div class="row"><span class="key">Label</span><span class="val">stock price $S_t$</span></div>
+  <p class="note">Asymmetric, fat-tailed jumps. Better fit to observed return distributions than Merton's symmetric Gaussian jumps.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Bates</span><span class="model-tag">Level 3 (2D, jumps in $S$)</span></div>
+  <div class="system">$dS_t = \mu_0\, S_{t^-}\, dt + \sqrt{v_t}\, S_{t^-}\, dW^S_t + S_{t^-}(e^Y - 1)\, dN_t$<br>
+  $dv_t = \kappa(\theta - v_t)\, dt + \xi\sqrt{v_t}\, dW^v_t$</div>
+  <div class="row"><span class="key">Label</span><span class="val">$S_t$ stock, $v_t$ variance</span></div>
+  <p class="note">Heston plus Merton-style jumps in the stock. The standard "smile + crash" extension for equity index options.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Affine jump-diffusion (Duffie-Pan-Singleton)</span><span class="model-tag">Level 3, general $n$</span></div>
+  <div class="row"><span class="key">Form</span><span class="val">drift and variance affine in $X$; jump intensity affine in $X$</span></div>
+  <div class="row"><span class="key">Label</span><span class="val">deliberately abstract</span></div>
+  <p class="note">The general framework that contains CIR, Vasicek, Heston, Bates, and their multi-factor jump cousins. Pricing reduces to Fourier inversion of an exponential-affine characteristic function.</p>
+</div>
+
+<!-- ================= LEVEL 4 ================= -->
+<h2>Level 4 — path-dependent / non-Markovian</h2>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">HJM (Heath-Jarrow-Morton)</span><span class="model-tag">Level 4 (or Level 2 in curve form)</span></div>
+  <div class="system">$df(t,T) = \alpha(t,T)\, dt + \sigma(t,T)\, dW_t$<br>
+  $\alpha(t,T) = \sigma(t,T)\int_t^T \sigma(t,u)\, du$ &nbsp; (no-arbitrage drift)</div>
+  <div class="row"><span class="key">Label</span><span class="val">$f(t,T)$ instantaneous forward rate</span></div>
+  <p class="note">The short rate $r_t = f(t,t)$ is generally non-Markovian — a functional of the path of $W$. Natural state is the entire forward curve.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">LIBOR Market Model (BGM)</span><span class="model-tag">Level 2 / 4</span></div>
+  <div class="system">$dL_k(t) = \mu_k(L, t)\, L_k\, dt + \sigma_k(t)\, L_k\, dW^k_t$</div>
+  <div class="row"><span class="key">Label</span><span class="val">$L_k(t)$ forward LIBOR for accrual period $[T_k, T_{k+1}]$</span></div>
+  <p class="note">Each forward rate is lognormal under its natural measure; drifts under a common measure depend on the other LIBORs. High-dimensional Markov system in the $L_k$'s.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Rough Heston</span><span class="model-tag">Level 4</span></div>
+  <div class="system">$v_t = v_0 + \dfrac{1}{\Gamma(H+\tfrac{1}{2})}\!\int_0^t (t-s)^{H-\tfrac{1}{2}}\!\bigl[\kappa(\theta - v_s)\, ds + \nu\sqrt{v_s}\, dW^v_s\bigr]$<br>
+  $dS_t = \sqrt{v_t}\, S_t\, dW^S_t,\quad H < \tfrac{1}{2}$</div>
+  <div class="row"><span class="key">Label</span><span class="val">$S_t$ stock, $v_t$ variance</span></div>
+  <p class="note">Variance is a stochastic Volterra equation — depends on the whole path of $W^v$. No finite-dimensional Markov state.</p>
+</div>
+
+<div class="model">
+  <div class="model-head"><span class="model-name">Rough Bergomi</span><span class="model-tag">Level 4</span></div>
+  <div class="system">$v_t = \xi_0(t)\, \exp\!\bigl(\eta\, W^H_t - \tfrac{1}{2}\eta^2\, t^{2H}\bigr)$<br>
+  $dS_t = \sqrt{v_t}\, S_t\, dW^S_t$</div>
+  <div class="row"><span class="key">Label</span><span class="val">$S_t$ stock, $v_t$ variance</span></div>
+  <p class="note">$W^H$ is fractional Brownian with Hurst $H<\tfrac{1}{2}$. Variance is an explicit functional of the path of an underlying Brownian motion via the fractional kernel.</p>
+</div>
+
+<footer>
+  <p>Scanning the catalog, the same $(\mu, \sigma)$ pairs repeat with surprising frequency. The pair <em>$(\kappa(\theta - x),\; \sigma_0\sqrt{x})$</em> appears as CIR, as the variance equation of Heston, and as a default intensity. The pair <em>$(\mu_0\, x,\; \sigma_0\, x)$</em> appears as Black-Scholes, as Dothan, and as the per-LIBOR equation in BGM. The master template is doing the work; the model names are bookkeeping for which $X$ you're tracking and which pricing problem you're solving.</p>
+</footer>
+
+</div>
+</body>
+</html>
