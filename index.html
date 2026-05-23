@@ -611,7 +611,7 @@
                 I'm a computational engineer who designs, ships, and operates full-stack ML and LLM-based systems end-to-end. My PhD at the University of Texas at Austin grounded me in numerical methods, stochastic modeling, and scientific computing — a toolkit I now turn on quantitative finance, retrieval-augmented generation, and multimodal document intelligence.
             </p>
             <p class="prose">
-                In practice, that means production trading strategies, LLM-backed research and discovery agents, hybrid retrieval pipelines, and the cloud-native scaffolding around them. I care about the whole lifecycle — feature engineering, model selection, calibration, deployment, evaluation, and the boring infrastructure that keeps any of it from breaking at 3 a.m.
+                In practice, that means systematic trading systems running in production, LLM-backed research and discovery tooling, hybrid retrieval pipelines, and the serverless cloud scaffolding around them. I care about the whole lifecycle — feature engineering, model selection, calibration, deployment, evaluation, and the boring infrastructure that keeps any of it from breaking at 3 a.m.
             </p>
         </section>
 
@@ -628,15 +628,19 @@
                 <div class="exp-company">Asset Management Firm &middot; Stamford, CT</div>
                 <div class="exp-body">
                     <p>
-                        I built and ran production ML and trading infrastructure on a serverless-first stack — AWS Lambda, DynamoDB, S3, EventBridge, CloudFormation, and Modal — wired together with a GitHub CI/CD pipeline using Docker buildx and an ECR registry cache, plus React dashboards over the DynamoDB/S3 state and lifecycle cleanup of stale ECR images. On top of that foundation I shipped an anomaly-detection-backed volatility arbitrage strategy for intraday options, a LoRA-tuned Chronos and TabPFN driven interday options system, and a bi-objective optimizer backed thematic equity portfolio with regime-adaptive rebalancing.
+                        Two systematic trading systems run in production. The interday equity options strategy combines LoRA-tuned Chronos embeddings with per-asset TabPFN classifiers. The long-short equity portfolio is driven by LightGBM alpha/beta forecasts, genetic-algorithm optimization, and regime-adaptive rebalancing. Alongside these, I built an intraday equity and futures options strategy on anomaly-detection signals, and implemented a jump-diffusion-aware Heston calibration via constrained optimization and FFT pricing.
                     </p>
 
                     <p>
-                        On the LLM side, I evaluated Groq-backed agents with RSS/XML ingestion, guardrails, and structured trading-signal outputs; engineered FX and macro-news driven intraday FX signal evaluation agents; and benchmarked hand-rolled prompt architectures against LangGraph for FX trade position sizing. I also built a ticker alert pipeline with hybrid retrieval — SQLite FTS5, PostgreSQL tsvector, Whoosh, and FAISS — feeding RAG, along with a query-based signal mining Streamlit app over backtested options strategies and a multimodal embedding model wired to a Next.js PDF Q&amp;A app for market research.
+                        All of this sits on a serverless-first stack — AWS Lambda, DynamoDB, S3, EventBridge, API Gateway, CloudFormation, and Modal — wired together by GitHub Actions CI/CD that pushes digest-pinned ECR images shared across multiple bots. Lambda is tuned for ML inference with multi-GB memory and S3-backed HuggingFace and Torch caches, and React/static dashboards over the DynamoDB and S3 state are served via FastAPI + Mangum behind Lambda Function URLs.
                     </p>
 
                     <p>
-                        Behind all of that was a steady stream of experimentation: bi-objective optimization with different Pareto-front selection rules, A/B tests comparing SHAP versus native feature importance, Black–Litterman portfolio construction, fast jump-diffusion-aware Heston model calibration via constrained optimization, and OOS benchmarks pitting Google TimesFM against Amazon Chronos and LoRA-adapted against base Chronos.
+                        On the LLM side, I built a Treasury and macro RAG pipeline benchmarking FAISS, Whoosh, SQLite FTS5, and Postgres tsvector retrieval; a guard-railed LLM analyst layer using Groq, LangChain, and sentence-transformers; a Llama-4-Scout multimodal PDF Q&amp;A system with contrastive-embedding fine-tuning and Qdrant indexing fronted by a FastAPI + Next.js + Streamlit stack; an RSS-to-FX framework that turns macro news into directional LLM views scored against ground truth; a Streamlit research tool that mines rule-based trading signals against PnL via a 4-stage LLM pipeline; and a pluggable connector layer supporting 16+ tabular formats.
+                    </p>
+
+                    <p>
+                        Underneath the production work is a steady stream of research: a structured benchmarking program across foundation time-series models — Chronos versus TimesFM, base versus LoRA-adapted Chronos, rolling embeddings over Bollinger and RSI features — for options-trade Sharpe classification; XGBoost-versus-LightGBM alpha/beta studies with SHAP and native feature importance and Kneedle-based dynamic feature selection; RSI and VIX-RSI binning studies for rule-based options entries; and experimentation with HMM volatility-regime detection, Jensen-Shannon divergence rebalancing, Black-Litterman shrinkage of ML forecasts, and NSGA-II Pareto optimization across the alpha/beta tradeoff.
                     </p>
                 </div>
             </div>
@@ -683,6 +687,7 @@
                         <span class="tag">Chronos</span>
                         <span class="tag">PEFT/LoRA</span>
                         <span class="tag">LightGBM</span>
+                        <span class="tag">XGBoost</span>
                         <span class="tag">HMM</span>
                         <span class="tag">SHAP</span>
                         <span class="tag">Pymoo</span>
@@ -699,6 +704,7 @@
                         <span class="tag">S3</span>
                         <span class="tag">ECR</span>
                         <span class="tag">EventBridge</span>
+                        <span class="tag">API Gateway</span>
                         <span class="tag">CloudFormation</span>
                         <span class="tag">Docker</span>
                         <span class="tag">GitHub CI</span>
@@ -713,6 +719,7 @@
                         <span class="tag">Pandas</span>
                         <span class="tag">NumPy</span>
                         <span class="tag">PyArrow</span>
+                        <span class="tag">DuckDB</span>
                         <span class="tag">scikit-learn</span>
                         <span class="tag">JavaScript</span>
                         <span class="tag">React/JSX</span>
@@ -725,26 +732,29 @@
                     <div class="tag-cloud">
                         <span class="tag">Alpaca</span>
                         <span class="tag">OANDA</span>
-                        <span class="tag">Schwab</span>
+                        <span class="tag">TradeStation</span>
                         <span class="tag">yfinance</span>
                         <span class="tag">FastAPI</span>
                         <span class="tag">Mangum</span>
+                        <span class="tag">Next.js</span>
+                        <span class="tag">Streamlit</span>
                         <span class="tag">Recharts</span>
-                        <span class="tag">Tailwind CDN</span>
                         <span class="tag">RSS/XML</span>
                     </div>
                 </div>
                 <div class="tech-tile">
                     <h4>LLM &amp; RAG</h4>
-                    <p>LLM tooling and hybrid retrieval systems combining lexical and vector search for production RAG.</p>
+                    <p>LLM tooling and hybrid retrieval systems combining lexical and vector search for production RAG, plus multimodal document intelligence.</p>
                     <div class="tag-cloud">
                         <span class="tag">Groq</span>
                         <span class="tag">LangChain</span>
                         <span class="tag">LangGraph</span>
                         <span class="tag">FAISS</span>
+                        <span class="tag">Qdrant</span>
                         <span class="tag">Whoosh</span>
                         <span class="tag">SQLite FTS5</span>
                         <span class="tag">PostgreSQL tsvector</span>
+                        <span class="tag">sentence-transformers</span>
                     </div>
                 </div>
             </div>
