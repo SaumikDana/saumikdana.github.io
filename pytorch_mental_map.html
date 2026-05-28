@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PyTorch Mental Map</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --ink: #1f2933;
+      --muted: #5f6b7a;
+      --line: #d9dee7;
+      --card: #ffffff;
+      --arch: #0f766e;
+      --arch-soft: #e6f5f2;
+      --train: #9a3412;
+      --train-soft: #fff1e7;
+      --code: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 24px 56px;
+    }
+
+    header {
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      letter-spacing: 0;
+      line-height: 1.05;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 20px;
+      margin-top: 26px;
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .section h2 {
+      margin: 0;
+      padding: 18px 20px;
+      font-size: 1.1rem;
+      letter-spacing: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section.arch h2 {
+      background: var(--arch-soft);
+      color: var(--arch);
+    }
+
+    .section.train h2 {
+      background: var(--train-soft);
+      color: var(--train);
+    }
+
+    .items {
+      display: grid;
+      gap: 0;
+    }
+
+    .item {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .item:last-child {
+      border-bottom: 0;
+    }
+
+    .item-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .item-title h3 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    .role {
+      color: var(--muted);
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .options li {
+      padding: 5px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfcfe;
+      color: var(--code);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.86rem;
+    }
+
+    .flow {
+      margin-top: 22px;
+      padding: 18px 20px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .flow h2 {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    .examples {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 20px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      overflow-x: auto;
+      border-radius: 8px;
+      background: #111827;
+      color: #f9fafb;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .note-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .note-list li {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfcfe;
+    }
+
+    .note-list strong {
+      display: inline-block;
+      min-width: 104px;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .step {
+      min-height: 74px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfcfe;
+      font-size: 0.88rem;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
+
+    .step.arch-step {
+      border-color: #99d6cc;
+      background: var(--arch-soft);
+    }
+
+    .step.train-step {
+      border-color: #f3bd8f;
+      background: var(--train-soft);
+    }
+
+    @media (max-width: 860px) {
+      main {
+        padding: 28px 16px 40px;
+      }
+
+      .split,
+      .examples,
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .item-title {
+        display: block;
+      }
+
+      .role {
+        display: block;
+        margin-top: 2px;
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>PyTorch Mental Map</h1>
+      <p class="subtitle">
+        PyTorch code usually separates into two big zones: model specification, which defines the computation,
+        and training setup, which measures error and updates trainable weights.
+      </p>
+    </header>
+
+    <section class="flow" aria-labelledby="flow-title">
+      <h2 id="flow-title">Big Picture</h2>
+      <div class="flow-grid">
+        <div class="step arch-step"><strong>Wrappers</strong>organize layers</div>
+        <div class="step arch-step"><strong>Layers</strong>transform data</div>
+        <div class="step arch-step"><strong>Activations</strong>add nonlinearity</div>
+        <div class="step arch-step"><strong>Normalization</strong>stabilize training</div>
+        <div class="step arch-step"><strong>Dropout</strong>regularize</div>
+        <div class="step train-step"><strong>Losses</strong>measure error</div>
+        <div class="step train-step"><strong>Optimizers</strong>update weights</div>
+      </div>
+    </section>
+
+    <section class="flow" aria-labelledby="examples-title">
+      <h2 id="examples-title">Tiny Examples</h2>
+      <div class="examples">
+        <pre><code>model = nn.Sequential(          # wrapper: organizes layers
+    nn.Linear(16, 32),          # layer: transforms data
+    nn.ReLU(),                  # activation: adds nonlinearity
+    nn.Dropout(0.1),            # dropout: regularizes
+    nn.Linear(32, 1),           # layer: final transform
+)
+
+loss_fn = nn.BCEWithLogitsLoss()
+loss = loss_fn(logits, labels)  # loss: measures error
+
+optimizer = torch.optim.AdamW(
+    model.parameters(),
+    lr=1e-4,
+)
+optimizer.step()                # optimizer: updates weights</code></pre>
+
+        <ul class="note-list">
+          <li><strong>Wrapper</strong><code>nn.Sequential</code> chains modules in order.</li>
+          <li><strong>Layers</strong><code>nn.Linear</code> changes vector dimensions.</li>
+          <li><strong>Activation</strong><code>nn.ReLU</code> lets the model learn nonlinear patterns.</li>
+          <li><strong>Dropout</strong><code>nn.Dropout</code> randomly drops values during training.</li>
+          <li><strong>Loss</strong><code>loss_fn(logits, labels)</code> computes how wrong predictions are.</li>
+          <li><strong>Optimizer</strong><code>optimizer.step()</code> applies the weight update.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="flow" aria-labelledby="epoch-title">
+      <h2 id="epoch-title">Per-Epoch Training Loop</h2>
+      <div class="examples">
+        <pre><code>for epoch in range(num_epochs):
+    model.train()                 # put model in training mode
+
+    for xb, yb in loader:          # get one mini-batch
+        optimizer.zero_grad()      # clear old gradients
+
+        logits = model(xb)         # forward pass
+        loss = loss_fn(logits, yb) # measure error
+
+        loss.backward()            # compute gradients
+        optimizer.step()           # update trainable weights
+
+        total_loss += loss.item() * len(xb)</code></pre>
+
+        <ul class="note-list">
+          <li><strong>Epoch</strong>one full pass over the training data.</li>
+          <li><strong>Batch</strong>a small chunk of samples from the loader.</li>
+          <li><strong>Forward</strong><code>model(xb)</code> runs the architecture.</li>
+          <li><strong>Loss</strong><code>loss_fn(...)</code> turns predictions into an error value.</li>
+          <li><strong>Backward</strong><code>loss.backward()</code> computes gradients.</li>
+          <li><strong>Step</strong><code>optimizer.step()</code> updates trainable weights.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="split">
+      <section class="section arch" aria-labelledby="architecture-title">
+        <h2 id="architecture-title">Model Spec / Architecture</h2>
+        <div class="items">
+          <article class="item">
+            <div class="item-title">
+              <h3>Wrappers</h3>
+              <span class="role">organize layers</span>
+            </div>
+            <ul class="options">
+              <li>nn.Sequential</li>
+              <li>nn.ModuleList</li>
+              <li>nn.ModuleDict</li>
+              <li>nn.ParameterList</li>
+              <li>nn.ParameterDict</li>
+            </ul>
+          </article>
+
+          <article class="item">
+            <div class="item-title">
+              <h3>Layers</h3>
+              <span class="role">transform data</span>
+            </div>
+            <ul class="options">
+              <li>nn.Linear</li>
+              <li>nn.Conv1d</li>
+              <li>nn.Conv2d</li>
+              <li>nn.Conv3d</li>
+              <li>nn.Embedding</li>
+              <li>nn.Bilinear</li>
+            </ul>
+          </article>
+
+          <article class="item">
+            <div class="item-title">
+              <h3>Activations</h3>
+              <span class="role">add nonlinearity</span>
+            </div>
+            <ul class="options">
+              <li>nn.ReLU</li>
+              <li>nn.LeakyReLU</li>
+              <li>nn.GELU</li>
+              <li>nn.SiLU</li>
+              <li>nn.Tanh</li>
+              <li>nn.Sigmoid</li>
+              <li>nn.Softmax</li>
+            </ul>
+          </article>
+
+          <article class="item">
+            <div class="item-title">
+              <h3>Normalization</h3>
+              <span class="role">stabilize training</span>
+            </div>
+            <ul class="options">
+              <li>nn.BatchNorm1d</li>
+              <li>nn.BatchNorm2d</li>
+              <li>nn.LayerNorm</li>
+              <li>nn.GroupNorm</li>
+              <li>nn.InstanceNorm1d</li>
+              <li>nn.InstanceNorm2d</li>
+            </ul>
+          </article>
+
+          <article class="item">
+            <div class="item-title">
+              <h3>Dropout</h3>
+              <span class="role">regularize</span>
+            </div>
+            <ul class="options">
+              <li>nn.Dropout</li>
+              <li>nn.Dropout1d</li>
+              <li>nn.Dropout2d</li>
+              <li>nn.Dropout3d</li>
+              <li>nn.AlphaDropout</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section train" aria-labelledby="training-title">
+        <h2 id="training-title">Training Setup</h2>
+        <div class="items">
+          <article class="item">
+            <div class="item-title">
+              <h3>Losses</h3>
+              <span class="role">measure error</span>
+            </div>
+            <ul class="options">
+              <li>nn.MSELoss</li>
+              <li>nn.L1Loss</li>
+              <li>nn.CrossEntropyLoss</li>
+              <li>nn.BCEWithLogitsLoss</li>
+              <li>nn.BCELoss</li>
+              <li>nn.NLLLoss</li>
+              <li>nn.KLDivLoss</li>
+              <li>nn.MarginRankingLoss</li>
+              <li>nn.TripletMarginLoss</li>
+            </ul>
+          </article>
+
+          <article class="item">
+            <div class="item-title">
+              <h3>Optimizers</h3>
+              <span class="role">update weights</span>
+            </div>
+            <ul class="options">
+              <li>torch.optim.SGD</li>
+              <li>torch.optim.Adam</li>
+              <li>torch.optim.AdamW</li>
+              <li>torch.optim.RMSprop</li>
+              <li>torch.optim.Adagrad</li>
+              <li>torch.optim.Adadelta</li>
+              <li>torch.optim.Adamax</li>
+              <li>torch.optim.NAdam</li>
+              <li>torch.optim.RAdam</li>
+              <li>torch.optim.LBFGS</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
