@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Boring-but-High-Leverage Python in Your Trading Code</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c2230; --ink:#e6edf3;
+    --muted:#9aa7b4; --accent:#58a6ff; --green:#3fb950; --amber:#d29922;
+    --code:#0b0f14; --border:#283040; --kw:#ff7b72; --str:#a5d6ff;
+    --com:#8b949e; --fn:#d2a8ff; --num:#79c0ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:48px 22px 90px}
+  header h1{font-size:30px;line-height:1.25;margin:0 0 10px;letter-spacing:-.4px}
+  header p.sub{color:var(--muted);font-size:17px;margin:0 0 8px}
+  .tag{display:inline-block;background:var(--panel2);color:var(--accent);
+    border:1px solid var(--border);border-radius:999px;font-size:12.5px;
+    padding:3px 11px;margin:14px 6px 0 0}
+  .intro{background:var(--panel);border:1px solid var(--border);border-radius:14px;
+    padding:18px 20px;margin:26px 0 8px;color:var(--muted)}
+  .intro strong{color:var(--ink)}
+  section{background:var(--panel);border:1px solid var(--border);border-radius:16px;
+    padding:24px 24px 8px;margin:26px 0}
+  .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .num{font-size:13px;font-weight:700;color:var(--bg);background:var(--accent);
+    border-radius:8px;padding:3px 9px;letter-spacing:.5px}
+  h2{font-size:21px;margin:2px 0 2px;letter-spacing:-.2px}
+  .why{color:var(--amber);font-size:14px;margin:2px 0 14px;font-weight:600}
+  .lead{color:var(--muted);margin:0 0 14px}
+  .where{font-size:13.5px;color:var(--muted);margin:6px 0 18px}
+  .where code{background:var(--panel2);padding:1px 6px;border-radius:5px;
+    color:var(--green);font-size:12.5px}
+  pre{background:var(--code);border:1px solid var(--border);border-radius:11px;
+    padding:16px 18px;overflow:auto;margin:0 0 18px;font-size:13.5px;line-height:1.6}
+  code,pre{font-family:"SF Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .kw{color:var(--kw)} .str{color:var(--str)} .com{color:var(--com)}
+  .fn{color:var(--fn)} .num2{color:var(--num)}
+  .take{border-left:3px solid var(--green);background:var(--panel2);
+    padding:10px 16px;border-radius:0 10px 10px 0;margin:0 0 18px;font-size:14.5px}
+  .take b{color:var(--green)}
+  footer{color:var(--muted);font-size:13.5px;text-align:center;margin-top:34px;
+    border-top:1px solid var(--border);padding-top:22px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>The Boring-but-High-Leverage Python<br>Hiding in Your Trading Code</h1>
+  <p class="sub">A tour of the unglamorous idioms doing the heavy lifting across your Alpaca / TradeStation / DynamoDB files — the same handful of moves that win coding assessments.</p>
+  <span class="tag">dicts</span><span class="tag">defensive .get</span>
+  <span class="tag">recursion</span><span class="tag">sorting</span>
+  <span class="tag">string parsing</span><span class="tag">Decimal</span>
+  <span class="tag">*args / varargs</span><span class="tag">comprehensions</span>
+</header>
+
+<div class="intro">
+  None of these are clever. That's the point. <strong>Dictionaries, <code style="color:var(--green)">.get</code> with defaults, a little recursion, sorting with a key, and careful string slicing</strong> carry almost the entire codebase. Each section below pulls a real snippet from the files you shared and names the transferable pattern.
+</div>
+
+<!-- 1 -->
+<section>
+  <div class="head"><span class="num">01</span><h2>Dicts as the universal record store</h2></div>
+  <p class="why">Why it matters: 80% of "store / look up / track state" tasks are just nested dicts.</p>
+  <p class="lead">Your trading state is one dict keyed by symbol, with <code>.get(key, default)</code> guarding every read so a missing field never crashes the bot mid-trade.</p>
+  <p class="where">From <code>alpaca_snapshot_trade_logic.py</code> &amp; <code>dynamodb_ops.py</code></p>
+<pre><span class="com"># a record either exists and is truthy, or it doesn't — one expression</span>
+<span class="kw">def</span> <span class="fn">has_open_position</span>(symbol):
+    state = <span class="fn">get_trading_state</span>(symbol)
+    <span class="kw">return</span> <span class="fn">bool</span>(state[<span class="str">'open_position'</span>])
+
+<span class="com"># read a nested field without ever raising KeyError</span>
+open_position = state[<span class="str">'open_position'</span>]
+call_symbol  = open_position.<span class="fn">get</span>(<span class="str">'call_symbol'</span>)   <span class="com"># None if absent</span></pre>
+  <div class="take"><b>Takeaway:</b> <code>d.get(k)</code> / <code>d.get(k, default)</code> turns "might be missing" from a crash into a clean branch. Reach for it on every external/stored read.</div>
+</section>
+
+<!-- 2 -->
+<section>
+  <div class="head"><span class="num">02</span><h2>Recursion over nested dict/list structures</h2></div>
+  <p class="why">Why it matters: one tiny function transforms arbitrarily deep JSON-shaped data.</p>
+  <p class="lead">DynamoDB won't accept floats, so you walk the whole structure converting types. The trick is the type-dispatch: handle dict, handle list, else handle the leaf — and recurse into the first two.</p>
+  <p class="where">From <code>dynamodb_ops.py</code> — <code>python_to_dynamodb()</code></p>
+<pre><span class="kw">def</span> <span class="fn">python_to_dynamodb</span>(obj):
+    <span class="kw">if</span> <span class="fn">isinstance</span>(obj, <span class="fn">dict</span>):
+        <span class="kw">return</span> {k: <span class="fn">python_to_dynamodb</span>(v) <span class="kw">for</span> k, v <span class="kw">in</span> obj.<span class="fn">items</span>()}
+    <span class="kw">elif</span> <span class="fn">isinstance</span>(obj, <span class="fn">list</span>):
+        <span class="kw">return</span> [<span class="fn">python_to_dynamodb</span>(v) <span class="kw">for</span> v <span class="kw">in</span> obj]
+    <span class="kw">elif</span> <span class="fn">isinstance</span>(obj, <span class="fn">bool</span>):
+        <span class="kw">return</span> obj            <span class="com"># leaf: handled, no recursion</span>
+    <span class="com"># ... float -> Decimal, etc.</span></pre>
+  <div class="take"><b>Takeaway:</b> recurse on the containers (dict/list), return on the leaves. This same skeleton flattens, validates, or rewrites any nested payload.</div>
+</section>
+
+<!-- 3 -->
+<section>
+  <div class="head"><span class="num">03</span><h2>Defensive reads: try many keys, fall back gracefully</h2></div>
+  <p class="why">Why it matters: real APIs return inconsistent shapes; brittle code dies on the variant.</p>
+  <p class="lead">TradeStation returns the order id under a dozen possible header names. Instead of assuming one, you loop candidates and take the first that's present — using <code>getattr</code> so even a missing attribute is safe.</p>
+  <p class="where">From <code>tradestation_response_utils.py</code></p>
+<pre><span class="kw">def</span> <span class="fn">_extract_order_id_from_headers</span>(response):
+    headers = <span class="fn">getattr</span>(response, <span class="str">"headers"</span>, None) <span class="kw">or</span> {}
+    <span class="kw">for</span> key <span class="kw">in</span> (<span class="str">"OrderID"</span>, <span class="str">"OrderId"</span>, <span class="str">"order_id"</span>, <span class="str">"Location"</span>):
+        value = headers.<span class="fn">get</span>(key) <span class="kw">if</span> <span class="fn">hasattr</span>(headers, <span class="str">"get"</span>) <span class="kw">else</span> None
+        <span class="kw">if</span> value:
+            <span class="kw">return</span> <span class="fn">str</span>(value).<span class="fn">strip</span>()</pre>
+  <div class="take"><b>Takeaway:</b> <code>getattr(obj, name, default)</code> and "loop the candidate keys, return first hit" make parsing resilient to messy inputs — exactly what graders probe for.</div>
+</section>
+
+<!-- 4 -->
+<section>
+  <div class="head"><span class="num">04</span><h2>String parsing by index &amp; slice</h2></div>
+  <p class="why">Why it matters: fixed-format codes (symbols, IDs, dates) are just careful slicing.</p>
+  <p class="lead">An OCC option symbol packs expiry, call/put, and strike into one string. You scan to the first digit, then slice fixed offsets — no regex needed for the structured part.</p>
+  <p class="where">From <code>alpaca_snapshot.py</code> / <code>tradestation_snapshot.py</code> — <code>parse_occ_symbol()</code></p>
+<pre><span class="kw">while</span> i &lt; <span class="fn">len</span>(occ_symbol) <span class="kw">and</span> <span class="kw">not</span> occ_symbol[i].<span class="fn">isdigit</span>():
+    i += <span class="num2">1</span>
+rest = occ_symbol[i:]
+date_str = rest[:<span class="num2">6</span>]                 <span class="com"># YYMMDD</span>
+expiry = <span class="fn">date</span>(<span class="num2">2000</span>+<span class="fn">int</span>(date_str[:<span class="num2">2</span>]), <span class="fn">int</span>(date_str[<span class="num2">2</span>:<span class="num2">4</span>]), <span class="fn">int</span>(date_str[<span class="num2">4</span>:<span class="num2">6</span>]))
+cp = rest[<span class="num2">6</span>]                       <span class="com"># 'C' or 'P'</span>
+strike = <span class="fn">int</span>(rest[<span class="num2">7</span>:]) / <span class="num2">1000</span>      <span class="com"># thousandths -> dollars</span></pre>
+  <div class="take"><b>Takeaway:</b> <code>s[a:b]</code>, <code>.isdigit()</code>, <code>.startswith()</code>, <code>.split(sep, 1)</code> solve the bulk of parsing tasks. Reach for regex only when the shape is irregular.</div>
+</section>
+
+<!-- 5 -->
+<section>
+  <div class="head"><span class="num">05</span><h2>Decimal for money — kill float artifacts</h2></div>
+  <p class="why">Why it matters: <code>28.51</code> silently becoming <code>28.5099999</code> fails a price check.</p>
+  <p class="lead">Before sending a limit price you quantize it through <code>Decimal</code> with explicit rounding, then hand a clean float back to the broker API.</p>
+  <p class="where">From <code>alpaca_trading_execution_utils.py</code> &amp; <code>tradestation_trading_execution_utils.py</code></p>
+<pre><span class="kw">from</span> decimal <span class="kw">import</span> Decimal, ROUND_HALF_UP
+
+<span class="kw">def</span> <span class="fn">format_limit_price</span>(price, decimals=<span class="num2">2</span>):
+    <span class="kw">if</span> price <span class="kw">is</span> None:
+        <span class="kw">return</span> None
+    q = Decimal(<span class="str">'1'</span>).<span class="fn">scaleb</span>(-decimals)        <span class="com"># 0.01</span>
+    <span class="kw">return</span> <span class="fn">float</span>(Decimal(<span class="fn">str</span>(price)).<span class="fn">quantize</span>(q, rounding=ROUND_HALF_UP))</pre>
+  <div class="take"><b>Takeaway:</b> wrap the value as <code>Decimal(str(x))</code>, <code>.quantize()</code> with explicit rounding, unwrap to <code>float</code>. The one-liner that keeps money exact.</div>
+</section>
+
+<!-- 6 -->
+<section>
+  <div class="head"><span class="num">06</span><h2>*args &amp; the "first non-None wins" helper</h2></div>
+  <p class="why">Why it matters: collapsing many fallback sources into one tidy call.</p>
+  <p class="lead">When a value might live in any of several fields, a variadic helper returns the first present one — turning a stack of <code>if</code>s into a single expression.</p>
+  <p class="where">From <code>tradestation_snapshot.py</code> — <code>_first_present()</code></p>
+<pre><span class="kw">def</span> <span class="fn">_first_present</span>(*values):
+    <span class="kw">for</span> v <span class="kw">in</span> values:
+        <span class="kw">if</span> v <span class="kw">is</span> <span class="kw">not</span> None:
+            <span class="kw">return</span> v
+    <span class="kw">return</span> None
+
+<span class="com"># usage: pick whichever field the API actually populated</span>
+spot = <span class="fn">_first_present</span>(quote.<span class="fn">get</span>(<span class="str">"Last"</span>), quote.<span class="fn">get</span>(<span class="str">"Close"</span>), quote.<span class="fn">get</span>(<span class="str">"Bid"</span>))</pre>
+  <div class="take"><b>Takeaway:</b> <code>*args</code> packs extra arguments into a tuple. "Loop and return the first that qualifies" is a pattern you'll reuse constantly.</div>
+</section>
+
+<!-- 7 -->
+<section>
+  <div class="head"><span class="num">07</span><h2>Sorting &amp; filtering to pick the right contract</h2></div>
+  <p class="why">Why it matters: "nearest / cheapest / top-N" is always sort-with-a-key.</p>
+  <p class="lead">Choosing the nearest expiry is just sorting dates and taking the first; narrowing the option chain is a comprehension with a condition. Same two tools, endlessly.</p>
+  <p class="where">From <code>tradestation_snapshot.py</code> — <code>get_nearest_friday_expiry()</code>, <code>filter_contracts()</code></p>
+<pre><span class="com"># nearest upcoming expiry: sort, take the first</span>
+nearest = <span class="fn">sorted</span>(expiry_dates)[<span class="num2">0</span>]
+
+<span class="com"># keep only contracts inside a moneyness band — filter comprehension</span>
+near_money = [c <span class="kw">for</span> c <span class="kw">in</span> contracts <span class="kw">if</span> <span class="fn">abs</span>(c.strike - spot) &lt;= band]
+
+<span class="com"># sort by two keys: closeness first, then strike (tuple key)</span>
+ranked = <span class="fn">sorted</span>(contracts, key=<span class="kw">lambda</span> c: (<span class="fn">abs</span>(c.strike - spot), c.strike))</pre>
+  <div class="take"><b>Takeaway:</b> <code>sorted(items, key=lambda x: (a, b))</code> handles "by X, then Y"; <code>[x for x in xs if cond]</code> handles every filter. Slicing gives you top-N.</div>
+</section>
+
+<footer>
+  Generated from the files you shared — Alpaca / TradeStation snapshots, trade logic, execution utils, and DynamoDB ops.<br>
+  The companion runnable reference is <code>python_high_leverage.py</code>.
+</footer>
+</div>
+</body>
+</html>
