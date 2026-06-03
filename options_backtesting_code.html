@@ -383,7 +383,7 @@
                 <h2>⚡ Performance Optimization Deep Dive</h2>
                 
                 <div class="highlight-box">
-                    <h3>The Top 3 Performance Optimizations</h3>
+                    <h3>The Top 4 Performance Optimizations</h3>
                     <p>These optimizations transformed the backtesting system from taking hours to minutes, representing 100-1000x speedups in critical operations.</p>
                 </div>
 
@@ -534,6 +534,74 @@ dict_options[o].loc[update_days, 'nopnl'] = 0</pre>
                     <div class="highlight-box" style="background: #fff3cd; border-left-color: #ffc107;">
                         <h4>The principle:</h4>
                         <p>Whenever you see a loop modifying a DataFrame, ask: "Can I identify all the rows I need to modify, then update them all at once?" That's vectorization.</p>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <h3>4. CSV Loading: Eager pandas → Lazy Polars</h3>
+
+                    <h4>The Problem:</h4>
+                    <p>Loading the raw options CSV with <code>pd.read_csv</code> reads <strong>every row and every column</strong> into memory on a single thread, parses all dates, then filters to your date window afterward. On a multi-gigabyte options file, you pay the full I/O and parse cost before you've discarded a single row you don't need.</p>
+
+                    <h4>Before (pandas):</h4>
+                    <pre>options = (
+    pd.read_csv(csv_path, parse_dates=['t_date', 'expiration_date'])
+    .pipe(filter_dates, 't_date', first_date, last_date)
+    .pipe(add_mid)
+    .pipe(add_spread)
+)</pre>
+
+                    <p>Read everything → <strong>then</strong> mask. Single-threaded parse, <code>float64</code> everywhere, and the date filter runs only after the entire file is already in RAM.</p>
+
+                    <h4>After (Polars lazy scan):</h4>
+                    <pre>options = (
+    pl.scan_csv(
+        csv_path,
+        try_parse_dates=True,
+        schema_overrides={
+            "strike": pl.Float32, "bid": pl.Float32, "ask": pl.Float32,
+            "pxunder": pl.Float32, "iv": pl.Float32, "delta": pl.Float32,
+            "gamma": pl.Float32, "theta": pl.Float32, "vega": pl.Float32,
+        },
+    )
+    .filter(
+        pl.col("t_date").is_between(
+            pl.lit(first_date).str.to_datetime(),
+            pl.lit(last_date).str.to_datetime(),
+        )
+    )
+    .with_columns(((pl.col("bid") + pl.col("ask")) / 2).alias("mid"))
+    .with_columns(((pl.col("ask") - pl.col("bid")) / pl.col("mid")).alias("spread"))
+    .collect()
+    .to_pandas()
+)</pre>
+
+                    <h4>What Changed:</h4>
+                    <ol>
+                        <li><strong>Lazy scan + predicate pushdown:</strong> <code>scan_csv</code> builds a query plan, so the date <code>.filter</code> is pushed down into the reader. Rows outside <code>[first_date, last_date]</code> are dropped <em>during</em> parsing, not after.</li>
+                        <li><strong>Multithreaded parsing:</strong> Polars parses the CSV across all cores; <code>pd.read_csv</code> is single-threaded. Usually the dominant win on wide files.</li>
+                        <li><strong>Narrow dtypes:</strong> Forcing <code>Float32</code> on prices and Greeks halves memory vs pandas' default <code>float64</code> — less allocation, better cache behavior.</li>
+                        <li><strong>Fused column math:</strong> <code>mid</code> and <code>spread</code> are computed inside the same query plan rather than as two separate pandas passes.</li>
+                    </ol>
+
+                    <div class="feature-item" style="background: #d4edda; border-left-color: #28a745;">
+                        <strong>Why It's Huge:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>You never materialize rows you're going to throw away</li>
+                            <li>Parse work is spread across every core instead of one</li>
+                            <li>Half the memory footprint for the numeric columns</li>
+                            <li><strong>Typically 3-10x faster load, with a much lower peak memory ceiling</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box" style="background: #f8d7da; border-left-color: #dc3545;">
+                        <h4>The Catch:</h4>
+                        <p>The two branches aren't quite equivalent on the date filter. The Polars path calls <code>pl.lit(first_date).str.to_datetime()</code>, which assumes <code>first_date</code> / <code>last_date</code> are <strong>strings</strong>. The pandas path tolerated <code>datetime</code> / <code>Timestamp</code> inputs via <code>pd.to_datetime</code> — pass those here and <code>.str.to_datetime()</code> will raise. Normalize the inputs at the top so both branches accept the same types.</p>
+                    </div>
+
+                    <div class="highlight-box" style="background: #fff3cd; border-left-color: #ffc107;">
+                        <h4>The principle:</h4>
+                        <p>Push filters and dtype decisions <em>into</em> the reader, not after it. The cheapest row to process is the one you never load. And remember <code>.collect().to_pandas()</code> ends laziness — the downstream <code>drop</code>/<code>rename</code>/<code>astype</code> steps run in pandas, so push those into the lazy plan too if they ever become the bottleneck.</p>
                     </div>
                 </div>
             </section>
