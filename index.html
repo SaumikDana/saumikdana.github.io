@@ -362,6 +362,15 @@
         .exp-body p { margin-bottom: 1rem; }
         .exp-body p:last-child { margin-bottom: 0; }
 
+        .exp-lead {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
         .callout {
             background: linear-gradient(135deg, #fef9f0, #fdf2e5);
             border-left: 3px solid var(--gold);
@@ -610,10 +619,10 @@
         <section class="block">
             <div class="block-label">About</div>
             <p class="prose">
-                I'm a computational engineer who designs, ships, and operates full-stack ML and LLM-based systems end-to-end. My PhD at the University of Texas at Austin grounded me in numerical methods, stochastic modeling, and scientific computing — a toolkit I now turn on quantitative finance, retrieval-augmented generation, and multimodal document intelligence.
+                I'm a computational engineer who designs, ships, and operates full-stack ML and LLM-based systems end-to-end. A PhD at the University of Texas at Austin grounded me in numerical methods, stochastic modeling, and scientific computing — the toolkit I now turn on quantitative finance, retrieval-augmented generation, and multimodal document intelligence.
             </p>
             <p class="prose">
-                In practice, that means systematic trading systems running in production, LLM-backed research and discovery tooling, hybrid retrieval pipelines, and the serverless cloud scaffolding around them. I'm comfortable owning research, infrastructure, and production code as a single workflow — feature engineering, model selection, calibration, deployment, evaluation, and the boring infrastructure that keeps any of it from breaking at 3 a.m.
+                In practice, that means systematic trading systems running in production, LLM-backed research and discovery tooling, hybrid retrieval pipelines, and the serverless cloud scaffolding around them. I'm comfortable owning research, infrastructure, and production code as a single workflow — feature engineering, model selection, calibration, deployment, evaluation, and the unglamorous infrastructure that keeps any of it from breaking at 3 a.m.
             </p>
         </section>
 
@@ -630,19 +639,15 @@
                 <div class="exp-company">Asset Management Firm &middot; Stamford, CT</div>
                 <div class="exp-body">
                     <p>
-                        Two systematic trading systems run in production. The interday equity options strategy combines LoRA-tuned Chronos embeddings with per-asset TabPFN classifiers, backed by a Python/pandas backtesting pipeline I sped up through multi-index hash lookups, vectorized batch updates, and lazy Polars CSV ingestion. The long-short equity portfolio is driven by LightGBM alpha/beta forecasts, genetic-algorithm optimization, and regime-adaptive rebalancing — a curated book that backtested to 20%+ CAGR with 10% annualized alpha to benchmark over a multi-year window. Alongside these, I built an intraday equity and futures options strategy on anomaly-detection signals, and implemented a jump-diffusion-aware Heston calibration via constrained optimization and FFT pricing. I also deployed an intraday FX system whose directional view comes from ensemble prompt-variant LLM inference (Groq), DK-CoT reasoning over multi-source RSS news and sovereign yield-curve rate differentials, gated by a unanimous-consensus signal filter.
+                        <span class="exp-lead">Production trading systems.</span> Shipped several systematic strategies: an interday equity options book (LoRA-tuned Chronos embeddings + TabPFN classifiers), a long-short equity portfolio driven by LightGBM alpha/beta forecasts and genetic-algorithm optimization that backtested to 20%+ CAGR with 10% annualized alpha, an intraday options strategy on anomaly-detection signals with Heston/FFT calibration, and an intraday FX system steered by ensemble LLM inference (Groq) over macro news and rate differentials.
                     </p>
 
                     <p>
-                        All of this sits on a serverless-first stack — AWS Lambda, DynamoDB, S3, EventBridge, API Gateway, CloudFormation, and Modal — wired together by GitHub Actions CI/CD that pushes digest-pinned ECR images shared across multiple bots, with GitHub secrets handed to bot-specific YAML templates under DST-aware EventBridge scheduling. Lambda is tuned for ML inference with multi-GB ephemeral storage and S3-backed HuggingFace and Torch caches, and React/static dashboards over the DynamoDB and S3 state are served via FastAPI + Mangum behind Lambda Function URLs.
+                        <span class="exp-lead">Infrastructure &amp; LLM tooling.</span> Built it all on a serverless-first AWS stack (Lambda, DynamoDB, S3, EventBridge, CloudFormation, Modal) with GitHub Actions CI/CD and digest-pinned ECR images. On the LLM side: a Treasury/macro RAG pipeline benchmarking FAISS, Whoosh, SQLite FTS5, and Postgres tsvector; a Llama-4-Scout multimodal PDF Q&amp;A system with Qdrant indexing; and a Streamlit research tool that mines trading rules backtesting above 1.5 Sharpe.
                     </p>
 
                     <p>
-                        On the LLM side, I built a Treasury and macro RAG pipeline benchmarking FAISS, Whoosh, SQLite FTS5, and Postgres tsvector retrieval; a guard-railed LLM analyst layer using Groq, LangChain, and sentence-transformers; a Llama-4-Scout multimodal PDF Q&amp;A system with contrastive-embedding fine-tuning and Qdrant indexing fronted by a FastAPI + Next.js + Streamlit stack; an RSS-to-FX framework that turns macro news into directional LLM views scored against ground truth; a Streamlit research tool that mines rule-based trading signals against PnL via a multi-stage LLM pipeline — surfacing curated entry/exit rules that backtested above 1.5 Sharpe on interday options; and a pluggable connector layer supporting 16+ tabular formats.
-                    </p>
-
-                    <p>
-                        Underneath the production work is a steady stream of research: a structured benchmarking program across foundation time-series models — Chronos versus TimesFM, base versus LoRA-adapted Chronos, rolling embeddings over Bollinger and RSI features — for options-trade Sharpe classification; XGBoost-versus-LightGBM alpha/beta studies with SHAP and native feature importance and Kneedle-based dynamic feature selection; RSI and VIX-RSI binning studies for rule-based options entries; and experimentation with HMM volatility-regime detection, Jensen-Shannon divergence rebalancing, Black-Litterman shrinkage of ML forecasts, and NSGA-II Pareto optimization across the alpha/beta tradeoff.
+                        <span class="exp-lead">Research.</span> Foundation time-series benchmarking (Chronos vs. TimesFM, base vs. LoRA-adapted), XGBoost-vs-LightGBM alpha/beta studies with SHAP, and experimentation with HMM volatility-regime detection, Black-Litterman shrinkage, and NSGA-II Pareto optimization across the alpha/beta tradeoff.
                     </p>
                 </div>
             </div>
