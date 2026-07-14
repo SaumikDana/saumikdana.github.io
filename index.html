@@ -324,6 +324,7 @@
         .exp-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
         .exp-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
         .exp-card:nth-child(3)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
+        .exp-card:nth-child(4)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
 
         .exp-meta {
             display: flex;
@@ -636,18 +637,18 @@
                     <span class="exp-role">Quantitative Researcher</span>
                     <span class="exp-dates">Feb 2024 – Dec 2025</span>
                 </div>
-                <div class="exp-company">Asset Management Firm &middot; Stamford, CT</div>
+                <div class="exp-company">Zebra Capital Management LLC &middot; Stamford, CT</div>
                 <div class="exp-body">
                     <p>
-                        <span class="exp-lead">LLM-backed systems.</span> Built three intraday LLM-driven trading systems across asset classes, each with its prompt architecture shaped to the model class doing the reasoning. An options strategy where an LLM reasons over live stochastic-volatility calibrations every few minutes: state-dependent prompts for entry versus position management, verdict history against flip-flopping, and the entry thesis read back verbatim until exit — the prompt is the strategy, versioned and evaluated over fixed windows. An FX system with a staged pipeline that synthesizes news and price action into market themes and a volatility narrative, then conditions per-pair long/short/no-trade signals through explicit chain-of-thought scaffolding sized to a small non-reasoning model — with the loop closed by a DSPy (GEPA/MIPRO) optimization workflow that relabels archived live runs against executable market prices as verifiable rewards, guarded by temporal splits and a paired-bootstrap promotion gate. And a commodity ticker system distilling macro news and multi-country sovereign yield curves into a daily directional call via a tiered evidence hierarchy with conflict-resolution and abstention rules, plus a required disconfirming-evidence field stating what would flip the call.
+                        <span class="exp-lead">LLM-backed systems.</span> Built three intraday LLM-driven trading systems across asset classes, each with its prompt architecture shaped to the model class doing the reasoning. An options strategy where gpt-oss-120b reasons over live stochastic-volatility calibrations every few minutes: state-dependent prompts for entry versus position management, verdict history against flip-flopping, and the entry thesis read back verbatim until exit — the prompt is the strategy, versioned and evaluated over fixed windows. An FX system with a staged pipeline that synthesizes news and price action into market themes and a volatility narrative, then conditions per-pair long/short/no-trade signals through explicit chain-of-thought scaffolding sized to a small non-reasoning model (llama-3.1-8b-instant) — with the loop closed by a DSPy (GEPA/MIPRO) optimization workflow that relabels archived live runs against executable market prices as verifiable rewards, guarded by temporal splits and a paired-bootstrap promotion gate. And a commodity ticker system distilling macro news and multi-country sovereign yield curves into a daily directional call &mdash; a gpt-oss-20b preprocessing stage feeding a gpt-oss-120b / deepseek-v4-flash / minimax-m3 mixture-of-experts pipeline &mdash; via a tiered evidence hierarchy with conflict-resolution and abstention rules, plus a required disconfirming-evidence field stating what would flip the call.
                     </p>
 
                     <p>
-                        <span class="exp-lead">ML-backed systems.</span> Built intraday options strategies on Bayesian anomaly-detection signals, with stochastic-volatility calibration via constrained optimization and FFT options pricing, generating 5–10% weekly returns on peak capital at risk. Deployed a live equity portfolio with genetic-algorithm optimization and regime-adaptive rebalancing: a regressor→optimizer workflow (forward-looking rolling α/β targets → per-ticker predictions → bi-objective NSGA-II → Pareto-optimal weights) paired with HMM regime detection and Jensen–Shannon rebalancing triggers, reaching 5%+ annualized alpha-to-benchmark on a multi-year backtest. Also deployed multi-asset interday options strategies on pre-trained models: TabPFN classifiers gauging trade profitability on LoRA-adapted Amazon Chronos embeddings over technical indicators.
+                        <span class="exp-lead">ML-backed systems.</span> Built intraday options strategies on Bayesian anomaly-detection signals, with stochastic-volatility calibration via constrained optimization and FFT options pricing, generating weekly returns of 10% on capital at risk. Deployed a live equity portfolio with genetic-algorithm optimization and regime-adaptive rebalancing: a regressor→optimizer workflow (forward-looking rolling α/β targets → per-ticker predictions → bi-objective NSGA-II → Pareto-optimal weights) paired with HMM regime detection and Jensen–Shannon rebalancing triggers, reaching 5%+ annualized alpha-to-benchmark on a multi-year backtest. Also deployed multi-asset interday options strategies on pre-trained models: TabPFN classifiers gauging trade profitability on LoRA-adapted Amazon Chronos embeddings over technical indicators.
                     </p>
 
                     <p>
-                        <span class="exp-lead">LLM agents &amp; infrastructure.</span> Built an MCP-wrapped, tool-calling LLM pipeline that mines trading signals against backtested PnL, surfacing entry/exit rules above 1.5 Sharpe. Built a Qwen2.5-VL multimodal PDF Q&amp;A system with contrastive-embedding fine-tuning and Qdrant indexing, fronted by a FastAPI + Next.js + Streamlit stack. Ran it all on a serverless-first AWS stack (Lambda, EventBridge, DynamoDB, S3, CloudFormation) and Modal, with GitHub Actions CI/CD pushing digest-pinned ECR images across multiple bots, DST-aware EventBridge scheduling, Lambda tuned for ML inference with S3-backed HuggingFace/Torch caches, and React/static dashboards over DynamoDB/S3 served via FastAPI behind Lambda Function URLs.
+                        <span class="exp-lead">LLM agents &amp; infrastructure.</span> Built an MCP-wrapped, tool-calling LLM pipeline that mines trading signals against backtested PnL, surfacing entry/exit rules above 1.5 Sharpe. Built a vision-backed (qwen3p7-plus) multimodal PDF Q&amp;A system with contrastive-embedding fine-tuning and Qdrant indexing, fronted by a FastAPI + Next.js + Streamlit stack. Ran it all on a serverless-first AWS stack (Lambda, EventBridge, DynamoDB, S3, CloudFormation) and Modal, with GitHub Actions CI/CD pushing digest-pinned ECR images across multiple bots, DST-aware EventBridge scheduling, Lambda tuned for ML inference with S3-backed HuggingFace/Torch caches, and React/static dashboards over DynamoDB/S3 served via FastAPI behind Lambda Function URLs.
                     </p>
                 </div>
             </div>
@@ -676,6 +677,20 @@
                 <div class="exp-body">
                     <p>
                         I adapted physics-informed modeling originally developed for fusion experiment data to financial time series. The resulting production pipeline used sparse regression for PDE construction and signal generation, paired with a CAGR-maximizing Bayesian TPE optimizer driving a swing-trading system deployed on AWS Lambda.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Postdoc -->
+            <div class="exp-card">
+                <div class="exp-meta">
+                    <span class="exp-role">Postdoctoral Researcher</span>
+                    <span class="exp-dates">Jan 2019 – Jul 2022</span>
+                </div>
+                <div class="exp-company">Los Alamos National Lab &amp; University of Southern California</div>
+                <div class="exp-body">
+                    <p>
+                        I replaced 3D fracture geometry with a graph representation, running flow and transport as a reduced-order model. I also built sequential iterative coupling of flow and mechanics on different grids, tied together with a computational-geometry projection layer.
                     </p>
                 </div>
             </div>
@@ -722,6 +737,7 @@
                     <div class="tag-cloud">
                         <span class="tag">Python</span>
                         <span class="tag">pandas</span>
+                        <span class="tag">Polars</span>
                         <span class="tag">NumPy</span>
                         <span class="tag">requests</span>
                         <span class="tag">BeautifulSoup</span>
@@ -752,6 +768,8 @@
                         <span class="tag">Fireworks AI</span>
                         <span class="tag">DSPy</span>
                         <span class="tag">Qdrant</span>
+                        <span class="tag">MCP</span>
+                        <span class="tag">tool-calling</span>
                     </div>
                 </div>
             </div>
