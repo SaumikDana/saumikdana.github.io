@@ -4,22 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saumik Dana | Computational Engineer</title>
-    <meta name="description" content="Saumik Dana is a computational engineer building full-stack ML and LLM-based systems for quantitative finance, RAG, and multimodal document intelligence.">
+    <title>Saumik Dana | AI/ML Engineer</title>
+    <meta name="description" content="Saumik Dana builds and operates production AI systems across LLM agents, quantitative trading, multimodal retrieval, and cloud infrastructure.">
     <meta name="author" content="Saumik Dana">
-    <meta name="keywords" content="Saumik Dana, Machine Learning, Quantitative Finance, AWS Lambda, Production ML, Options Trading, NLP Analytics, Portfolio Optimization, PhD, UT Austin">
+    <meta name="keywords" content="Saumik Dana, AI Engineer, Machine Learning Engineer, Forward Deployed Engineer, LLM Systems, Quantitative Finance, Multimodal RAG, AWS Lambda, Production ML">
 
     <!-- Open Graph Tags -->
-    <meta property="og:title" content="Saumik Dana | Computational Engineer">
-    <meta property="og:description" content="Computational engineer building full-stack ML and LLM-based systems across quantitative finance, RAG, and multimodal document intelligence.">
+    <meta property="og:title" content="Saumik Dana | AI/ML Engineer">
+    <meta property="og:description" content="Production LLM agents, quantitative trading systems, multimodal retrieval, and cloud infrastructure.">
     <meta property="og:image" content="https://saumikdana.github.io/saumik.jpg">
     <meta property="og:url" content="https://saumikdana.github.io">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Saumik Dana | Computational Engineer">
-    <meta name="twitter:description" content="Full-stack ML and LLM-based systems for quantitative finance, market intelligence, and cloud-native deployment.">
+    <meta name="twitter:title" content="Saumik Dana | AI/ML Engineer">
+    <meta name="twitter:description" content="Production LLM agents, quantitative trading systems, multimodal retrieval, and cloud infrastructure.">
     <meta name="twitter:image" content="https://saumikdana.github.io/saumik.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
 
     <script type="application/ld+json">
     {
-      "@context": "http://schema.org",
+      "@context": "https://schema.org",
       "@type": "Person",
       "name": "Saumik Dana",
       "url": "https://saumikdana.github.io",
@@ -38,13 +38,13 @@
         "https://github.com/SaumikDana",
         "https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en"
       ],
-      "jobTitle": "Computational Engineer",
+      "jobTitle": "AI/ML Engineer",
       "alumniOf": {
         "@type": "CollegeOrUniversity",
         "name": "University of Texas at Austin"
       },
       "image": "https://saumikdana.github.io/saumik.jpg",
-      "description": "Computational engineer building full-stack ML and LLM-based systems for quantitative finance, RAG, and multimodal document intelligence"
+      "description": "AI/ML engineer building production LLM agents, quantitative trading systems, multimodal retrieval, and cloud infrastructure"
     }
     </script>
 
@@ -107,7 +107,7 @@
         }
 
         .hero-inner {
-            max-width: 1600px;
+            max-width: 1120px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
@@ -198,12 +198,13 @@
         }
 
         .nav-scroll {
-            max-width: 1600px;
+            max-width: 1120px;
             margin: 0 auto;
             padding: 0.8rem 2rem;
             display: flex;
             gap: 0.25rem;
-            flex-wrap: wrap;
+            overflow-x: auto;
+            scrollbar-width: thin;
             justify-content: center;
         }
 
@@ -225,7 +226,7 @@
 
         /* ─── MAIN ─── */
         main {
-            max-width: 1600px;
+            max-width: 1120px;
             margin: 0 auto;
             padding: 3rem 2rem 4rem;
         }
@@ -257,10 +258,41 @@
             color: var(--ink-light);
             font-size: 1.05rem;
             line-height: 1.85;
-            max-width: 1600px;
+            max-width: 75ch;
         }
 
         .prose + .prose { margin-top: 1rem; }
+
+        /* ─── SELECTED SYSTEMS ─── */
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .system-card {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 14px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px rgba(13,17,23,0.035);
+        }
+
+        .system-card h3 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.55rem;
+        }
+
+        .system-card p {
+            color: var(--slate);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .system-card .tag-cloud { margin-top: 1rem; }
 
         /* ─── STAT RIBBON ─── */
         .stat-ribbon {
@@ -301,7 +333,7 @@
             background: white;
             border: 1px solid rgba(0,0,0,0.06);
             border-radius: 16px;
-            padding: 1rem;
+            padding: 1.75rem;
             margin-bottom: 1rem;
             position: relative;
             transition: box-shadow 0.3s ease;
@@ -362,6 +394,20 @@
 
         .exp-body p { margin-bottom: 1rem; }
         .exp-body p:last-child { margin-bottom: 0; }
+
+        .exp-group + .exp-group { margin-top: 1.4rem; }
+
+        .exp-points {
+            margin: 0.5rem 0 0 1.15rem;
+            color: var(--ink-light);
+        }
+
+        .exp-points li {
+            margin-bottom: 0.45rem;
+            padding-left: 0.2rem;
+        }
+
+        .exp-points li:last-child { margin-bottom: 0; }
 
         .exp-lead {
             font-family: var(--mono);
@@ -450,6 +496,21 @@
             border-radius: 4px;
             color: var(--ink-light);
             font-weight: 500;
+        }
+
+        a.tag {
+            text-decoration: none;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        a.tag:hover {
+            color: var(--accent);
+            background: #f8e6de;
+        }
+
+        a:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px;
         }
 
         /* ─── EDUCATION ─── */
@@ -556,6 +617,17 @@
                 gap: 0.25rem;
             }
             .tech-mosaic { grid-template-columns: 1fr; }
+            .system-grid { grid-template-columns: 1fr; }
+            .nav-scroll { justify-content: flex-start; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -568,18 +640,18 @@
             <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
             <div class="hero-text">
                 <h1>Saumik <span>Dana</span></h1>
-                <p class="subtitle">Computational Engineer &middot; Full-Stack ML/LLM Systems &middot; PhD</p>
-                <p class="credential">US Green Card Holder</p>
+                <p class="subtitle">AI/ML Engineer &middot; Production LLM &amp; Quantitative Systems &middot; PhD</p>
+                <p class="credential">US Permanent Resident</p>
                 <div class="social-row">
-                    <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" class="social-pill">
+                    <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" rel="noopener noreferrer" class="social-pill">
                         <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                         LinkedIn
                     </a>
-                    <a href="https://github.com/SaumikDana" target="_blank" class="social-pill">
+                    <a href="https://github.com/SaumikDana" target="_blank" rel="noopener noreferrer" class="social-pill">
                         <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                         GitHub
                     </a>
-                    <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en" target="_blank" class="social-pill">
+                    <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="social-pill">
                         <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
                         Scholar
                     </a>
@@ -595,21 +667,12 @@
     <!-- ═══════════ NAV ═══════════ -->
     <nav>
         <div class="nav-scroll">
-            <a href="optimizers.html">Optimizers</a>
-            <a href="distributions.html">Distributions</a>
-            <a href="hypo.html">Hypothesis Testing</a>
-            <a href="linreg.html">Linear Regression</a>
-            <a href="shap.html">SHAP</a>
-            <a href="fintech.html">Options</a>
-            <a href="bs.html">Black-Scholes</a>
-            <a href="tos.html">No Arbitrage</a>
-            <a href="tree_classifier.html">Tree Classifiers</a>
-            <a href="tree_regressor.html">Tree Regressors</a>
-            <!-- <a href="bayesian_optimization.html">Bayesian Opt</a> -->
-            <a href="options_backtesting_code.html">Options Backtest</a>
-            <a href="sde_master_catalog.html">SDE Adaptations</a>
-            <a href="high_leverage_python.html">Pythonic</a>
-            <a href="pytorch_mental_map.html">PyTorch Guts</a>
+            <a href="#systems">Systems</a>
+            <a href="#experience">Experience</a>
+            <a href="#skills">Skills</a>
+            <a href="#notes">Technical Notes</a>
+            <a href="#education">Education</a>
+            <a href="resume">Resume</a>
         </div>
     </nav>
 
@@ -619,17 +682,52 @@
         <!-- ABOUT -->
         <section class="block">
             <div class="block-label">About</div>
+            <h2 class="block-heading">From research idea to production system</h2>
             <p class="prose">
-                I'm a computational engineer who designs, ships, and operates full-stack ML and LLM-based systems end-to-end. A PhD at the University of Texas at Austin grounded me in feature engineering, optimization, stochastic modeling, and scientific computing — the toolkit I now turn on quantitative finance, LLM pipelines, and multimodal document intelligence.
-            </p>
-            <p class="prose">
-                In practice, that means systematic trading systems running in production — some driven by classical ML and stochastic models, others steered by LLM inference shaped to how the underlying model actually thinks: chain-of-thought scaffolding for small non-reasoning models, decision policy and abstention rules for reasoning models. Markets grade the prompts, so the iteration loop is honest. Alongside that sit multimodal LLM agents and the serverless cloud scaffolding around them. I'm comfortable owning research, infrastructure, and production code as a single workflow — feature engineering, model selection, calibration, prompt optimization, deployment, evaluation, and the unglamorous infrastructure that keeps any of it from breaking at 3 a.m.
+                I build and operate AI systems end-to-end—from multimodal retrieval and tool-using agents to live quantitative trading platforms. My work spans model adaptation, evaluation, APIs, cloud infrastructure, and the production reliability required to keep automated systems running.
             </p>
         </section>
 
+        <!-- SELECTED SYSTEMS -->
+        <section class="block" id="systems">
+            <div class="block-label">Selected Systems</div>
+            <h2 class="block-heading">Production AI across models, markets, and infrastructure</h2>
+            <div class="system-grid">
+                <article class="system-card">
+                    <h3>LLM Trading Systems</h3>
+                    <p>Deployed decision pipelines across FX, commodities, and options, including DSPy/GEPA prompt optimization and multi-model reasoning over market narratives.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">DSPy</span><span class="tag">GEPA</span><span class="tag">OANDA</span><span class="tag">LLM inference</span>
+                    </div>
+                </article>
+                <article class="system-card">
+                    <h3>ML Trading Systems</h3>
+                    <p>Built Bayesian volatility signals, an HMM/NSGA-II equity portfolio, and a Chronos-LoRA plus TabPFN interday options platform.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">PyTorch</span><span class="tag">Chronos</span><span class="tag">TabPFN</span><span class="tag">NSGA-II</span>
+                    </div>
+                </article>
+                <article class="system-card">
+                    <h3>Agents &amp; Multimodal Retrieval</h3>
+                    <p>Built an MCP signal-mining agent and a full-stack PDF research assistant with contrastive CLIP tuning, Qdrant retrieval, and vision-LLM synthesis.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">MCP</span><span class="tag">CLIP</span><span class="tag">Qdrant</span><span class="tag">FastAPI</span>
+                    </div>
+                </article>
+                <article class="system-card">
+                    <h3>Production Infrastructure</h3>
+                    <p>Shipped containerized, scheduled systems with persistent state, cached model artifacts, broker integrations, failure recovery, and automated deployment.</p>
+                    <div class="tag-cloud">
+                        <span class="tag">AWS Lambda</span><span class="tag">Modal</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
         <!-- EXPERIENCE -->
-        <section class="block">
+        <section class="block" id="experience">
             <div class="block-label">Experience</div>
+            <h2 class="block-heading">Building systems that leave the notebook</h2>
 
             <!-- Zebra -->
             <div class="exp-card">
@@ -637,19 +735,34 @@
                     <span class="exp-role">Quantitative Researcher</span>
                     <span class="exp-dates">Feb 2024 – Dec 2025</span>
                 </div>
-                <div class="exp-company">Asset Management Firm &middot; Stamford, CT</div>
+                <div class="exp-company">Zebra Capital Management LLC &middot; Stamford, CT</div>
                 <div class="exp-body">
-                    <p>
-                        <span class="exp-lead">LLM-backed systems.</span> Built three intraday LLM-driven trading systems across asset classes, each with its prompt architecture shaped to the model class doing the reasoning. An options strategy where gpt-oss-120b reasons over live stochastic-volatility calibrations every few minutes: state-dependent prompts for entry versus position management, verdict history against flip-flopping, and the entry thesis read back verbatim until exit — the prompt is the strategy, versioned and evaluated over fixed windows. An FX system with a staged pipeline that synthesizes news and price action into market themes and a volatility narrative, then conditions per-pair long/short/no-trade signals through explicit chain-of-thought scaffolding sized to a small non-reasoning model (llama-3.1-8b-instant) — with the loop closed by a DSPy (GEPA/MIPRO) optimization workflow that relabels archived live runs against executable market prices as verifiable rewards, guarded by temporal splits and a paired-bootstrap promotion gate. And a commodity ticker system distilling macro news and multi-country sovereign yield curves into a daily directional call &mdash; a gpt-oss-20b preprocessing stage feeding a gpt-oss-120b / deepseek-v4-flash / minimax-m3 mixture-of-experts pipeline &mdash; via a tiered evidence hierarchy with conflict-resolution and abstention rules, plus a required disconfirming-evidence field stating what would flip the call.
-                    </p>
+                    <div class="exp-group">
+                        <span class="exp-lead">LLM-backed trading systems</span>
+                        <ul class="exp-points">
+                            <li>Deployed an intraday FX pipeline that synthesized RSS news and price action into trade decisions, executed through OANDA, and optimized with DSPy/GEPA against archived outcomes.</li>
+                            <li>Deployed a commodity workflow combining macro news, price action, and sovereign yield curves through a multi-model analysis pipeline with conflict-resolution and abstention rules.</li>
+                            <li>Implemented an LLM-driven intraday options strategy that translated live stochastic-volatility calibrations and position context into structured trading decisions.</li>
+                        </ul>
+                    </div>
 
-                    <p>
-                        <span class="exp-lead">ML-backed systems.</span> Built intraday options strategies on Bayesian anomaly-detection signals, with stochastic-volatility calibration via constrained optimization and FFT options pricing, generating weekly returns of 10% on capital at risk. Deployed a live equity portfolio with genetic-algorithm optimization and regime-adaptive rebalancing: a regressor→optimizer workflow (forward-looking rolling α/β targets → per-ticker predictions → bi-objective NSGA-II → Pareto-optimal weights) paired with HMM regime detection and Jensen–Shannon rebalancing triggers, reaching 5%+ annualized alpha-to-benchmark on a multi-year backtest. Also deployed multi-asset interday options strategies on pre-trained models: TabPFN classifiers gauging trade profitability on LoRA-adapted Amazon Chronos embeddings over technical indicators.
-                    </p>
+                    <div class="exp-group">
+                        <span class="exp-lead">ML-backed trading systems</span>
+                        <ul class="exp-points">
+                            <li>Deployed Bayesian volatility-arbitrage options strategies using anomaly signals derived from stochastic-volatility calibrations.</li>
+                            <li>Built a regime-aware equity portfolio using Hidden Markov Models, Jensen–Shannon rebalancing, and NSGA-II Pareto-front optimization.</li>
+                            <li>Built an interday options platform using LoRA-tuned Chronos embeddings and per-asset TabPFN classifiers, with scheduled live execution across 18 equity and ETF underlyings.</li>
+                        </ul>
+                    </div>
 
-                    <p>
-                        <span class="exp-lead">LLM agents &amp; infrastructure.</span> Built an MCP-wrapped, tool-calling LLM pipeline that mines trading signals against backtested PnL, surfacing entry/exit rules above 1.5 Sharpe. Built a vision-backed (qwen3p7-plus) multimodal PDF Q&amp;A system with contrastive-embedding fine-tuning and Qdrant indexing, fronted by a FastAPI + Next.js + Streamlit stack. Ran it all on a serverless-first AWS stack (Lambda, EventBridge, DynamoDB, S3, CloudFormation) and Modal, with GitHub Actions CI/CD pushing digest-pinned ECR images across multiple bots, DST-aware EventBridge scheduling, Lambda tuned for ML inference with S3-backed HuggingFace/Torch caches, and React/static dashboards over DynamoDB/S3 served via FastAPI behind Lambda Function URLs.
-                    </p>
+                    <div class="exp-group">
+                        <span class="exp-lead">Agents and infrastructure</span>
+                        <ul class="exp-points">
+                            <li>Built an MCP-compatible signal-mining agent that orchestrated research and backtesting, surfacing strategies with Sharpe ratios above 1.5.</li>
+                            <li>Built a multimodal PDF research assistant using contrastive CLIP tuning, Qdrant retrieval, a two-pass vision-LLM workflow, FastAPI, and Next.js.</li>
+                            <li>Shipped containerized systems across AWS and Modal with automated deployment, DST-aware scheduling, persistent state, model caching, dashboards, and execution recovery.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -697,8 +810,9 @@
         </section>
 
         <!-- TECH STACK -->
-        <section class="block">
+        <section class="block" id="skills">
             <div class="block-label">Technical Skills</div>
+            <h2 class="block-heading">Tools selected for the system, not the résumé</h2>
             <div class="tech-mosaic">
                 <div class="tech-tile">
                     <h4>ML &amp; Optimization</h4>
@@ -717,7 +831,7 @@
                 </div>
                 <div class="tech-tile">
                     <h4>Cloud &amp; MLOps</h4>
-                    <p>Serverless-first production systems with CI/CD, infrastructure-as-code, containers, and model deployment workflows.</p>
+                    <p>Serverless-first production systems with automated deployment, infrastructure-as-code, containers, and model-serving workflows.</p>
                     <div class="tag-cloud">
                         <span class="tag">Lambda</span>
                         <span class="tag">DynamoDB</span>
@@ -727,13 +841,13 @@
                         <span class="tag">API Gateway</span>
                         <span class="tag">CloudFormation</span>
                         <span class="tag">Docker</span>
-                        <span class="tag">GitHub CI</span>
+                        <span class="tag">GitHub Actions</span>
                         <span class="tag">Modal</span>
                     </div>
                 </div>
                 <div class="tech-tile">
                     <h4>Programming</h4>
-                    <p>Python-first engineering with scientific computing, data wrangling, and web scraping and feed ingestion for research tooling.</p>
+                    <p>Python-first engineering with scientific computing, data wrangling, web scraping, and feed ingestion for research tooling.</p>
                     <div class="tag-cloud">
                         <span class="tag">Python</span>
                         <span class="tag">pandas</span>
@@ -751,7 +865,6 @@
                         <span class="tag">FastAPI</span>
                         <span class="tag">React/JSX</span>
                         <span class="tag">Next.js</span>
-                        <span class="tag">Streamlit</span>
                         <span class="tag">HTML</span>
                         <span class="tag">Alpaca</span>
                         <span class="tag">OANDA</span>
@@ -767,16 +880,40 @@
                         <span class="tag">LangChain</span>
                         <span class="tag">Fireworks AI</span>
                         <span class="tag">DSPy</span>
+                        <span class="tag">GEPA</span>
                         <span class="tag">Qdrant</span>
                         <span class="tag">MCP</span>
-                        <span class="tag">tool-calling</span>
+                        <span class="tag">Multimodal RAG</span>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- TECHNICAL NOTES -->
+        <section class="block" id="notes">
+            <div class="block-label">Technical Notes</div>
+            <h2 class="block-heading">Working notes on models, markets, and implementation</h2>
+            <p class="prose">Compact references built while turning mathematical and machine-learning concepts into working code.</p>
+            <div class="tag-cloud">
+                <a class="tag" href="optimizers.html">Optimizers</a>
+                <a class="tag" href="distributions.html">Distributions</a>
+                <a class="tag" href="hypo.html">Hypothesis Testing</a>
+                <a class="tag" href="linreg.html">Linear Regression</a>
+                <a class="tag" href="shap.html">SHAP</a>
+                <a class="tag" href="fintech.html">Options</a>
+                <a class="tag" href="bs.html">Black-Scholes</a>
+                <a class="tag" href="tos.html">No Arbitrage</a>
+                <a class="tag" href="tree_classifier.html">Tree Classifiers</a>
+                <a class="tag" href="tree_regressor.html">Tree Regressors</a>
+                <a class="tag" href="options_backtesting_code.html">Options Backtesting</a>
+                <a class="tag" href="sde_master_catalog.html">SDE Adaptations</a>
+                <a class="tag" href="high_leverage_python.html">Pythonic Patterns</a>
+                <a class="tag" href="pytorch_mental_map.html">PyTorch Internals</a>
+            </div>
+        </section>
+
         <!-- EDUCATION -->
-        <section class="block">
+        <section class="block" id="education">
             <div class="block-label">Education</div>
             <div class="edu-stack">
                 <div class="edu-row">
@@ -810,12 +947,12 @@
         </section>
 
         <!-- BEYOND THE CODE -->
-        <section class="block">
+        <section class="block" id="life">
             <div class="block-label">Life</div>
             <h2 class="block-heading">Beyond the code</h2>
             <div class="photo-grid">
-                <img src="montage_grid.png" alt="Beer Montage">
-                <img src="montage.png" alt="Road Trip Adventures">
+                <img src="montage_grid.png" alt="A montage of craft beer photography" loading="lazy" decoding="async">
+                <img src="montage.png" alt="A montage of road-trip landscapes and adventures" loading="lazy" decoding="async">
             </div>
         </section>
 
