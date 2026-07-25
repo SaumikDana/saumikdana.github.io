@@ -304,6 +304,24 @@
             padding: 3rem 2rem 4rem;
         }
 
+        /* ─── TWO-COLUMN LAYOUT ─── */
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 3.5rem;
+            align-items: start;
+        }
+
+        .col-side {
+            position: sticky;
+            top: 4.5rem;
+        }
+
+        .col-side .block { margin-bottom: 2.5rem; }
+        .col-side .block:last-child { margin-bottom: 0; }
+        .col-side .block-heading { font-size: 1.3rem; margin-bottom: 0.6rem; }
+        .col-side .prose { font-size: 0.92rem; line-height: 1.65; }
+
         /* ─── SECTION BLOCKS ─── */
         .block { margin-bottom: 4rem; }
 
@@ -563,6 +581,19 @@
             line-height: 1.7;
         }
 
+        /* Sidebar variant of the tech mosaic */
+        .col-side .tech-mosaic {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .col-side .tech-tile { padding: 1.1rem 1.15rem; }
+        .col-side .tech-tile h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+        .col-side .tech-tile p { font-size: 0.85rem; line-height: 1.6; }
+        .col-side .tech-tile:hover { transform: none; }
+        .col-side .tag { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
+
         .tag-cloud {
             display: flex;
             flex-wrap: wrap;
@@ -703,6 +734,23 @@
         .js .block.revealed { animation: fadeUp 0.6s ease-out both; opacity: 1; }
 
         /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .layout {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .col-side {
+                position: static;
+                margin-top: 4rem;
+            }
+            .col-side .block { margin-bottom: 4rem; }
+            .col-side .block-heading { font-size: 2.2rem; }
+            .col-side .tech-mosaic {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.25rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero { padding: 3rem 1.5rem; }
             .hero-inner {
@@ -726,6 +774,8 @@
                 gap: 0.25rem;
             }
             .tech-mosaic { grid-template-columns: 1fr; }
+            .col-side .tech-mosaic { grid-template-columns: 1fr; }
+            .col-side .block-heading { font-size: 1.7rem; }
             .system-grid { grid-template-columns: 1fr; }
             .nav-scroll { justify-content: flex-start; }
             .footer-cta { font-size: 1.3rem; }
@@ -778,15 +828,17 @@
             <a href="#about">About</a>
             <a href="#systems">Systems</a>
             <a href="#experience">Experience</a>
-            <a href="#skills">Skills</a>
-            <a href="#notes">Technical Notes</a>
             <a href="#education">Education</a>
             <a href="#life">Life</a>
+            <a href="#skills">Skills</a>
+            <a href="#notes">Technical Notes</a>
         </div>
     </nav>
 
     <!-- ═══════════ MAIN ═══════════ -->
     <main id="main">
+      <div class="layout">
+        <div class="col-main">
 
         <!-- ABOUT -->
         <section class="block" id="about" aria-labelledby="about-h">
@@ -936,6 +988,37 @@
             </article>
         </section>
 
+        <!-- EDUCATION -->
+        <section class="block" id="education" aria-labelledby="education-h">
+            <div class="block-label">Education</div>
+            <h2 class="block-heading" id="education-h">Foundations</h2>
+            <div class="edu-stack">
+                <div class="edu-row">
+                    <div>
+                        <div class="edu-degree">PhD, Engineering Mechanics</div>
+                        <div class="edu-school">University of Texas at Austin</div>
+                    </div>
+                    <div class="edu-detail">
+                        Austin, TX. Advanced training in numerical simulation, scientific computing, and mathematical modeling that continues to inform my work in ML and quantitative systems.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BEYOND THE CODE -->
+        <section class="block" id="life" aria-labelledby="life-h">
+            <div class="block-label">Life</div>
+            <h2 class="block-heading" id="life-h">Beyond the code</h2>
+            <div class="photo-grid">
+                <img src="montage_grid.png" alt="A montage of craft beer photography" loading="lazy" decoding="async">
+                <img src="montage.png" alt="A montage of road-trip landscapes and adventures" loading="lazy" decoding="async">
+            </div>
+        </section>
+
+        </div><!-- /col-main -->
+
+        <aside class="col-side" aria-label="Skills and technical notes">
+
         <!-- TECH STACK -->
         <section class="block" id="skills" aria-labelledby="skills-h">
             <div class="block-label">Technical Skills</div>
@@ -1039,33 +1122,8 @@
             </div>
         </section>
 
-        <!-- EDUCATION -->
-        <section class="block" id="education" aria-labelledby="education-h">
-            <div class="block-label">Education</div>
-            <h2 class="block-heading" id="education-h">Foundations</h2>
-            <div class="edu-stack">
-                <div class="edu-row">
-                    <div>
-                        <div class="edu-degree">PhD, Engineering Mechanics</div>
-                        <div class="edu-school">University of Texas at Austin</div>
-                    </div>
-                    <div class="edu-detail">
-                        Austin, TX. Advanced training in numerical simulation, scientific computing, and mathematical modeling that continues to inform my work in ML and quantitative systems.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- BEYOND THE CODE -->
-        <section class="block" id="life" aria-labelledby="life-h">
-            <div class="block-label">Life</div>
-            <h2 class="block-heading" id="life-h">Beyond the code</h2>
-            <div class="photo-grid">
-                <img src="montage_grid.png" alt="A montage of craft beer photography" loading="lazy" decoding="async">
-                <img src="montage.png" alt="A montage of road-trip landscapes and adventures" loading="lazy" decoding="async">
-            </div>
-        </section>
-
+        </aside>
+      </div><!-- /layout -->
     </main>
 
     <!-- ═══════════ FOOTER ═══════════ -->
