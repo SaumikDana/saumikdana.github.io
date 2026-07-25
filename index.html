@@ -8,13 +8,17 @@
     <meta name="description" content="Saumik Dana builds and operates production AI systems across LLM agents, quantitative trading, multimodal retrieval, and cloud infrastructure.">
     <meta name="author" content="Saumik Dana">
     <meta name="keywords" content="Saumik Dana, AI Engineer, Machine Learning Engineer, Forward Deployed Engineer, LLM Systems, Quantitative Finance, Multimodal RAG, AWS Lambda, Production ML">
+    <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
 
     <!-- Open Graph Tags -->
     <meta property="og:title" content="Saumik Dana | AI/ML Engineer">
     <meta property="og:description" content="Production LLM agents, quantitative trading systems, multimodal retrieval, and cloud infrastructure.">
     <meta property="og:image" content="https://saumikdana.github.io/saumik.jpg">
+    <meta property="og:image:alt" content="Portrait of Saumik Dana">
     <meta property="og:url" content="https://saumikdana.github.io">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Saumik Dana">
 
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
@@ -26,6 +30,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="canonical" href="https://saumikdana.github.io">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1117'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23e87a5a' text-anchor='middle'%3ESD%3C/text%3E%3C/svg%3E">
 
     <script type="application/ld+json">
     {
@@ -50,34 +56,81 @@
 
     <style>
         :root {
+            /* Fixed brand colors — identical in both themes */
             --ink: #0d1117;
             --ink-light: #21262d;
             --paper: #faf9f6;
-            --paper-warm: #f3f0ea;
             --accent: #c45d3e;
             --accent-glow: #e87a5a;
             --teal: #2a9d8f;
-            --teal-soft: #d4edea;
-            --slate: #6b7280;
-            --slate-light: #9ca3af;
             --gold: #d4a843;
+
+            /* Semantic tokens — remapped for dark mode */
+            --bg: var(--paper);
+            --surface: #ffffff;
+            --surface-alt: #f3f0ea;
+            --text: #0d1117;
+            --text-2: #21262d;
+            --muted: #6b7280;
+            --muted-light: #9ca3af;
+            --border: rgba(0, 0, 0, 0.06);
+            --shadow: rgba(13, 17, 23, 0.035);
+            --shadow-strong: rgba(13, 17, 23, 0.07);
+            --callout-bg: linear-gradient(135deg, #fef9f0, #fdf2e5);
+            --tag-hover-bg: #f8e6de;
+
             --serif: 'DM Serif Display', Georgia, serif;
             --sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             --mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0d1117;
+                --surface: #161b22;
+                --surface-alt: #21262d;
+                --text: #e6edf3;
+                --text-2: #c9d1d9;
+                --muted: #9198a1;
+                --muted-light: #8b949e;
+                --border: rgba(255, 255, 255, 0.09);
+                --shadow: rgba(0, 0, 0, 0.4);
+                --shadow-strong: rgba(0, 0, 0, 0.55);
+                --callout-bg: linear-gradient(135deg, #241d10, #2b2113);
+                --tag-hover-bg: #3a241c;
+                --accent: #e07d5c;
+            }
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
 
         body {
             font-family: var(--sans);
-            background: var(--paper);
-            color: var(--ink);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.7;
             font-size: 17px;
             -webkit-font-smoothing: antialiased;
         }
+
+        /* ─── SKIP LINK ─── */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            z-index: 200;
+            background: var(--accent);
+            color: #fff;
+            padding: 0.7rem 1.2rem;
+            border-radius: 0 0 8px 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .skip-link:focus { left: 0; }
 
         /* ─── HERO ─── */
         .hero {
@@ -138,20 +191,18 @@
             margin-bottom: 0.75rem;
         }
 
-        .hero-text h1 span {
-            color: var(--accent-glow);
-        }
+        .hero-text h1 span { color: var(--accent-glow); }
 
         .hero-text .subtitle {
             font-size: 1.15rem;
-            color: var(--slate-light);
+            color: #b8bfc9;
             font-weight: 300;
             margin-bottom: 0.4rem;
         }
 
         .hero-text .credential {
             font-size: 0.85rem;
-            color: var(--teal);
+            color: #3fc0b0;
             font-weight: 500;
             letter-spacing: 0.08em;
             text-transform: uppercase;
@@ -176,25 +227,30 @@
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
         }
 
         .social-pill:hover {
             background: rgba(255,255,255,0.14);
             transform: translateY(-1px);
-            border-color: var(--accent);
+            border-color: var(--accent-glow);
         }
 
-        .social-pill svg { width: 16px; height: 16px; }
+        .social-pill svg { width: 16px; height: 16px; flex-shrink: 0; }
 
         /* ─── NAV ─── */
         nav {
-            background: var(--paper);
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background: color-mix(in srgb, var(--bg) 85%, transparent);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        @supports not (background: color-mix(in srgb, red, blue)) {
+            nav { background: var(--bg); }
         }
 
         .nav-scroll {
@@ -209,20 +265,23 @@
         }
 
         .nav-scroll a {
-            color: var(--slate);
+            color: var(--muted);
             text-decoration: none;
             font-size: 0.82rem;
             font-weight: 500;
             padding: 0.35rem 0.8rem;
             border-radius: 6px;
-            transition: all 0.25s ease;
+            transition: color 0.25s ease, background 0.25s ease;
             white-space: nowrap;
         }
 
-        .nav-scroll a:hover {
+        .nav-scroll a:hover,
+        .nav-scroll a.active {
             color: var(--accent);
-            background: rgba(196,93,62,0.06);
+            background: rgba(196,93,62,0.09);
         }
+
+        .nav-scroll a.active { font-weight: 600; }
 
         /* ─── MAIN ─── */
         main {
@@ -232,9 +291,7 @@
         }
 
         /* ─── SECTION BLOCKS ─── */
-        .block {
-            margin-bottom: 4rem;
-        }
+        .block { margin-bottom: 4rem; }
 
         .block-label {
             font-size: 0.72rem;
@@ -251,11 +308,11 @@
             font-weight: 400;
             line-height: 1.2;
             margin-bottom: 1.25rem;
-            color: var(--ink);
+            color: var(--text);
         }
 
         .prose {
-            color: var(--ink-light);
+            color: var(--text-2);
             font-size: 1.05rem;
             line-height: 1.85;
             max-width: 75ch;
@@ -272,11 +329,11 @@
         }
 
         .system-card {
-            background: white;
-            border: 1px solid rgba(0,0,0,0.06);
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 14px;
             padding: 1.5rem;
-            box-shadow: 0 8px 30px rgba(13,17,23,0.035);
+            box-shadow: 0 8px 30px var(--shadow);
         }
 
         .system-card h3 {
@@ -284,10 +341,11 @@
             font-size: 1.3rem;
             font-weight: 400;
             margin-bottom: 0.55rem;
+            color: var(--text);
         }
 
         .system-card p {
-            color: var(--slate);
+            color: var(--muted);
             font-size: 0.95rem;
             line-height: 1.7;
         }
@@ -297,12 +355,12 @@
         /* ─── STAT RIBBON ─── */
         .stat-ribbon {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1px;
             background: var(--ink);
             border-radius: 12px;
             overflow: hidden;
-            margin: 2rem 0;
+            margin: 2rem 0 0;
         }
 
         .stat-cell {
@@ -322,26 +380,32 @@
 
         .stat-cell .label {
             font-size: 0.78rem;
-            color: var(--slate-light);
+            color: #9ca3af;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             font-weight: 500;
         }
 
+        .stat-note {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
         /* ─── EXPERIENCE CARDS ─── */
         .exp-card {
-            background: white;
-            border: 1px solid rgba(0,0,0,0.06);
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 1.75rem;
             margin-bottom: 1rem;
             position: relative;
+            overflow: hidden;
             transition: box-shadow 0.3s ease;
         }
 
-        .exp-card:hover {
-            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
-        }
+        .exp-card:hover { box-shadow: 0 8px 40px var(--shadow-strong); }
 
         .exp-card::before {
             content: '';
@@ -350,13 +414,8 @@
             left: 0;
             right: 0;
             height: 3px;
-            border-radius: 16px 16px 0 0;
+            background: linear-gradient(90deg, var(--accent), var(--teal));
         }
-
-        .exp-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
-        .exp-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
-        .exp-card:nth-child(3)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
-        .exp-card:nth-child(4)::before { background: linear-gradient(90deg, var(--accent), var(--teal)); }
 
         .exp-meta {
             display: flex;
@@ -370,7 +429,8 @@
         .exp-role {
             font-family: var(--serif);
             font-size: 1.5rem;
-            color: var(--ink);
+            font-weight: 400;
+            color: var(--text);
         }
 
         .exp-dates {
@@ -382,12 +442,12 @@
 
         .exp-company {
             font-size: 0.95rem;
-            color: var(--slate);
+            color: var(--muted);
             margin-bottom: 1.25rem;
         }
 
         .exp-body {
-            color: var(--ink-light);
+            color: var(--text-2);
             line-height: 1.85;
             font-size: 1rem;
         }
@@ -399,7 +459,7 @@
 
         .exp-points {
             margin: 0.5rem 0 0 1.15rem;
-            color: var(--ink-light);
+            color: var(--text-2);
         }
 
         .exp-points li {
@@ -409,7 +469,13 @@
 
         .exp-points li:last-child { margin-bottom: 0; }
 
+        .exp-points strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
         .exp-lead {
+            display: block;
             font-family: var(--mono);
             font-size: 0.72rem;
             font-weight: 500;
@@ -419,14 +485,21 @@
         }
 
         .callout {
-            background: linear-gradient(135deg, #fef9f0, #fdf2e5);
+            background: var(--callout-bg);
             border-left: 3px solid var(--gold);
             padding: 1rem 1.25rem;
             border-radius: 0 10px 10px 0;
-            margin: 1.25rem 0;
+            margin: 1.5rem 0 0;
             font-weight: 500;
             font-size: 0.95rem;
-            color: var(--ink);
+            color: var(--text);
+            max-width: 75ch;
+        }
+
+        .callout a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 2px;
         }
 
         /* ─── TECH MOSAIC ─── */
@@ -438,8 +511,8 @@
         }
 
         .tech-tile {
-            background: white;
-            border: 1px solid rgba(0,0,0,0.06);
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1.75rem;
             position: relative;
@@ -449,7 +522,7 @@
 
         .tech-tile:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            box-shadow: 0 8px 30px var(--shadow-strong);
         }
 
         .tech-tile::after {
@@ -459,24 +532,20 @@
             left: 0;
             right: 0;
             height: 2px;
+            background: var(--accent);
         }
 
-        .tech-tile:nth-child(1)::after { background: var(--accent); }
-        .tech-tile:nth-child(2)::after { background: var(--accent); }
-        .tech-tile:nth-child(3)::after { background: var(--accent); }
-        .tech-tile:nth-child(4)::after { background: var(--accent); }
-        .tech-tile:nth-child(5)::after { background: var(--accent); }
-
-        .tech-tile h4 {
+        .tech-tile h3 {
             font-family: var(--serif);
             font-size: 1.15rem;
-            color: var(--ink);
+            font-weight: 400;
+            color: var(--text);
             margin-bottom: 0.75rem;
         }
 
         .tech-tile p {
             font-size: 0.92rem;
-            color: var(--slate);
+            color: var(--muted);
             line-height: 1.7;
         }
 
@@ -492,9 +561,9 @@
             font-family: var(--mono);
             font-size: 0.72rem;
             padding: 0.25rem 0.6rem;
-            background: var(--paper-warm);
+            background: var(--surface-alt);
             border-radius: 4px;
-            color: var(--ink-light);
+            color: var(--text-2);
             font-weight: 500;
         }
 
@@ -505,7 +574,7 @@
 
         a.tag:hover {
             color: var(--accent);
-            background: #f8e6de;
+            background: var(--tag-hover-bg);
         }
 
         a:focus-visible {
@@ -523,11 +592,11 @@
 
         .edu-row {
             display: grid;
-            grid-template-columns: 200px 1fr;
+            grid-template-columns: 260px 1fr;
             gap: 1.5rem;
             align-items: start;
             padding: 1.5rem 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border);
         }
 
         .edu-row:last-child { border-bottom: none; }
@@ -535,18 +604,18 @@
         .edu-degree {
             font-family: var(--serif);
             font-size: 1.1rem;
-            color: var(--ink);
+            color: var(--text);
         }
 
         .edu-school {
             font-size: 0.95rem;
-            color: var(--slate);
+            color: var(--muted);
             margin-top: 0.15rem;
         }
 
         .edu-detail {
             font-size: 0.95rem;
-            color: var(--ink-light);
+            color: var(--text-2);
             line-height: 1.7;
         }
 
@@ -560,6 +629,7 @@
 
         .photo-grid img {
             width: 100%;
+            height: auto;
             border-radius: 12px;
             transition: transform 0.4s ease;
         }
@@ -569,15 +639,41 @@
         /* ─── FOOTER ─── */
         footer {
             background: var(--ink);
-            color: var(--slate-light);
+            color: #9ca3af;
             text-align: center;
-            padding: 2.5rem 2rem;
+            padding: 3rem 2rem;
             font-size: 0.85rem;
+            border-top: 1px solid var(--border);
         }
 
-        footer a {
-            color: var(--accent-glow);
-            text-decoration: none;
+        .footer-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        .footer-cta {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            color: var(--paper);
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0 2rem;
+        }
+
+        footer a { color: var(--accent-glow); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        .footer-legal {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
         }
 
         /* ─── ANIMATIONS ─── */
@@ -587,10 +683,10 @@
         }
 
         .hero-inner { animation: fadeUp 0.8s ease-out; }
-        .block { animation: fadeUp 0.6s ease-out both; }
-        .block:nth-child(1) { animation-delay: 0.1s; }
-        .block:nth-child(2) { animation-delay: 0.1s; }
-        .block:nth-child(3) { animation-delay: 0.1s; }
+
+        /* Only hide-then-reveal when JS is running, so no-JS users see everything */
+        .js .block { opacity: 0; }
+        .js .block.revealed { animation: fadeUp 0.6s ease-out both; opacity: 1; }
 
         /* ─── RESPONSIVE ─── */
         @media (max-width: 768px) {
@@ -610,7 +706,6 @@
             main { padding: 2rem 1.25rem; }
             .block-heading { font-size: 1.7rem; }
             .stat-ribbon { grid-template-columns: 1fr; }
-            .exp-card { padding: 1.75rem; }
             .exp-meta { flex-direction: column; }
             .edu-row {
                 grid-template-columns: 1fr;
@@ -619,44 +714,58 @@
             .tech-mosaic { grid-template-columns: 1fr; }
             .system-grid { grid-template-columns: 1fr; }
             .nav-scroll { justify-content: flex-start; }
+            .footer-cta { font-size: 1.3rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
+            .js .block { opacity: 1; }
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
         }
+
+        @media print {
+            nav, .photo-grid, footer .footer-links { display: none; }
+            .hero { background: none; color: #000; }
+            .js .block { opacity: 1; }
+        }
     </style>
 </head>
 
 <body>
 
+    <a class="skip-link" href="#main">Skip to content</a>
+
     <!-- ═══════════ HERO ═══════════ -->
     <header class="hero">
         <div class="hero-inner">
-            <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic">
+            <img src="saumik.jpg" alt="Saumik Dana" class="profile-pic" width="150" height="150">
             <div class="hero-text">
                 <h1>Saumik <span>Dana</span></h1>
                 <p class="subtitle">AI/ML Engineer &middot; Production LLM &amp; Quantitative Systems &middot; PhD</p>
                 <p class="credential">US Permanent Resident</p>
                 <div class="social-row">
+                    <a href="mailto:dana.spk5@gmail.com" class="social-pill">
+                        <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 4.76-8-4.76V6l8 4.75L20 6v2.24z"/></svg>
+                        Email
+                    </a>
                     <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" rel="noopener noreferrer" class="social-pill">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                         LinkedIn
                     </a>
                     <a href="https://github.com/SaumikDana" target="_blank" rel="noopener noreferrer" class="social-pill">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                         GitHub
                     </a>
-                    <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="social-pill">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+                    <a href="https://scholar.google.com/citations?user=KzKHVHcAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer" class="social-pill">
+                        <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
                         Scholar
                     </a>
                     <a href="resume" class="social-pill">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+                        <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
                         Resume
                     </a>
                 </div>
@@ -665,33 +774,53 @@
     </header>
 
     <!-- ═══════════ NAV ═══════════ -->
-    <nav>
+    <nav aria-label="Section navigation">
         <div class="nav-scroll">
+            <a href="#about">About</a>
             <a href="#systems">Systems</a>
             <a href="#experience">Experience</a>
             <a href="#skills">Skills</a>
             <a href="#notes">Technical Notes</a>
             <a href="#education">Education</a>
+            <a href="#life">Life</a>
             <a href="resume">Resume</a>
         </div>
     </nav>
 
     <!-- ═══════════ MAIN ═══════════ -->
-    <main>
+    <main id="main">
 
         <!-- ABOUT -->
-        <section class="block">
+        <section class="block" id="about" aria-labelledby="about-h">
             <div class="block-label">About</div>
-            <h2 class="block-heading">From research idea to production system</h2>
+            <h2 class="block-heading" id="about-h">From research idea to production system</h2>
             <p class="prose">
                 I build and operate AI systems end-to-end—from multimodal retrieval and tool-using agents to live quantitative trading platforms. My work spans model adaptation, evaluation, APIs, cloud infrastructure, and the production reliability required to keep automated systems running.
             </p>
+
+            <div class="stat-ribbon">
+                <div class="stat-cell">
+                    <div class="number">1.5+</div>
+                    <div class="label">Sharpe, agent-mined strategies</div>
+                </div>
+                <div class="stat-cell">
+                    <div class="number">5%</div>
+                    <div class="label">Weekly returns on capital at risk</div>
+                </div>
+            </div>
+
+            <!-- Uncomment and edit if you want an availability banner:
+            <div class="callout">
+                Currently open to AI/ML engineering and quantitative research roles.
+                <a href="mailto:dana.spk5@gmail.com">Get in touch</a>.
+            </div>
+            -->
         </section>
 
         <!-- SELECTED SYSTEMS -->
-        <section class="block" id="systems">
+        <section class="block" id="systems" aria-labelledby="systems-h">
             <div class="block-label">Selected Systems</div>
-            <h2 class="block-heading">Production AI across models, markets, and infrastructure</h2>
+            <h2 class="block-heading" id="systems-h">Production AI across models, markets, and infrastructure</h2>
             <div class="system-grid">
                 <article class="system-card">
                     <h3>LLM Trading Systems</h3>
@@ -725,65 +854,65 @@
         </section>
 
         <!-- EXPERIENCE -->
-        <section class="block" id="experience">
+        <section class="block" id="experience" aria-labelledby="experience-h">
             <div class="block-label">Experience</div>
-            <h2 class="block-heading">Building systems that leave the notebook</h2>
+            <h2 class="block-heading" id="experience-h">Building systems that leave the notebook</h2>
 
-            <!-- Zebra -->
-            <div class="exp-card">
+            <!-- Quant role -->
+            <article class="exp-card">
                 <div class="exp-meta">
-                    <span class="exp-role">Quantitative Researcher</span>
+                    <h3 class="exp-role">Quantitative Researcher</h3>
                     <span class="exp-dates">Feb 2024 – Dec 2025</span>
                 </div>
-                <div class="exp-company">Zebra Capital Management LLC &middot; Stamford, CT</div>
+                <div class="exp-company">Asset Management Firm &middot; Stamford, CT</div>
                 <div class="exp-body">
                     <div class="exp-group">
                         <span class="exp-lead">LLM-backed trading systems</span>
                         <ul class="exp-points">
-                            <li>Deployed an intraday FX pipeline that synthesized RSS news and price action into trade decisions, executed through OANDA, and optimized with DSPy/GEPA against archived outcomes.</li>
-                            <li>Deployed a commodity workflow combining macro news, price action, and sovereign yield curves through a multi-model analysis pipeline with conflict-resolution and abstention rules.</li>
-                            <li>Implemented an LLM-driven intraday options strategy that translated live stochastic-volatility calibrations and position context into structured trading decisions.</li>
+                            <li>Deployed an intraday FX pipeline that synthesized RSS news and price action into trade decisions, executed through OANDA, and closed the research-to-production loop with an <strong>evaluation-gated DSPy/GEPA prompt optimizer</strong> that promoted a new prompt only when it outscored the incumbent on archived outcomes.</li>
+                            <li>Deployed a commodity workflow combining macro news, price action, and sovereign yield-curve differentials through a mixture-of-experts pipeline that assigned each model a role based on its observed reasoning bias, with conflict-resolution and abstention rules.</li>
+                            <li>Implemented an LLM-driven intraday options strategy that translated live stochastic-volatility calibrations—volatility, jump-risk, relative-value, and premium-repricing trajectories—into structured entry and exit decisions.</li>
                         </ul>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">ML-backed trading systems</span>
                         <ul class="exp-points">
-                            <li>Deployed Bayesian volatility-arbitrage options strategies using anomaly signals derived from stochastic-volatility calibrations.</li>
-                            <li>Built a regime-aware equity portfolio using Hidden Markov Models, Jensen–Shannon rebalancing, and NSGA-II Pareto-front optimization.</li>
-                            <li>Built an interday options platform using LoRA-tuned Chronos embeddings and per-asset TabPFN classifiers, with scheduled live execution across 18 equity and ETF underlyings.</li>
+                            <li>Deployed Bayesian volatility-arbitrage options strategies using anomaly signals derived from stochastic-volatility calibrations, generating <strong>weekly returns of 5% on capital at risk</strong>.</li>
+                            <li>Built a regime-aware equity portfolio using Hidden Markov Models, Jensen–Shannon rebalancing, and NSGA-II Pareto-front optimization, producing <strong>5% annualized alpha versus the benchmark</strong> in a multi-year backtest.</li>
+                            <li>Built an interday options platform using LoRA-tuned Chronos embeddings and per-asset TabPFN classifiers, with scheduled live execution across <strong>18 equity and ETF underlyings</strong>.</li>
                         </ul>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">Agents and infrastructure</span>
                         <ul class="exp-points">
-                            <li>Built an MCP-compatible signal-mining agent that orchestrated research and backtesting, surfacing strategies with Sharpe ratios above 1.5.</li>
+                            <li>Built an MCP-compatible signal-mining agent that orchestrated hypothesis generation, analysis, and backtesting, surfacing strategies with <strong>Sharpe ratios above 1.5</strong>.</li>
                             <li>Built a multimodal PDF research assistant using contrastive CLIP tuning, Qdrant retrieval, a two-pass vision-LLM workflow, FastAPI, and Next.js.</li>
-                            <li>Shipped containerized systems across AWS and Modal with automated deployment, DST-aware scheduling, persistent state, model caching, dashboards, and execution recovery.</li>
+                            <li>Shipped containerized systems across AWS and Modal with automated deployment, DST-aware scheduling, persistent state, model caching, dashboards, and fail-closed execution recovery.</li>
                         </ul>
                     </div>
                 </div>
-            </div>
+            </article>
 
             <!-- VISIE -->
-            <div class="exp-card">
+            <article class="exp-card">
                 <div class="exp-meta">
-                    <span class="exp-role">Computational Engineer</span>
+                    <h3 class="exp-role">Computational Engineer</h3>
                     <span class="exp-dates">Aug 2023 – Nov 2023</span>
                 </div>
                 <div class="exp-company">VISIE Inc. &middot; Austin, TX</div>
                 <div class="exp-body">
                     <p>
-                        I joined during the early integration phase of a surgical navigation platform combining imaging and robotic actuation. My work centered on implementing TCP/UDP communication protocols for robotic arm motion control, supporting end-to-end product packaging and deployment, and helping stage a live demonstration that anchored the company's successful Series A round.
+                        I joined during the early integration phase of a surgical navigation platform combining imaging and robotic actuation. My work centered on implementing TCP/UDP communication protocols for robotic arm motion control, supporting end-to-end product packaging and deployment, and helping stage a live demonstration that anchored the company's successful <strong>$8.2M Series A</strong>.
                     </p>
                 </div>
-            </div>
+            </article>
 
             <!-- Sophelio -->
-            <div class="exp-card">
+            <article class="exp-card">
                 <div class="exp-meta">
-                    <span class="exp-role">Computational Lead</span>
+                    <h3 class="exp-role">Computational Lead</h3>
                     <span class="exp-dates">Aug 2022 – Mar 2023</span>
                 </div>
                 <div class="exp-company">Sophelio &middot; Austin, TX</div>
@@ -792,12 +921,12 @@
                         I adapted physics-informed modeling originally developed for fusion experiment data to financial time series. The resulting production pipeline used sparse regression for PDE construction and signal generation, paired with a CAGR-maximizing Bayesian TPE optimizer driving a swing-trading system deployed on AWS Lambda.
                     </p>
                 </div>
-            </div>
+            </article>
 
             <!-- Postdoc -->
-            <div class="exp-card">
+            <article class="exp-card">
                 <div class="exp-meta">
-                    <span class="exp-role">Postdoctoral Researcher</span>
+                    <h3 class="exp-role">Postdoctoral Researcher</h3>
                     <span class="exp-dates">Jan 2019 – Jul 2022</span>
                 </div>
                 <div class="exp-company">Los Alamos National Lab &amp; University of Southern California</div>
@@ -806,16 +935,16 @@
                         I replaced 3D fracture geometry with a graph representation, running flow and transport as a reduced-order model. I also built sequential iterative coupling of flow and mechanics on different grids, tied together with a computational-geometry projection layer.
                     </p>
                 </div>
-            </div>
+            </article>
         </section>
 
         <!-- TECH STACK -->
-        <section class="block" id="skills">
+        <section class="block" id="skills" aria-labelledby="skills-h">
             <div class="block-label">Technical Skills</div>
-            <h2 class="block-heading">Tools selected for the system, not the résumé</h2>
+            <h2 class="block-heading" id="skills-h">Tools selected for the system, not the résumé</h2>
             <div class="tech-mosaic">
                 <div class="tech-tile">
-                    <h4>ML &amp; Optimization</h4>
+                    <h3>ML &amp; Optimization</h3>
                     <p>Model development, feature engineering, and optimization across classical ML, probabilistic models, time-series foundation models, and evolutionary search.</p>
                     <div class="tag-cloud">
                         <span class="tag">PyTorch</span>
@@ -830,7 +959,7 @@
                     </div>
                 </div>
                 <div class="tech-tile">
-                    <h4>Cloud &amp; MLOps</h4>
+                    <h3>Cloud &amp; MLOps</h3>
                     <p>Serverless-first production systems with automated deployment, infrastructure-as-code, containers, and model-serving workflows.</p>
                     <div class="tag-cloud">
                         <span class="tag">Lambda</span>
@@ -846,7 +975,7 @@
                     </div>
                 </div>
                 <div class="tech-tile">
-                    <h4>Programming</h4>
+                    <h3>Programming</h3>
                     <p>Python-first engineering with scientific computing, data wrangling, web scraping, and feed ingestion for research tooling.</p>
                     <div class="tag-cloud">
                         <span class="tag">Python</span>
@@ -859,7 +988,7 @@
                     </div>
                 </div>
                 <div class="tech-tile">
-                    <h4>APIs &amp; Dashboards</h4>
+                    <h3>APIs &amp; Dashboards</h3>
                     <p>Production APIs and app backends connecting market data, broker integrations, feeds, and interactive analytics interfaces.</p>
                     <div class="tag-cloud">
                         <span class="tag">FastAPI</span>
@@ -873,7 +1002,7 @@
                     </div>
                 </div>
                 <div class="tech-tile">
-                    <h4>LLM &amp; RAG</h4>
+                    <h3>LLM &amp; RAG</h3>
                     <p>LLM pipelines and prompt optimization for trading inference, plus vector retrieval and multimodal document intelligence.</p>
                     <div class="tag-cloud">
                         <span class="tag">Groq</span>
@@ -890,9 +1019,9 @@
         </section>
 
         <!-- TECHNICAL NOTES -->
-        <section class="block" id="notes">
+        <section class="block" id="notes" aria-labelledby="notes-h">
             <div class="block-label">Technical Notes</div>
-            <h2 class="block-heading">Working notes on models, markets, and implementation</h2>
+            <h2 class="block-heading" id="notes-h">Working notes on models, markets, and implementation</h2>
             <p class="prose">Compact references built while turning mathematical and machine-learning concepts into working code.</p>
             <div class="tag-cloud">
                 <a class="tag" href="optimizers.html">Optimizers</a>
@@ -913,43 +1042,26 @@
         </section>
 
         <!-- EDUCATION -->
-        <section class="block" id="education">
+        <section class="block" id="education" aria-labelledby="education-h">
             <div class="block-label">Education</div>
+            <h2 class="block-heading" id="education-h">Foundations</h2>
             <div class="edu-stack">
                 <div class="edu-row">
                     <div>
-                        <div class="edu-degree">Doctor of Philosophy in Engineering Mechanics</div>
+                        <div class="edu-degree">PhD, Engineering Mechanics</div>
                         <div class="edu-school">University of Texas at Austin</div>
                     </div>
                     <div class="edu-detail">
                         Austin, TX. Advanced training in numerical simulation, scientific computing, and mathematical modeling that continues to inform my work in ML and quantitative systems.
                     </div>
                 </div>
-                <!-- <div class="edu-row">
-                    <div>
-                        <div class="edu-degree">Master of Engineering in Mechanical Engineering</div>
-                        <div class="edu-school">Indian Institute of Science</div>
-                    </div>
-                    <div class="edu-detail">
-                        Bangalore, India.
-                    </div>
-                </div> -->
-                <!-- <div class="edu-row">
-                    <div>
-                        <div class="edu-degree">Bachelor of Engineering in Mechanical Engineering</div>
-                        <div class="edu-school">University of Mumbai</div>
-                    </div>
-                    <div class="edu-detail">
-                        Mumbai, India.
-                    </div>
-                </div> -->
             </div>
         </section>
 
         <!-- BEYOND THE CODE -->
-        <section class="block" id="life">
+        <section class="block" id="life" aria-labelledby="life-h">
             <div class="block-label">Life</div>
-            <h2 class="block-heading">Beyond the code</h2>
+            <h2 class="block-heading" id="life-h">Beyond the code</h2>
             <div class="photo-grid">
                 <img src="montage_grid.png" alt="A montage of craft beer photography" loading="lazy" decoding="async">
                 <img src="montage.png" alt="A montage of road-trip landscapes and adventures" loading="lazy" decoding="async">
@@ -960,9 +1072,64 @@
 
     <!-- ═══════════ FOOTER ═══════════ -->
     <footer>
-        <p>&copy; 2026 Saumik Dana. All rights reserved.</p>
+        <div class="footer-inner">
+            <p class="footer-cta">Building something that has to run in production?</p>
+            <p>I'm most useful where research, deployment, and reliability are the same job.</p>
+            <div class="footer-links">
+                <a href="mailto:dana.spk5@gmail.com">dana.spk5@gmail.com</a>
+                <a href="https://www.linkedin.com/in/saumik-dana-phd-58023b13/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/SaumikDana" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="resume">Resume</a>
+            </div>
+            <div class="footer-legal">
+                <p>&copy; 2026 Saumik Dana. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+    <script>
+        document.documentElement.classList.add('js');
+
+        (function () {
+            var blocks = document.querySelectorAll('.block');
+            var navLinks = document.querySelectorAll('.nav-scroll a[href^="#"]');
+            var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // Reveal-on-scroll
+            if (!('IntersectionObserver' in window) || reduced) {
+                blocks.forEach(function (b) { b.classList.add('revealed'); });
+            } else {
+                var revealer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                            revealer.unobserve(entry.target);
+                        }
+                    });
+                }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+                blocks.forEach(function (b) { revealer.observe(b); });
+            }
+
+            // Scroll-spy nav
+            if ('IntersectionObserver' in window && navLinks.length) {
+                var linkFor = {};
+                navLinks.forEach(function (a) { linkFor[a.getAttribute('href').slice(1)] = a; });
+
+                var visible = new Set();
+                var spy = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) { visible.add(entry.target.id); }
+                        else { visible.delete(entry.target.id); }
+                    });
+                    var order = Array.prototype.map.call(blocks, function (b) { return b.id; });
+                    var current = order.find(function (id) { return visible.has(id); });
+                    navLinks.forEach(function (a) { a.classList.remove('active'); });
+                    if (current && linkFor[current]) { linkFor[current].classList.add('active'); }
+                }, { rootMargin: '-72px 0px -55% 0px', threshold: 0 });
+
+                blocks.forEach(function (b) { if (b.id) { spy.observe(b); } });
+            }
+        })();
+    </script>
 </body>
 </html>
