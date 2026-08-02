@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why the Polars path is faster — options CSV ingestion</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#161a21; --panel2:#1b2029; --line:#262c37;
+    --ink:#e6e9ef; --dim:#98a2b3; --dimmer:#6b7482;
+    --pandas:#f0883e; --polars:#4aa8ff; --good:#3fb950; --warn:#d29922;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1600px; margin:0 auto; padding:56px 48px 96px}
+  @media(max-width:900px){.wrap{padding:36px 20px 72px}}
+  header{border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:44px}
+  h1{font-size:30px; line-height:1.25; margin:0 0 10px; letter-spacing:-.02em}
+  .sub{color:var(--dim); font-size:16px; margin:0}
+  .file{font-family:var(--mono); font-size:13px; color:var(--dimmer); margin-top:14px}
+
+  h2{font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+     color:var(--dimmer); margin:56px 0 20px; font-weight:600}
+
+  /* side by side code */
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start}
+  @media(max-width:860px){.cols{grid-template-columns:1fr}}
+  .code{background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+  .code .hd{
+    padding:10px 14px; font-family:var(--mono); font-size:12px; font-weight:600;
+    border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;
+  }
+  .code.p .hd{color:var(--pandas); background:rgba(240,136,62,.07)}
+  .code.q .hd{color:var(--polars); background:rgba(74,168,255,.07)}
+  .tag{font-weight:500; color:var(--dimmer); font-size:11px}
+  pre{margin:0; padding:18px; overflow-x:auto; font-family:var(--mono); font-size:13.5px; line-height:1.65}
+  .c{color:var(--dimmer)}          /* comment */
+  .k{color:#ff7b72}                /* keyword-ish */
+  .s{color:#a5d6ff}                /* string */
+  .f{color:#d2a8ff}                /* function */
+  .hi{background:rgba(74,168,255,.13); border-radius:3px; padding:0 2px}
+  .hi-bad{background:rgba(240,136,62,.13); border-radius:3px; padding:0 2px}
+
+  /* reason cards */
+  .reason{
+    display:grid; grid-template-columns:64px minmax(0,1fr); gap:28px;
+    padding:30px 0; border-top:1px solid var(--line);
+  }
+  .reason > div:last-child{max-width:none}
+  .reason p{max-width:78ch}
+  @media(max-width:900px){.reason{grid-template-columns:44px minmax(0,1fr); gap:16px}}
+  .num{
+    font-family:var(--mono); font-size:22px; font-weight:700; color:var(--polars);
+    line-height:1.1; padding-top:2px;
+  }
+  .reason h3{margin:0 0 4px; font-size:19px; letter-spacing:-.01em}
+  .impact{
+    display:inline-block; font-size:11px; font-weight:600; letter-spacing:.06em;
+    text-transform:uppercase; padding:3px 8px; border-radius:5px; margin-bottom:12px;
+  }
+  .i1{background:rgba(63,185,80,.15); color:var(--good)}
+  .i2{background:rgba(210,153,34,.15); color:var(--warn)}
+  .i3{background:rgba(107,116,130,.18); color:var(--dim)}
+  .reason p{margin:0 0 12px; color:#cdd4de}
+  .reason p:last-child{margin-bottom:0}
+  .reason code{font-family:var(--mono); font-size:13px; background:var(--panel2);
+               padding:2px 5px; border-radius:4px; color:#cfe3ff}
+
+  /* diagram */
+  .diagram{background:var(--panel); border:1px solid var(--line); border-radius:10px;
+           padding:22px; margin:16px 0}
+  .flow{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:14px 0}
+  .box{font-family:var(--mono); font-size:12px; padding:9px 12px; border-radius:6px;
+       border:1px solid var(--line); background:var(--panel2); white-space:nowrap}
+  .box.dead{color:var(--dimmer); text-decoration:line-through; opacity:.6}
+  .box.hot{border-color:var(--polars); color:#cfe3ff}
+  .arrow{color:var(--dimmer); font-size:15px}
+  .lbl{font-family:var(--mono); font-size:11px; color:var(--dimmer);
+       text-transform:uppercase; letter-spacing:.1em; margin-bottom:4px}
+
+  .note{
+    border-left:3px solid var(--warn); background:rgba(210,153,34,.06);
+    padding:16px 20px; border-radius:0 8px 8px 0; margin:16px 0; color:#cdd4de;
+  }
+  .note b{color:var(--warn)}
+  .close{
+    border-left:3px solid var(--polars); background:rgba(74,168,255,.06);
+    padding:16px 20px; border-radius:0 8px 8px 0; margin-top:16px; color:#cdd4de;
+  }
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14px}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--line)}
+  th{color:var(--dimmer); font-size:11px; text-transform:uppercase; letter-spacing:.1em; font-weight:600}
+  td.m{font-family:var(--mono); font-size:12.5px}
+  footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--line);
+         color:var(--dimmer); font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Why the Polars path is faster</h1>
+  <p class="sub">Options-chain CSV ingestion — the same work, six different mechanisms.</p>
+  <p class="file">src/csv_to_pandas.py &nbsp;·&nbsp; csv_to_pandas()</p>
+</header>
+
+<h2>The two versions</h2>
+
+<div class="cols">
+  <div class="code p">
+    <div class="hd"><span>pandas — before</span><span class="tag">eager</span></div>
+<pre><span class="k">def</span> <span class="f">filter_dates</span>(df, col, first_date, last_date):
+    first_date = pd.<span class="f">to_datetime</span>(first_date)
+    last_date  = pd.<span class="f">to_datetime</span>(last_date)
+    date_col   = df[col]
+
+    mask = date_col.<span class="f">between</span>(
+        first_date, last_date, inclusive=<span class="s">'both'</span>)
+    <span class="hi-bad">filtered_df = df[mask]</span>
+    <span class="c"># the whole file already exists in RAM</span>
+    <span class="c"># by the time this line runs</span>
+    <span class="k">return</span> filtered_df
+
+<span class="k">def</span> <span class="f">add_mid</span>(df):
+    df[<span class="s">'mid'</span>] = <span class="hi-bad">df[[<span class="s">'bid'</span>,<span class="s">'ask'</span>]].mean(axis=<span class="s">1</span>)</span>
+    <span class="k">return</span> df          <span class="c"># row-wise reduction</span>
+
+<span class="k">def</span> <span class="f">add_spread</span>(df):
+    df[<span class="s">'spread'</span>] = (df[<span class="s">'ask'</span>] - df[<span class="s">'bid'</span>]) / df[<span class="s">'mid'</span>]
+    <span class="k">return</span> df
+
+<span class="k">options</span> = (
+    pd.<span class="f">read_csv</span>(
+        csv_path,
+        parse_dates=[<span class="s">'t_date'</span>, <span class="s">'expiration_date'</span>]
+    )
+    .<span class="f">pipe</span>(filter_dates, <span class="s">'t_date'</span>, first_date, last_date)
+    .<span class="f">pipe</span>(add_mid)
+    .<span class="f">pipe</span>(add_spread)
+)</pre>
+  </div>
+
+  <div class="code q">
+    <div class="hd"><span>polars — after</span><span class="tag">lazy</span></div>
+<pre><span class="k">options</span> = (
+    pl.<span class="hi f">scan_csv</span>(
+        csv_path,
+        try_parse_dates=<span class="k">True</span>,
+        <span class="hi">schema_overrides</span>={
+            <span class="s">"strike"</span>: pl.Float32,
+            <span class="s">"bid"</span>:    pl.Float32,
+            <span class="s">"ask"</span>:    pl.Float32,
+            ...  <span class="c"># 9 columns</span>
+        },
+    )
+    .<span class="hi f">filter</span>(pl.col(<span class="s">"t_date"</span>).is_between(...))
+    .<span class="f">with_columns</span>(<span class="hi">((bid + ask) / 2)</span>.alias(<span class="s">"mid"</span>))
+    .<span class="f">with_columns</span>(((ask - bid) / mid).alias(<span class="s">"spread"</span>))
+    .<span class="f">collect</span>()
+    .<span class="f">to_pandas</span>()
+)</pre>
+  </div>
+</div>
+
+<h2>Six reasons</h2>
+
+<div class="reason">
+  <div class="num">1</div>
+  <div>
+    <h3>Predicate pushdown</h3>
+    <span class="impact i1">Largest effect</span>
+    <p>
+      <code>read_csv</code> is eager: it parses <em>every row of the file</em> into memory,
+      and only then does <code>filter_dates</code> throw most of them away.
+    </p>
+    <p>
+      <code>scan_csv</code> returns a <b>LazyFrame</b>. Nothing executes until
+      <code>.collect()</code>. By that point the query optimizer has pushed the date
+      predicate <em>down into the reader</em>, so rows outside the backtest window are
+      discarded as they are parsed and never become part of a DataFrame at all.
+    </p>
+
+    <div class="diagram">
+      <div class="lbl">pandas</div>
+      <div class="flow">
+        <div class="box">10 years of CSV</div><span class="arrow">→</span>
+        <div class="box">parse ALL rows</div><span class="arrow">→</span>
+        <div class="box">materialise in RAM</div><span class="arrow">→</span>
+        <div class="box dead">discard 80%</div><span class="arrow">→</span>
+        <div class="box">2 years</div>
+      </div>
+      <div class="lbl" style="margin-top:18px">polars</div>
+      <div class="flow">
+        <div class="box">10 years of CSV</div><span class="arrow">→</span>
+        <div class="box hot">parse + filter in one pass</div><span class="arrow">→</span>
+        <div class="box">2 years</div>
+      </div>
+    </div>
+
+    <p>
+      The more selective the date window, the bigger this gets. It is the reason the
+      lazy API exists.
+    </p>
+  </div>
+</div>
+
+<div class="reason">
+  <div class="num">2</div>
+  <div>
+    <h3>Parallel parsing</h3>
+    <span class="impact i1">Large effect</span>
+    <p>
+      pandas' CSV reader is a single-threaded C parser. One core does all the byte
+      scanning, delimiter splitting and numeric conversion, while the rest of the machine
+      idles.
+    </p>
+    <p>
+      Polars splits the file into byte ranges, parses them concurrently across every
+      available core, and stitches the chunks together. For a large CSV — where parsing
+      <em>is</em> the workload — this scales close to core count.
+    </p>
+  </div>
+</div>
+
+<div class="reason">
+  <div class="num">3</div>
+  <div>
+    <h3>Declared schema, and half the bytes</h3>
+    <span class="impact i2">Moderate effect</span>
+    <p>
+      pandas <em>infers</em> dtypes: sampling values, sometimes promoting a column's type
+      partway through the file, and defaulting every float to <code>float64</code>.
+    </p>
+    <p>
+      <code>schema_overrides</code> removes the guessing entirely — Polars is told exactly
+      what nine columns are before it reads a byte. Declaring them <code>Float32</code>
+      also halves the memory footprint of the greeks, <code>bid</code>, <code>ask</code>
+      and <code>strike</code>.
+    </p>
+    <p>
+      That matters more than it sounds. These operations are <b>memory-bandwidth bound,
+      not compute bound</b> — adding two float arrays is limited by how fast they can be
+      pulled through cache, not by the addition. Half the width is close to twice the
+      throughput.
+    </p>
+    <table>
+      <tr><th>Column type</th><th>pandas default</th><th>declared</th><th>bytes/value</th></tr>
+      <tr><td class="m">bid, ask, strike</td><td class="m">float64</td><td class="m">Float32</td><td class="m">8 → 4</td></tr>
+      <tr><td class="m">iv, delta, gamma, theta, vega</td><td class="m">float64</td><td class="m">Float32</td><td class="m">8 → 4</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="reason">
+  <div class="num">4</div>
+  <div>
+    <h3>A row-wise reduction became a column operation</h3>
+    <span class="impact i2">Moderate effect</span>
+    <p>
+      <code>df[['bid','ask']].mean(axis=1)</code> is the expensive direction in pandas. It
+      slices out a two-column sub-frame, then reduces <em>across</em> columns — cutting
+      against the columnar grain, routed through the block manager, carrying NaN-handling
+      machinery per row.
+    </p>
+    <p>
+      <code>(bid + ask) / 2</code> is a straight vectorised operation on two contiguous
+      arrays.
+    </p>
+    <div class="note">
+      <b>Worth being precise about:</b> this one is a rewrite, not an engine difference.
+      The same change would have made the pandas version substantially faster too. It
+      belongs on the list because it is part of why the new code is quick — but it is not
+      evidence for Polars.
+    </div>
+  </div>
+</div>
+
+<div class="reason">
+  <div class="num">5</div>
+  <div>
+    <h3>No block-manager copies</h3>
+    <span class="impact i3">Smaller effect</span>
+    <p>
+      A pandas DataFrame is a <b>BlockManager</b>: columns sharing a dtype are consolidated
+      into 2-D numpy blocks. Assigning a new column can force reconsolidation —
+      reallocating and copying an entire block. The old chain did this twice, for
+      <code>mid</code> and <code>spread</code>, on the <em>unfiltered</em> frame.
+    </p>
+    <p>
+      Polars stores each column as an independent Arrow chunked array.
+      <code>with_columns</code> appends a column; nothing existing is touched, moved or
+      copied.
+    </p>
+  </div>
+</div>
+
+<div class="reason">
+  <div class="num">6</div>
+  <div>
+    <h3>Arrow strings instead of Python objects</h3>
+    <span class="impact i3">Smaller effect</span>
+    <p>
+      In pandas, <code>ticker</code> and <code>call_put</code> land as <code>object</code>
+      dtype — an array of <em>pointers</em> to individual Python <code>str</code> objects
+      scattered across the heap. Every touch is a dereference plus a reference-count
+      update, under the GIL.
+    </p>
+    <p>
+      Polars uses Arrow string arrays: one contiguous byte buffer plus an offsets array.
+      Cache-friendly, no Python objects involved, no GIL.
+    </p>
+  </div>
+</div>
+
+<h2>The cost that was accepted on purpose</h2>
+
+<div class="close">
+  <p style="margin:0 0 10px">
+    <code style="font-family:var(--mono)">.collect().to_pandas()</code> converts Arrow
+    buffers back into numpy-backed pandas structures — a real copy, single-threaded, and it
+    reintroduces <code style="font-family:var(--mono)">object</code> dtype for the string
+    columns.
+  </p>
+  <p style="margin:0">
+    That is a deliberate trade. Every downstream module — <code style="font-family:var(--mono)">option_strategy_simulator</code>,
+    <code style="font-family:var(--mono)">pnl_analyzer</code>, <code style="font-family:var(--mono)">delta_hedger</code> —
+    relies on pandas semantics like <code style="font-family:var(--mono)">.loc[start:end]</code>
+    and <code style="font-family:var(--mono)">.at[]</code>. Converting once at the boundary
+    keeps the change contained to a single function while the savings stay intact, because
+    the conversion runs on the <em>already filtered</em> frame — a fraction of the rows the
+    old path had to build just to reach the same point.
+  </p>
+</div>
+
+<footer>
+  The short version: the old code read everything and then threw most of it away, on one
+  core, at double precision. The new code never reads what it does not need.
+</footer>
+
+</div>
+</body>
+</html>
