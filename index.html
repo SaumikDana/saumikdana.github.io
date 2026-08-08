@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saumik Dana | AI/ML Engineer</title>
-    <meta name="description" content="Saumik Dana builds and operates production AI systems across LLM agents, quantitative trading, multimodal retrieval, and cloud infrastructure.">
+    <meta name="description" content="Saumik Dana builds and operates live ML- and LLM-driven systems end-to-end, across trading systems, agents, multimodal retrieval, and cloud infrastructure.">
     <meta name="author" content="Saumik Dana">
     <meta name="keywords" content="Saumik Dana, AI Engineer, Machine Learning Engineer, Forward Deployed Engineer, LLM Systems, Quantitative Finance, Multimodal RAG, AWS Lambda, Production ML">
     <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
@@ -50,7 +50,7 @@
         "name": "University of Texas at Austin"
       },
       "image": "https://saumikdana.github.io/saumik.jpg",
-      "description": "AI/ML engineer building production LLM agents, quantitative trading systems, multimodal retrieval, and cloud infrastructure"
+      "description": "Computational scientist building and operating live ML- and LLM-driven systems end-to-end: trading systems, agents, multimodal retrieval, and cloud infrastructure"
     }
     </script>
 
@@ -844,7 +844,10 @@
             <div class="block-label">About</div>
             <h2 class="block-heading" id="about-h">From research idea to production system</h2>
             <p class="prose">
-                I build and operate AI/ML systems end-to-end—from multimodal retrieval and tool-using agents to live quantitative trading platforms. My work spans model adaptation, evaluation, APIs, cloud infrastructure, and the production reliability required to keep automated systems running.
+                I build and operate live ML- and LLM-driven systems end-to-end—from multimodal retrieval and tool-using agents to quantitative trading platforms running against real brokers. My work spans model fine-tuning and serving, evaluation, APIs, cloud infrastructure, and the production reliability required to keep automated systems running unattended.
+            </p>
+            <p class="prose">
+                PhD in Engineering Mechanics from UT Austin; author of 10 peer-reviewed publications with 400+ citations.
             </p>
 
             <!-- Uncomment and edit if you want an availability banner:
@@ -862,21 +865,21 @@
             <div class="system-grid">
                 <article class="system-card">
                     <h3>LLM Trading Systems</h3>
-                    <p>Deployed decision pipelines across FX, commodities, and options, including DSPy/GEPA prompt optimization and multi-model reasoning over market narratives.</p>
+                    <p>Deployed decision pipelines across FX, commodities, and options using DeepSeek-V3.1, MiniMax-M2, gpt-oss-120b, and a DPO-QLoRA fine-tuned Llama-3.1-8B served on vLLM.</p>
                     <div class="tag-cloud">
-                        <span class="tag">DSPy</span><span class="tag">GEPA</span><span class="tag">OANDA</span><span class="tag">LLM inference</span>
+                        <span class="tag">DSPy/GEPA</span><span class="tag">DPO-QLoRA</span><span class="tag">vLLM</span><span class="tag">OANDA</span>
                     </div>
                 </article>
                 <article class="system-card">
                     <h3>ML Trading Systems</h3>
-                    <p>Built Bayesian volatility signals, an HMM/NSGA-II equity portfolio, and a Chronos-LoRA plus TabPFN interday options platform.</p>
+                    <p>Built Bayesian volatility-arbitrage signals, a live HMM/NSGA-II equity portfolio, and a Chronos-T5 LoRA plus TabPFN interday options platform.</p>
                     <div class="tag-cloud">
                         <span class="tag">PyTorch</span><span class="tag">Chronos</span><span class="tag">TabPFN</span><span class="tag">NSGA-II</span>
                     </div>
                 </article>
                 <article class="system-card">
                     <h3>Agents &amp; Multimodal Retrieval</h3>
-                    <p>Built an MCP signal-mining agent and a full-stack PDF research assistant with contrastive CLIP tuning, Qdrant retrieval, and vision-LLM synthesis.</p>
+                    <p>Built an MCP tool-calling signal-mining agent and a full-stack PDF research assistant with CLIP page embeddings, Qdrant retrieval, and a two-pass Qwen vision-model RAG workflow.</p>
                     <div class="tag-cloud">
                         <span class="tag">MCP</span><span class="tag">CLIP</span><span class="tag">Qdrant</span><span class="tag">FastAPI</span>
                     </div>
@@ -902,7 +905,7 @@
                     <h3 class="exp-role">Quantitative Researcher</h3>
                     <span class="exp-dates">Feb 2024 – Dec 2025</span>
                 </div>
-                <div class="exp-company">Asset Management Firm &middot; Stamford, CT</div>
+                <div class="exp-company">Zebra Capital Management LLC &middot; Stamford, CT</div>
                 <div class="exp-body">
 
                     <div class="stat-ribbon">
@@ -914,32 +917,40 @@
                         <div class="number">5%</div>
                         <div class="label">Weekly returns on capital at risk</div>
                     </div>
+                    <div class="stat-cell">
+                        <div class="number">18</div>
+                        <div class="label">Live options underlyings</div>
+                    </div>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">LLM-backed trading systems</span>
                         <ul class="exp-points">
-                            <li>Deployed an intraday FX pipeline that synthesized RSS news and price action into trade decisions, executed through OANDA, and closed the research-to-production loop with an <strong>evaluation-gated DSPy/GEPA prompt optimizer</strong> that promoted a new prompt only when it outscored the incumbent on archived outcomes.</li>
-                            <li>Deployed a commodity workflow combining macro news, price action, and sovereign yield-curve differentials through a mixture-of-experts pipeline that assigned each model a role based on its observed reasoning bias, with conflict-resolution and abstention rules.</li>
-                            <li>Implemented an LLM-driven intraday options strategy that translated live stochastic-volatility calibrations—volatility, jump-risk, relative-value, and premium-repricing trajectories—into structured entry and exit decisions.</li>
+                            <li>Deployed an intraday FX pipeline that synthesized RSS news and price action into structured market narratives and generated trade decisions with <strong>Meta-Llama-3.1-8B-Instruct</strong>, executed through OANDA.</li>
+                            <li>Fine-tuned Meta-Llama-3.1-8B-Instruct with <strong>DPO-QLoRA</strong>—rank-16 BF16 adapters over a frozen 4-bit NF4 base—promoting the adapter only after held-out base-versus-adapter evaluation, and served it through <strong>vLLM on on-demand Modal L4 GPUs</strong>.</li>
+                            <li>Deployed a commodity workflow combining news and narrative on price action with sovereign yield-curve differentials, fed to <strong>DeepSeek-V3.1</strong> and <strong>MiniMax-M2</strong> for mixture-of-experts trade signal generation.</li>
+                            <li>Developed an intraday options strategy that calibrates a stochastic-volatility model to live option chains and supplies volatility, jump-risk, relative-value, and premium-repricing trajectories to <strong>gpt-oss-120b</strong> for structured entry and exit decisions.</li>
+                            <li>Implemented <strong>evaluation-gated prompt optimization</strong> (DSPy/GEPA) with gpt-oss-120b as the reflection model, promoting a new prompt only when it outscored the incumbent.</li>
                         </ul>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">ML-backed trading systems</span>
                         <ul class="exp-points">
-                            <li>Deployed Bayesian volatility-arbitrage options strategies using anomaly signals derived from stochastic-volatility calibrations, generating <strong>weekly returns of 5% on capital at risk</strong>.</li>
-                            <li>Built a regime-aware equity portfolio using Hidden Markov Models, Jensen–Shannon rebalancing, and NSGA-II Pareto-front optimization, producing <strong>5% annualized alpha versus the benchmark</strong> in a multi-year backtest.</li>
-                            <li>Built an interday options platform using LoRA-tuned Chronos embeddings and per-asset TabPFN classifiers, with scheduled live execution across <strong>18 equity and ETF underlyings</strong>.</li>
+                            <li>Deployed intraday options strategies using Bayesian anomaly-detection signals derived from stochastic-volatility calibrations, generating <strong>weekly returns of 5% on capital at risk</strong>.</li>
+                            <li>Built and operated a live equity portfolio using Hidden Markov Models for regime detection, Jensen–Shannon divergence for rebalancing, ElasticNetCV for forecasting, and NSGA-II bi-objective optimization—producing <strong>5% annualized alpha versus the benchmark</strong> in a multi-year backtest.</li>
+                            <li>Built an interday options backtesting engine generating trade-level P&amp;L outcomes across <strong>18 single-stock and ETF underlyings</strong>.</li>
+                            <li>Fine-tuned <strong>Amazon Chronos-T5 with LoRA</strong> on backtest-derived labels, generated rolling time-series embeddings, trained per-asset TabPFN classifiers on the adapted representations, and deployed them for live inference translating predicted profitability into automated entries.</li>
                         </ul>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">Agents and infrastructure</span>
                         <ul class="exp-points">
-                            <li>Built an MCP-compatible signal-mining agent that orchestrated hypothesis generation, analysis, and backtesting, surfacing strategies with <strong>Sharpe ratios above 1.5</strong>.</li>
-                            <li>Built a multimodal PDF research assistant using contrastive CLIP tuning, Qdrant retrieval, a two-pass vision-LLM workflow, FastAPI, and Next.js.</li>
-                            <li>Shipped containerized systems across AWS and Modal with automated deployment, DST-aware scheduling, persistent state, model caching, dashboards, and fail-closed execution recovery.</li>
+                            <li>Built an MCP-compatible, tool-calling agent for mining interday options entry signals, identifying candidate strategies with <strong>Sharpe ratios above 1.5</strong>.</li>
+                            <li>Built a multimodal PDF research assistant with FastAPI and Next.js: CLIP page embeddings indexed in Qdrant, plus a two-pass <strong>Qwen vision-model</strong> RAG workflow for grounded, page-cited answering and response self-evaluation.</li>
+                            <li>Designed and deployed containerized serverless systems on AWS (Lambda, ECR, S3, DynamoDB, EventBridge, CloudFormation) and Modal, integrating Groq and Fireworks AI inference with HMM, Bayesian/Heston, Chronos, TabPFN, Qdrant, DSPy, and broker APIs.</li>
+                            <li>Engineered DST-aware market scheduling, persistent workflow and position state, model-artifact caching, API services, monitoring dashboards, execution recovery, and fail-closed error handling across multi-asset trading sessions.</li>
                         </ul>
                     </div>
                 </div>
@@ -982,7 +993,7 @@
                 <div class="exp-company">Los Alamos National Lab &amp; University of Southern California</div>
                 <div class="exp-body">
                     <p>
-                        I replaced 3D fracture geometry with a graph representation, running flow and transport as a reduced-order model. I also built sequential iterative coupling of flow and mechanics on different grids, tied together with a computational-geometry projection layer.
+                        I generated hydrocarbon production estimates for a real shale site by replacing 3D discrete fracture network geometry with a graph-based reduced-order model of flow and transport. I also built a computational framework for fast estimation of fault stability and ground deformation for field-scale CO<sub>2</sub> storage in faulted oilfields.
                     </p>
                 </div>
             </article>
@@ -1000,6 +1011,24 @@
                     </div>
                     <div class="edu-detail">
                         Austin, TX. Advanced training in numerical simulation, scientific computing, and mathematical modeling that continues to inform my work in ML and quantitative systems.
+                    </div>
+                </div>
+                <div class="edu-row">
+                    <div>
+                        <div class="edu-degree">MEng, Mechanical Engineering</div>
+                        <div class="edu-school">Indian Institute of Science</div>
+                    </div>
+                    <div class="edu-detail">
+                        Bangalore, India.
+                    </div>
+                </div>
+                <div class="edu-row">
+                    <div>
+                        <div class="edu-degree">BEng, Mechanical Engineering</div>
+                        <div class="edu-school">University of Mumbai</div>
+                    </div>
+                    <div class="edu-detail">
+                        Mumbai, India.
                     </div>
                 </div>
             </div>
@@ -1026,17 +1055,20 @@
             <div class="tech-mosaic">
                 <div class="tech-tile">
                     <h3>ML &amp; Optimization</h3>
-                    <p>Model development, feature engineering, and optimization across classical ML, probabilistic models, time-series foundation models, and evolutionary search.</p>
+                    <p>Model development, fine-tuning, and optimization across classical ML, probabilistic models, time-series foundation models, and evolutionary search.</p>
                     <div class="tag-cloud">
                         <span class="tag">PyTorch</span>
                         <span class="tag">scikit-learn</span>
+                        <span class="tag">Transformers</span>
+                        <span class="tag">PEFT</span>
+                        <span class="tag">TRL/DPO</span>
+                        <span class="tag">QLoRA</span>
+                        <span class="tag">bitsandbytes</span>
                         <span class="tag">TabPFN</span>
                         <span class="tag">Chronos</span>
-                        <span class="tag">PEFT/LoRA</span>
                         <span class="tag">HMM</span>
-                        <span class="tag">SciPy</span>
-                        <span class="tag">pymoo</span>
-                        <span class="tag">autograd</span>
+                        <span class="tag">NSGA-II</span>
+                        <span class="tag">Bayesian opt</span>
                     </div>
                 </div>
                 <div class="tech-tile">
@@ -1086,6 +1118,7 @@
                     <h3>LLM &amp; RAG</h3>
                     <p>LLM pipelines and prompt optimization for trading inference, plus vector retrieval and multimodal document intelligence.</p>
                     <div class="tag-cloud">
+                        <span class="tag">vLLM</span>
                         <span class="tag">Groq</span>
                         <span class="tag">LangChain</span>
                         <span class="tag">Fireworks AI</span>
