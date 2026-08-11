@@ -576,13 +576,43 @@ dict_options[o].loc[update_days, 'nopnl'] = 0</pre>
     .to_pandas()
 )</pre>
 
-                    <h4>What Changed:</h4>
-                    <ol>
-                        <li><strong>Lazy scan + predicate pushdown:</strong> <code>scan_csv</code> builds a query plan, so the date <code>.filter</code> is pushed down into the reader. Rows outside <code>[first_date, last_date]</code> are dropped <em>during</em> parsing, not after.</li>
-                        <li><strong>Multithreaded parsing:</strong> Polars parses the CSV across all cores; <code>pd.read_csv</code> is single-threaded. Usually the dominant win on wide files.</li>
-                        <li><strong>Narrow dtypes:</strong> Forcing <code>Float32</code> on prices and Greeks halves memory vs pandas' default <code>float64</code> — less allocation, better cache behavior.</li>
-                        <li><strong>Fused column math:</strong> <code>mid</code> and <code>spread</code> are computed inside the same query plan rather than as two separate pandas passes.</li>
-                    </ol>
+                    <h4>What Changed — six distinct mechanisms:</h4>
+
+                    <h4 style="color: var(--teal);">1. Predicate pushdown <span class="badge badge-success">Largest effect</span></h4>
+                    <p><code>read_csv</code> is eager: it parses <em>every row of the file</em> into memory, and only then does <code>filter_dates</code> throw most of them away. <code>scan_csv</code> returns a <strong>LazyFrame</strong> — nothing executes until <code>.collect()</code>. By that point the query optimizer has pushed the date predicate <em>down into the reader</em>, so rows outside the backtest window are discarded as they are parsed and never become part of a DataFrame at all.</p>
+                    <div class="flow-diagram">pandas:  10 years of CSV → parse ALL rows → materialise in RAM → discard 80% → 2 years
+polars:  10 years of CSV → parse + filter in one pass → 2 years</div>
+                    <p>The more selective the date window, the bigger this gets. It is the reason the lazy API exists.</p>
+
+                    <h4 style="color: var(--teal);">2. Parallel parsing <span class="badge badge-success">Large effect</span></h4>
+                    <p>pandas' CSV reader is a single-threaded C parser. One core does all the byte scanning, delimiter splitting and numeric conversion, while the rest of the machine idles. Polars splits the file into byte ranges, parses them concurrently across every available core, and stitches the chunks together. For a large CSV — where parsing <em>is</em> the workload — this scales close to core count.</p>
+
+                    <h4 style="color: var(--teal);">3. Declared schema, and half the bytes <span class="badge badge-warning">Moderate effect</span></h4>
+                    <p>pandas <em>infers</em> dtypes: sampling values, sometimes promoting a column's type partway through the file, and defaulting every float to <code>float64</code>. <code>schema_overrides</code> removes the guessing entirely — Polars is told exactly what nine columns are before it reads a byte. Declaring them <code>Float32</code> also halves the memory footprint of the Greeks, <code>bid</code>, <code>ask</code> and <code>strike</code>.</p>
+                    <p>That matters more than it sounds. These operations are <strong>memory-bandwidth bound, not compute bound</strong> — adding two float arrays is limited by how fast they can be pulled through cache, not by the addition. Half the width is close to twice the throughput.</p>
+                    <table>
+                        <tr><th>Column type</th><th>pandas default</th><th>Declared</th><th>Bytes/value</th></tr>
+                        <tr><td><code>bid, ask, strike</code></td><td><code>float64</code></td><td><code>Float32</code></td><td>8 → 4</td></tr>
+                        <tr><td><code>iv, delta, gamma, theta, vega</code></td><td><code>float64</code></td><td><code>Float32</code></td><td>8 → 4</td></tr>
+                    </table>
+
+                    <h4 style="color: var(--teal);">4. A row-wise reduction became a column operation <span class="badge badge-warning">Moderate effect</span></h4>
+                    <p><code>df[['bid','ask']].mean(axis=1)</code> is the expensive direction in pandas. It slices out a two-column sub-frame, then reduces <em>across</em> columns — cutting against the columnar grain, routed through the block manager, carrying NaN-handling machinery per row. <code>(bid + ask) / 2</code> is a straight vectorised operation on two contiguous arrays.</p>
+                    <div class="highlight-box" style="background: #fff3cd; border-left-color: #ffc107;">
+                        <p><strong>Worth being precise about:</strong> this one is a rewrite, not an engine difference. The same change would have made the pandas version substantially faster too. It belongs on the list because it is part of why the new code is quick — but it is not evidence for Polars.</p>
+                    </div>
+
+                    <h4 style="color: var(--teal);">5. No block-manager copies <span class="badge badge-primary">Smaller effect</span></h4>
+                    <p>A pandas DataFrame is a <strong>BlockManager</strong>: columns sharing a dtype are consolidated into 2-D numpy blocks. Assigning a new column can force reconsolidation — reallocating and copying an entire block. The old chain did this twice, for <code>mid</code> and <code>spread</code>, on the <em>unfiltered</em> frame. Polars stores each column as an independent Arrow chunked array; <code>with_columns</code> appends a column, and nothing existing is touched, moved or copied.</p>
+
+                    <h4 style="color: var(--teal);">6. Arrow strings instead of Python objects <span class="badge badge-primary">Smaller effect</span></h4>
+                    <p>In pandas, <code>ticker</code> and <code>call_put</code> land as <code>object</code> dtype — an array of <em>pointers</em> to individual Python <code>str</code> objects scattered across the heap. Every touch is a dereference plus a reference-count update, under the GIL. Polars uses Arrow string arrays: one contiguous byte buffer plus an offsets array. Cache-friendly, no Python objects involved, no GIL.</p>
+
+                    <h4>The cost that was accepted on purpose:</h4>
+                    <div class="highlight-box">
+                        <p><code>.collect().to_pandas()</code> converts Arrow buffers back into numpy-backed pandas structures — a real copy, single-threaded, and it reintroduces <code>object</code> dtype for the string columns.</p>
+                        <p style="margin-bottom: 0;">That is a deliberate trade. Every downstream module — <code>option_strategy_simulator</code>, <code>pnl_analyzer</code>, <code>delta_hedger</code> — relies on pandas semantics like <code>.loc[start:end]</code> and <code>.at[]</code>. Converting once at the boundary keeps the change contained to a single function while the savings stay intact, because the conversion runs on the <em>already filtered</em> frame — a fraction of the rows the old path had to build just to reach the same point.</p>
+                    </div>
 
                     <div class="feature-item" style="background: #d4edda; border-left-color: #28a745;">
                         <strong>Why It's Huge:</strong>
