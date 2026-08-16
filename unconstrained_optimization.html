@@ -7,7 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$', '$$']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
     <style>
         /* ─── SHARED SITE THEME ─── */
         :root {
@@ -119,14 +125,6 @@
             backdrop-filter: blur(10px);
         }
 
-        .profile-pic, .profile-pic-right {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
         .header-text h1 {
             font-size: 3em;
             text-align: center;
@@ -135,43 +133,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: bold;
-        }
-
-        /* Navigation */
-        .nav-section {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .nav-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 25px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-family: 'EB Garamond', serif;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         /* Section Styles */
@@ -193,59 +154,27 @@
             text-align: center;
         }
 
-        /* Grid and Video Components */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
+        .section h3 {
+            color: #2c3e50;
+            margin: 30px 0 14px;
+            font-size: 1.5em;
         }
 
-        .grid-item, 
-        .solver-landscape img {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+        .section p {
+            margin-bottom: 14px;
+            font-size: 1.08em;
         }
 
-        .grid-item:hover,
-        .solver-landscape img:hover {
-            transform: scale(1.02);
+        .section ul, .section ol {
+            margin: 0 0 16px 24px;
         }
 
-        .video-row {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            margin: 30px 0;
+        .section li {
+            margin-bottom: 8px;
+            font-size: 1.05em;
         }
 
-        .video-row video {
-            width: 100%;
-            max-width: 800px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .video-row video:hover {
-            transform: scale(1.02);
-        }
-
-        .solver-landscape {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .solver-landscape img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Algorithm and Video Grids */
+        /* Cards */
         .algorithm-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -269,50 +198,12 @@
         .algorithm-card h3 {
             color: #2c3e50;
             margin-bottom: 15px;
+            margin-top: 0;
             font-size: 1.3em;
         }
 
-        .ecos-card {
-            border-left: 5px solid #1f77b4;
-        }
-
-        .osqp-card {
-            border-left: 5px solid #ff7f0e;
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-            gap: 30px;
-            margin: 30px 0;
-        }
-
-        .video-container {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .video-container h3 {
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .video-container video {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .comparison-video {
-            grid-column: 1 / -1;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .ecos-card { border-left: 5px solid #1f77b4; }
+        .osqp-card { border-left: 5px solid #ff7f0e; }
 
         /* Highlight Sections */
         .key-insights {
@@ -325,7 +216,9 @@
 
         .key-insights h3 {
             margin-bottom: 20px;
+            margin-top: 0;
             font-size: 1.5em;
+            color: #fff;
         }
 
         .insights-grid {
@@ -344,44 +237,12 @@
         .insight-item h4 {
             margin-bottom: 10px;
             color: #fff;
-        }
-
-        .portfolio-details {
-            background: linear-gradient(135deg, #00b894, #00a085);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-        }
-
-        .portfolio-details h3 {
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-
-        .assets-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .asset-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .asset-item .symbol {
-            font-weight: bold;
             font-size: 1.1em;
-            margin-bottom: 5px;
         }
 
-        .asset-item .beta {
-            font-size: 0.9em;
-            opacity: 0.9;
+        .insight-item p {
+            font-size: 1em;
+            margin-bottom: 0;
         }
 
         .constraints-box {
@@ -394,16 +255,19 @@
 
         .constraints-box h3 {
             margin-bottom: 15px;
+            margin-top: 0;
+            color: #fff;
         }
 
         .constraints-box ul {
             list-style-type: none;
             padding-left: 0;
+            margin-left: 0;
         }
 
         .constraints-box li {
             margin: 10px 0;
-            padding-left: 20px;
+            padding-left: 24px;
             position: relative;
         }
 
@@ -412,6 +276,214 @@
             position: absolute;
             left: 0;
         }
+
+        /* ─── content components ─── */
+        .lede {
+            font-size: 1.25em;
+            line-height: 1.65;
+            color: #444;
+            max-width: 920px;
+            margin: 0 auto 26px;
+            text-align: center;
+        }
+
+        .eq-box {
+            background: linear-gradient(145deg, #fdfcfa, #f3f0ea);
+            border: 1px solid rgba(0,0,0,0.07);
+            border-left: 5px solid #667eea;
+            border-radius: 10px;
+            padding: 8px 24px;
+            margin: 22px 0;
+            overflow-x: auto;
+        }
+
+        .eq-box.accent { border-left-color: #c45d3e; }
+        .eq-box.teal   { border-left-color: #2a9d8f; }
+
+        pre {
+            background: #0d1117;
+            color: #d7dce3;
+            padding: 20px 22px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: var(--mono);
+            font-size: 0.86em;
+            line-height: 1.65;
+            margin: 18px 0;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+        }
+
+        pre .cmt  { color: #7d8590; font-style: italic; }
+        pre .kw   { color: #ff9d76; }
+        pre .slot { color: #f0c674; font-weight: 600; }
+        pre .hot  { color: #7ee2c4; font-weight: 600; }
+
+        code.inline {
+            font-family: var(--mono);
+            background: #f0eee9;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.88em;
+            color: #b4462b;
+        }
+
+        table.data {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 22px 0;
+            font-family: var(--sans);
+            font-size: 0.95em;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+
+        table.data th {
+            background: #2c3e50;
+            color: #fff;
+            padding: 13px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            letter-spacing: 0.02em;
+        }
+
+        table.data td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #ecebe8;
+            vertical-align: middle;
+        }
+
+        table.data tr:last-child td { border-bottom: none; }
+        table.data tr:nth-child(even) td { background: #fbfaf8; }
+        table.data td.c, table.data th.c { text-align: center; }
+        table.data .tick { color: #2a9d8f; font-size: 1.35em; font-weight: 700; }
+        table.data .meth { font-weight: 600; color: #2c3e50; }
+
+        .callout {
+            border-radius: 12px;
+            padding: 22px 26px;
+            margin: 26px 0;
+            border-left: 6px solid;
+        }
+        .callout h4 {
+            margin: 0 0 10px;
+            font-size: 1.15em;
+            font-family: var(--sans);
+            font-weight: 600;
+        }
+        .callout p { margin-bottom: 10px; }
+        .callout p:last-child { margin-bottom: 0; }
+
+        .callout.warn  { background: #fdf3e7; border-color: #e67e22; }
+        .callout.warn h4  { color: #b35b04; }
+        .callout.note  { background: #eaf4fb; border-color: #3498db; }
+        .callout.note h4  { color: #1a5f8f; }
+        .callout.good  { background: #e9f7f3; border-color: #2a9d8f; }
+        .callout.good h4  { color: #1c6b60; }
+
+        .big-idea {
+            background: linear-gradient(135deg, #2c3e50, #1a252f);
+            color: #fff;
+            border-radius: 18px;
+            padding: 42px 38px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .big-idea h3 {
+            color: #fff;
+            font-size: 1.7em;
+            margin: 0 0 18px;
+        }
+        .big-idea p {
+            font-size: 1.15em;
+            max-width: 900px;
+            margin: 0 auto 14px;
+            color: #dbe2ea;
+        }
+        .big-idea .eq-box {
+            background: rgba(255,255,255,0.97);
+            border-left-color: var(--gold);
+            display: inline-block;
+            min-width: 60%;
+            color: #14202b;                 /* MathJax SVG inherits currentColor */
+        }
+        .big-idea .eq-box mjx-container,
+        .big-idea .eq-box mjx-container svg,
+        .big-idea .eq-box .MathJax {
+            color: #14202b !important;
+            fill: #14202b;
+        }
+
+        /* MathJax inherits the surrounding text colour everywhere else too */
+        .eq-box, .eq-box mjx-container { color: #1f2933; }
+        mjx-container[jax="SVG"] > svg { overflow: visible; }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            margin: 24px 0;
+        }
+
+        .plain {
+            background: #f7f5f1;
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin: 18px 0;
+            border-left: 4px solid var(--gold);
+        }
+        .plain::before {
+            content: "In plain words";
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.75em;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #a1822f;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+        .plain p:last-child { margin-bottom: 0; }
+
+        .fam-head {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin: 38px 0 6px;
+            padding-top: 22px;
+            border-top: 2px solid #ecebe8;
+        }
+        .fam-head .num {
+            font-family: var(--sans);
+            font-size: 2.1em;
+            font-weight: 700;
+            color: #cfd4da;
+            line-height: 1;
+        }
+        .fam-head h3 { margin: 0; font-size: 1.55em; }
+        .fam-head .members {
+            font-family: var(--sans);
+            font-size: 0.85em;
+            color: #8a8f96;
+            font-weight: 400;
+        }
+
+        .loopbadge {
+            display: inline-block;
+            font-family: var(--sans);
+            font-size: 0.78em;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .loopbadge.one { background: #d4edea; color: #1c6b60; }
+        .loopbadge.two { background: #fbe3d4; color: #a04a1e; }
 
         /* Footer */
         footer {
@@ -426,70 +498,23 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .header-text h1 {
-                font-size: 2em;
-            }
-            
-            .video-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-
-            header {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
+            .header-text h1 { font-size: 2em; }
+            .two-col { grid-template-columns: 1fr; }
+            .container { padding: 10px; }
+            .section { padding: 20px; }
+            header { flex-direction: column; gap: 20px; }
+            table.data { font-size: 0.82em; }
+            table.data th, table.data td { padding: 9px 8px; }
+            pre { font-size: 0.72em; padding: 14px; }
+            .big-idea { padding: 28px 20px; }
         }
 
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        .three-d-video video {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-        
-        .three-d-video video:hover {
-            transform: scale(1.02);
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -524,109 +549,621 @@
             </div>
         </header>
 
-        <!-- UNCONSTRAINED OPTIMIZATION SECTION -->
-        <section id="unconstrained" class="section" data-section="unconstrained">
-            <h2>🎯 Unconstrained Optimization</h2>
-            <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px; color: #666;">
-                Exploring gradient-based optimization methods on classic test functions without constraints
+        <!-- ══════════ 1. THE MASTER EQUATION ══════════ -->
+        <section class="section">
+            <h2>🎯 One Master Equation, Five Ways To Fill It In</h2>
+
+            <p class="lede">
+                There are dozens of optimization algorithms with intimidating names — conjugate gradient,
+                BFGS, Adam, trust region. Underneath, every one of them is doing the same thing:
+                standing somewhere, deciding <em>which way to go</em>, deciding <em>how far to go</em>,
+                and stepping. Everything else is bookkeeping.
             </p>
 
-            <div class="section" style="background: linear-gradient(135deg, #e8f5e8, #d4edda);">
-                <h3 style="color: #155724; margin-bottom: 20px;">📐 2D Optimization Problems</h3>
-                <p style="margin-bottom: 20px;">Comparing Gradient Descent vs Conjugate Gradient methods on different landscape types:</p>
-                <div class="video-row">
-                    <video controls>
-                        <source src="gd_cg_comparison_quadratic.mp4" type="video/mp4">
-                        <p>Quadratic Function - Smooth, convex landscape ideal for optimization</p>
-                    </video>
-                    <video controls>
-                        <source src="gd_cg_comparison_rastrigin.mp4" type="video/mp4">
-                        <p>Rastrigin Function - Highly multimodal with many local minima</p>
-                    </video>
-                    <video controls>
-                        <source src="gd_cg_comparison_rosenbrock.mp4" type="video/mp4">
-                        <p>Rosenbrock Function - Narrow curved valley, challenging convergence</p>
-                    </video>
+            <div class="big-idea">
+                <h3>The master equation</h3>
+                <p>You start with a guess. You repeatedly add an increment. You hope to land at the bottom.</p>
+                <div class="eq-box">
+                    $$x_{k+1} \;=\; x_k \;+\; \alpha_k\, d_k$$
+                </div>
+                <p style="margin-top:20px;">
+                    \(d_k\) is the <strong>direction</strong> — which way to go.<br>
+                    \(\alpha_k\) is the <strong>step length</strong> — how far to go.
+                </p>
+                <p style="font-size:1.05em; opacity:0.85;">
+                    Name any method, and all you are naming is a particular way of filling those two slots.
+                </p>
+            </div>
+
+            <div class="plain">
+                <p>
+                    Imagine walking down a foggy hillside. You can feel the slope under your feet, but you
+                    can't see the valley. Two questions, every step: <em>which way is downhill?</em> and
+                    <em>how big a step do I dare take?</em> Take too small a step and you'll be there all
+                    day. Take too big a step and you'll fly over the valley and land higher than you started.
+                </p>
+                <p>
+                    Every optimization algorithm ever written is an answer to those two questions.
+                </p>
+            </div>
+
+            <h3>The universal skeleton</h3>
+            <p>
+                Written as code, every method on this page is the same loop with three blanks to fill in.
+                Learn this shape once and each algorithm below becomes a variation you can read at a glance:
+            </p>
+
+<pre><span class="kw">x</span> = x0;  init HISTORY
+<span class="kw">for</span> k = 0,1,2,...:
+    g = grad(x)                       <span class="cmt"># the information you have</span>
+    <span class="kw">if</span> |g| &lt; tol: break               <span class="cmt"># flat ground — you're done</span>
+
+    d = <span class="slot">DIRECTION</span>(g, HISTORY)         <span class="cmt"># ── SLOT A : which way</span>
+    a = <span class="slot">LENGTH</span>(f, x, d, g)            <span class="cmt"># ── SLOT B : how far</span>
+    x = x + a*d                       <span class="cmt"># ── THE MASTER EQUATION</span>
+
+    HISTORY = <span class="slot">UPDATE</span>(...)             <span class="cmt"># ── SLOT C : what to remember</span></pre>
+
+            <div class="callout note">
+                <h4>Why this framing is worth the trouble</h4>
+                <p>
+                    Once you see the skeleton, the interesting question stops being "which algorithm is best"
+                    and becomes <strong>"who decides the step length — me, or the method?"</strong>
+                    That single question splits the entire field cleanly in two, and predicts which methods
+                    will blow up on which problems before you run a single line of code.
+                </p>
+            </div>
+
+            <h3>A note on scope</h3>
+            <p>
+                Everything here is <strong>unconstrained</strong>: minimise \(f(x)\) over all of
+                \(\mathbb{R}^n\), with no side conditions. The target is characterised by
+                \(\nabla f = 0\) — find flat ground. Add constraints and the optimum typically sits
+                <em>on a boundary</em> where \(\nabla f \neq 0\), the condition becomes KKT rather than
+                a vanishing gradient, and you need a different toolkit. That's a separate page —
+                though most constrained methods end up calling the machinery below as their inner solver.
+            </p>
+        </section>
+
+        <!-- ══════════ 2. SLOT B ══════════ -->
+        <section class="section">
+            <h2>📏 Slot B Is Where Methods Actually Differ</h2>
+
+            <p>
+                Direction rules vary a lot in appearance and surprisingly little in consequence.
+                The step length \(\alpha_k\) is the real fork in the road — and for any given method
+                you are in exactly one of three situations. You are either <em>forced</em> to compute
+                the step, <em>forced</em> to fix it, or <em>free to choose</em>.
+            </p>
+
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th class="c">Must compute the step</th>
+                        <th class="c">Free choice</th>
+                        <th class="c">Must fix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="meth">Batch Gradient Descent</td><td class="c"></td><td class="c"><span class="tick">✓</span></td><td class="c"></td></tr>
+                    <tr><td class="meth">SGD</td><td class="c"></td><td class="c"></td><td class="c"><span class="tick">✓</span></td></tr>
+                    <tr><td class="meth">Mini-batch GD</td><td class="c"></td><td class="c"></td><td class="c"><span class="tick">✓</span></td></tr>
+                    <tr><td class="meth">Momentum</td><td class="c"></td><td class="c"><span class="tick">✓</span></td><td class="c"></td></tr>
+                    <tr><td class="meth">Nesterov</td><td class="c"></td><td class="c"><span class="tick">✓</span></td><td class="c"></td></tr>
+                    <tr><td class="meth">Adam</td><td class="c"></td><td class="c"></td><td class="c"><span class="tick">✓</span></td></tr>
+                    <tr><td class="meth">RMSprop</td><td class="c"></td><td class="c"></td><td class="c"><span class="tick">✓</span></td></tr>
+                    <tr><td class="meth">Fletcher–Reeves CG</td><td class="c"><span class="tick">✓</span></td><td class="c"></td><td class="c"></td></tr>
+                    <tr><td class="meth">Polak–Ribière CG</td><td class="c"><span class="tick">✓</span></td><td class="c"></td><td class="c"></td></tr>
+                    <tr><td class="meth">BFGS / L-BFGS</td><td class="c"><span class="tick">✓</span></td><td class="c"></td><td class="c"></td></tr>
+                    <tr><td class="meth">Newton / Trust region</td><td class="c"><span class="tick">✓</span></td><td class="c"></td><td class="c"></td></tr>
+                </tbody>
+            </table>
+
+            <p>
+                The two outer columns carry no ambiguity — there is no decision to make. But they are
+                determined for <em>different reasons</em>, and the difference matters:
+            </p>
+
+            <div class="two-col">
+                <div class="algorithm-card ecos-card">
+                    <h3>"Must compute" — forced by the mathematics</h3>
+                    <p>
+                        Conjugate gradient is not <em>allowed</em> to use a fixed step. Its construction rests
+                        on the previous step having exactly minimised \(f\) along its direction, which forces
+                        \(g_{k+1}^\top d_k = 0\). That orthogonality is precisely what makes the next direction
+                        <em>conjugate</em>. Feed CG an arbitrary fixed step and the directions stop being
+                        conjugate, the convergence theory collapses, and you are left with a worse version
+                        of momentum.
+                    </p>
+                    <p>
+                        Same for BFGS: it needs the Wolfe curvature condition \(s_k^\top y_k &gt; 0\) to keep
+                        its Hessian approximation positive-definite. <strong>This never changes, in any
+                        setting.</strong>
+                    </p>
+                </div>
+                <div class="algorithm-card osqp-card">
+                    <h3>"Must fix" — forced by the situation, not the algebra</h3>
+                    <p>
+                        SGD and Adam cannot line-search because they never see the true \(f\) — only a noisy
+                        estimate from one mini-batch. A line search on a noisy objective minimises
+                        <em>the noise realisation</em>, not the function. So the step length has to come from
+                        outside the data.
+                    </p>
+                    <p>
+                        <strong>But this one is conditional.</strong> Run the same methods on a closed-form
+                        function where \(f\) is exact, and the constraint evaporates — they slide straight
+                        into the free-choice column. Nothing in the algebra forbids it.
+                    </p>
                 </div>
             </div>
 
-            <div class="grid-container">
-                <img src="styblinski_tang_3d_visualization.png" alt="Styblinski-Tang 3D Visualization" class="grid-item">
-            
-                <div class="three-d-video">
-                    <video controls>
-                        <source src="detailed_3d_styblinski_tang_3d.mp4" type="video/mp4">
-                    </video>
+            <div class="callout good">
+                <h4>The gradient family is the only place you genuinely choose</h4>
+                <p>
+                    And that is no accident. It is the only family whose direction rule builds <em>no model</em>.
+                    Every other family constructs something — conjugacy, a secant approximation, a quadratic
+                    model, a sampling distribution — whose validity depends on how far you actually moved.
+                    The step length gets absorbed into the method and stops being yours to set.
+                </p>
+                <p>
+                    A naming quirk hides this. In numerical optimization, <strong>"steepest descent"</strong>
+                    means \(d=-\nabla f\) <em>with</em> a line search; in machine learning,
+                    <strong>"gradient descent"</strong> means \(d=-\nabla f\) with a fixed \(\eta\).
+                    Same direction rule, different step policy, different name.
+                </p>
+            </div>
+
+            <h3>Free does not mean safe</h3>
+            <p>
+                When you fix \(\eta\) yourself, there is still a hard limit you must respect. Linearising
+                \(x_{k+1}=x_k-\eta\nabla f(x_k)\) near a minimiser gives \(e_{k+1}=(I-\eta H)e_k\), so the
+                iteration converges only if the spectral radius stays below one:
+            </p>
+
+            <div class="eq-box accent">
+                $$\eta \;<\; \frac{2}{L}, \qquad L = \lambda_{\max}\!\left(\nabla^2 f\right)$$
+            </div>
+
+            <p>
+                Above that bound it diverges — guaranteed, every time. The catch is that \(L\) is a global
+                property of a function you only ever see one point at a time, so a fixed \(\eta\) is
+                fundamentally a <em>guess</em>. And nothing warns you: no error, no exception, just silently
+                worse numbers. On a landscape whose curvature varies by two orders of magnitude, no single
+                \(\eta\) is simultaneously stable in the steep parts and useful in the flat ones.
+            </p>
+
+            <div class="plain">
+                <p>
+                    A backtracking line search is nothing more than <strong>measuring that bound locally,
+                    every step, instead of guessing it globally once.</strong> Try a step; if the function
+                    didn't actually drop enough, halve it and try again. That's the whole idea, and it's
+                    five lines of code.
+                </p>
+                <p>
+                    So the real distinction isn't "line search versus no line search." It's
+                    <em>one global guess made before the run</em> versus <em>a fresh local measurement at
+                    every point</em>.
+                </p>
+            </div>
+
+            <div class="callout note">
+                <h4>The helper three of the five families share</h4>
+                <p>Here it is once, so the pseudocode below stays short:</p>
                 </div>
-            
-                <img src="griewank_3d_visualization.png" alt="Griewank 3D Visualization" class="grid-item">
-            
-                <div class="three-d-video">
-                    <video controls>
-                        <source src="detailed_3d_griewank_3d.mp4" type="video/mp4">
-                    </video>
-                </div>
-            
-                <img src="rastrigin_3d_visualization.png" alt="Rastrigin 3D Visualization" class="grid-item">
-            
-                <div class="three-d-video">
-                    <video controls>
-                        <source src="detailed_3d_rastrigin_3d.mp4" type="video/mp4">
-                    </video>
+
+<pre><span class="hot">ARMIJO_BACKTRACK</span>(f, x, d, g, alpha0=1.0, c1=1e-4, rho=0.5):
+    alpha = alpha0
+    <span class="kw">while</span> f(x + alpha*d) &gt; f(x) + c1*alpha*(g @ d):   <span class="cmt"># ◄── INNER LOOP</span>
+        alpha = rho * alpha                              <span class="cmt">#     halve and retry</span>
+    <span class="kw">return</span> alpha
+
+<span class="cmt"># Wolfe adds a second test — |grad(x+a*d) @ d| &lt;= c2*|g @ d| —</span>
+<span class="cmt"># which is the version CG and BFGS specifically require.</span></pre>
+        </section>
+
+        <!-- ══════════ 3. THE FIVE FAMILIES ══════════ -->
+        <section class="section">
+            <h2>🧬 The Five Families</h2>
+
+            <p class="lede">
+                Master equation, then pseudocode, in the same three slots every time.
+                Watch slot B change — and watch the loop count change with it.
+            </p>
+
+            <!-- FAMILY 1 -->
+            <div class="fam-head">
+                <span class="num">1</span>
+                <h3>Gradient family</h3>
+                <span class="members">GD · SGD · Momentum · Nesterov · Adam · RMSprop</span>
+            </div>
+
+            <div class="eq-box">
+                $$x_{k+1}=x_k-\alpha_k\,B_k\,g_k, \qquad B_k = I \;\;\text{or}\;\; \mathrm{diag}\!\left(1/\sqrt{s_k}\right)$$
+            </div>
+
+<pre><span class="slot">A:</span>  d = -g                                    <span class="cmt"># batch GD</span>
+    <span class="cmt"># v = beta*v - eta*g ;  d = v/eta           # momentum</span>
+    <span class="cmt"># s = rho*s + (1-rho)*g**2                  # RMSprop / Adam</span>
+    <span class="cmt">#   d = -g/(sqrt(s)+eps)</span>
+<span class="slot">B:</span>  a = eta                                   <span class="hot"># FIXED — or line-search, your call</span>
+<span class="slot">C:</span>  keep v and/or s                           <span class="cmt"># O(n) state, or nothing at all</span></pre>
+
+            <p>
+                <span class="loopbadge one">1 LOOP</span>
+                One gradient per iteration, \(O(n)\) memory, and exactly one number you must supply.
+                Two sub-variants worth naming, because they behave very differently:
+            </p>
+            <ul>
+                <li><strong>Momentum / Nesterov</strong> carry velocity, so the recurrence becomes second-order:
+                    \(r^2-(1+\beta-\eta\lambda)r+\beta=0\). When the gradient is persistent the velocity
+                    saturates at \(v\to-\eta g/(1-\beta)\) — a <strong>tenfold</strong> amplification of
+                    displacement at \(\beta=0.9\).</li>
+                <li><strong>Adam / RMSprop</strong> divide by accumulated gradient magnitude, so in the
+                    persistent-gradient limit \(\Delta x \to -\eta\,\mathrm{sign}(g)\). The step size becomes
+                    \(\approx\eta\) <em>independent of</em> \(\|g\|\) — a cheap diagonal stand-in for a line
+                    search, estimated from data already collected rather than solved for.</li>
+            </ul>
+
+            <!-- FAMILY 2 -->
+            <div class="fam-head">
+                <span class="num">2</span>
+                <h3>Conjugate gradient</h3>
+                <span class="members">Fletcher–Reeves · Polak–Ribière · Hestenes–Stiefel · Dai–Yuan</span>
+            </div>
+
+            <div class="eq-box teal">
+                $$d_k=-g_k+\beta_k d_{k-1}, \qquad
+                  \beta_k^{\text{FR}}=\frac{g_k^\top g_k}{g_{k-1}^\top g_{k-1}}, \qquad
+                  \beta_k^{\text{PR}}=\frac{g_k^\top\!\left(g_k-g_{k-1}\right)}{g_{k-1}^\top g_{k-1}}$$
+            </div>
+
+<pre><span class="slot">A:</span>  beta = (g @ g) / (g_old @ g_old)          <span class="cmt"># Fletcher-Reeves</span>
+    <span class="cmt"># beta = (g @ (g-g_old)) / (g_old @ g_old)  # Polak-Ribiere</span>
+    beta = max(beta, 0)                       <span class="cmt"># PR+ safeguard</span>
+    <span class="kw">if</span> k % n == 0: beta = 0                   <span class="cmt"># restart every n iterations</span>
+    d = -g + beta*d_old
+<span class="slot">B:</span>  a = WOLFE(f, x, d, g)                     <span class="hot"># COMPUTED — required, not optional</span>
+<span class="slot">C:</span>  g_old = g ;  d_old = d</pre>
+
+            <p>
+                <span class="loopbadge two">2 LOOPS</span>
+                \(O(n)\) memory, and — this is the trade — <strong>zero hyperparameters</strong>.
+                Nothing to tune, because nothing was left to you.
+            </p>
+
+            <div class="callout note">
+                <h4>Momentum and CG have the same shape. Only one of them means it.</h4>
+                <p>
+                    Both build \(d_k = -g_k + \beta\,d_{k-1}\). The difference is that momentum's \(\beta\)
+                    is a number somebody picked (0.9, usually), and no theorem asserts anything about it.
+                    CG's \(\beta_k\) is <em>derived</em>, under an assumption about the previous step.
+                    That is the whole distinction between <em>using</em> memory and <em>depending on</em> it —
+                    and it is exactly why one sits in the free column and the other doesn't.
+                </p>
+            </div>
+
+            <!-- FAMILY 3 -->
+            <div class="fam-head">
+                <span class="num">3</span>
+                <h3>Quasi-Newton</h3>
+                <span class="members">BFGS · L-BFGS · DFP · SR1</span>
+            </div>
+
+            <div class="eq-box teal">
+                $$d_k=-B_kg_k,\qquad B_{k+1}s_k=y_k \;\;\text{(secant equation)}$$
+                $$s_k=x_{k+1}-x_k,\qquad y_k=g_{k+1}-g_k,\qquad \rho_k=\frac{1}{y_k^\top s_k}$$
+                $$B_{k+1}=\left(I-\rho_ks_ky_k^\top\right)B_k\left(I-\rho_ky_ks_k^\top\right)+\rho_ks_ks_k^\top$$
+            </div>
+
+<pre><span class="slot">A:</span>  d = -B @ g
+<span class="slot">B:</span>  a = WOLFE(f, x, d, g)                     <span class="hot"># COMPUTED — required</span>
+<span class="slot">C:</span>  s = a*d ;  y = grad(x_new) - g
+    <span class="kw">if</span> y @ s &gt; 0:                             <span class="cmt"># curvature condition</span>
+        r = 1/(y @ s)
+        B = (I - r*outer(s,y)) @ B @ (I - r*outer(y,s)) + r*outer(s,s)</pre>
+
+            <p>
+                <span class="loopbadge two">2 LOOPS</span>
+                Memory is \(O(n^2)\) — <strong>L-BFGS</strong> drops that to \(O(mn)\) by storing only the
+                last \(m\) pairs \((s,y)\) instead of the whole matrix. That is why L-BFGS, not anything in
+                family 1, is the default workhorse in <code class="inline">scipy.optimize.minimize</code>
+                for deterministic smooth problems.
+            </p>
+
+            <div class="callout good">
+                <h4>A cousin relationship worth knowing</h4>
+                <p>
+                    On a quadratic with exact line search, BFGS and CG generate <strong>identical
+                    iterates</strong>. Different mechanisms — one builds an explicit matrix from gradient
+                    differences, the other never forms a matrix at all — arriving at the same place. CG is
+                    in effect the matrix-free limit of quasi-Newton.
+                </p>
+            </div>
+
+            <!-- FAMILY 4 -->
+            <div class="fam-head">
+                <span class="num">4</span>
+                <h3>Newton and trust region</h3>
+                <span class="members">damped Newton · dogleg · CG-Steihaug · Levenberg–Marquardt</span>
+            </div>
+
+            <div class="eq-box accent">
+                $$\text{Newton: }\;\; H_kp_k=-g_k,\qquad x_{k+1}=x_k+\alpha_kp_k$$
+                $$\text{Trust region: }\;\; \min_p \; g_k^\top p+\tfrac12 p^\top H_k p
+                  \quad\text{s.t.}\quad \|p\|\le\Delta_k$$
+            </div>
+
+<pre><span class="cmt"># ── damped Newton ──</span>
+<span class="slot">A:</span>  H = hess(x)
+    d = solve(H + tau*I, -g)                  <span class="cmt"># tau &gt; 0 if H not positive-definite</span>
+<span class="slot">B:</span>  a = ARMIJO(f, x, d, g)                    <span class="hot"># COMPUTED  (a → 1 near the solution)</span>
+<span class="slot">C:</span>  —                                         <span class="cmt"># H rebuilt from scratch each step</span>
+
+<span class="cmt"># ── trust region: the skeleton BREAKS here ──</span>
+<span class="slot">A+B:</span> p = SOLVE_SUBPROBLEM(g, hess(x), Delta)   <span class="hot"># direction AND length, jointly</span>
+     rho = (f(x) - f(x+p)) / -(g@p + 0.5*p@H@p)
+     x = x + p  <span class="kw">if</span> rho &gt; 0.1  <span class="kw">else</span>  x        <span class="hot"># the step can be REJECTED</span>
+<span class="slot">C:</span>   Delta = 0.25*Delta          <span class="kw">if</span> rho &lt; 0.25
+     Delta = min(2*Delta, Dmax)  <span class="kw">if</span> rho &gt; 0.75 <span class="kw">and</span> |p| == Delta</pre>
+
+            <p>
+                <span class="loopbadge two">2 LOOPS</span>
+                Uses second derivatives, so \(O(n^2)\) memory and an \(O(n^3)\) linear solve per iteration.
+                Pure Newton with \(\alpha=1\) is technically single-loop — but it only converges
+                <em>locally</em>, and from a poor start it diverges. Anything you would actually ship is damped.
+            </p>
+
+            <div class="callout note">
+                <h4>Trust region is the one that doesn't factor into "direction, then length"</h4>
+                <p>
+                    Instead of picking a way and then a distance, it fixes a <em>radius</em> and solves for
+                    both at once inside that ball. \(\Delta_k\) is not a hyperparameter — it is updated every
+                    iteration from the agreement ratio \(\rho_k\) between actual and predicted reduction.
+                    And uniquely, it can <strong>reject a step entirely</strong>: a line search always returns
+                    some \(\alpha&gt;0\), but a trust region can say "that model was wrong, shrink the ball,
+                    try again."
+                </p>
+                <p>
+                    Line search and trust region are the two <em>globalization strategies</em> in numerical
+                    optimization. Neither one fixes the step. Both compute it.
+                </p>
+            </div>
+
+            <!-- FAMILY 5 -->
+            <div class="fam-head">
+                <span class="num">5</span>
+                <h3>Global / stochastic search</h3>
+                <span class="members">CMA-ES · simulated annealing · particle swarm · basin hopping</span>
+            </div>
+
+            <div class="eq-box">
+                $$x^{(i)}=m_k+\sigma_k\,\mathcal{N}(0,C_k),\;\; i=1\ldots\lambda
+                  \qquad m_{k+1}=\sum_{i=1}^{\mu}w_i\,x^{(i:\lambda)}$$
+            </div>
+
+<pre>m = x0;  sigma = sigma0;  C = I;  p_sigma = 0;  p_c = 0
+<span class="kw">for</span> k = 1..N:
+    <span class="kw">for</span> i = 1..lam:                           <span class="cmt"># ◄── INNER LOOP (population, not step size)</span>
+        x[i]   = m + sigma * chol(C) @ randn(n)
+        fit[i] = f(x[i])                      <span class="cmt"># no gradient anywhere</span>
+    sort x by fit
+    m_old = m
+    m     = sum(w[i]*x[i] <span class="kw">for</span> i in 1..mu)     <span class="cmt"># weighted mean of the best mu</span>
+    sigma = sigma * exp((c_s/d_s)*(|p_sigma|/E_norm - 1))   <span class="hot"># step size adapts itself</span>
+    C     = (1-c1-cmu)*C + c1*outer(p_c,p_c) + cmu*rank_mu_update</pre>
+
+            <p>
+                <span class="loopbadge two">2 LOOPS</span>
+                But the inner loop is over a <em>population</em>, not a step size. There is no \(d_k\), no
+                \(\alpha_k\), no single iterate at all — the state is \((m,\sigma,C)\) and what moves is a
+                <strong>distribution</strong>, not a point. That is the honest signal that global search is a
+                different kind of object, not another row in the same table.
+            </p>
+
+            <div class="callout warn">
+                <h4>Why this family exists at all</h4>
+                <p>
+                    Families 1–4 are all <em>local</em> methods: they follow the slope from wherever they
+                    happen to be, and they stop at the first flat spot. On a landscape with many minima,
+                    none of them has any mechanism for leaving the basin it started in — no amount of
+                    cleverness in \(d_k\) changes that. Family 5 gives up gradients entirely and buys
+                    global reach with function evaluations instead.
+                </p>
+            </div>
+
+            <h3>Side by side</h3>
+
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>Family</th>
+                        <th class="c">Loops</th>
+                        <th class="c">Uses</th>
+                        <th class="c">Memory</th>
+                        <th>Cost per iteration</th>
+                        <th>Step length</th>
+                        <th>Tuning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="meth">Gradient</td><td class="c">1</td><td class="c">\(g\)</td><td class="c">\(O(n)\)</td><td>1 gradient</td><td>fixed, or free</td><td><strong>\(\eta\) — required</strong></td></tr>
+                    <tr><td class="meth">Conjugate gradient</td><td class="c">2</td><td class="c">\(g\)</td><td class="c">\(O(n)\)</td><td>1 gradient + line search</td><td>computed</td><td>none</td></tr>
+                    <tr><td class="meth">Quasi-Newton</td><td class="c">2</td><td class="c">\(g\)</td><td class="c">\(O(n^2)\) / \(O(mn)\)</td><td>1 gradient + search + \(n^2\)</td><td>computed</td><td>none</td></tr>
+                    <tr><td class="meth">Newton / trust region</td><td class="c">2</td><td class="c">\(g, H\)</td><td class="c">\(O(n^2)\)</td><td>gradient + Hessian + \(n^3\) solve</td><td>computed</td><td>none</td></tr>
+                    <tr><td class="meth">Global (CMA-ES)</td><td class="c">2</td><td class="c">\(f\) only</td><td class="c">\(O(n^2)\)</td><td>\(\lambda \approx 4+3\ln n\) evaluations</td><td>self-adapting</td><td>none</td></tr>
+                </tbody>
+            </table>
+
+            <div class="big-idea">
+                <h3>The trade, in one sentence</h3>
+                <p style="font-size:1.35em; color:#fff;">
+                    One loop buys you a hyperparameter you must guess.<br>
+                    Two loops buy you a method that guesses nothing.
+                </p>
+                <p style="opacity:0.82;">
+                    And going down the table you pay progressively more per iteration — a gradient, then a
+                    gradient plus a search, then curvature, then a whole population — in exchange for
+                    needing fewer iterations, or for being able to handle a landscape the rows above cannot.
+                </p>
+            </div>
+        </section>
+
+        <!-- ══════════ 4. WHY THE MAP LOOKS LIKE THIS ══════════ -->
+        <section class="section">
+            <h2>🗺️ The Two Axes Underneath</h2>
+
+            <p>
+                "Gradient descent versus conjugate gradient" is a common mental model, and it is too small.
+                Nearly every method above is really
+            </p>
+
+            <div class="eq-box accent">
+                $$x_{k+1} \;=\; x_k \;-\; \alpha_k\, B_k\, g_k$$
+            </div>
+
+            <p>
+                and the families are just choices of the matrix \(B_k\), crossed with choices of \(\alpha_k\).
+                Two axes, not one list:
+            </p>
+
+            <table class="data">
+                <thead><tr><th>\(B_k\)</th><th>Gives you</th><th>What it costs</th></tr></thead>
+                <tbody>
+                    <tr><td>\(I\)</td><td class="meth">Gradient descent</td><td>nothing — no curvature model at all</td></tr>
+                    <tr><td>\(\mathrm{diag}\!\left(1/\sqrt{s_k}\right)\)</td><td class="meth">RMSprop, Adam</td><td>\(O(n)\) state, estimated from data you already had</td></tr>
+                    <tr><td>built recursively, never stored</td><td class="meth">Conjugate gradient</td><td>a mandatory line search</td></tr>
+                    <tr><td>\(\approx H^{-1}\), from gradient differences</td><td class="meth">BFGS, L-BFGS</td><td>\(O(n^2)\) memory + a mandatory line search</td></tr>
+                    <tr><td>\(H^{-1}\) exactly</td><td class="meth">Newton</td><td>second derivatives + an \(O(n^3)\) solve</td></tr>
+                </tbody>
+            </table>
+
+            <div class="key-insights">
+                <h3>What the two-axis view makes obvious</h3>
+                <div class="insights-grid">
+                    <div class="insight-item">
+                        <h4>There is no global ranking</h4>
+                        <p>CG wins where the problem is conditioning and exact \(f\) is cheap. Adaptive methods win where the problem is noise and scale. Nothing here wins on multimodality — that needs family 5.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>Momentum sits closer to CG than it looks</h4>
+                        <p>Same \(d_k=-g_k+\beta d_{k-1}\) shape. The gap is that \(\beta\) is assumed in one and derived in the other — the same gap as \(\eta\) versus \(\alpha_k\), one level up.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>Adaptivity is not global search</h4>
+                        <p>Dividing by \(\sqrt{s_k}\) buys robustness to gradient <em>scale</em>. It buys precisely nothing against a landscape with many minima — a bounded step simply cannot leave its basin.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>Two axes, two questions</h4>
+                        <p>How much curvature information can you afford to build? And how much are you willing to pay to measure the step? Every method is one answer to each.</p>
+                    </div>
                 </div>
             </div>
-            
 
+            <div class="big-idea">
+                <h3>The thing to carry away</h3>
+                <p style="font-size:1.22em; color:#fff;">
+                    The families differ less in cleverness than in
+                    <strong>what they can afford to compute.</strong>
+                </p>
+                <p>
+                    Solving for the step length means evaluating the objective exactly, many times per
+                    iteration. That is free on a closed-form function and impossible on a stochastic
+                    objective averaged over millions of samples. The gradient family's fixed constants are
+                    not naïveté — they are <em>what remains when you cannot afford to solve for the step.</em>
+                </p>
+                <p style="opacity:0.82;">
+                    Which is why any ranking of these methods inverts the moment function evaluations stop
+                    being free — and why the entire deep learning field runs on the family with the
+                    weakest guarantees.
+                </p>
+            </div>
+        </section>
+
+        <!-- ══════════ 5. CODING IT ══════════ -->
+        <section class="section">
+            <h2>⌨️ Coding It Yourself</h2>
+
+            <p>
+                Start with gradient descent, and start with it <em>fixed</em>. It is the only single-loop
+                method, so the entire algorithm is the master equation and nothing else:
+            </p>
+
+<pre><span class="kw">for</span> k <span class="kw">in</span> range(N):
+    x -= eta * grad(x)</pre>
+
+            <p>
+                Write conjugate gradient instead and you need a line-search subroutine, which is
+                <em>more code than the method itself</em> — plus Wolfe conditions, plus bracketing and zoom.
+                You end up debugging the scaffolding rather than seeing the idea.
+            </p>
+
+            <div class="callout warn">
+                <h4>But know the tax you're paying</h4>
+                <p>
+                    The thing you switched off is the thing that makes it robust. So the first behaviour you
+                    meet will be divergence, and it will look like the <em>method</em> failing when it is
+                    actually your \(\eta\). Beginners routinely conclude "gradient descent doesn't work"
+                    when what they have really learned is "I picked one number wrong."
+                </p>
+            </div>
+
+            <div class="key-insights">
+                <h3>Three habits that make the difference</h3>
+                <div class="insights-grid">
+                    <div class="insight-item">
+                        <h4>1 · Find the cliff on purpose</h4>
+                        <p>Start with \(\eta\) deliberately small, confirm it descends, then raise it until it blows up. The blow-up point <em>is</em> \(2/L\) — finding it by hand teaches you more than the successful run does.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>2 · Print \(f(x_k)\) every iteration</h4>
+                        <p>A trajectory plot cannot tell you whether you are improving; a column of numbers can. Monotone decrease means it is working, whatever the path looks like.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>3 · Then add four lines of Armijo</h4>
+                        <p>Halve the step until \(f(x+\alpha d) \le f(x) + 10^{-4}\alpha\,g^\top d\). Now you can toggle between fixed and computed and watch the difference directly — the whole point of this page, in one flag.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="constraints-box">
+                <h3>And when you compare methods, compare them honestly</h3>
+                <ul>
+                    <li><strong>Many random starts</strong>, reporting median and spread — never one trajectory from a hand-picked point. A single deterministic run tells you about the start, not the algorithm.</li>
+                    <li><strong>Plot against function evaluations, not iterations.</strong> A line search spends many \(f\)-evals per iteration; an iteration axis silently awards two-loop methods a factor of 10–100.</li>
+                    <li><strong>Tune \(\eta\) per method</strong> with a log-grid sweep, or you are comparing hyperparameters rather than algorithms.</li>
+                    <li><strong>State the line-search rule.</strong> Exact versus Wolfe is often the difference between a headline result and no result at all — exact line search on a multimodal ray is itself a global solver in disguise.</li>
+                    <li><strong>Show the objective value.</strong> A loss-versus-evaluation panel is ten lines of code and turns an ambiguous picture into a readable experiment.</li>
+                </ul>
+            </div>
         </section>
 
         <footer>
-            <p>🎯 <strong>Unconstrained optimization is about navigating objective landscapes.</strong></p>
-            <p>Comparing optimization paths reveals how each algorithm responds to curvature, valleys, and local minima.</p>
+            <p>🎯 <strong>Every optimizer is a starting guess plus an increment equation.</strong></p>
+            <p>Which way, and how far — the five families are five answers to those two questions.</p>
             <br>
             <p style="margin-top: 20px;">Copyright © 2023 by Saumik Dana</p>
         </footer>
     </div>
 
     <script>
-        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Add some interactive hover effects
-        document.querySelectorAll('.algorithm-card, .video-container, .asset-item').forEach(card => {
+        document.querySelectorAll('.algorithm-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-5px)';
             });
-            
             card.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0)';
             });
-        });
-
-        // Lazy loading for videos
-        const videos = document.querySelectorAll('video');
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const video = entry.target;
-                    video.load();
-                    observer.unobserve(video);
-                }
-            });
-        });
-
-        videos.forEach(video => {
-            imageObserver.observe(video);
         });
     </script>
 <footer class="theme-footer">
