@@ -317,6 +317,29 @@
             $$ SE(\hat{\beta}_1) = \sqrt{\frac{\frac{1}{n-2} \sum_{i=1}^n (y_i - \hat{y}_i)^2}{\sum_{i=1}^n (x_i - \bar{x})^2}} $$
         </div>
 
+        <h3>Sums of Squares and $R^2$</h3>
+        <p>The error sum of squares (unexplained variation):</p>
+        <div class="math-block">
+            $$ SSE = \sum_{i=1}^n (y_i - \hat{y}_i)^2 $$
+        </div>
+
+        <p>The total sum of squares (total variation in $y$):</p>
+        <div class="math-block">
+            $$ SST = \sum_{i=1}^n (y_i - \bar{y})^2 $$
+        </div>
+
+        <p>The coefficient of determination, i.e. the fraction of variance explained:</p>
+        <div class="math-block">
+            $$ R^2 = 1 - \frac{SSE}{SST} = \frac{SST - SSE}{SST} = \frac{SSR}{SST} $$
+        </div>
+
+        <p class="muted">
+            If $SSE = 0 \Rightarrow R^2 = 1$ (perfect fit). If $SSE \approx SST \Rightarrow R^2 \approx 0$ (no explanatory power).
+            If $SSE > SST \Rightarrow R^2 < 0$ (worse than predicting the mean).
+        </p>
+
+        <p>Note that $\hat{\sigma}^2 = \frac{SSE}{n-2}$, so the standard error above can be written as $SE(\hat{\beta}_1) = \sqrt{\hat{\sigma}^2 / \sum_i (x_i - \bar{x})^2}$.</p>
+
         <h3>t-Statistic for Testing $H_0: \beta_1 = 0$</h3>
         <div class="math-block">
             $$ t = \frac{\hat{\beta}_1}{SE(\hat{\beta}_1)} = \frac{\hat{\beta}_1}{\sqrt{\frac{\hat{\sigma}^2}{\sum_{i=1}^n (x_i - \bar{x})^2}}} $$
@@ -324,13 +347,20 @@
         
         <p>This t-statistic follows a t-distribution with $(n-2)$ degrees of freedom under the null hypothesis.</p>
 
+        <h3>F-Statistic for Testing Overall Significance</h3>
+        <p>For the simple model fitted here—one predictor, so one slope being tested:</p>
+        <div class="math-block">
+            $$ F = \frac{SSR/1}{SSE/(n-2)} = \frac{SST - SSE}{SSE/(n-2)} = t^2 $$
+        </div>
+
+        <p>It follows an $F$-distribution with $(1, \, n-2)$ degrees of freedom under the null hypothesis. With one predictor the F-test and the t-test above are the same test written two ways; the F-test earns its keep once there are several predictors, which is where the next section picks up.</p>
+
         <hr class="section-divider">
 
         <h2>Doubling the Data Points</h2>
 
         <h3>On $R^2$:</h3>
         <ul>
-            <li>$R^2$ measures the proportion of variance explained: $R^2 = 1 - \frac{SSE}{SST}$</li>
             <li>Adding data doesn't automatically change $R^2$—it depends on whether new points follow the same pattern</li>
             <li>If new points are consistent with the existing relationship, $R^2$ may stay similar or slightly improve</li>
             <li>If new points are more scattered, $R^2$ could decrease</li>
@@ -362,241 +392,85 @@
 
         <hr class="section-divider">
 
-        <div class="card">
-            <h2>SST, SSE, and R² — Tiny Worked Example</h2>
-            <p>We have three data points: <span class="math">(x_i, y_i) = (1,1), (2,2), (3,2)</span>. We fit the simple OLS model <span class="math">$\hat{y} = \beta_0 + \beta_1 x$</span> and compute SST, SSE, and R² step by step.</p>
-        </div>
-
-        <div class="card">
-            <h3>1) Mean of <span class="math">y</span></h3>
-            <p><span class="math">$\bar{y} = (1 + 2 + 2)/3 = 5/3 \approx 1.6667$</span></p>
-        </div>
-
-        <div class="card">
-            <h3>2) Total variation in <span class="math">y</span> (SST)</h3>
-            <div class="math-block">
-                $SST = \sum (y_i - \bar{y})^2$
-            </div>
-            <div class="math-block">
-                $= (1 - 1.6667)^2 + (2 - 1.6667)^2 + (2 - 1.6667)^2$
-                $= 0.4444 + 0.1111 + 0.1111 = 0.6667$
-            </div>
-        </div>
-
-        <div class="card">
-            <h3>3) Fit OLS line</h3>
-            <p>Centered sums:</p>
-            <ul>
-                <li><span class="math">$\bar{x} = (1 + 2 + 3)/3 = 2$</span></li>
-                <li><span class="math">$\sum (x_i-\bar{x})(y_i-\bar{y}) = 1.0$</span></li>
-                <li><span class="math">$\sum (x_i-\bar{x})^2 = 2$</span></li>
-            </ul>
-            <p>Coefficients:</p>
-            <div class="math-block">
-                $\beta_1 = 1.0 / 2 = 0.5$,&nbsp;&nbsp;&nbsp;&nbsp;
-                $\beta_0 = \bar{y} - \beta_1 \bar{x} = 1.6667 - 0.5 \cdot 2 = 0.6667$
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>x</th>
-                        <th>y</th>
-                        <th>$\hat{y} = 0.6667 + 0.5 \cdot x$</th>
-                        <th>$y - \hat{y}$</th>
-                        <th>$(y - \hat{y})^2$</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>1</td><td>1.0000</td><td>1.1667</td><td>-0.1667</td><td>0.0278</td></tr>
-                    <tr><td>2</td><td>2.0000</td><td>1.6667</td><td> 0.3333</td><td>0.1111</td></tr>
-                    <tr><td>3</td><td>2.0000</td><td>2.1667</td><td>-0.1667</td><td>0.0278</td></tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="4" style="text-align:right;">$SSE = \sum (y - \hat{y})^2$</th>
-                        <th>0.1667</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <div class="card">
-            <h3>4) Unexplained variation (SSE)</h3>
-            <p><span class="math">$SSE = \sum (y_i - \hat{y}_i)^2 = 0.1667$</span></p>
-        </div>
-
-        <div class="card">
-            <h3>5) R² (fraction of variance explained)</h3>
-            <div class="math-block">
-                $R^2 = 1 - \frac{SSE}{SST} = 1 - \frac{0.1667}{0.6667} = 0.75$
-            </div>
-            <p><strong>Interpretation:</strong> the regression explains <strong>75%</strong> of the variance in <span class="math">y</span>.</p>
-            <p class="muted">
-                Notes: If SSE = 0 ⇒ R² = 1 (perfect fit). If SSE ≈ SST ⇒ R² ≈ 0 (no explanatory power).
-                If SSE > SST ⇒ R² < 0 (worse than predicting the mean).
-            </p>
-        </div>
-
-        <div class="card">
-            <h3>6) F-statistic for testing overall model significance</h3>
-            <p>The <strong>F-statistic</strong> tests whether the regression model explains a significant amount of variance compared to a model with no predictors (i.e., just the intercept).</p>
-            
-            <div class="math-block">
-                $F = \frac{MSR}{MSE} = \frac{SSR/k}{SSE/(n-k-1)}$
-            </div>
-            
-            <p><strong>Where:</strong></p>
-            <ul>
-                <li>$SSR$ = regression sum of squares (explained variation)</li>
-                <li>$SSE$ = error sum of squares (unexplained variation)</li>
-                <li>$k$ = number of predictors (excluding the intercept)</li>
-                <li>$n$ = number of observations</li>
-                <li>$MSR$ = mean square regression</li>
-                <li>$MSE$ = mean square error</li>
-            </ul>
-            
-            <p>Since $SSR = SST - SSE$, we can substitute:</p>
-            <div class="math-block">
-                $F = \frac{(SST - SSE)/k}{SSE/(n-k-1)}$
-            </div>
-            
-            <p><strong>For our example:</strong></p>
-            <ul>
-                <li>$SST = 0.6667$</li>
-                <li>$SSE = 0.1667$</li>
-                <li>$SSR = SST - SSE = 0.6667 - 0.1667 = 0.5000$</li>
-                <li>$k = 1$ (one predictor: $x$)</li>
-                <li>$n = 3$ (three observations)</li>
-            </ul>
-            
-            <div class="math-block">
-                $F = \frac{0.5000/1}{0.1667/(3-1-1)} = \frac{0.5000}{0.1667/1} = \frac{0.5000}{0.1667} = 3.0$
-            </div>
-            
-            <p><strong>Interpretation:</strong> This F-statistic of 3.0 (with 1 and 1 degrees of freedom) tests $H_0$: the regression model is no better than just predicting the mean $\bar{y}$ for all observations.</p>
-            
-            <p class="muted">
-                Note: In simple linear regression, $F = t^2$ where $t$ is the t-statistic for testing $H_0: \beta_1 = 0$.
-            </p>
-        </div>
-
-        <hr class="section-divider">
-
-        <h2>Interpreting F-statistic Values</h2>
-        
-        <p>The F-statistic is fundamentally a ratio of signal to noise:</p>
-        <div class="math-block">
-            $F = \frac{\text{Signal (explained variance per predictor)}}{\text{Noise (unexplained variance per residual df)}}$
-        </div>
-        
-        <p>Understanding what different F-values mean:</p>
-
-        <div class="card">
-            <h3>F ≈ 1 (close to 1)</h3>
-            <ul>
-                <li>The model's explained variance (SSR) is about the same order as the unexplained variance (SSE per degree of freedom)</li>
-                <li>Adding predictors doesn't improve the model much beyond just predicting the mean</li>
-                <li>Typically → <strong>not significant</strong></li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>F < 1 (very small)</h3>
-            <ul>
-                <li>The model actually explains <em>less variance</em> than would be expected by chance</li>
-                <li>Strong evidence that predictors are useless or even harmful</li>
-                <li>You'd fail to reject the null hypothesis (no relationship)</li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>F moderately large (say, > 4 or 5 depending on n, k)</h3>
-            <ul>
-                <li>Suggests predictors improve the model compared to noise</li>
-                <li>You check the corresponding <strong>p-value</strong>:
-                    <ul>
-                        <li>If p < 0.05 → statistically significant (reject null)</li>
-                        <li>If p is higher → still not significant, even if F > 1</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>F very large (≫ 10, 20, 50...)</h3>
-            <ul>
-                <li>Strong evidence that predictors explain a lot of variance relative to noise</li>
-                <li>P-value will usually be extremely small</li>
-                <li>The regression model has strong explanatory power</li>
-            </ul>
-        </div>
-
-        <div class="key-point">
-            <h3>Quick Rule of Thumb</h3>
-            <ul>
-                <li><strong>Small F (≈0 → < 1):</strong> model worse than noise</li>
-                <li><strong>Around 1:</strong> no improvement over mean-only model</li>
-                <li><strong>Big F (≫1):</strong> model explains meaningful variance (significance depends on df & p-value)</li>
-            </ul>
-        </div>
+        <h2>Reading the F-statistic</h2>
 
         <div class="highlight">
-            <p><strong>Why this makes sense:</strong> Under the null hypothesis (no real relationship), we'd expect F ≈ 1 on average because MSR would just reflect random variation in the predictors, while MSE reflects the true error variance. So the ratio should be around 1 if there's no real signal.</p>
-            <p><strong>Remember:</strong> The degrees of freedom matter! An F of 4 might be significant with small sample sizes but not with very large ones, which is why we always check the p-value for formal hypothesis testing.</p>
+            <p><strong>A note on notation before we start.</strong> Everything above is <em>simple</em> regression: one predictor $x$, one intercept $\beta_0$, one slope $\beta_1$. The F-test is most naturally stated for the general case of $p$ predictors $x_1, \ldots, x_p$, where the model is</p>
+            <div class="math-block">
+                $$ y = \gamma_0 + \gamma_1 x_1 + \gamma_2 x_2 + \cdots + \gamma_p x_p + \epsilon $$
+            </div>
+            <p>The $\gamma_j$ here are <em>different objects</em> from the $\beta_0, \beta_1$ above—one slope attached to each of $p$ separate predictor columns, not a re-labelling of the two-parameter simple model. Simple regression is the special case $p = 1$, where $\gamma_0 = \beta_0$ and $\gamma_1 = \beta_1$. We use $\gamma$ purely to keep the two settings visually distinct.</p>
         </div>
 
-        <hr class="section-divider">
+        <h3>1. The hypothesis it tests</h3>
 
-        <h2>What the F-statistic Actually Tests</h2>
-
-        <p>The <strong>F-statistic</strong> in regression tests a very specific <strong>null hypothesis</strong>:</p>
+        <p>The F-statistic asks one question about the model as a whole: <em>do the predictors, taken together, do anything at all?</em> Formally it tests</p>
 
         <div class="math-block">
-            $H_0: \beta_1 = \beta_2 = \cdots = \beta_k = 0$
+            $$ H_0: \gamma_1 = \gamma_2 = \cdots = \gamma_p = 0 \qquad \text{vs.} \qquad H_A: \text{at least one } \gamma_j \neq 0 $$
         </div>
 
-        <p>(all slopes are zero at the same time)</p>
+        <p>Note that the intercept $\gamma_0$ is deliberately left out of the null—it is not being tested, it is the thing the model falls back to. Under $H_0$ every <em>slope</em> is zero at once, so the fitted equation collapses to $\hat{y} = \hat{\gamma}_0 = \bar{y}$. In other words, the null model is "just predict the mean of $y$ for everybody, and ignore the predictors entirely." The F-test compares your regression against that baseline.</p>
+
+        <h3>2. Why it is a signal-to-noise ratio</h3>
+
+        <div class="math-block">
+            $$ F = \frac{MSR}{MSE} = \frac{SSR/p}{SSE/(n-p-1)} = \frac{\text{explained variance per predictor}}{\text{unexplained variance per residual degree of freedom}} $$
+        </div>
+
+        <p>Both the numerator and the denominator are variance estimates measured in the same units. The denominator, $MSE = SSE/(n-p-1)$, is an unbiased estimate of the true error variance $\sigma^2$ whether or not $H_0$ is true. The numerator, $MSR = SSR/p$, is <em>also</em> an unbiased estimate of $\sigma^2$ <em>when $H_0$ is true</em>—because in that case the only thing the predictors are picking up is random noise. Two estimates of the same quantity divided by each other give a ratio near 1.</p>
 
         <div class="key-point">
-            <p><strong>What this means:</strong></p>
-            <ul>
-                <li>Under $H_0$, none of the independent variables help explain the dependent variable</li>
-                <li>The model with predictors is no better than a simple mean-only model</li>
-                <li>The regression equation reduces to just $\hat{y} = \hat{\beta}_0 = \bar{y}$</li>
-            </ul>
+            <p>That is the whole intuition: <strong>$F \approx 1$ is what "nothing is going on" looks like.</strong> When a real relationship exists, the numerator inflates by the systematic variation the predictors capture while the denominator stays anchored at $\sigma^2$, so $F$ climbs above 1.</p>
         </div>
 
-        <p>The <strong>alternative hypothesis</strong> is:</p>
+        <h3>3. What a given value tells you</h3>
 
-        <div class="math-block">
-            $H_A: \text{At least one } \beta_j \neq 0$
-        </div>
-
-        <div class="card">
-            <h3>Decision Rule</h3>
-            <ul>
-                <li><strong>If F is large (and p-value small)</strong> → reject $H_0$. At least one predictor has explanatory power</li>
-                <li><strong>If F is small</strong> → fail to reject $H_0$. The predictors (slopes) jointly have no explanatory power</li>
-            </ul>
-        </div>
-
-        <div class="card">
-            <h3>Important Nuances</h3>
-            <ul>
-                <li><strong>Joint test:</strong> The F-test examines whether ALL slopes are zero simultaneously, not individual slopes</li>
-                <li><strong>Which predictors matter:</strong> Even if F is significant, it doesn't tell you WHICH predictors are important (you need individual t-tests for that)</li>
-                <li><strong>Simple vs. multiple regression:</strong>
-                    <ul>
-                        <li>In simple linear regression (one predictor): $F = t^2$, so F-test and t-test are equivalent</li>
-                        <li>In multiple regression: you could have significant F-test but some individual slopes not significant (and vice versa, though rarer)</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="text-align:left;">Value of $F$</th>
+                    <th style="text-align:left;">What it means</th>
+                    <th style="text-align:left;">Typical verdict</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align:left;">$F &lt; 1$</td>
+                    <td style="text-align:left;">The predictors explain less than random noise would be expected to explain by chance</td>
+                    <td style="text-align:left;">Fail to reject $H_0$; the model is no help</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;">$F \approx 1$</td>
+                    <td style="text-align:left;">Explained and unexplained variance are the same size per degree of freedom—exactly the null pattern</td>
+                    <td style="text-align:left;">Fail to reject $H_0$</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;">$F$ moderately above 1</td>
+                    <td style="text-align:left;">The predictors are pulling some real signal out of the noise</td>
+                    <td style="text-align:left;">Check the p-value—significance depends on the number of predictors and on $n$</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;">$F \gg 1$</td>
+                    <td style="text-align:left;">Explained variance dwarfs the residual noise</td>
+                    <td style="text-align:left;">Reject $H_0$; p-value will be very small</td>
+                </tr>
+            </tbody>
+        </table>
 
         <div class="highlight">
-            <p><strong>The Big Picture:</strong> The F-test compares your full regression model against the simplest possible model (just predicting the mean). It answers: "Is this collection of predictors, taken together, better than knowing nothing at all?"</p>
+            <p><strong>There is no universal cutoff.</strong> "Is $F = 4$ big?" has no answer without the degrees of freedom. With $(1, 5)$ df, $F = 4$ is unremarkable; with $(1, 500)$ df it is decisive. The raw $F$ is only meaningful once you convert it to a p-value against the $F_{p, \, n-p-1}$ distribution, which is why software always reports both.</p>
         </div>
+
+        <h3>4. What it does <em>not</em> tell you</h3>
+
+        <ul>
+            <li><strong>It is a joint test, not a per-predictor test.</strong> A significant $F$ says at least one slope is nonzero; it does not say which. For that you need the individual t-tests.</li>
+            <li><strong>Significance is not the same as usefulness.</strong> With a large enough $n$, a trivially small $R^2$ can still produce a significant $F$. Read $F$ for "is there a signal" and $R^2$ for "how much."</li>
+            <li><strong>The two tests can disagree in multiple regression.</strong> Correlated predictors can give a significant $F$ while every individual t-test comes back insignificant—the predictors jointly explain $y$, but no single one is identifiable on its own.</li>
+            <li><strong>In simple regression it adds nothing new.</strong> With $p = 1$, $F = t^2$ exactly, so the F-test and the t-test on $\beta_1$ are the same test written two ways.</li>
+        </ul>
+
     </div>
 <footer class="theme-footer">
     <p>&copy; 2026 Saumik Dana &middot; <a href="index.html">Home</a></p>
