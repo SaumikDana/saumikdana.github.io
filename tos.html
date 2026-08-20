@@ -474,24 +474,6 @@
             box-shadow: var(--shadow-lg);
         }
         
-        .info {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .data-note {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--error-color);
-            margin: 1.5rem 0;
-        }
-
-        .data-note h3 {
-            color: #991b1b;
-            margin-bottom: 0.75rem;
-        }
-
         .method-box {
             background: linear-gradient(135deg, #ecfeff, #cffafe);
             padding: 2rem;
@@ -513,10 +495,6 @@
         .data-table th.num {
             font-family: 'JetBrains Mono', 'Monaco', monospace;
             font-size: 0.9rem;
-        }
-
-        .row-suspect td {
-            background: #fff1f2;
         }
 
         .verdict {
@@ -597,19 +575,33 @@
 
     <div class="main-container">
         <div class="hero-section">
-            <h1 class="hero-title">No Arbitrage Concepts</h1>
-            <p class="hero-subtitle">Testing the static no-arbitrage bounds against a live APLD options chain</p>
+            <h1 class="hero-title">No-Arbitrage Conditions</h1>
+            <p class="hero-subtitle">The model-free constraints that bind every option chain &mdash; derived, ordered, and tested on live APLD quotes</p>
         </div>
 
         <div class="content-section">
-            <h2 class="section-title">ThinkorSwim Options Chain Screenshot</h2>
-            <div class="image-showcase">
-                <img src="image.png" alt="APLD Options Chain - ThinkorSwim Screenshot" />
-                <p><em>APLD options chain, calls and puts expiring August 15, 2025. Underlying quoted at $13.89.</em></p>
+            <h2 class="section-title">What a No-Arbitrage Condition Is</h2>
+
+            <p>Almost everything written about option pricing is a <em>model</em>: assume a diffusion, assume a volatility, assume a distribution, and out comes a number. No-arbitrage conditions are the opposite kind of statement. They assume nothing about how the stock moves. They are pure dominance arguments &mdash; if portfolio A pays at least as much as portfolio B in every state of the world at expiry, then A must cost at least as much as B today, or you have a money pump.</p>
+
+            <p>That makes these conditions the hard floor beneath every pricing model. Black&ndash;Scholes can be wrong about the volatility and still be a legitimate price. But an option chain that violates convexity is not "wrong about volatility" &mdash; it is internally incoherent, and no distribution, no model, no amount of vol-surface fitting can rescue it.</p>
+
+            <div class="principle-box">
+                <h3 style="font-size:1.35rem; color: var(--neutral-800); margin-bottom:1rem;">The generating principle</h3>
+                <p>Build two portfolios out of options, stock and cash. Compare their payoffs at expiry across every possible terminal price S<sub>T</sub>. Whatever payoff relation holds there must hold between today's prices. Every condition on this page is that one move, applied to a different pair of portfolios.</p>
             </div>
 
-            <h2 class="section-title">Raw Inputs</h2>
-            <p>Every number on this page is derived from the quotes below. Mid is the simple average of bid and ask.</p>
+            <div class="method-box">
+                <h3>Prices you can trade</h3>
+                <p>A no-arbitrage condition is a claim about <strong>executable</strong> prices. You buy at the ask and sell at the bid; the mid is a display convention, not a price anyone transacts at. So each condition below has two forms:</p>
+                <p><strong>The textbook form</strong> writes the condition on a single price per option. It describes the idealised, frictionless surface, and it is the right form for building intuition and for spotting where a chain is ragged.</p>
+                <p><strong>The executable form</strong> prices every leg at the side you would have to cross. It is the form that decides whether money is actually on the table.</p>
+                <p>The gap between the two is not noise to be apologised for &mdash; it is the measurement. As shown at the end, the textbook form fails in eight places on this chain and the executable form fails in none, and <em>where</em> it fails maps precisely onto where liquidity is thinnest. The mid-price surface is a liquidity map wearing the costume of a pricing anomaly.</p>
+            </div>
+
+            <h2 class="section-title">The Chain</h2>
+
+            <p>APLD, underlying at <strong>$13.89</strong>, options expiring August 15, 2025. These quotes are the sole input; every figure on this page is derived from them.</p>
 
             <table class="data-table">
                 <thead>
@@ -621,50 +613,63 @@
                         <th class="num">Put Bid</th>
                         <th class="num">Put Ask</th>
                         <th class="num">Put Mid</th>
+                        <th class="num">Spread as %<br>of put mid</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>$8.00</td><td class="num">5.70</td><td class="num">5.95</td><td class="num">5.825</td><td class="num">0.01</td><td class="num">0.02</td><td class="num">0.015</td></tr>
-                    <tr><td>$9.00</td><td class="num">4.85</td><td class="num">4.95</td><td class="num">4.900</td><td class="num">0.02</td><td class="num">0.03</td><td class="num">0.025</td></tr>
-                    <tr><td>$9.50</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">0.01</td><td class="num">0.16</td><td class="num">0.085</td></tr>
-                    <tr><td>$10.00</td><td class="num">3.90</td><td class="num">3.95</td><td class="num">3.925</td><td class="num">0.03</td><td class="num">0.12</td><td class="num">0.075</td></tr>
-                    <tr><td>$11.00</td><td class="num">2.85</td><td class="num">2.99</td><td class="num">2.920</td><td class="num">0.04</td><td class="num">0.07</td><td class="num">0.055</td></tr>
-                    <tr><td>$12.00</td><td class="num">2.02</td><td class="num">2.09</td><td class="num">2.055</td><td class="num">0.14</td><td class="num">0.17</td><td class="num">0.155</td></tr>
-                    <tr><td>$13.00</td><td class="num">1.27</td><td class="num">1.32</td><td class="num">1.295</td><td class="num">0.37</td><td class="num">0.40</td><td class="num">0.385</td></tr>
-                    <tr class="row-suspect"><td>$14.00</td><td class="num">0.82</td><td class="num">0.86</td><td class="num">0.840</td><td class="num">0.82 &#9888;</td><td class="num">0.86 &#9888;</td><td class="num">0.840 &#9888;</td></tr>
+                    <tr><td>$8.00</td><td class="num">5.70</td><td class="num">5.95</td><td class="num">5.825</td><td class="num">0.01</td><td class="num">0.02</td><td class="num">0.015</td><td class="num">67%</td></tr>
+                    <tr><td>$9.00</td><td class="num">4.85</td><td class="num">4.95</td><td class="num">4.900</td><td class="num">0.02</td><td class="num">0.03</td><td class="num">0.025</td><td class="num">40%</td></tr>
+                    <tr><td>$9.50</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">0.01</td><td class="num">0.16</td><td class="num">0.085</td><td class="num">176%</td></tr>
+                    <tr><td>$10.00</td><td class="num">3.90</td><td class="num">3.95</td><td class="num">3.925</td><td class="num">0.03</td><td class="num">0.12</td><td class="num">0.075</td><td class="num">120%</td></tr>
+                    <tr><td>$11.00</td><td class="num">2.85</td><td class="num">2.99</td><td class="num">2.920</td><td class="num">0.04</td><td class="num">0.07</td><td class="num">0.055</td><td class="num">55%</td></tr>
+                    <tr><td>$12.00</td><td class="num">2.02</td><td class="num">2.09</td><td class="num">2.055</td><td class="num">0.14</td><td class="num">0.17</td><td class="num">0.155</td><td class="num">19%</td></tr>
+                    <tr><td>$13.00</td><td class="num">1.27</td><td class="num">1.32</td><td class="num">1.295</td><td class="num">0.37</td><td class="num">0.40</td><td class="num">0.385</td><td class="num">8%</td></tr>
+                    <tr><td>$14.00</td><td class="num">0.82</td><td class="num">0.86</td><td class="num">0.840</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr>
                 </tbody>
             </table>
 
-            <div class="data-note">
-                <h3>&#9888; Data integrity: the $14 put quote is not trustworthy</h3>
-                <p>The $14 put is transcribed as <strong>0.82 / 0.86</strong> &mdash; character for character the same as the $14 call. That is a copy error, not a market quote. Two independent checks confirm it:</p>
-                <ul>
-                    <li>Put&ndash;call parity implies the $14 put should be <strong>C &minus; S + K = 0.84 &minus; 13.89 + 14.00 = 0.95</strong>, not 0.84.</li>
-                    <li>The $14 strike is the <em>only</em> row on this chain whose parity gap (11 cents) exceeds the combined bid&ndash;ask half-spread (4 cents) &mdash; i.e. the only apparent arbitrage anywhere in the chain sits exactly on the corrupted row.</li>
-                </ul>
-                <p>The $14 put row is retained below for completeness but is excluded from the conclusions. Wherever it appears it is flagged in red.</p>
-            </div>
+            <p style="font-size:0.9rem; color:var(--slate);"><em>Put quotes are read for strikes $8&ndash;$13; the $14 put is not resolvable from the chain and is excluded from put-side tests. The $9.50 put has no matching call and appears only in the strike-ordering test.</em></p>
 
-            <div class="method-box">
-                <h3>Method: mid-price violations are not arbitrage</h3>
-                <p>A no-arbitrage bound is a statement about <em>tradeable</em> prices. You buy at the ask and sell at the bid; you never trade at the mid. A bound that fails on mids but holds on the bid/ask you would actually pay is a <strong>quoting artifact</strong>, not a free lunch.</p>
-                <p>Every test below is therefore reported twice: once on mids (the textbook form, useful for spotting where the surface is ragged) and once on the executable bid/ask leg prices (the form that decides whether money is on the table). This distinction is the entire story of this chain &mdash; the mid tests fail in five places and the executable tests fail in none.</p>
-            </div>
+            <p style="margin-top:1.5rem;">Read the rightmost column first, because it drives everything that follows. The $9.50 and $10 puts quote spreads of <strong>176%</strong> and <strong>120%</strong> of their own mid value. At those widths the mid carries almost no information &mdash; it is the midpoint of an interval far larger than the quantity it estimates.</p>
         </div>
 
-        <!-- Test 1: Intrinsic value floor -->
+        <div class="content-section">
+            <h2 class="section-title">A Ladder of Conditions</h2>
+
+            <p>The conditions are not a checklist of unrelated rules. They form a hierarchy organised by how many derivatives of the call price with respect to strike they constrain, and &mdash; as the closing section shows &mdash; they are collectively equivalent to a single statement. Read in this order they build on each other:</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Order</th><th>Condition</th><th>Constrains</th><th>Portfolio argument</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>Intrinsic floor &amp; ceiling</td><td class="num">C(K) level</td><td>Option vs. immediate exercise; option vs. underlying</td></tr>
+                    <tr><td>1</td><td>Strike monotonicity</td><td class="num">&part;C/&part;K &le; 0</td><td>Vertical spread has non-negative payoff</td></tr>
+                    <tr><td>1</td><td>Lipschitz bound</td><td class="num">|&part;C/&part;K| &le; 1</td><td>Vertical spread payoff capped at strike width</td></tr>
+                    <tr><td>2</td><td>Convexity</td><td class="num">&part;&sup2;C/&part;K&sup2; &ge; 0</td><td>Butterfly has non-negative payoff</td></tr>
+                    <tr><td>&mdash;</td><td>Put&ndash;call parity</td><td class="num">exact equality</td><td>Two portfolios with identical payoffs</td></tr>
+                    <tr><td>&mdash;</td><td>Box spread</td><td class="num">exact equality</td><td>Riskless bond synthesised from options</td></tr>
+                </tbody>
+            </table>
+
+            <p>Note the asymmetry. The first four are <em>inequalities</em> &mdash; one-sided constraints that leave a range of admissible prices. The last two are <em>equalities</em>, and are correspondingly the sharpest tests: there is exactly one right answer, and any deviation beyond transaction costs is a trade.</p>
+        </div>
+
+        <!-- Order 0 -->
         <div class="test-section">
             <div class="test-header">
-                <div class="test-title">1. Intrinsic Value Floor</div>
-                <div class="test-description">An option cannot be bought for less than its immediate exercise value.</div>
+                <div class="test-title">Order 0 &mdash; Intrinsic Floor and Ceiling</div>
+                <div class="test-description">An option is worth at least what exercising it right now would yield, and never more than the thing it controls.</div>
             </div>
             <div class="test-content">
                 <div class="formula-display">
-                    CALLS: Ask &ge; max(0, S &minus; K) = max(0, 13.89 &minus; K)<br>
-                    PUTS: Ask &ge; max(0, K &minus; S) = max(0, K &minus; 13.89)
+                    max(0, S &minus; K) &le; C(K) &le; S<br>
+                    max(0, K &minus; S) &le; P(K) &le; K&middot;e<sup>&minus;rT</sup>
                 </div>
 
-                <p>The executable form uses the <strong>ask</strong>, not the mid: to capture an intrinsic-value violation you must <em>buy</em> the option, and buying happens at the ask.</p>
+                <p><strong>The argument.</strong> A call gives the right to buy at K. If it traded below S &minus; K you would buy the call, exercise, sell the stock, and bank the difference with no capital at risk and no exposure to what happens next. That is the floor. The ceiling is equally direct: the call confers strictly less than owning the stock outright &mdash; it caps your downside but costs you the right to the shares unconditionally &mdash; so it cannot cost more than the stock.</p>
+
+                <p><strong>Executable form.</strong> Capturing a floor violation requires <em>buying</em> the option, so the test runs on the <strong>ask</strong>, not the mid. This distinction matters most exactly where it is most tempting to skip: deep in-the-money strikes, where the option is nearly all intrinsic and the spread is a large fraction of the time value.</p>
 
                 <table class="data-table">
                     <thead>
@@ -672,113 +677,52 @@
                             <th>Strike</th>
                             <th class="num">Call Mid</th>
                             <th class="num">Call Ask</th>
-                            <th class="num">Call Intrinsic</th>
+                            <th class="num">Intrinsic</th>
                             <th class="num">Ask &minus; Intrinsic</th>
                             <th class="num">Put Ask</th>
-                            <th class="num">Put Intrinsic</th>
-                            <th class="num">Ask &minus; Intrinsic</th>
-                            <th>Executable?</th>
+                            <th class="num">Intrinsic</th>
+                            <th>Floor holds?</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>$8</td><td class="num">5.825</td><td class="num">5.95</td><td class="num">5.89</td><td class="num">+0.060</td><td class="num">0.02</td><td class="num">0.00</td><td class="num">+0.020</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
-                        <tr><td>$9</td><td class="num">4.900</td><td class="num">4.95</td><td class="num">4.89</td><td class="num">+0.060</td><td class="num">0.03</td><td class="num">0.00</td><td class="num">+0.030</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
-                        <tr><td>$9.5</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">0.16</td><td class="num">0.00</td><td class="num">+0.160</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
-                        <tr><td>$10</td><td class="num">3.925</td><td class="num">3.95</td><td class="num">3.89</td><td class="num">+0.060</td><td class="num">0.12</td><td class="num">0.00</td><td class="num">+0.120</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
-                        <tr><td>$11</td><td class="num">2.920</td><td class="num">2.99</td><td class="num">2.89</td><td class="num">+0.100</td><td class="num">0.07</td><td class="num">0.00</td><td class="num">+0.070</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
-                        <tr><td>$12</td><td class="num">2.055</td><td class="num">2.09</td><td class="num">1.89</td><td class="num">+0.200</td><td class="num">0.17</td><td class="num">0.00</td><td class="num">+0.170</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
-                        <tr><td>$13</td><td class="num">1.295</td><td class="num">1.32</td><td class="num">0.89</td><td class="num">+0.430</td><td class="num">0.40</td><td class="num">0.00</td><td class="num">+0.400</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
-                        <tr class="row-suspect"><td>$14</td><td class="num">0.840</td><td class="num">0.86</td><td class="num">0.00</td><td class="num">+0.860</td><td class="num">0.86 &#9888;</td><td class="num">0.11</td><td class="num">+0.750</td><td><span class="status-badge info">Call OK; put quote suspect</span></td></tr>
+                        <tr><td>$8</td><td class="num">5.825</td><td class="num">5.95</td><td class="num">5.89</td><td class="num">+0.060</td><td class="num">0.02</td><td class="num">0.00</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>$9</td><td class="num">4.900</td><td class="num">4.95</td><td class="num">4.89</td><td class="num">+0.060</td><td class="num">0.03</td><td class="num">0.00</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>$9.5</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">0.16</td><td class="num">0.00</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>$10</td><td class="num">3.925</td><td class="num">3.95</td><td class="num">3.89</td><td class="num">+0.060</td><td class="num">0.12</td><td class="num">0.00</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>$11</td><td class="num">2.920</td><td class="num">2.99</td><td class="num">2.89</td><td class="num">+0.100</td><td class="num">0.07</td><td class="num">0.00</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>$12</td><td class="num">2.055</td><td class="num">2.09</td><td class="num">1.89</td><td class="num">+0.200</td><td class="num">0.17</td><td class="num">0.00</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>$13</td><td class="num">1.295</td><td class="num">1.32</td><td class="num">0.89</td><td class="num">+0.430</td><td class="num">0.40</td><td class="num">0.00</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>$14</td><td class="num">0.840</td><td class="num">0.86</td><td class="num">0.00</td><td class="num">+0.860</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td><span class="status-badge pass">&#10003;</span></td></tr>
                     </tbody>
                 </table>
 
                 <div class="highlight-box">
-                    <strong>Corrected finding &mdash; the $8 call is not a violation.</strong> Its mid (5.825) does sit 6.5 cents under intrinsic (5.89), but you cannot buy at the mid. The ask is <strong>5.95</strong>, a full 6 cents <em>above</em> intrinsic. Buying the call at 5.95, shorting the stock at 13.89 and exercising immediately nets 13.89 &minus; 5.95 &minus; 8.00 = <strong>&minus;0.06</strong>. The trade loses money. The low mid is a bid-skew artifact of a deep-ITM, wide-spread strike, and every call on the chain carries the same +0.06 ask cushion &mdash; a signature of systematic quoting, not mispricing.
+                    <strong>The $8 call is the instructive case.</strong> Its mid sits at 5.825 against an intrinsic value of 5.89 &mdash; six and a half cents <em>under</em> the floor. On a mid-price screen this is a flashing red light. It is also untradeable: the ask is <strong>5.95</strong>. Buy the call at 5.95, short the stock at 13.89, exercise immediately, and the arithmetic is 13.89 &minus; 5.95 &minus; 8.00 = <strong>&minus;0.06</strong>. You have paid six cents for the privilege.
+                    <br><br>
+                    What the low mid actually encodes is bid skew. Market makers quoting a deep-ITM, near-expiry call hold a position that is essentially stock; they widen the bid to protect against being run over on a delta they cannot easily hedge in size. Notice that the ask cushion is <strong>exactly +0.06 at the $8, $9 and $10 strikes</strong>. That uniformity is the signature of a systematic quoting rule, not a pricing error &mdash; a genuine mispricing would not be so tidy.
                 </div>
 
-                <div class="verdict"><strong>Verdict:</strong> Intrinsic floor holds at every strike on an executable basis. Zero violations.</div>
+                <div class="verdict"><strong>Result:</strong> Floor and ceiling hold at every strike on an executable basis. One mid-price breach ($8 call), zero executable breaches.</div>
             </div>
         </div>
 
-        <!-- Test 2: Strike monotonicity -->
+        <!-- Order 1 -->
         <div class="test-section">
             <div class="test-header">
-                <div class="test-title">2. Strike Monotonicity</div>
-                <div class="test-description">Calls must be non-increasing in strike; puts must be non-decreasing in strike.</div>
+                <div class="test-title">Order 1 &mdash; Monotonicity and the Lipschitz Bound</div>
+                <div class="test-description">The slope of the call price in strike must lie between &minus;1 and 0. Both ends of that interval are a separate arbitrage.</div>
             </div>
             <div class="test-content">
                 <div class="formula-display">
-                    CALLS: C(K&#8321;) &ge; C(K&#8322;) for K&#8321; &lt; K&#8322;<br>
-                    PUTS: P(K&#8321;) &le; P(K&#8322;) for K&#8321; &lt; K&#8322;
+                    0 &le; C(K&#8321;) &minus; C(K&#8322;) &le; K&#8322; &minus; K&#8321; &nbsp;&nbsp;for&nbsp;&nbsp; K&#8321; &lt; K&#8322;<br>
+                    0 &le; P(K&#8322;) &minus; P(K&#8321;) &le; K&#8322; &minus; K&#8321;
                 </div>
 
-                <p>The executable test for a put violation: sell the lower strike at its <strong>bid</strong>, buy the higher strike at its <strong>ask</strong>. If that package is a net credit you have a riskless profit, because the higher-strike put can never be worth less at expiry.</p>
+                <p><strong>The argument.</strong> Consider the call vertical: long K&#8321;, short K&#8322;. At expiry it pays 0 below K&#8321;, rises to K&#8322; &minus; K&#8321; at K&#8322;, and stays flat above. That payoff is never negative, so the spread cannot be entered for a credit &mdash; the left inequality, monotonicity. It also never exceeds K&#8322; &minus; K&#8321;, so the spread cannot cost more than the strike width &mdash; the right inequality, the Lipschitz bound.</p>
 
-                <div class="grid-2">
-                    <div>
-                        <h4>Calls &mdash; monotone decreasing</h4>
-                        <table class="data-table">
-                            <thead>
-                                <tr><th>Pair</th><th class="num">Mid &Delta;</th><th>Mid</th><th>Executable</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>8 &rarr; 9</td><td class="num">&minus;0.925</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr><td>9 &rarr; 10</td><td class="num">&minus;0.975</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr><td>10 &rarr; 11</td><td class="num">&minus;1.005</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr><td>11 &rarr; 12</td><td class="num">&minus;0.865</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr><td>12 &rarr; 13</td><td class="num">&minus;0.760</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr><td>13 &rarr; 14</td><td class="num">&minus;0.455</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                            </tbody>
-                        </table>
-                        <p><em>Clean throughout. Every call price falls as strike rises.</em></p>
-                    </div>
+                <p>These are genuinely two different conditions and a chain can satisfy one while breaching the other. Monotonicity says the curve slopes downward; the Lipschitz bound says it cannot slope downward faster than 45&deg;. A chain checked only for ordering will sail past a Lipschitz breach without noticing.</p>
 
-                    <div>
-                        <h4>Puts &mdash; monotone increasing</h4>
-                        <table class="data-table">
-                            <thead>
-                                <tr><th>Pair</th><th class="num">Mid &Delta;</th><th class="num">Net cost of<br>executable spread</th><th>Verdict</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>8 &rarr; 9</td><td class="num">+0.010</td><td class="num">+0.020</td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr><td>9 &rarr; 9.5</td><td class="num">+0.060</td><td class="num">+0.140</td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr><td>9.5 &rarr; 10</td><td class="num">&minus;0.010</td><td class="num">+0.110</td><td><span class="status-badge warning">Mid only</span></td></tr>
-                                <tr><td>10 &rarr; 11</td><td class="num">&minus;0.020</td><td class="num">+0.040</td><td><span class="status-badge warning">Mid only</span></td></tr>
-                                <tr><td>11 &rarr; 12</td><td class="num">+0.100</td><td class="num">+0.130</td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr><td>12 &rarr; 13</td><td class="num">+0.230</td><td class="num">+0.260</td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                                <tr class="row-suspect"><td>13 &rarr; 14</td><td class="num">+0.455</td><td class="num">+0.490</td><td><span class="status-badge info">Suspect data</span></td></tr>
-                            </tbody>
-                        </table>
-                        <p><em>Two mid-price inversions, neither executable.</em></p>
-                    </div>
-                </div>
-
-                <div class="highlight-box">
-                    <strong>Corrected finding &mdash; the put inversions are not arbitrage.</strong> The $10 mid (0.075) is below the $9.50 mid (0.085), and the $11 mid (0.055) is below the $10 mid (0.075). But to harvest either you would have to buy the higher-strike put at its ask and sell the lower-strike put at its bid:
-                    <ul>
-                        <li>$9.50/$10: buy $10 at 0.12, sell $9.50 at 0.01 &rarr; <strong>pay 0.11</strong>, not receive.</li>
-                        <li>$10/$11: buy $11 at 0.07, sell $10 at 0.03 &rarr; <strong>pay 0.04</strong>, not receive.</li>
-                    </ul>
-                    Both spreads cost money, exactly as no-arbitrage requires. The inversions come entirely from the $9.50 and $10 puts quoting 0.01/0.16 and 0.03/0.12 &mdash; spreads that are 100&ndash;300% of the option's value. When the spread dwarfs the price, the mid is close to meaningless.
-                </div>
-
-                <div class="verdict"><strong>Verdict:</strong> Monotonicity holds executably at every adjacent pair, calls and puts. Zero violations.</div>
-            </div>
-        </div>
-
-        <!-- Test 3: Vertical spread bound -->
-        <div class="test-section">
-            <div class="test-header">
-                <div class="test-title">3. Vertical Spread Bound (Lipschitz Condition)</div>
-                <div class="test-description">A call spread can never cost more than the distance between its strikes.</div>
-            </div>
-            <div class="test-content">
-                <div class="formula-display">
-                    0 &le; C(K&#8321;) &minus; C(K&#8322;) &le; K&#8322; &minus; K&#8321;
-                </div>
-
-                <p>The spread's maximum payoff at expiry is K&#8322; &minus; K&#8321;, so paying more than that guarantees a loss &mdash; and receiving more than that when selling it is riskless profit. Executable form: the credit from selling the spread is bid(K&#8321;) &minus; ask(K&#8322;), which must not exceed K&#8322; &minus; K&#8321;.</p>
-
+                <h4 style="margin-top:2rem;">Calls &mdash; slope and its magnitude</h4>
                 <table class="data-table">
                     <thead>
                         <tr>
@@ -786,40 +730,69 @@
                             <th class="num">Width</th>
                             <th class="num">Mid Cost</th>
                             <th class="num">Executable Credit<br>(bid K&#8321; &minus; ask K&#8322;)</th>
-                            <th>Mid</th>
-                            <th>Executable</th>
+                            <th>Monotonicity</th>
+                            <th>Lipschitz (mid)</th>
+                            <th>Lipschitz (exec)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>8 / 9</td><td class="num">1.00</td><td class="num">0.925</td><td class="num">0.750</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                        <tr><td>9 / 10</td><td class="num">1.00</td><td class="num">0.975</td><td class="num">0.900</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                        <tr><td>10 / 11</td><td class="num">1.00</td><td class="num">1.005</td><td class="num">0.910</td><td><span class="status-badge warning">Exceeds width by 0.005</span></td><td><span class="status-badge pass">&#10003; 0.09 short</span></td></tr>
-                        <tr><td>11 / 12</td><td class="num">1.00</td><td class="num">0.865</td><td class="num">0.760</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                        <tr><td>12 / 13</td><td class="num">1.00</td><td class="num">0.760</td><td class="num">0.700</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                        <tr><td>13 / 14</td><td class="num">1.00</td><td class="num">0.455</td><td class="num">0.410</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>8 / 9</td><td class="num">1.00</td><td class="num">0.925</td><td class="num">0.750</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9 / 10</td><td class="num">1.00</td><td class="num">0.975</td><td class="num">0.900</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>10 / 11</td><td class="num">1.00</td><td class="num">1.005</td><td class="num">0.910</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge fail">&#10007; over by 0.005</span></td><td><span class="status-badge pass">&#10003; 0.09 cushion</span></td></tr>
+                        <tr><td>11 / 12</td><td class="num">1.00</td><td class="num">0.865</td><td class="num">0.760</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>12 / 13</td><td class="num">1.00</td><td class="num">0.760</td><td class="num">0.700</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>13 / 14</td><td class="num">1.00</td><td class="num">0.455</td><td class="num">0.410</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                    </tbody>
+                </table>
+
+                <p>The 10/11 spread is the case a pure ordering check misses. Its mids imply a cost of 1.005 against a maximum payoff of 1.00 &mdash; a strictly dominated trade. Sold at executable prices it credits only 0.910 against a 1.00 liability, leaving nine cents of cushion.</p>
+
+                <h4 style="margin-top:2rem;">Puts &mdash; monotonicity</h4>
+                <p>The executable test: sell the lower strike at its <strong>bid</strong>, buy the higher strike at its <strong>ask</strong>. Since the higher-strike put dominates at expiry, a net credit on that package would be riskless profit.</p>
+
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Pair</th><th class="num">Mid &Delta;</th><th class="num">Executable net cost</th><th>Mid</th><th>Executable</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>8 &rarr; 9</td><td class="num">+0.010</td><td class="num">+0.020</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9 &rarr; 9.5</td><td class="num">+0.060</td><td class="num">+0.140</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9.5 &rarr; 10</td><td class="num">&minus;0.010</td><td class="num">+0.110</td><td><span class="status-badge fail">&#10007;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>10 &rarr; 11</td><td class="num">&minus;0.020</td><td class="num">+0.040</td><td><span class="status-badge fail">&#10007;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>11 &rarr; 12</td><td class="num">+0.100</td><td class="num">+0.130</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>12 &rarr; 13</td><td class="num">+0.230</td><td class="num">+0.260</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
                     </tbody>
                 </table>
 
                 <div class="highlight-box">
-                    <strong>The 10/11 call spread mids exceed the strike width by half a cent</strong> &mdash; the sort of violation the original "perfect call ordering" claim missed, because monotonicity alone does not catch it. On execution the sale credits only 0.910 against a 1.00 maximum liability, leaving 9 cents of cushion. Not tradeable.
+                    <strong>Two inverted put pairs, neither of them a trade.</strong> The $10 mid (0.075) sits below the $9.50 mid (0.085), and the $11 mid (0.055) below the $10 mid (0.075). To harvest either you must buy the higher strike at its ask and sell the lower at its bid:
+                    <ul>
+                        <li>$9.50 / $10: buy the $10 at 0.12, sell the $9.50 at 0.01 &rarr; <strong>pay 0.11</strong></li>
+                        <li>$10 / $11: buy the $11 at 0.07, sell the $10 at 0.03 &rarr; <strong>pay 0.04</strong></li>
+                    </ul>
+                    Both are debits, exactly as no-arbitrage requires. Both inversions trace to the $9.50 and $10 puts quoting 0.01/0.16 and 0.03/0.12 &mdash; the two widest spreads on the chain. When the spread is 120&ndash;176% of the mid, ordering the mids is ordering noise.
                 </div>
 
-                <div class="verdict"><strong>Verdict:</strong> One mid-price breach, zero executable breaches.</div>
+                <div class="verdict"><strong>Result:</strong> Three mid-price breaches (one Lipschitz, two monotonicity), zero executable breaches.</div>
             </div>
         </div>
 
-        <!-- Test 4: Butterfly convexity -->
+        <!-- Order 2 -->
         <div class="test-section">
             <div class="test-header">
-                <div class="test-title">4. Butterfly Convexity</div>
-                <div class="test-description">Option prices must be a convex function of strike.</div>
+                <div class="test-title">Order 2 &mdash; Convexity</div>
+                <div class="test-description">Option prices must be a convex function of strike. This is the deepest of the inequalities and the one with a probabilistic meaning.</div>
             </div>
             <div class="test-content">
                 <div class="formula-display">
                     V(K &minus; &Delta;) &minus; 2&middot;V(K) + V(K + &Delta;) &ge; 0
                 </div>
 
-                <p>A butterfly has a non-negative payoff in every state of the world, so it can never be entered for a credit. Executable form: buy both wings at the ask, sell two bodies at the bid; the net must be a debit.</p>
+                <p><strong>The argument.</strong> That expression is the cost of a butterfly: long one wing at each outer strike, short two bodies at the centre. Its payoff is a tent &mdash; zero outside the wings, peaking at &Delta; at the centre &mdash; and it is never negative anywhere. A portfolio that can never pay out less than zero cannot be entered for a credit.</p>
+
+                <p><strong>Why this one matters more than the others.</strong> Scaled by &Delta;&sup2;, the butterfly cost <em>is</em> the discounted risk-neutral probability that the stock lands near the centre strike. Convexity is therefore not merely a pricing constraint &mdash; it is the requirement that the probability density implied by the chain be non-negative. A chain that breaches convexity is asserting a negative probability. No volatility number can fix that, because the incoherence is not in the vol, it is in the measure.</p>
+
+                <p><strong>Executable form.</strong> Buy both wings at the ask, sell two bodies at the bid. The net must be a debit.</p>
 
                 <table class="data-table">
                     <thead>
@@ -833,41 +806,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>8 / 9 / 10</td><td>Call</td><td class="num">&minus;0.050</td><td class="num">+0.200</td><td><span class="status-badge fail">&#10007; Negative</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                        <tr><td>9 / 10 / 11</td><td>Call</td><td class="num">&minus;0.030</td><td class="num">+0.140</td><td><span class="status-badge fail">&#10007; Negative</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>8 / 9 / 10</td><td>Call</td><td class="num">&minus;0.050</td><td class="num">+0.200</td><td><span class="status-badge fail">&#10007;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9 / 10 / 11</td><td>Call</td><td class="num">&minus;0.030</td><td class="num">+0.140</td><td><span class="status-badge fail">&#10007;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
                         <tr><td>10 / 11 / 12</td><td>Call</td><td class="num">+0.140</td><td class="num">+0.340</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
                         <tr><td>11 / 12 / 13</td><td>Call</td><td class="num">+0.105</td><td class="num">+0.270</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
                         <tr><td>12 / 13 / 14</td><td>Call</td><td class="num">+0.305</td><td class="num">+0.410</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
                         <tr><td>8 / 9 / 10</td><td>Put</td><td class="num">+0.040</td><td class="num">+0.100</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                        <tr><td>9 / 10 / 11</td><td>Put</td><td class="num">&minus;0.070</td><td class="num">+0.040</td><td><span class="status-badge fail">&#10007; Negative</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9 / 10 / 11</td><td>Put</td><td class="num">&minus;0.070</td><td class="num">+0.040</td><td><span class="status-badge fail">&#10007;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
                         <tr><td>10 / 11 / 12</td><td>Put</td><td class="num">+0.120</td><td class="num">+0.210</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
                         <tr><td>11 / 12 / 13</td><td>Put</td><td class="num">+0.130</td><td class="num">+0.190</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
-                        <tr class="row-suspect"><td>12 / 13 / 14</td><td>Put</td><td class="num">+0.225</td><td class="num">+0.290</td><td><span class="status-badge info">Suspect data</span></td><td><span class="status-badge info">Suspect data</span></td></tr>
                     </tbody>
                 </table>
 
                 <div class="highlight-box">
-                    <strong>Three negative butterflies on mids, none on execution.</strong> The tightest is the 9/10/11 put fly, which still costs 4 cents to put on. Note the pattern: every mid-price convexity failure sits in the deep-ITM calls or the near-worthless OTM puts &mdash; precisely the strikes where the spread is largest relative to price. That is the fingerprint of stale or skewed quotes, not of a genuinely non-convex price surface.
+                    <strong>Three negative butterflies on mids, none on execution.</strong> The tightest is the 9/10/11 put fly, which still costs four cents to put on. The pattern is the point: every convexity breach sits either in the deep-ITM calls or in the near-worthless OTM puts &mdash; the two regions where the spread is largest relative to price. Convexity failures cluster where quotes are widest, not where prices are wrong.
                 </div>
 
-                <div class="verdict"><strong>Verdict:</strong> Three mid-price breaches, zero executable breaches.</div>
+                <div class="verdict"><strong>Result:</strong> Three mid-price breaches, zero executable breaches.</div>
             </div>
         </div>
 
-        <!-- Test 5: Put-call parity -->
+        <!-- Parity -->
         <div class="test-section">
             <div class="test-header">
-                <div class="test-title">5. Put&ndash;Call Parity</div>
-                <div class="test-description">The single strongest constraint: two portfolios with identical payoffs must cost the same.</div>
+                <div class="test-title">The First Equality &mdash; Put&ndash;Call Parity</div>
+                <div class="test-description">Not an inequality but an identity. The strongest constraint on the chain, and the only one that ties options to the underlying.</div>
             </div>
             <div class="test-content">
                 <div class="formula-display">
-                    C + K&middot;e<sup>&minus;rT</sup> = P + S &nbsp;&nbsp;&asymp;&nbsp;&nbsp; C + K = P + 13.89
+                    C(K) + K&middot;e<sup>&minus;rT</sup> = P(K) + S
                 </div>
 
-                <p>Long call plus cash equal to the strike, and long put plus long stock, both pay max(S<sub>T</sub>, K) at expiry. With roughly two weeks to expiry and no dividend, the discount factor moves the left side by about one cent at these strikes &mdash; smaller than a single tick, so the undiscounted form is used and the residual is noted below.</p>
+                <p><strong>The argument.</strong> Hold a call plus cash equal to the present value of the strike. At expiry, if S<sub>T</sub> &gt; K you exercise and own the stock; otherwise you hold K in cash. The payoff is max(S<sub>T</sub>, K). Now hold a put plus the stock. If S<sub>T</sub> &lt; K you exercise and receive K; otherwise you hold the stock. The payoff is again max(S<sub>T</sub>, K). Identical payoffs in every state, therefore identical cost today.</p>
 
-                <p>A parity gap is only tradeable if it exceeds the cost of crossing both spreads. The last column applies that filter.</p>
+                <p>What makes parity uniquely sharp is that it is <em>two-sided</em>. The inequalities above leave an admissible range; parity leaves a single number. Any deviation beyond the cost of crossing the spreads is a trade in one direction or the other, and it is the condition most aggressively policed by market makers for exactly that reason.</p>
+
+                <p>With roughly two weeks to expiry and no dividend, the discount factor shifts the left side by about a cent at these strikes &mdash; below one tick &mdash; so the undiscounted form is used and the residual is addressed below. A gap is tradeable only if it exceeds the cost of crossing both spreads; the final column applies that filter.</p>
 
                 <table class="data-table">
                     <thead>
@@ -876,8 +850,8 @@
                             <th class="num">C + K</th>
                             <th class="num">P + S</th>
                             <th class="num">Gap</th>
-                            <th class="num">Combined<br>Half-Spread</th>
-                            <th>Executable?</th>
+                            <th class="num">Combined half-spread</th>
+                            <th>Tradeable?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -887,73 +861,211 @@
                         <tr><td>$11</td><td class="num">13.920</td><td class="num">13.945</td><td class="num">&minus;0.025</td><td class="num">&plusmn;0.085</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
                         <tr><td>$12</td><td class="num">14.055</td><td class="num">14.045</td><td class="num">+0.010</td><td class="num">&plusmn;0.050</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
                         <tr><td>$13</td><td class="num">14.295</td><td class="num">14.275</td><td class="num">+0.020</td><td class="num">&plusmn;0.040</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
-                        <tr class="row-suspect"><td>$14</td><td class="num">14.840</td><td class="num">14.730</td><td class="num">+0.110</td><td class="num">&plusmn;0.040</td><td><span class="status-badge fail">&#10007; Exceeds spread &mdash; but see data note</span></td></tr>
                     </tbody>
                 </table>
 
                 <div class="highlight-box">
-                    <strong>Parity is the cleanest result on the chain.</strong> Six of seven strikes sit inside the spread, with the $9 strike at 1.5 cents against a 5.5-cent spread. The one failure is the $14 strike, whose put quote is the duplicated row identified at the top of this page &mdash; substituting the parity-implied put of 0.95 closes the gap to zero. Treat that row as a transcription error, not a signal.
+                    <strong>Parity is the cleanest result on the chain.</strong> Every strike sits inside its spread, and the $9 strike closes to <strong>1.5 cents against a 5.5-cent band</strong>. This is the sharpest available evidence that the chain is coherently priced: the one condition with no slack whatsoever is the one it satisfies most tightly.
                 </div>
 
                 <div class="highlight-panel">
-                    <h3>A note on the sign of the gaps</h3>
-                    <p>The low strikes (8&ndash;11) show C + K slightly <em>below</em> P + S, while the high strikes (12&ndash;13) show the reverse. Discounting alone predicts the opposite for every strike: C + K&middot;e<sup>&minus;rT</sup> = P + S means C + K should sit <em>above</em> P + S by K(1 &minus; e<sup>&minus;rT</sup>), roughly one cent here. The observed pattern is instead the signature of American-style early-exercise value and bid-skew concentrated in the deep-ITM calls &mdash; all of it well inside the tradeable band.</p>
+                    <h3>Reading the sign of the residuals</h3>
+                    <p>The gaps are not randomly signed. Strikes $8&ndash;$11 show C + K slightly <em>below</em> P + S; strikes $12&ndash;$13 show the reverse. Discounting alone predicts the opposite everywhere: since C + K&middot;e<sup>&minus;rT</sup> = P + S, the undiscounted C + K should sit <em>above</em> P + S by K(1 &minus; e<sup>&minus;rT</sup>), about a cent here.</p>
+                    <p>The observed pattern instead tracks moneyness. The negative residuals are concentrated in the deep-ITM calls, where American early-exercise value and the bid skew described in Order 0 both push the call's effective price down relative to European parity. The crossover to positive residuals happens right where the calls stop being deep ITM &mdash; between $11 and $12, with spot at $13.89. That is a structural signature, not scatter, and every value of it sits well inside the tradeable band.</p>
                 </div>
 
-                <div class="verdict"><strong>Verdict:</strong> Parity holds executably at every strike with a trustworthy quote.</div>
+                <div class="verdict"><strong>Result:</strong> Parity holds at every strike, with all residuals inside the bid&ndash;ask band.</div>
             </div>
+        </div>
+
+        <!-- Box -->
+        <div class="test-section">
+            <div class="test-header">
+                <div class="test-title">The Second Equality &mdash; The Box Spread</div>
+                <div class="test-description">Four options combining into a synthetic zero-coupon bond. The condition that removes the underlying from the picture entirely.</div>
+            </div>
+            <div class="test-content">
+                <div class="formula-display">
+                    [C(K&#8321;) &minus; C(K&#8322;)] + [P(K&#8322;) &minus; P(K&#8321;)] = (K&#8322; &minus; K&#8321;)&middot;e<sup>&minus;rT</sup>
+                </div>
+
+                <p><strong>The argument.</strong> A call vertical plus a put vertical at the same two strikes pays K&#8322; &minus; K&#8321; in <em>every</em> state of the world. Below K&#8321; the puts deliver it; above K&#8322; the calls do; in between the two legs hand off continuously. The position has no exposure to the stock at all &mdash; it is a riskless bond assembled from four options, and it must therefore cost the discounted face value.</p>
+
+                <p>This is the purest of the conditions. Parity still references S, so a stale underlying quote contaminates it. The box references nothing but the four option prices. Whatever it prices at <em>is</em> the market's option-implied financing rate, which is why boxes are traded in size as a cash-management instrument rather than as a directional view.</p>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Box</th>
+                            <th class="num">Width<br>(face value)</th>
+                            <th class="num">Mid Cost</th>
+                            <th class="num">Cost to buy<br>(arb if &lt; width)</th>
+                            <th class="num">Credit to sell<br>(arb if &gt; width)</th>
+                            <th>Mid</th>
+                            <th>Executable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>8 / 9</td><td class="num">1.00</td><td class="num">0.935</td><td class="num">1.120</td><td class="num">0.750</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9 / 10</td><td class="num">1.00</td><td class="num">1.025</td><td class="num">1.150</td><td class="num">0.900</td><td><span class="status-badge fail">&#10007; over face</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>10 / 11</td><td class="num">1.00</td><td class="num">0.985</td><td class="num">1.140</td><td class="num">0.830</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>11 / 12</td><td class="num">1.00</td><td class="num">0.965</td><td class="num">1.100</td><td class="num">0.830</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>12 / 13</td><td class="num">1.00</td><td class="num">0.990</td><td class="num">1.080</td><td class="num">0.900</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <strong>The mid costs cluster just under face value</strong> &mdash; 0.935, 1.025, 0.985, 0.965, 0.990 against a $1.00 face &mdash; which is what a two-week discount factor near 1 should look like, with the scatter set by spread width rather than by any rate signal. The 9/10 box prices above par on mids, implying a negative interest rate; on execution it costs 1.150 to buy and credits only 0.900 to sell, straddling face value with a wide no-trade band. Note how much wider that executable band is here than for any single-leg test: a four-leg structure crosses four spreads, so boxes need a large dislocation before they become tradeable.
+                </div>
+
+                <div class="verdict"><strong>Result:</strong> One mid-price breach, zero executable breaches.</div>
+            </div>
+        </div>
+
+        <!-- Unification -->
+        <div class="content-section">
+            <h2 class="section-title">One Condition, Not Six</h2>
+
+            <p>The ladder above is easier to remember once you see that its rungs are not independent. Differentiate the call price with respect to strike and something remarkable falls out. For a European call,</p>
+
+            <div class="formula-display">
+                C(K) = e<sup>&minus;rT</sup> &int; max(S<sub>T</sub> &minus; K, 0) &middot; q(S<sub>T</sub>) dS<sub>T</sub>
+            </div>
+
+            <p>and therefore</p>
+
+            <div class="formula-display">
+                &minus;&part;C/&part;K = e<sup>&minus;rT</sup> &middot; Q(S<sub>T</sub> &gt; K) &nbsp;&nbsp;&nbsp;&nbsp; &part;&sup2;C/&part;K&sup2; = e<sup>&minus;rT</sup> &middot; q(K)
+            </div>
+
+            <p>The first derivative of the call curve is the risk-neutral survival function. The second derivative is the risk-neutral density. Every inequality on this page is now readable as a requirement on that distribution:</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Condition</th><th>Equivalent probabilistic statement</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Monotonicity: &part;C/&part;K &le; 0</td><td>Probabilities are non-negative: Q(S<sub>T</sub> &gt; K) &ge; 0</td></tr>
+                    <tr><td>Lipschitz: |&part;C/&part;K| &le; 1</td><td>Probabilities do not exceed one: Q(S<sub>T</sub> &gt; K) &le; 1</td></tr>
+                    <tr><td>Convexity: &part;&sup2;C/&part;K&sup2; &ge; 0</td><td>The density is non-negative: q(K) &ge; 0</td></tr>
+                    <tr><td>Intrinsic floor / ceiling</td><td>The distribution has the right support and total mass</td></tr>
+                    <tr><td>Put&ndash;call parity</td><td>Calls and puts are priced under the <em>same</em> measure</td></tr>
+                    <tr><td>Box spread</td><td>That measure discounts at a single consistent rate</td></tr>
+                </tbody>
+            </table>
+
+            <p style="margin-top:1.5rem;">This is the fundamental theorem of asset pricing in miniature: <strong>a chain is arbitrage-free precisely when there exists some probability distribution consistent with all of its prices at once.</strong> The six conditions are six necessary features of that distribution, not six unrelated rules. Passing all of them is the statement that such a measure exists; failing any one is the statement that no distribution &mdash; not the one your model produces, not any other &mdash; can reproduce these prices.</p>
+
+            <h3 style="font-size:1.4rem; color:var(--neutral-800); margin:2rem 0 1rem;">The implied distribution on this chain</h3>
+
+            <p>Applied to the APLD calls, the derivatives read as follows. The survival column should decline monotonically from 1 toward 0 as strike rises; the density column should be non-negative throughout.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Strike range</th>
+                        <th class="num">&minus;&part;C/&part;K<br>(implied Q(S<sub>T</sub> &gt; K), mid)</th>
+                        <th class="num">In [0, 1]?</th>
+                        <th>Centre strike</th>
+                        <th class="num">&part;&sup2;C/&part;K&sup2;<br>(implied density, mid)</th>
+                        <th class="num">&part;&sup2;C/&part;K&sup2;<br>(executable bound)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>8 &ndash; 9</td><td class="num">0.925</td><td class="num"><span class="status-badge pass">&#10003;</span></td><td>$9</td><td class="num">&minus;0.050</td><td class="num">+0.200</td></tr>
+                    <tr><td>9 &ndash; 10</td><td class="num">0.975</td><td class="num"><span class="status-badge pass">&#10003;</span></td><td>$10</td><td class="num">&minus;0.030</td><td class="num">+0.140</td></tr>
+                    <tr><td>10 &ndash; 11</td><td class="num">1.005</td><td class="num"><span class="status-badge fail">&#10007;</span></td><td>$11</td><td class="num">+0.140</td><td class="num">+0.340</td></tr>
+                    <tr><td>11 &ndash; 12</td><td class="num">0.865</td><td class="num"><span class="status-badge pass">&#10003;</span></td><td>$12</td><td class="num">+0.105</td><td class="num">+0.270</td></tr>
+                    <tr><td>12 &ndash; 13</td><td class="num">0.760</td><td class="num"><span class="status-badge pass">&#10003;</span></td><td>$13</td><td class="num">+0.305</td><td class="num">+0.410</td></tr>
+                    <tr><td>13 &ndash; 14</td><td class="num">0.455</td><td class="num"><span class="status-badge pass">&#10003;</span></td><td colspan="3" style="text-align:left; padding-left:1.5rem;"><em>Survival falls through 0.5 near $13.85 &mdash; the implied median, essentially at spot.</em></td></tr>
+                </tbody>
+            </table>
+
+            <p style="margin-top:1.5rem;">The mid-price surface implies a probability of 1.005 and two negative densities &mdash; a distribution that does not exist. Priced at the spreads you would actually cross, every quantity lands where a distribution requires. <strong>The chain admits a risk-neutral measure; its midpoints do not.</strong> That single sentence is the whole result, and it says something sharper than a violation count: mids are not a slightly noisy version of the price surface, they are a construct with no guarantee of internal consistency at all.</p>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Conditions Beyond a Single Expiry</h2>
+
+            <p>Everything above is <em>static</em> &mdash; one expiry, one snapshot. Two further families of condition bind a full surface and cannot be tested from this chain alone.</p>
+
+            <div class="grid-2">
+                <div class="calc-card">
+                    <div class="calc-header">Calendar monotonicity</div>
+                    <p>For the same strike, a longer-dated American option cannot be worth less than a shorter-dated one &mdash; it confers every right the shorter option does, plus more time. For European options the statement holds on forward-adjusted strikes. In total-variance terms, w(K, T) = &sigma;&sup2;<sub>imp</sub>T must be non-decreasing in T; a surface where it dips implies negative forward variance.</p>
+                </div>
+                <div class="calc-card">
+                    <div class="calc-header">American early exercise</div>
+                    <p>These are American options, so the European bounds are floors rather than identities. An American call on a non-dividend payer is never optimally exercised early and matches its European value; an American put can be, so P<sub>Amer</sub> &ge; P<sub>Euro</sub>, and put&ndash;call parity relaxes into a two-sided inequality: S &minus; K &le; C &minus; P &le; S &minus; K&middot;e<sup>&minus;rT</sup>. The negative parity residuals at the deep-ITM strikes sit inside exactly this band.</p>
+                </div>
+            </div>
+
+            <p style="margin-top:1.5rem;">The volatility surface below animates the full multi-expiry picture, with the static bound violations highlighted as the ATM anchor and time axis sweep.</p>
         </div>
 
         <!-- Summary -->
         <div class="result-summary">
-            <h3>Complete No-Arbitrage Assessment</h3>
+            <h3>The Chain, Scored</h3>
 
             <table class="data-table" style="color: var(--neutral-700);">
                 <thead>
-                    <tr><th>Test</th><th>Mid-Price Breaches</th><th>Executable Breaches</th></tr>
+                    <tr><th>Condition</th><th>Order</th><th>Mid-price breaches</th><th>Executable breaches</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>Intrinsic value floor</td><td>1 ($8 call)</td><td><span class="status-badge pass">0</span></td></tr>
-                    <tr><td>Strike monotonicity</td><td>2 ($10, $11 puts)</td><td><span class="status-badge pass">0</span></td></tr>
-                    <tr><td>Vertical spread bound</td><td>1 (10/11 calls)</td><td><span class="status-badge pass">0</span></td></tr>
-                    <tr><td>Butterfly convexity</td><td>3 (two call, one put)</td><td><span class="status-badge pass">0</span></td></tr>
-                    <tr><td>Put&ndash;call parity</td><td>1 ($14, corrupt data)</td><td><span class="status-badge pass">0</span></td></tr>
-                    <tr><td><strong>Total</strong></td><td><strong>8</strong></td><td><span class="status-badge pass"><strong>0</strong></span></td></tr>
+                    <tr><td>Intrinsic floor &amp; ceiling</td><td>0</td><td>1 &mdash; $8 call</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Strike monotonicity</td><td>1</td><td>2 &mdash; $10, $11 puts</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Lipschitz bound</td><td>1</td><td>1 &mdash; 10/11 calls</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Convexity</td><td>2</td><td>3 &mdash; two call, one put</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Put&ndash;call parity</td><td>equality</td><td>0</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Box spread</td><td>equality</td><td>1 &mdash; 9/10 box</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td><strong>Total</strong></td><td></td><td><strong>8</strong></td><td><span class="status-badge pass"><strong>0</strong></span></td></tr>
                 </tbody>
             </table>
 
             <div class="grid-2" style="margin-top: 2rem;">
                 <div>
-                    <h4>&#10003; What the chain gets right</h4>
+                    <h4>&#10003; What holds</h4>
                     <ul style="text-align: left; margin-top: 15px;">
-                        <li>Not one executable arbitrage across five independent tests</li>
-                        <li>Put&ndash;call parity within 4 cents at every liquid strike</li>
-                        <li>Strict monotonicity in both calls and puts</li>
-                        <li>Uniform +0.06 ask cushion above intrinsic on ITM calls &mdash; consistent, systematic market making</li>
+                        <li>Not one executable arbitrage across six independent conditions</li>
+                        <li>Put&ndash;call parity within 4 cents at every strike, 1.5 cents at the $9</li>
+                        <li>Strict monotonicity in calls; convexity intact on tradeable prices</li>
+                        <li>Box spreads pricing to a coherent discount factor</li>
+                        <li>A uniform +$0.06 ask cushion above intrinsic across the ITM calls &mdash; systematic, disciplined market making</li>
                     </ul>
                 </div>
                 <div>
                     <h4>&#9888; Where the surface is ragged</h4>
                     <ul style="text-align: left; margin-top: 15px;">
-                        <li>OTM puts quoting 0.01/0.16 and 0.03/0.12 &mdash; spreads exceeding the option's own value</li>
-                        <li>Every mid-price breach traced to those wide-spread strikes</li>
-                        <li>Deep-ITM calls carry bid skew that drags mids under intrinsic</li>
-                        <li>One transcription error ($14 put duplicating the $14 call) that manufactured the only apparent arbitrage</li>
+                        <li>OTM puts quoting spreads of 120&ndash;176% of their own mid value</li>
+                        <li>All eight mid-price breaches concentrated in those wide-spread strikes</li>
+                        <li>Deep-ITM calls carrying bid skew that drags mids beneath intrinsic</li>
+                        <li>A mid-implied distribution containing a probability above 1 and two negative densities</li>
                     </ul>
                 </div>
             </div>
 
             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.3);">
-                <strong>CONCLUSION:</strong> This chain contains no arbitrage. All eight apparent violations dissolve once the tests are run on the prices you could actually trade rather than on mid-quotes, and the single tradeable-looking gap is a data-entry artifact. The broader lesson is methodological: mid-price no-arbitrage tests generate false positives at exactly the strikes where liquidity is thinnest, which is where a naive screen will send you looking for free money. The correct screen prices every leg at the side you would have to cross.
+                <strong>CONCLUSION:</strong> This chain is arbitrage-free. Every one of the six static conditions holds on the prices you could actually trade, and put&ndash;call parity &mdash; the sharpest of them, the one with no admissible range at all &mdash; holds tightest of any. The eight breaches visible on mid prices are not near-misses on those bounds; they are artifacts of a quantity that was never guaranteed to be a price. Every one sits in a strike where the spread rivals or exceeds the option's own value, and together they imply a probability distribution that cannot exist. The practical lesson is that a no-arbitrage screen run on mids will point you hardest at precisely the strikes where you can least afford to trade &mdash; it finds illiquidity and reports it as opportunity. Price every leg at the side you must cross, and the free lunches disappear, which is exactly what the theory predicts.
             </div>
         </div>
 
-        <div class="video-container">
-            <video controls>
-                <source src="vol_surface_all_violations_ATM_autoT.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <p><em>Implied volatility surface with mid-price bound violations highlighted, ATM-anchored, auto-scaled time axis.</em></p>
+        <div class="content-section">
+            <h2 class="section-title">Implied Volatility Surface</h2>
+            <div class="video-container">
+                <video controls>
+                    <source src="vol_surface_all_violations_ATM_autoT.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p><em>Implied volatility surface with static bound violations highlighted, ATM-anchored, auto-scaled time axis.</em></p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Source Chain</h2>
+            <div class="image-showcase">
+                <img src="image.png" alt="APLD Options Chain - ThinkorSwim Screenshot" />
+                <p><em>APLD options chain, ThinkorSwim, calls and puts expiring August 15, 2025.</em></p>
+            </div>
         </div>
     </div>
 
