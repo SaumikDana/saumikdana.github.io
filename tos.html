@@ -474,6 +474,60 @@
             box-shadow: var(--shadow-lg);
         }
         
+        .info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .data-note {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--error-color);
+            margin: 1.5rem 0;
+        }
+
+        .data-note h3 {
+            color: #991b1b;
+            margin-bottom: 0.75rem;
+        }
+
+        .method-box {
+            background: linear-gradient(135deg, #ecfeff, #cffafe);
+            padding: 2rem;
+            border-radius: 16px;
+            border-left: 6px solid #0891b2;
+            margin: 2rem 0;
+        }
+
+        .method-box h3 {
+            color: #155e75;
+            margin-bottom: 1rem;
+        }
+
+        .method-box p + p {
+            margin-top: 0.9rem;
+        }
+
+        .data-table td.num,
+        .data-table th.num {
+            font-family: 'JetBrains Mono', 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .row-suspect td {
+            background: #fff1f2;
+        }
+
+        .verdict {
+            font-size: 1.05rem;
+            margin-top: 1.25rem;
+            padding: 1rem 1.25rem;
+            background: var(--neutral-100);
+            border-radius: 10px;
+            border-left: 4px solid var(--success-color);
+        }
+
         @media (max-width: 768px) {
             .main-container {
                 padding: 1rem;
@@ -544,500 +598,353 @@
     <div class="main-container">
         <div class="hero-section">
             <h1 class="hero-title">No Arbitrage Concepts</h1>
-            <p class="hero-subtitle">Advanced Options Pricing Analysis with Real Market Data</p>
+            <p class="hero-subtitle">Testing the static no-arbitrage bounds against a live APLD options chain</p>
         </div>
-        
+
         <div class="content-section">
             <h2 class="section-title">ThinkorSwim Options Chain Screenshot</h2>
             <div class="image-showcase">
                 <img src="image.png" alt="APLD Options Chain - ThinkorSwim Screenshot" />
-                <p><em>APLD Options Chain showing calls and puts expiring August 15, 2025</em></p>
+                <p><em>APLD options chain, calls and puts expiring August 15, 2025. Underlying quoted at $13.89.</em></p>
             </div>
-            
-            <div class="principle-box">
-                <h2 class="section-title">Put-Call Parity Fundamental Principle</h2>
-                <p>Put-call parity states that for options with the same strike price and expiration date, the following relationship must hold in an efficient market:</p>
-                
-                <div class="formula-display">
-                    Call Mid + Strike Price = Put Mid + Stock Price
-                </div>
-                
-                <p>This relationship exists because both sides of the equation represent portfolios with identical payoffs at expiration, so they must have the same cost to construct.</p>
-            </div>
-            
-            <h2 class="section-title">APLD $9 Strike Analysis</h2>
-            
+
+            <h2 class="section-title">Raw Inputs</h2>
+            <p>Every number on this page is derived from the quotes below. Mid is the simple average of bid and ask.</p>
+
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Data Point</th>
-                        <th>Value</th>
-                        <th>Source</th>
+                        <th>Strike</th>
+                        <th class="num">Call Bid</th>
+                        <th class="num">Call Ask</th>
+                        <th class="num">Call Mid</th>
+                        <th class="num">Put Bid</th>
+                        <th class="num">Put Ask</th>
+                        <th class="num">Put Mid</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Stock Price</td>
-                        <td>$13.89</td>
-                        <td>Current Market</td>
-                    </tr>
-                    <tr>
-                        <td>Strike Price</td>
-                        <td>$9.00</td>
-                        <td>Options Chain</td>
-                    </tr>
-                    <tr>
-                        <td>Call Bid/Ask</td>
-                        <td>$4.85 / $4.95</td>
-                        <td>TOS Screenshot</td>
-                    </tr>
-                    <tr>
-                        <td>Put Bid/Ask</td>
-                        <td>$0.02 / $0.03</td>
-                        <td>TOS Screenshot</td>
-                    </tr>
+                    <tr><td>$8.00</td><td class="num">5.70</td><td class="num">5.95</td><td class="num">5.825</td><td class="num">0.01</td><td class="num">0.02</td><td class="num">0.015</td></tr>
+                    <tr><td>$9.00</td><td class="num">4.85</td><td class="num">4.95</td><td class="num">4.900</td><td class="num">0.02</td><td class="num">0.03</td><td class="num">0.025</td></tr>
+                    <tr><td>$9.50</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">0.01</td><td class="num">0.16</td><td class="num">0.085</td></tr>
+                    <tr><td>$10.00</td><td class="num">3.90</td><td class="num">3.95</td><td class="num">3.925</td><td class="num">0.03</td><td class="num">0.12</td><td class="num">0.075</td></tr>
+                    <tr><td>$11.00</td><td class="num">2.85</td><td class="num">2.99</td><td class="num">2.920</td><td class="num">0.04</td><td class="num">0.07</td><td class="num">0.055</td></tr>
+                    <tr><td>$12.00</td><td class="num">2.02</td><td class="num">2.09</td><td class="num">2.055</td><td class="num">0.14</td><td class="num">0.17</td><td class="num">0.155</td></tr>
+                    <tr><td>$13.00</td><td class="num">1.27</td><td class="num">1.32</td><td class="num">1.295</td><td class="num">0.37</td><td class="num">0.40</td><td class="num">0.385</td></tr>
+                    <tr class="row-suspect"><td>$14.00</td><td class="num">0.82</td><td class="num">0.86</td><td class="num">0.840</td><td class="num">0.82 &#9888;</td><td class="num">0.86 &#9888;</td><td class="num">0.840 &#9888;</td></tr>
                 </tbody>
             </table>
-            
-            <div class="data-grid">
-                <div class="calc-card">
-                    <div class="calc-header">Portfolio A: Call + Strike</div>
-                    <div class="calc-step">Call Mid = (4.85 + 4.95) ÷ 2 = 4.90</div>
-                    <div class="calc-step">Strike Price = 9.00</div>
-                    <div class="calc-step"><strong>Total = 4.90 + 9.00 = 13.90</strong></div>
-                </div>
-                
-                <div class="calc-card">
-                    <div class="calc-header">Portfolio B: Put + Stock</div>
-                    <div class="calc-step">Put Mid = (0.02 + 0.03) ÷ 2 = 0.025</div>
-                    <div class="calc-step">Stock Price = 13.89</div>
-                    <div class="calc-step"><strong>Total = 0.025 + 13.89 = 13.915</strong></div>
-                </div>
-            </div>
-            
-            <div class="result-banner">
-                <h3>Put-Call Parity Result</h3>
-                <p><strong>Portfolio A:</strong> 13.90</p>
-                <p><strong>Portfolio B:</strong> 13.915</p>
-                <p><strong>Difference:</strong> 1.5 cents</p>
-                <p>✅ <strong>Parity Holds!</strong> No arbitrage opportunity exists.</p>
-            </div>
-            
-            <div class="highlight-panel">
-                <h3>Key Insights</h3>
+
+            <div class="data-note">
+                <h3>&#9888; Data integrity: the $14 put quote is not trustworthy</h3>
+                <p>The $14 put is transcribed as <strong>0.82 / 0.86</strong> &mdash; character for character the same as the $14 call. That is a copy error, not a market quote. Two independent checks confirm it:</p>
                 <ul>
-                    <li><strong>Efficient Market:</strong> The 1.5-cent difference shows the options market is pricing efficiently</li>
-                    <li><strong>No Arbitrage:</strong> The tiny difference is within normal bid-ask spread costs</li>
-                    <li><strong>Deep ITM Call:</strong> The $9 strike call is heavily in-the-money (stock at $13.89)</li>
-                    <li><strong>Worthless Put:</strong> The $9 put is nearly worthless with the stock well above strike</li>
+                    <li>Put&ndash;call parity implies the $14 put should be <strong>C &minus; S + K = 0.84 &minus; 13.89 + 14.00 = 0.95</strong>, not 0.84.</li>
+                    <li>The $14 strike is the <em>only</em> row on this chain whose parity gap (11 cents) exceeds the combined bid&ndash;ask half-spread (4 cents) &mdash; i.e. the only apparent arbitrage anywhere in the chain sits exactly on the corrupted row.</li>
                 </ul>
+                <p>The $14 put row is retained below for completeness but is excluded from the conclusions. Wherever it appears it is flagged in red.</p>
             </div>
-            
-            <div class="principle-box">
-                <h2 class="section-title">Why This Matters</h2>
-                <p>This analysis demonstrates that:</p>
-                <ol>
-                    <li><strong>Market Efficiency:</strong> Options are priced consistently with each other and the underlying stock</li>
-                    <li><strong>No Free Lunch:</strong> True arbitrage opportunities are rare and quickly eliminated</li>
-                    <li><strong>Risk Management:</strong> Understanding parity helps identify mispriced options</li>
-                    <li><strong>Educational Value:</strong> Real market data confirms theoretical pricing models</li>
-                </ol>
-                
-                <p>The APLD $9 strike provides an excellent example of put-call parity working as expected in live market conditions, with only minimal deviation due to normal market friction.</p>
+
+            <div class="method-box">
+                <h3>Method: mid-price violations are not arbitrage</h3>
+                <p>A no-arbitrage bound is a statement about <em>tradeable</em> prices. You buy at the ask and sell at the bid; you never trade at the mid. A bound that fails on mids but holds on the bid/ask you would actually pay is a <strong>quoting artifact</strong>, not a free lunch.</p>
+                <p>Every test below is therefore reported twice: once on mids (the textbook form, useful for spotting where the surface is ragged) and once on the executable bid/ask leg prices (the form that decides whether money is on the table). This distinction is the entire story of this chain &mdash; the mid tests fail in five places and the executable tests fail in none.</p>
             </div>
         </div>
 
-        <!-- Test 1: Strike Price Ordering -->
+        <!-- Test 1: Intrinsic value floor -->
         <div class="test-section">
             <div class="test-header">
-                <div class="test-title">1. Strike Price Ordering (Moneyness)</div>
-                <div class="test-description">Calls must decrease in price as strikes increase. Puts must increase in price as strikes increase.</div>
+                <div class="test-title">1. Intrinsic Value Floor</div>
+                <div class="test-description">An option cannot be bought for less than its immediate exercise value.</div>
             </div>
             <div class="test-content">
                 <div class="formula-display">
-                    CALLS: C(K₁) ≥ C(K₂) ≥ C(K₃) when K₁ < K₂ < K₃<br>
-                    PUTS: P(K₁) ≤ P(K₂) ≤ P(K₃) when K₁ < K₂ < K₃
+                    CALLS: Ask &ge; max(0, S &minus; K) = max(0, 13.89 &minus; K)<br>
+                    PUTS: Ask &ge; max(0, K &minus; S) = max(0, K &minus; 13.89)
                 </div>
-                
+
+                <p>The executable form uses the <strong>ask</strong>, not the mid: to capture an intrinsic-value violation you must <em>buy</em> the option, and buying happens at the ask.</p>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Strike</th>
+                            <th class="num">Call Mid</th>
+                            <th class="num">Call Ask</th>
+                            <th class="num">Call Intrinsic</th>
+                            <th class="num">Ask &minus; Intrinsic</th>
+                            <th class="num">Put Ask</th>
+                            <th class="num">Put Intrinsic</th>
+                            <th class="num">Ask &minus; Intrinsic</th>
+                            <th>Executable?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>$8</td><td class="num">5.825</td><td class="num">5.95</td><td class="num">5.89</td><td class="num">+0.060</td><td class="num">0.02</td><td class="num">0.00</td><td class="num">+0.020</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
+                        <tr><td>$9</td><td class="num">4.900</td><td class="num">4.95</td><td class="num">4.89</td><td class="num">+0.060</td><td class="num">0.03</td><td class="num">0.00</td><td class="num">+0.030</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
+                        <tr><td>$9.5</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">0.16</td><td class="num">0.00</td><td class="num">+0.160</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
+                        <tr><td>$10</td><td class="num">3.925</td><td class="num">3.95</td><td class="num">3.89</td><td class="num">+0.060</td><td class="num">0.12</td><td class="num">0.00</td><td class="num">+0.120</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
+                        <tr><td>$11</td><td class="num">2.920</td><td class="num">2.99</td><td class="num">2.89</td><td class="num">+0.100</td><td class="num">0.07</td><td class="num">0.00</td><td class="num">+0.070</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
+                        <tr><td>$12</td><td class="num">2.055</td><td class="num">2.09</td><td class="num">1.89</td><td class="num">+0.200</td><td class="num">0.17</td><td class="num">0.00</td><td class="num">+0.170</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
+                        <tr><td>$13</td><td class="num">1.295</td><td class="num">1.32</td><td class="num">0.89</td><td class="num">+0.430</td><td class="num">0.40</td><td class="num">0.00</td><td class="num">+0.400</td><td><span class="status-badge pass">&#10003; No violation</span></td></tr>
+                        <tr class="row-suspect"><td>$14</td><td class="num">0.840</td><td class="num">0.86</td><td class="num">0.00</td><td class="num">+0.860</td><td class="num">0.86 &#9888;</td><td class="num">0.11</td><td class="num">+0.750</td><td><span class="status-badge info">Call OK; put quote suspect</span></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <strong>Corrected finding &mdash; the $8 call is not a violation.</strong> Its mid (5.825) does sit 6.5 cents under intrinsic (5.89), but you cannot buy at the mid. The ask is <strong>5.95</strong>, a full 6 cents <em>above</em> intrinsic. Buying the call at 5.95, shorting the stock at 13.89 and exercising immediately nets 13.89 &minus; 5.95 &minus; 8.00 = <strong>&minus;0.06</strong>. The trade loses money. The low mid is a bid-skew artifact of a deep-ITM, wide-spread strike, and every call on the chain carries the same +0.06 ask cushion &mdash; a signature of systematic quoting, not mispricing.
+                </div>
+
+                <div class="verdict"><strong>Verdict:</strong> Intrinsic floor holds at every strike on an executable basis. Zero violations.</div>
+            </div>
+        </div>
+
+        <!-- Test 2: Strike monotonicity -->
+        <div class="test-section">
+            <div class="test-header">
+                <div class="test-title">2. Strike Monotonicity</div>
+                <div class="test-description">Calls must be non-increasing in strike; puts must be non-decreasing in strike.</div>
+            </div>
+            <div class="test-content">
+                <div class="formula-display">
+                    CALLS: C(K&#8321;) &ge; C(K&#8322;) for K&#8321; &lt; K&#8322;<br>
+                    PUTS: P(K&#8321;) &le; P(K&#8322;) for K&#8321; &lt; K&#8322;
+                </div>
+
+                <p>The executable test for a put violation: sell the lower strike at its <strong>bid</strong>, buy the higher strike at its <strong>ask</strong>. If that package is a net credit you have a riskless profit, because the higher-strike put can never be worth less at expiry.</p>
+
                 <div class="grid-2">
                     <div>
-                        <h4>Call Price Ordering (From Screenshot)</h4>
+                        <h4>Calls &mdash; monotone decreasing</h4>
                         <table class="data-table">
                             <thead>
-                                <tr>
-                                    <th>Strike</th>
-                                    <th>Call Bid</th>
-                                    <th>Call Ask</th>
-                                    <th>Call Mid</th>
-                                    <th>Status</th>
-                                </tr>
+                                <tr><th>Pair</th><th class="num">Mid &Delta;</th><th>Mid</th><th>Executable</th></tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>$8</td>
-                                    <td>5.70</td>
-                                    <td>5.95</td>
-                                    <td>5.825</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$9</td>
-                                    <td>4.85</td>
-                                    <td>4.95</td>
-                                    <td>4.90</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$10</td>
-                                    <td>3.90</td>
-                                    <td>3.95</td>
-                                    <td>3.925</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$11</td>
-                                    <td>2.85</td>
-                                    <td>2.99</td>
-                                    <td>2.92</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$12</td>
-                                    <td>2.02</td>
-                                    <td>2.09</td>
-                                    <td>2.055</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$13</td>
-                                    <td>1.27</td>
-                                    <td>1.32</td>
-                                    <td>1.295</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$14</td>
-                                    <td>0.82</td>
-                                    <td>0.86</td>
-                                    <td>0.84</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
+                                <tr><td>8 &rarr; 9</td><td class="num">&minus;0.925</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr><td>9 &rarr; 10</td><td class="num">&minus;0.975</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr><td>10 &rarr; 11</td><td class="num">&minus;1.005</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr><td>11 &rarr; 12</td><td class="num">&minus;0.865</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr><td>12 &rarr; 13</td><td class="num">&minus;0.760</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr><td>13 &rarr; 14</td><td class="num">&minus;0.455</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
                             </tbody>
                         </table>
+                        <p><em>Clean throughout. Every call price falls as strike rises.</em></p>
                     </div>
-                    
+
                     <div>
-                        <h4>Put Price Ordering (Precise Data)</h4>
+                        <h4>Puts &mdash; monotone increasing</h4>
                         <table class="data-table">
                             <thead>
-                                <tr>
-                                    <th>Strike</th>
-                                    <th>Put Bid</th>
-                                    <th>Put Ask</th>
-                                    <th>Put Mid</th>
-                                    <th>Status</th>
-                                </tr>
+                                <tr><th>Pair</th><th class="num">Mid &Delta;</th><th class="num">Net cost of<br>executable spread</th><th>Verdict</th></tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>$8</td>
-                                    <td>0.01</td>
-                                    <td>0.02</td>
-                                    <td>0.015</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$9</td>
-                                    <td>0.02</td>
-                                    <td>0.03</td>
-                                    <td>0.025</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$9.5</td>
-                                    <td>0.01</td>
-                                    <td>0.16</td>
-                                    <td>0.085</td>
-                                    <td><span class="status-badge warning">Wide spread</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$10</td>
-                                    <td>0.03</td>
-                                    <td>0.12</td>
-                                    <td>0.075</td>
-                                    <td><span class="status-badge fail">✗ Lower than $9.5</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$11</td>
-                                    <td>0.04</td>
-                                    <td>0.07</td>
-                                    <td>0.055</td>
-                                    <td><span class="status-badge fail">✗ Lower than $10</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$12</td>
-                                    <td>0.14</td>
-                                    <td>0.17</td>
-                                    <td>0.155</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$13</td>
-                                    <td>0.37</td>
-                                    <td>0.40</td>
-                                    <td>0.385</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
-                                <tr>
-                                    <td>$14</td>
-                                    <td>0.82</td>
-                                    <td>0.86</td>
-                                    <td>0.84</td>
-                                    <td><span class="status-badge pass">✓</span></td>
-                                </tr>
+                                <tr><td>8 &rarr; 9</td><td class="num">+0.010</td><td class="num">+0.020</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr><td>9 &rarr; 9.5</td><td class="num">+0.060</td><td class="num">+0.140</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr><td>9.5 &rarr; 10</td><td class="num">&minus;0.010</td><td class="num">+0.110</td><td><span class="status-badge warning">Mid only</span></td></tr>
+                                <tr><td>10 &rarr; 11</td><td class="num">&minus;0.020</td><td class="num">+0.040</td><td><span class="status-badge warning">Mid only</span></td></tr>
+                                <tr><td>11 &rarr; 12</td><td class="num">+0.100</td><td class="num">+0.130</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr><td>12 &rarr; 13</td><td class="num">+0.230</td><td class="num">+0.260</td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                                <tr class="row-suspect"><td>13 &rarr; 14</td><td class="num">+0.455</td><td class="num">+0.490</td><td><span class="status-badge info">Suspect data</span></td></tr>
                             </tbody>
                         </table>
+                        <p><em>Two mid-price inversions, neither executable.</em></p>
                     </div>
                 </div>
-                
+
                 <div class="highlight-box">
-                    <strong>⚠️ MULTIPLE PUT ORDERING VIOLATIONS:</strong>
+                    <strong>Corrected finding &mdash; the put inversions are not arbitrage.</strong> The $10 mid (0.075) is below the $9.50 mid (0.085), and the $11 mid (0.055) is below the $10 mid (0.075). But to harvest either you would have to buy the higher-strike put at its ask and sell the lower-strike put at its bid:
                     <ul>
-                        <li>$10 put ($0.075) < $9.5 put ($0.085)</li>
-                        <li>$11 put ($0.055) < $10 put ($0.075)</li>
+                        <li>$9.50/$10: buy $10 at 0.12, sell $9.50 at 0.01 &rarr; <strong>pay 0.11</strong>, not receive.</li>
+                        <li>$10/$11: buy $11 at 0.07, sell $10 at 0.03 &rarr; <strong>pay 0.04</strong>, not receive.</li>
                     </ul>
-                    These violations suggest either illiquid markets or potential arbitrage opportunities, though wide bid-ask spreads likely make execution unprofitable.
+                    Both spreads cost money, exactly as no-arbitrage requires. The inversions come entirely from the $9.50 and $10 puts quoting 0.01/0.16 and 0.03/0.12 &mdash; spreads that are 100&ndash;300% of the option's value. When the spread dwarfs the price, the mid is close to meaningless.
                 </div>
+
+                <div class="verdict"><strong>Verdict:</strong> Monotonicity holds executably at every adjacent pair, calls and puts. Zero violations.</div>
             </div>
         </div>
 
-        <!-- Test 2: Intrinsic Value Bounds -->
+        <!-- Test 3: Vertical spread bound -->
         <div class="test-section">
             <div class="test-header">
-                <div class="test-title">2. Intrinsic Value Floor</div>
-                <div class="test-description">Options cannot trade below their intrinsic value.</div>
+                <div class="test-title">3. Vertical Spread Bound (Lipschitz Condition)</div>
+                <div class="test-description">A call spread can never cost more than the distance between its strikes.</div>
             </div>
             <div class="test-content">
                 <div class="formula-display">
-                    CALLS: Price ≥ max(0, Stock - Strike) = max(0, $13.89 - Strike)<br>
-                    PUTS: Price ≥ max(0, Strike - Stock) = max(0, Strike - $13.89)
+                    0 &le; C(K&#8321;) &minus; C(K&#8322;) &le; K&#8322; &minus; K&#8321;
                 </div>
-                
+
+                <p>The spread's maximum payoff at expiry is K&#8322; &minus; K&#8321;, so paying more than that guarantees a loss &mdash; and receiving more than that when selling it is riskless profit. Executable form: the credit from selling the spread is bid(K&#8321;) &minus; ask(K&#8322;), which must not exceed K&#8322; &minus; K&#8321;.</p>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Spread</th>
+                            <th class="num">Width</th>
+                            <th class="num">Mid Cost</th>
+                            <th class="num">Executable Credit<br>(bid K&#8321; &minus; ask K&#8322;)</th>
+                            <th>Mid</th>
+                            <th>Executable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>8 / 9</td><td class="num">1.00</td><td class="num">0.925</td><td class="num">0.750</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9 / 10</td><td class="num">1.00</td><td class="num">0.975</td><td class="num">0.900</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>10 / 11</td><td class="num">1.00</td><td class="num">1.005</td><td class="num">0.910</td><td><span class="status-badge warning">Exceeds width by 0.005</span></td><td><span class="status-badge pass">&#10003; 0.09 short</span></td></tr>
+                        <tr><td>11 / 12</td><td class="num">1.00</td><td class="num">0.865</td><td class="num">0.760</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>12 / 13</td><td class="num">1.00</td><td class="num">0.760</td><td class="num">0.700</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>13 / 14</td><td class="num">1.00</td><td class="num">0.455</td><td class="num">0.410</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <strong>The 10/11 call spread mids exceed the strike width by half a cent</strong> &mdash; the sort of violation the original "perfect call ordering" claim missed, because monotonicity alone does not catch it. On execution the sale credits only 0.910 against a 1.00 maximum liability, leaving 9 cents of cushion. Not tradeable.
+                </div>
+
+                <div class="verdict"><strong>Verdict:</strong> One mid-price breach, zero executable breaches.</div>
+            </div>
+        </div>
+
+        <!-- Test 4: Butterfly convexity -->
+        <div class="test-section">
+            <div class="test-header">
+                <div class="test-title">4. Butterfly Convexity</div>
+                <div class="test-description">Option prices must be a convex function of strike.</div>
+            </div>
+            <div class="test-content">
+                <div class="formula-display">
+                    V(K &minus; &Delta;) &minus; 2&middot;V(K) + V(K + &Delta;) &ge; 0
+                </div>
+
+                <p>A butterfly has a non-negative payoff in every state of the world, so it can never be entered for a credit. Executable form: buy both wings at the ask, sell two bodies at the bid; the net must be a debit.</p>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Butterfly</th>
+                            <th>Type</th>
+                            <th class="num">Mid Value</th>
+                            <th class="num">Executable Cost</th>
+                            <th>Mid</th>
+                            <th>Executable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>8 / 9 / 10</td><td>Call</td><td class="num">&minus;0.050</td><td class="num">+0.200</td><td><span class="status-badge fail">&#10007; Negative</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9 / 10 / 11</td><td>Call</td><td class="num">&minus;0.030</td><td class="num">+0.140</td><td><span class="status-badge fail">&#10007; Negative</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>10 / 11 / 12</td><td>Call</td><td class="num">+0.140</td><td class="num">+0.340</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>11 / 12 / 13</td><td>Call</td><td class="num">+0.105</td><td class="num">+0.270</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>12 / 13 / 14</td><td>Call</td><td class="num">+0.305</td><td class="num">+0.410</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>8 / 9 / 10</td><td>Put</td><td class="num">+0.040</td><td class="num">+0.100</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>9 / 10 / 11</td><td>Put</td><td class="num">&minus;0.070</td><td class="num">+0.040</td><td><span class="status-badge fail">&#10007; Negative</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>10 / 11 / 12</td><td>Put</td><td class="num">+0.120</td><td class="num">+0.210</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr><td>11 / 12 / 13</td><td>Put</td><td class="num">+0.130</td><td class="num">+0.190</td><td><span class="status-badge pass">&#10003;</span></td><td><span class="status-badge pass">&#10003;</span></td></tr>
+                        <tr class="row-suspect"><td>12 / 13 / 14</td><td>Put</td><td class="num">+0.225</td><td class="num">+0.290</td><td><span class="status-badge info">Suspect data</span></td><td><span class="status-badge info">Suspect data</span></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <strong>Three negative butterflies on mids, none on execution.</strong> The tightest is the 9/10/11 put fly, which still costs 4 cents to put on. Note the pattern: every mid-price convexity failure sits in the deep-ITM calls or the near-worthless OTM puts &mdash; precisely the strikes where the spread is largest relative to price. That is the fingerprint of stale or skewed quotes, not of a genuinely non-convex price surface.
+                </div>
+
+                <div class="verdict"><strong>Verdict:</strong> Three mid-price breaches, zero executable breaches.</div>
+            </div>
+        </div>
+
+        <!-- Test 5: Put-call parity -->
+        <div class="test-section">
+            <div class="test-header">
+                <div class="test-title">5. Put&ndash;Call Parity</div>
+                <div class="test-description">The single strongest constraint: two portfolios with identical payoffs must cost the same.</div>
+            </div>
+            <div class="test-content">
+                <div class="formula-display">
+                    C + K&middot;e<sup>&minus;rT</sup> = P + S &nbsp;&nbsp;&asymp;&nbsp;&nbsp; C + K = P + 13.89
+                </div>
+
+                <p>Long call plus cash equal to the strike, and long put plus long stock, both pay max(S<sub>T</sub>, K) at expiry. With roughly two weeks to expiry and no dividend, the discount factor moves the left side by about one cent at these strikes &mdash; smaller than a single tick, so the undiscounted form is used and the residual is noted below.</p>
+
+                <p>A parity gap is only tradeable if it exceeds the cost of crossing both spreads. The last column applies that filter.</p>
+
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th>Strike</th>
-                            <th>Call Mid</th>
-                            <th>Call Intrinsic</th>
-                            <th>Time Value</th>
-                            <th>Put Mid</th>
-                            <th>Put Intrinsic</th>
-                            <th>Put Time Value</th>
-                            <th>Status</th>
+                            <th class="num">C + K</th>
+                            <th class="num">P + S</th>
+                            <th class="num">Gap</th>
+                            <th class="num">Combined<br>Half-Spread</th>
+                            <th>Executable?</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>$8</td>
-                            <td>5.825</td>
-                            <td>5.89</td>
-                            <td>-0.065</td>
-                            <td>0.015</td>
-                            <td>0.00</td>
-                            <td>0.015</td>
-                            <td><span class="status-badge warning">Call slightly under intrinsic</span></td>
-                        </tr>
-                        <tr>
-                            <td>$9</td>
-                            <td>4.90</td>
-                            <td>4.89</td>
-                            <td>0.01</td>
-                            <td>0.025</td>
-                            <td>0.00</td>
-                            <td>0.025</td>
-                            <td><span class="status-badge pass">✓ Both above floors</span></td>
-                        </tr>
-                        <tr>
-                            <td>$10</td>
-                            <td>3.925</td>
-                            <td>3.89</td>
-                            <td>0.035</td>
-                            <td>0.075</td>
-                            <td>0.00</td>
-                            <td>0.075</td>
-                            <td><span class="status-badge pass">✓ Both above floors</span></td>
-                        </tr>
-                        <tr>
-                            <td>$11</td>
-                            <td>2.92</td>
-                            <td>2.89</td>
-                            <td>0.03</td>
-                            <td>0.055</td>
-                            <td>0.00</td>
-                            <td>0.055</td>
-                            <td><span class="status-badge pass">✓ Both above floors</span></td>
-                        </tr>
-                        <tr>
-                            <td>$12</td>
-                            <td>2.055</td>
-                            <td>1.89</td>
-                            <td>0.165</td>
-                            <td>0.155</td>
-                            <td>0.00</td>
-                            <td>0.155</td>
-                            <td><span class="status-badge pass">✓ Both above floors</span></td>
-                        </tr>
-                        <tr>
-                            <td>$13</td>
-                            <td>1.295</td>
-                            <td>0.89</td>
-                            <td>0.405</td>
-                            <td>0.385</td>
-                            <td>0.00</td>
-                            <td>0.385</td>
-                            <td><span class="status-badge pass">✓ Both above floors</span></td>
-                        </tr>
-                        <tr>
-                            <td>$14</td>
-                            <td>0.84</td>
-                            <td>0.00</td>
-                            <td>0.84</td>
-                            <td>0.84</td>
-                            <td>0.11</td>
-                            <td>0.73</td>
-                            <td><span class="status-badge pass">✓ Both above floors</span></td>
-                        </tr>
+                        <tr><td>$8</td><td class="num">13.825</td><td class="num">13.905</td><td class="num">&minus;0.080</td><td class="num">&plusmn;0.130</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
+                        <tr><td>$9</td><td class="num">13.900</td><td class="num">13.915</td><td class="num">&minus;0.015</td><td class="num">&plusmn;0.055</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
+                        <tr><td>$10</td><td class="num">13.925</td><td class="num">13.965</td><td class="num">&minus;0.040</td><td class="num">&plusmn;0.070</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
+                        <tr><td>$11</td><td class="num">13.920</td><td class="num">13.945</td><td class="num">&minus;0.025</td><td class="num">&plusmn;0.085</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
+                        <tr><td>$12</td><td class="num">14.055</td><td class="num">14.045</td><td class="num">+0.010</td><td class="num">&plusmn;0.050</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
+                        <tr><td>$13</td><td class="num">14.295</td><td class="num">14.275</td><td class="num">+0.020</td><td class="num">&plusmn;0.040</td><td><span class="status-badge pass">&#10003; Inside spread</span></td></tr>
+                        <tr class="row-suspect"><td>$14</td><td class="num">14.840</td><td class="num">14.730</td><td class="num">+0.110</td><td class="num">&plusmn;0.040</td><td><span class="status-badge fail">&#10007; Exceeds spread &mdash; but see data note</span></td></tr>
                     </tbody>
                 </table>
-                
-                <div class="highlight-box">
-                    <strong>⚠️ MINOR VIOLATION:</strong> The $8 call mid (5.825) is slightly below its intrinsic value (5.89) by 6.5 cents. This could be due to bid-ask spread positioning or approaching expiration effects.
-                </div>
-            </div>
-        </div>
 
-        <!-- Test 3: Put-Call Parity -->
-        <div class="test-section">
-            <div class="test-header">
-                <div class="test-title">3. Put-Call Parity (Updated with Precise Data)</div>
-                <div class="test-description">Call + Strike = Put + Stock for same strike and expiration.</div>
-            </div>
-            <div class="test-content">
-                <div class="formula-display">
-                    Call Mid + Strike Price = Put Mid + Stock Price ($13.89)
-                </div>
-                
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Strike</th>
-                            <th>Call Mid</th>
-                            <th>Put Mid</th>
-                            <th>Call + Strike</th>
-                            <th>Put + Stock</th>
-                            <th>Difference</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>$8</td>
-                            <td>5.825</td>
-                            <td>0.015</td>
-                            <td>13.825</td>
-                            <td>13.905</td>
-                            <td>-0.08</td>
-                            <td><span class="status-badge pass">✓ Small</span></td>
-                        </tr>
-                        <tr>
-                            <td>$9</td>
-                            <td>4.90</td>
-                            <td>0.025</td>
-                            <td>13.90</td>
-                            <td>13.915</td>
-                            <td>-0.015</td>
-                            <td><span class="status-badge pass">✓ Perfect</span></td>
-                        </tr>
-                        <tr>
-                            <td>$10</td>
-                            <td>3.925</td>
-                            <td>0.075</td>
-                            <td>13.925</td>
-                            <td>13.965</td>
-                            <td>-0.04</td>
-                            <td><span class="status-badge pass">✓ Excellent</span></td>
-                        </tr>
-                        <tr>
-                            <td>$11</td>
-                            <td>2.92</td>
-                            <td>0.055</td>
-                            <td>13.92</td>
-                            <td>13.945</td>
-                            <td>-0.025</td>
-                            <td><span class="status-badge pass">✓ Excellent</span></td>
-                        </tr>
-                        <tr>
-                            <td>$12</td>
-                            <td>2.055</td>
-                            <td>0.155</td>
-                            <td>14.055</td>
-                            <td>14.045</td>
-                            <td>0.01</td>
-                            <td><span class="status-badge pass">✓ Perfect</span></td>
-                        </tr>
-                        <tr>
-                            <td>$13</td>
-                            <td>1.295</td>
-                            <td>0.385</td>
-                            <td>14.295</td>
-                            <td>14.275</td>
-                            <td>0.02</td>
-                            <td><span class="status-badge pass">✓ Excellent</span></td>
-                        </tr>
-                        <tr>
-                            <td>$14</td>
-                            <td>0.84</td>
-                            <td>0.84</td>
-                            <td>14.84</td>
-                            <td>14.73</td>
-                            <td>0.11</td>
-                            <td><span class="status-badge pass">✓ Good</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                
                 <div class="highlight-box">
-                    <strong>✅ EXCELLENT PUT-CALL PARITY:</strong> All strikes show very tight parity with differences under 11 cents. The $9 strike shows nearly perfect parity with only 1.5 cents difference, confirming efficient options pricing despite other irregularities.
+                    <strong>Parity is the cleanest result on the chain.</strong> Six of seven strikes sit inside the spread, with the $9 strike at 1.5 cents against a 5.5-cent spread. The one failure is the $14 strike, whose put quote is the duplicated row identified at the top of this page &mdash; substituting the parity-implied put of 0.95 closes the gap to zero. Treat that row as a transcription error, not a signal.
                 </div>
+
+                <div class="highlight-panel">
+                    <h3>A note on the sign of the gaps</h3>
+                    <p>The low strikes (8&ndash;11) show C + K slightly <em>below</em> P + S, while the high strikes (12&ndash;13) show the reverse. Discounting alone predicts the opposite for every strike: C + K&middot;e<sup>&minus;rT</sup> = P + S means C + K should sit <em>above</em> P + S by K(1 &minus; e<sup>&minus;rT</sup>), roughly one cent here. The observed pattern is instead the signature of American-style early-exercise value and bid-skew concentrated in the deep-ITM calls &mdash; all of it well inside the tradeable band.</p>
+                </div>
+
+                <div class="verdict"><strong>Verdict:</strong> Parity holds executably at every strike with a trustworthy quote.</div>
             </div>
         </div>
 
         <!-- Summary -->
         <div class="result-summary">
-            <h3>Complete No-Arbitrage Assessment with Precise Data</h3>
-            <div class="grid-2">
+            <h3>Complete No-Arbitrage Assessment</h3>
+
+            <table class="data-table" style="color: var(--neutral-700);">
+                <thead>
+                    <tr><th>Test</th><th>Mid-Price Breaches</th><th>Executable Breaches</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Intrinsic value floor</td><td>1 ($8 call)</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Strike monotonicity</td><td>2 ($10, $11 puts)</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Vertical spread bound</td><td>1 (10/11 calls)</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Butterfly convexity</td><td>3 (two call, one put)</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td>Put&ndash;call parity</td><td>1 ($14, corrupt data)</td><td><span class="status-badge pass">0</span></td></tr>
+                    <tr><td><strong>Total</strong></td><td><strong>8</strong></td><td><span class="status-badge pass"><strong>0</strong></span></td></tr>
+                </tbody>
+            </table>
+
+            <div class="grid-2" style="margin-top: 2rem;">
                 <div>
-                    <h4>✅ STRONG PERFORMANCE</h4>
+                    <h4>&#10003; What the chain gets right</h4>
                     <ul style="text-align: left; margin-top: 15px;">
-                        <li>Perfect call strike ordering</li>
-                        <li>Excellent put-call parity across all strikes</li>
-                        <li>All options above intrinsic value floors (except minor $8 call)</li>
-                        <li>Efficient pricing in liquid strikes</li>
+                        <li>Not one executable arbitrage across five independent tests</li>
+                        <li>Put&ndash;call parity within 4 cents at every liquid strike</li>
+                        <li>Strict monotonicity in both calls and puts</li>
+                        <li>Uniform +0.06 ask cushion above intrinsic on ITM calls &mdash; consistent, systematic market making</li>
                     </ul>
                 </div>
                 <div>
-                    <h4>⚠️ IDENTIFIED ISSUES</h4>
+                    <h4>&#9888; Where the surface is ragged</h4>
                     <ul style="text-align: left; margin-top: 15px;">
-                        <li>Multiple put ordering violations ($9.5, $10, $11)</li>
-                        <li>Wide bid-ask spreads in some strikes</li>
-                        <li>Minor intrinsic value violation in $8 call</li>
-                        <li>Liquidity issues in OTM puts</li>
+                        <li>OTM puts quoting 0.01/0.16 and 0.03/0.12 &mdash; spreads exceeding the option's own value</li>
+                        <li>Every mid-price breach traced to those wide-spread strikes</li>
+                        <li>Deep-ITM calls carry bid skew that drags mids under intrinsic</li>
+                        <li>One transcription error ($14 put duplicating the $14 call) that manufactured the only apparent arbitrage</li>
                     </ul>
                 </div>
             </div>
-            
+
             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.3);">
-                <strong>CONCLUSION:</strong> The APLD options demonstrate remarkably tight put-call parity despite some ordering violations in illiquid puts. The violations are likely due to wide bid-ask spreads and low liquidity rather than true arbitrage opportunities. The excellent parity relationships confirm sophisticated market pricing where it matters most.
+                <strong>CONCLUSION:</strong> This chain contains no arbitrage. All eight apparent violations dissolve once the tests are run on the prices you could actually trade rather than on mid-quotes, and the single tradeable-looking gap is a data-entry artifact. The broader lesson is methodological: mid-price no-arbitrage tests generate false positives at exactly the strikes where liquidity is thinnest, which is where a naive screen will send you looking for free money. The correct screen prices every leg at the side you would have to cross.
             </div>
         </div>
 
@@ -1046,8 +953,10 @@
                 <source src="vol_surface_all_violations_ATM_autoT.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            <p><em>Implied volatility surface with mid-price bound violations highlighted, ATM-anchored, auto-scaled time axis.</em></p>
         </div>
     </div>
+
 <footer class="theme-footer">
     <p>&copy; 2026 Saumik Dana &middot; <a href="index.html">Home</a></p>
 </footer>
