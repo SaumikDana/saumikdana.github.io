@@ -160,7 +160,7 @@
         }
 
         .hero-inner {
-            max-width: 1400px;
+            max-width: 1680px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
@@ -268,7 +268,7 @@
         }
 
         .nav-scroll {
-            max-width: 1400px;
+            max-width: 1680px;
             margin: 0 auto;
             padding: 0.8rem 2rem;
             display: flex;
@@ -299,7 +299,7 @@
 
         /* ─── MAIN ─── */
         main {
-            max-width: 1400px;
+            max-width: 1680px;
             margin: 0 auto;
             padding: 3rem 2rem 4rem;
         }
@@ -1061,33 +1061,33 @@
                     <div class="exp-group">
                         <span class="exp-lead">LLM-backed trading systems</span>
                         <ul class="exp-points">
-                            <li>Developed an intraday options strategy that calibrates a stochastic-volatility model to live option chains and supplies risk-neutral volatility, jump-risk, and premium-repricing signals to <strong>gpt-oss-120b</strong> for structured entry and exit decisions.</li>
-                            <li>Built an automated <strong>LLM evaluation harness</strong> that grades every snapshot for reliability and compliance, then runs daily consistency and robustness tests on representative samples.</li>
-                            <li>Deployed an intraday FX system that feeds news and price action to a <strong>DPO-QLoRA fine-tuned Meta-Llama-3.1-8B-Instruct</strong> with GEPA-optimized prompts, executed through OANDA.</li>
-                            <li>Built a full-history evaluation pipeline that replays archived market contexts against ground truth and benchmarks performance using <strong>precision, recall, F1, coverage, and selective accuracy</strong>.</li>
-                            <li>Built an end-to-end DPO-QLoRA pipeline in TRL/PyTorch training a <strong>rank-16 BF16 LoRA adapter</strong> over a frozen 4-bit NF4 base, accelerated preference generation with <strong>vLLM continuous batching</strong>, and served the promoted policy through a <strong>vLLM endpoint on on-demand L4 GPUs</strong>.</li>
-                            <li>Implemented <strong>evaluation-gated prompt optimization</strong> (DSPy/GEPA) with gpt-oss-120b as the reflection model, promoting a new prompt only when it outscored the incumbent.</li>
-                            <li>Deployed an intraday commodity trading system feeding news and price action to <strong>MiniMax-M2</strong>, backed by a hybrid news-retrieval pipeline combining BM25, <strong>Qwen3 Embedding</strong> cosine similarity, reciprocal rank fusion, and a <strong>Qwen3 Reranker</strong>.</li>
+                            <li>Fed risk-neutral volatility, jump-risk, and repricing signals from live option-chain calibrations to <strong>gpt-oss-120b</strong> for intraday entry and exit decisions.</li>
+                            <li>Built an automated <strong>LLM evaluation harness</strong> grading every snapshot for reliability and compliance, plus daily consistency and robustness tests.</li>
+                            <li>Deployed an intraday FX system feeding news and price action to a <strong>DPO-QLoRA fine-tuned Llama-3.1-8B</strong> with GEPA-optimized prompts, executed through OANDA.</li>
+                            <li>Replayed archived market contexts against ground truth to benchmark <strong>precision, recall, F1, coverage, and selective accuracy</strong>.</li>
+                            <li>Trained a <strong>rank-16 BF16 LoRA</strong> over a frozen 4-bit NF4 base in TRL/PyTorch, accelerated preference generation with <strong>vLLM continuous batching</strong>, and served the promoted policy on on-demand L4 GPUs.</li>
+                            <li>Ran <strong>evaluation-gated prompt optimization</strong> (DSPy/GEPA) with gpt-oss-120b as the reflection model—a new prompt ships only when it beats the incumbent.</li>
+                            <li>Deployed an intraday commodity system on <strong>MiniMax-M2</strong>, backed by hybrid retrieval: BM25, <strong>Qwen3 Embedding</strong>, reciprocal rank fusion, and a <strong>Qwen3 Reranker</strong>.</li>
                         </ul>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">ML-backed trading systems</span>
                         <ul class="exp-points">
-                            <li>Deployed intraday options strategies using Bayesian anomaly-detection signals built on implied-volatility estimates derived from stochastic-volatility model calibrations, generating <strong>weekly returns of 5–10% on capital at risk</strong>.</li>
-                            <li>Built and operated a daily rebalanced, regime-aware live equity portfolio using Hidden Markov Models for regime detection, ElasticNet for forecasting, and NSGA-II optimization—producing <strong>5% annualized alpha versus the benchmark</strong> in a multi-year backtest.</li>
-                            <li>Deployed interday options trading systems using trained <strong>TabPFN classifiers</strong> for live inference, backed by a multi-asset, multi-strategy backtesting engine generating trade-level P&amp;L outcomes.</li>
-                            <li>Fine-tuned <strong>Amazon Chronos-T5 with LoRA</strong> on the backtest-derived labels, generated rolling time-series embeddings, and trained per-asset TabPFN classifiers on the adapted representations.</li>
+                            <li>Deployed intraday options strategies on Bayesian anomaly detection over stochastic-volatility implied vols—<strong>5–10% weekly returns on capital at risk</strong>.</li>
+                            <li>Ran a daily rebalanced, regime-aware equity portfolio: HMM regime detection, ElasticNet forecasts, NSGA-II optimization—<strong>5% annualized alpha</strong> in a multi-year backtest.</li>
+                            <li>Deployed interday options trading on trained <strong>TabPFN classifiers</strong>, backed by a multi-asset, multi-strategy backtesting engine.</li>
+                            <li>Fine-tuned <strong>Chronos-T5 with LoRA</strong> on backtest-derived labels, then trained per-asset TabPFN classifiers on the resulting embeddings.</li>
                         </ul>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">Agents and infrastructure</span>
                         <ul class="exp-points">
-                            <li>Built a tool-calling LLM workflow for mining interday options-trading entry signals, identifying candidate strategies with <strong>Sharpe ratios above 1.5</strong>.</li>
-                            <li>Built and deployed an agentic multimodal RAG PDF research assistant with FastAPI and Next.js: CLIP page embeddings indexed in Qdrant, evidence retrieved via cosine similarity and MMR, and cited answers generated through a two-pass <strong>Qwen3 vision model</strong>.</li>
-                            <li>Designed and deployed containerized serverless systems on AWS (Lambda, ECR, S3, DynamoDB, EventBridge, CloudFormation, GitHub Actions) and Modal, integrating Fireworks AI inference with HMM, Bayesian/Heston, Chronos, TabPFN, Qdrant, DSPy, and broker APIs.</li>
-                            <li>Engineered DST-aware market scheduling, persistent workflow and position state, model-artifact caching, API services, monitoring dashboards, execution recovery, and fail-closed error handling across multi-asset trading sessions.</li>
+                            <li>Built a tool-calling LLM workflow that mined interday options entry signals with <strong>Sharpe above 1.5</strong>.</li>
+                            <li>Shipped an agentic multimodal RAG PDF assistant: CLIP embeddings in Qdrant, cosine and MMR retrieval, cited answers from a two-pass <strong>Qwen3 vision model</strong>.</li>
+                            <li>Deployed containerized serverless systems on AWS and Modal, wiring Fireworks AI inference to HMM, Heston, Chronos, TabPFN, Qdrant, DSPy, and broker APIs.</li>
+                            <li>Engineered DST-aware scheduling, persistent position state, model-artifact caching, monitoring dashboards, execution recovery, and fail-closed error handling.</li>
                         </ul>
                     </div>
                 </div>
