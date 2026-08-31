@@ -844,7 +844,7 @@
             <div class="block-label">About</div>
             <h2 class="block-heading" id="about-h">From research idea to production system</h2>
             <p class="prose">
-                I build and operate live ML- and LLM-driven systems end-to-end—from multimodal retrieval and tool-using agents to quantitative trading platforms running against real brokers. My work spans model fine-tuning and serving, evaluation, APIs, cloud infrastructure, and the production reliability required to keep automated systems running unattended.
+                I build and operate ML- and LLM-driven systems across research, deployment, and infrastructure—from multimodal retrieval and tool-using agents to quantitative trading platforms running against real brokers. My work spans model fine-tuning and serving, evaluation harnesses that gate what ships, APIs, cloud infrastructure, and the production reliability required to keep automated systems running unattended.
             </p>
             <p class="prose">
                 PhD in Engineering Mechanics from UT Austin; author of 10 peer-reviewed publications with 400+ citations.
@@ -865,23 +865,23 @@
             <div class="system-grid">
                 <article class="system-card">
                     <h3>LLM Trading Systems</h3>
-                    <p>Deployed decision pipelines across FX, commodities, and options using DeepSeek-V3.1, MiniMax-M2, gpt-oss-120b, and a DPO-QLoRA fine-tuned Llama-3.1-8B served on vLLM.</p>
+                    <p>Deployed decision pipelines across FX, commodities, and options using gpt-oss-120b, MiniMax-M2, and a DPO-QLoRA fine-tuned Llama-3.1-8B served on vLLM, with evaluation harnesses gating every promotion.</p>
                     <div class="tag-cloud">
                         <span class="tag">DSPy/GEPA</span><span class="tag">DPO-QLoRA</span><span class="tag">vLLM</span><span class="tag">OANDA</span>
                     </div>
                 </article>
                 <article class="system-card">
                     <h3>ML Trading Systems</h3>
-                    <p>Built Bayesian volatility-arbitrage signals, a live HMM/NSGA-II equity portfolio, and a Chronos-T5 LoRA plus TabPFN interday options platform.</p>
+                    <p>Built Bayesian anomaly-detection signals from stochastic-volatility calibrations, a live HMM/NSGA-II equity portfolio, and a Chronos-T5 LoRA plus TabPFN interday options platform.</p>
                     <div class="tag-cloud">
                         <span class="tag">PyTorch</span><span class="tag">Chronos</span><span class="tag">TabPFN</span><span class="tag">NSGA-II</span>
                     </div>
                 </article>
                 <article class="system-card">
                     <h3>Agents &amp; Multimodal Retrieval</h3>
-                    <p>Built an MCP tool-calling signal-mining agent and a full-stack PDF research assistant with CLIP page embeddings, Qdrant retrieval, and a two-pass Qwen vision-model RAG workflow.</p>
+                    <p>Built a tool-calling signal-mining workflow and an agentic PDF research assistant with CLIP page embeddings, Qdrant retrieval over cosine similarity and MMR, and a two-pass Qwen vision-model RAG workflow.</p>
                     <div class="tag-cloud">
-                        <span class="tag">MCP</span><span class="tag">CLIP</span><span class="tag">Qdrant</span><span class="tag">FastAPI</span>
+                        <span class="tag">CLIP</span><span class="tag">Qdrant</span><span class="tag">MMR</span><span class="tag">FastAPI</span>
                     </div>
                 </article>
                 <article class="system-card">
@@ -914,42 +914,44 @@
                         <div class="label">Sharpe, agent-mined strategies</div>
                     </div>
                     <div class="stat-cell">
-                        <div class="number">5%</div>
+                        <div class="number">5–10%</div>
                         <div class="label">Weekly returns on capital at risk</div>
                     </div>
                     <div class="stat-cell">
-                        <div class="number">18</div>
-                        <div class="label">Live options underlyings</div>
+                        <div class="number">5%</div>
+                        <div class="label">Annualized alpha vs. benchmark</div>
                     </div>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">LLM-backed trading systems</span>
                         <ul class="exp-points">
-                            <li>Deployed an intraday FX pipeline that synthesized RSS news and price action into structured market narratives and generated trade decisions with <strong>Meta-Llama-3.1-8B-Instruct</strong>, executed through OANDA.</li>
-                            <li>Fine-tuned Meta-Llama-3.1-8B-Instruct with <strong>DPO-QLoRA</strong>—rank-16 BF16 adapters over a frozen 4-bit NF4 base—promoting the adapter only after held-out base-versus-adapter evaluation, and served it through <strong>vLLM on on-demand Modal L4 GPUs</strong>.</li>
-                            <li>Deployed a commodity workflow combining news and narrative on price action with sovereign yield-curve differentials, fed to <strong>DeepSeek-V3.1</strong> and <strong>MiniMax-M2</strong> for mixture-of-experts trade signal generation.</li>
-                            <li>Developed an intraday options strategy that calibrates a stochastic-volatility model to live option chains and supplies volatility, jump-risk, relative-value, and premium-repricing trajectories to <strong>gpt-oss-120b</strong> for structured entry and exit decisions.</li>
+                            <li>Developed an intraday options strategy that calibrates a stochastic-volatility model to live option chains and supplies risk-neutral volatility, jump-risk, and premium-repricing signals to <strong>gpt-oss-120b</strong> for structured entry and exit decisions.</li>
+                            <li>Built an automated <strong>LLM evaluation harness</strong> that grades every snapshot for reliability and compliance, then runs daily consistency and robustness tests on representative samples.</li>
+                            <li>Deployed an intraday FX system that feeds news and price action to a <strong>DPO-QLoRA fine-tuned Meta-Llama-3.1-8B-Instruct</strong> with GEPA-optimized prompts, executed through OANDA.</li>
+                            <li>Built a full-history evaluation pipeline that replays archived market contexts against ground truth and benchmarks performance using <strong>precision, recall, F1, coverage, and selective accuracy</strong>.</li>
+                            <li>Built an end-to-end DPO-QLoRA pipeline in TRL/PyTorch training a <strong>rank-16 BF16 LoRA adapter</strong> over a frozen 4-bit NF4 base, accelerated preference generation with <strong>vLLM continuous batching</strong>, and served the promoted policy through a <strong>vLLM endpoint on on-demand L4 GPUs</strong>.</li>
                             <li>Implemented <strong>evaluation-gated prompt optimization</strong> (DSPy/GEPA) with gpt-oss-120b as the reflection model, promoting a new prompt only when it outscored the incumbent.</li>
+                            <li>Deployed an intraday commodity trading system feeding news and price action to <strong>MiniMax-M2</strong>, backed by a hybrid news-retrieval pipeline combining BM25, <strong>Qwen3 Embedding</strong> cosine similarity, reciprocal rank fusion, and a <strong>Qwen3 Reranker</strong>.</li>
                         </ul>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">ML-backed trading systems</span>
                         <ul class="exp-points">
-                            <li>Deployed intraday options strategies using Bayesian anomaly-detection signals derived from stochastic-volatility calibrations, generating <strong>weekly returns of 5% on capital at risk</strong>.</li>
-                            <li>Built and operated a live equity portfolio using Hidden Markov Models for regime detection, Jensen–Shannon divergence for rebalancing, ElasticNetCV for forecasting, and NSGA-II bi-objective optimization—producing <strong>5% annualized alpha versus the benchmark</strong> in a multi-year backtest.</li>
-                            <li>Built an interday options backtesting engine generating trade-level P&amp;L outcomes across <strong>18 single-stock and ETF underlyings</strong>.</li>
-                            <li>Fine-tuned <strong>Amazon Chronos-T5 with LoRA</strong> on backtest-derived labels, generated rolling time-series embeddings, trained per-asset TabPFN classifiers on the adapted representations, and deployed them for live inference translating predicted profitability into automated entries.</li>
+                            <li>Deployed intraday options strategies using Bayesian anomaly-detection signals built on implied-volatility estimates derived from stochastic-volatility model calibrations, generating <strong>weekly returns of 5–10% on capital at risk</strong>.</li>
+                            <li>Built and operated a daily rebalanced, regime-aware live equity portfolio using Hidden Markov Models for regime detection, ElasticNet for forecasting, and NSGA-II optimization—producing <strong>5% annualized alpha versus the benchmark</strong> in a multi-year backtest.</li>
+                            <li>Deployed interday options trading systems using trained <strong>TabPFN classifiers</strong> for live inference, backed by a multi-asset, multi-strategy backtesting engine generating trade-level P&amp;L outcomes.</li>
+                            <li>Fine-tuned <strong>Amazon Chronos-T5 with LoRA</strong> on the backtest-derived labels, generated rolling time-series embeddings, and trained per-asset TabPFN classifiers on the adapted representations.</li>
                         </ul>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">Agents and infrastructure</span>
                         <ul class="exp-points">
-                            <li>Built an MCP-compatible, tool-calling agent for mining interday options entry signals, identifying candidate strategies with <strong>Sharpe ratios above 1.5</strong>.</li>
-                            <li>Built a multimodal PDF research assistant with FastAPI and Next.js: CLIP page embeddings indexed in Qdrant, plus a two-pass <strong>Qwen vision-model</strong> RAG workflow for grounded, page-cited answering and response self-evaluation.</li>
-                            <li>Designed and deployed containerized serverless systems on AWS (Lambda, ECR, S3, DynamoDB, EventBridge, CloudFormation) and Modal, integrating Groq and Fireworks AI inference with HMM, Bayesian/Heston, Chronos, TabPFN, Qdrant, DSPy, and broker APIs.</li>
+                            <li>Built a tool-calling LLM workflow for mining interday options-trading entry signals, identifying candidate strategies with <strong>Sharpe ratios above 1.5</strong>.</li>
+                            <li>Built and deployed an agentic multimodal RAG PDF research assistant with FastAPI and Next.js: CLIP page embeddings indexed in Qdrant, evidence retrieved via cosine similarity and MMR, and cited answers generated through a two-pass <strong>Qwen3 vision model</strong>.</li>
+                            <li>Designed and deployed containerized serverless systems on AWS (Lambda, ECR, S3, DynamoDB, EventBridge, CloudFormation, GitHub Actions) and Modal, integrating Fireworks AI inference with HMM, Bayesian/Heston, Chronos, TabPFN, Qdrant, DSPy, and broker APIs.</li>
                             <li>Engineered DST-aware market scheduling, persistent workflow and position state, model-artifact caching, API services, monitoring dashboards, execution recovery, and fail-closed error handling across multi-asset trading sessions.</li>
                         </ul>
                     </div>
@@ -965,7 +967,7 @@
                 <div class="exp-company">VISIE Inc. &middot; Austin, TX</div>
                 <div class="exp-body">
                     <p>
-                        I joined during the early integration phase of a surgical navigation platform combining imaging and robotic actuation. My work centered on implementing TCP/UDP communication protocols for robotic arm motion control, supporting end-to-end product packaging and deployment, and helping stage a live demonstration that anchored the company's successful <strong>$8.2M Series A</strong>.
+                        I joined during the early integration phase of a surgical navigation platform combining imaging and robotic actuation. My work centered on implementing TCP/UDP communication protocols for robotic arm motion control, and on product packaging with python-poetry and deployment through Azure artifacts—contributing to the company's successful <strong>$8.2M Series A</strong>.
                     </p>
                 </div>
             </article>
@@ -1095,6 +1097,7 @@
                         <span class="tag">pandas</span>
                         <span class="tag">Polars</span>
                         <span class="tag">NumPy</span>
+                        <span class="tag">SciPy</span>
                         <span class="tag">requests</span>
                         <span class="tag">BeautifulSoup</span>
                         <span class="tag">RSS/XML</span>
@@ -1108,6 +1111,7 @@
                         <span class="tag">React/JSX</span>
                         <span class="tag">Next.js</span>
                         <span class="tag">HTML</span>
+                        <span class="tag">REST</span>
                         <span class="tag">Alpaca</span>
                         <span class="tag">OANDA</span>
                         <span class="tag">TradeStation</span>
@@ -1125,7 +1129,9 @@
                         <span class="tag">DSPy</span>
                         <span class="tag">GEPA</span>
                         <span class="tag">Qdrant</span>
-                        <span class="tag">MCP</span>
+                        <span class="tag">BM25</span>
+                        <span class="tag">Qwen3 Embedding</span>
+                        <span class="tag">Qwen3 Reranker</span>
                         <span class="tag">Multimodal RAG</span>
                     </div>
                 </div>
