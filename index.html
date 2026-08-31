@@ -304,24 +304,6 @@
             padding: 3rem 2rem 4rem;
         }
 
-        /* ─── TWO-COLUMN LAYOUT ─── */
-        .layout {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 360px;
-            gap: 3.5rem;
-            align-items: start;
-        }
-
-        .col-side {
-            position: sticky;
-            top: 4.5rem;
-        }
-
-        .col-side .block { margin-bottom: 2.5rem; }
-        .col-side .block:last-child { margin-bottom: 0; }
-        .col-side .block-heading { font-size: 1.3rem; margin-bottom: 0.6rem; }
-        .col-side .prose { font-size: 0.92rem; line-height: 1.65; }
-
         /* ─── SECTION BLOCKS ─── */
         .block { margin-bottom: 4rem; }
 
@@ -350,38 +332,6 @@
         }
 
         .prose + .prose { margin-top: 1rem; }
-
-        /* ─── SELECTED SYSTEMS ─── */
-        .system-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .system-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 30px var(--shadow);
-        }
-
-        .system-card h3 {
-            font-family: var(--serif);
-            font-size: 1.3rem;
-            font-weight: 400;
-            margin-bottom: 0.55rem;
-            color: var(--text);
-        }
-
-        .system-card p {
-            color: var(--muted);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        .system-card .tag-cloud { margin-top: 1rem; }
 
         /* ─── STAT RIBBON ─── */
         .stat-ribbon {
@@ -579,30 +529,6 @@
             line-height: 1.7;
         }
 
-        /* Sidebar variant of the system grid */
-        .col-side .system-grid {
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .col-side .system-card { padding: 1.1rem 1.15rem; }
-        .col-side .system-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
-        .col-side .system-card p { font-size: 0.85rem; line-height: 1.6; }
-
-        /* Sidebar variant of the tech mosaic */
-        .col-side .tech-mosaic {
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .col-side .tech-tile { padding: 1.1rem 1.15rem; }
-        .col-side .tech-tile h3 { font-size: 1rem; margin-bottom: 0.4rem; }
-        .col-side .tech-tile p { font-size: 0.85rem; line-height: 1.6; }
-        .col-side .tech-tile:hover { transform: none; }
-        .col-side .tag { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
-
         .tag-cloud {
             display: flex;
             flex-wrap: wrap;
@@ -631,8 +557,6 @@
             color: var(--accent);
             opacity: 0.85;
         }
-
-        .col-side .tag-icon { width: 12px; height: 12px; }
 
         a.tag {
             text-decoration: none;
@@ -756,27 +680,6 @@
         .js .block.revealed { animation: fadeUp 0.6s ease-out both; opacity: 1; }
 
         /* ─── RESPONSIVE ─── */
-        @media (max-width: 1100px) {
-            .layout {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-            .col-side {
-                position: static;
-                margin-top: 4rem;
-            }
-            .col-side .block { margin-bottom: 4rem; }
-            .col-side .block-heading { font-size: 2.2rem; }
-            .col-side .tech-mosaic {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 1.25rem;
-            }
-            .col-side .system-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 1rem;
-            }
-        }
-
         @media (max-width: 768px) {
             .hero { padding: 3rem 1.5rem; }
             .hero-inner {
@@ -800,10 +703,6 @@
                 gap: 0.25rem;
             }
             .tech-mosaic { grid-template-columns: 1fr; }
-            .col-side .tech-mosaic { grid-template-columns: 1fr; }
-            .col-side .system-grid { grid-template-columns: 1fr; }
-            .col-side .block-heading { font-size: 1.7rem; }
-            .system-grid { grid-template-columns: 1fr; }
             .nav-scroll { justify-content: flex-start; }
             .footer-cta { font-size: 1.3rem; }
         }
@@ -910,16 +809,11 @@
             <a href="#experience">Experience</a>
             <a href="#education">Education</a>
             <a href="#life">Life</a>
-            <a href="#systems">Systems</a>
-            <a href="#notes">Technical Notes</a>
         </div>
     </nav>
 
     <!-- ═══════════ MAIN ═══════════ -->
     <main id="main">
-      <div class="layout">
-        <div class="col-main">
-
         <!-- ABOUT -->
         <section class="block" id="about" aria-labelledby="about-h">
             <div class="block-label">About</div>
@@ -1179,71 +1073,6 @@
             </div>
         </section>
 
-        </div><!-- /col-main -->
-
-        <aside class="col-side" aria-label="Selected systems and technical notes">
-
-        <!-- SELECTED SYSTEMS -->
-        <section class="block" id="systems" aria-label="Selected systems">
-            <div class="block-label">Selected Systems</div>
-                        <div class="system-grid">
-                <article class="system-card">
-                    <h3>LLM Trading Systems</h3>
-                    <p>Deployed decision pipelines across FX, commodities, and options using gpt-oss-120b, MiniMax-M2, and a DPO-QLoRA fine-tuned Llama-3.1-8B served on vLLM, with evaluation harnesses gating every promotion.</p>
-                    <div class="tag-cloud">
-                        <span class="tag">DSPy/GEPA</span><span class="tag">DPO-QLoRA</span><span class="tag">vLLM</span><span class="tag">OANDA</span>
-                    </div>
-                </article>
-                <article class="system-card">
-                    <h3>ML Trading Systems</h3>
-                    <p>Built Bayesian anomaly-detection signals from stochastic-volatility calibrations, a live HMM/NSGA-II equity portfolio, and a Chronos-T5 LoRA plus TabPFN interday options platform.</p>
-                    <div class="tag-cloud">
-                        <span class="tag">PyTorch</span><span class="tag">Chronos</span><span class="tag">TabPFN</span><span class="tag">NSGA-II</span>
-                    </div>
-                </article>
-                <article class="system-card">
-                    <h3>Agents &amp; Multimodal Retrieval</h3>
-                    <p>Built a tool-calling signal-mining workflow and an agentic PDF research assistant with CLIP page embeddings, Qdrant retrieval over cosine similarity and MMR, and a two-pass Qwen vision-model RAG workflow.</p>
-                    <div class="tag-cloud">
-                        <span class="tag">CLIP</span><span class="tag">Qdrant</span><span class="tag">MMR</span><span class="tag">FastAPI</span>
-                    </div>
-                </article>
-                <article class="system-card">
-                    <h3>Production Infrastructure</h3>
-                    <p>Shipped containerized, scheduled systems with persistent state, cached model artifacts, broker integrations, failure recovery, and automated deployment.</p>
-                    <div class="tag-cloud">
-                        <span class="tag">AWS Lambda</span><span class="tag">Modal</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- TECHNICAL NOTES -->
-        <section class="block" id="notes" aria-labelledby="notes-h">
-            <div class="block-label">Technical Notes</div>
-            <h2 class="block-heading" id="notes-h">Working notes on models, markets, and implementation</h2>
-            <p class="prose">Compact references built while turning mathematical and machine-learning concepts into working code.</p>
-            <div class="tag-cloud">
-                <a class="tag" href="unconstrained_optimization.html">Unconstrained Optimization</a>
-                <a class="tag" href="constrained_optimization.html">Constrained Optimization</a>
-                <a class="tag" href="distributions.html">Distributions</a>
-                <a class="tag" href="hypo.html">Hypothesis Testing</a>
-                <a class="tag" href="linreg.html">Linear Regression</a>
-                <a class="tag" href="shap.html">SHAP</a>
-                <a class="tag" href="fintech.html">Options</a>
-                <a class="tag" href="bs.html">Black-Scholes</a>
-                <a class="tag" href="tos.html">No Arbitrage</a>
-                <a class="tag" href="tree_classifier.html">Tree Classifiers</a>
-                <a class="tag" href="tree_regressor.html">Tree Regressors</a>
-                <a class="tag" href="options_backtesting_code.html">Options Backtesting</a>
-                <a class="tag" href="sde_master_catalog.html">SDE Adaptations</a>
-                <!-- <a class="tag" href="high_leverage_python.html">Pythonic Patterns</a>
-                <a class="tag" href="pytorch_mental_map.html">PyTorch Internals</a> -->
-            </div>
-        </section>
-
-        </aside>
-      </div><!-- /layout -->
     </main>
 
     <!-- ═══════════ FOOTER ═══════════ -->
