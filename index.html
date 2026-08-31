@@ -347,7 +347,6 @@
             color: var(--text-2);
             font-size: 1.05rem;
             line-height: 1.85;
-            max-width: 75ch;
         }
 
         .prose + .prose { margin-top: 1rem; }
@@ -525,7 +524,6 @@
             font-weight: 500;
             font-size: 0.95rem;
             color: var(--text);
-            max-width: 75ch;
         }
 
         .callout a {
@@ -1186,10 +1184,9 @@
         <aside class="col-side" aria-label="Selected systems and technical notes">
 
         <!-- SELECTED SYSTEMS -->
-        <section class="block" id="systems" aria-labelledby="systems-h">
+        <section class="block" id="systems" aria-label="Selected systems">
             <div class="block-label">Selected Systems</div>
-            <h2 class="block-heading" id="systems-h">Production AI across models, markets, and infrastructure</h2>
-            <div class="system-grid">
+                        <div class="system-grid">
                 <article class="system-card">
                     <h3>LLM Trading Systems</h3>
                     <p>Deployed decision pipelines across FX, commodities, and options using gpt-oss-120b, MiniMax-M2, and a DPO-QLoRA fine-tuned Llama-3.1-8B served on vLLM, with evaluation harnesses gating every promotion.</p>
