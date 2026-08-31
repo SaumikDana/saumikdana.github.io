@@ -581,6 +581,17 @@
             line-height: 1.7;
         }
 
+        /* Sidebar variant of the system grid */
+        .col-side .system-grid {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .col-side .system-card { padding: 1.1rem 1.15rem; }
+        .col-side .system-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .col-side .system-card p { font-size: 0.85rem; line-height: 1.6; }
+
         /* Sidebar variant of the tech mosaic */
         .col-side .tech-mosaic {
             grid-template-columns: 1fr;
@@ -762,6 +773,10 @@
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
                 gap: 1.25rem;
             }
+            .col-side .system-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -788,6 +803,7 @@
             }
             .tech-mosaic { grid-template-columns: 1fr; }
             .col-side .tech-mosaic { grid-template-columns: 1fr; }
+            .col-side .system-grid { grid-template-columns: 1fr; }
             .col-side .block-heading { font-size: 1.7rem; }
             .system-grid { grid-template-columns: 1fr; }
             .nav-scroll { justify-content: flex-start; }
@@ -892,11 +908,11 @@
     <nav aria-label="Section navigation">
         <div class="nav-scroll">
             <a href="#about">About</a>
-            <a href="#systems">Systems</a>
+            <a href="#skills">Skills</a>
             <a href="#experience">Experience</a>
             <a href="#education">Education</a>
             <a href="#life">Life</a>
-            <a href="#skills">Skills</a>
+            <a href="#systems">Systems</a>
             <a href="#notes">Technical Notes</a>
         </div>
     </nav>
@@ -925,39 +941,91 @@
             -->
         </section>
 
-        <!-- SELECTED SYSTEMS -->
-        <section class="block" id="systems" aria-labelledby="systems-h">
-            <div class="block-label">Selected Systems</div>
-            <h2 class="block-heading" id="systems-h">Production AI across models, markets, and infrastructure</h2>
-            <div class="system-grid">
-                <article class="system-card">
-                    <h3>LLM Trading Systems</h3>
-                    <p>Deployed decision pipelines across FX, commodities, and options using gpt-oss-120b, MiniMax-M2, and a DPO-QLoRA fine-tuned Llama-3.1-8B served on vLLM, with evaluation harnesses gating every promotion.</p>
+        <!-- TECH STACK -->
+        <section class="block" id="skills" aria-labelledby="skills-h">
+            <div class="block-label">Technical Skills</div>
+            <h2 class="block-heading" id="skills-h">The stack behind the systems</h2>
+            <div class="tech-mosaic">
+                <div class="tech-tile">
+                    <h3>ML &amp; Optimization</h3>
+                    <p>Model development, fine-tuning, and optimization across classical ML, probabilistic models, time-series foundation models, and evolutionary search.</p>
                     <div class="tag-cloud">
-                        <span class="tag">DSPy/GEPA</span><span class="tag">DPO-QLoRA</span><span class="tag">vLLM</span><span class="tag">OANDA</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pytorch"></use></svg>PyTorch</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-sklearn"></use></svg>scikit-learn</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-hf"></use></svg>Transformers</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-peft"></use></svg>PEFT</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-trl"></use></svg>TRL/DPO</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-qlora"></use></svg>QLoRA</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bits"></use></svg>bitsandbytes</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-tabpfn"></use></svg>TabPFN</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-chronos"></use></svg>Chronos</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-hmm"></use></svg>HMM</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-nsga"></use></svg>NSGA-II</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bayes"></use></svg>Bayesian opt</span>
                     </div>
-                </article>
-                <article class="system-card">
-                    <h3>ML Trading Systems</h3>
-                    <p>Built Bayesian anomaly-detection signals from stochastic-volatility calibrations, a live HMM/NSGA-II equity portfolio, and a Chronos-T5 LoRA plus TabPFN interday options platform.</p>
+                </div>
+                <div class="tech-tile">
+                    <h3>Cloud &amp; MLOps</h3>
+                    <p>Serverless-first production systems with automated deployment, infrastructure-as-code, containers, and model-serving workflows.</p>
                     <div class="tag-cloud">
-                        <span class="tag">PyTorch</span><span class="tag">Chronos</span><span class="tag">TabPFN</span><span class="tag">NSGA-II</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-lambda"></use></svg>Lambda</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-dynamodb"></use></svg>DynamoDB</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-s3"></use></svg>S3</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-ecr"></use></svg>ECR</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-eventbridge"></use></svg>EventBridge</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-apigw"></use></svg>API Gateway</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-cfn"></use></svg>CloudFormation</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-docker"></use></svg>Docker</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-gha"></use></svg>GitHub Actions</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-modal"></use></svg>Modal</span>
                     </div>
-                </article>
-                <article class="system-card">
-                    <h3>Agents &amp; Multimodal Retrieval</h3>
-                    <p>Built a tool-calling signal-mining workflow and an agentic PDF research assistant with CLIP page embeddings, Qdrant retrieval over cosine similarity and MMR, and a two-pass Qwen vision-model RAG workflow.</p>
+                </div>
+                <div class="tech-tile">
+                    <h3>Programming</h3>
+                    <p>Python-first engineering with scientific computing, data wrangling, web scraping, and feed ingestion for research tooling.</p>
                     <div class="tag-cloud">
-                        <span class="tag">CLIP</span><span class="tag">Qdrant</span><span class="tag">MMR</span><span class="tag">FastAPI</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-python"></use></svg>Python</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pandas"></use></svg>pandas</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-polars"></use></svg>Polars</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-numpy"></use></svg>NumPy</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-scipy"></use></svg>SciPy</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-requests"></use></svg>requests</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-soup"></use></svg>BeautifulSoup</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rss"></use></svg>RSS/XML</span>
                     </div>
-                </article>
-                <article class="system-card">
-                    <h3>Production Infrastructure</h3>
-                    <p>Shipped containerized, scheduled systems with persistent state, cached model artifacts, broker integrations, failure recovery, and automated deployment.</p>
+                </div>
+                <div class="tech-tile">
+                    <h3>APIs &amp; Dashboards</h3>
+                    <p>Production APIs and app backends connecting market data, broker integrations, feeds, and interactive analytics interfaces.</p>
                     <div class="tag-cloud">
-                        <span class="tag">AWS Lambda</span><span class="tag">Modal</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-fastapi"></use></svg>FastAPI</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-react"></use></svg>React/JSX</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-nextjs"></use></svg>Next.js</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-html5"></use></svg>HTML</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rest"></use></svg>REST</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-alpaca"></use></svg>Alpaca</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-oanda"></use></svg>OANDA</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-tradestation"></use></svg>TradeStation</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-yfinance"></use></svg>yfinance</span>
                     </div>
-                </article>
+                </div>
+                <div class="tech-tile">
+                    <h3>LLM &amp; RAG</h3>
+                    <p>LLM pipelines and prompt optimization for trading inference, plus vector retrieval and multimodal document intelligence.</p>
+                    <div class="tag-cloud">
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-vllm"></use></svg>vLLM</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-groq"></use></svg>Groq</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-langchain"></use></svg>LangChain</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-fireworks"></use></svg>Fireworks AI</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-dspy"></use></svg>DSPy</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-gepa"></use></svg>GEPA</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-qdrant"></use></svg>Qdrant</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bm25"></use></svg>BM25</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-embed"></use></svg>Qwen3 Embedding</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rerank"></use></svg>Qwen3 Reranker</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rag"></use></svg>Multimodal RAG</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1115,93 +1183,41 @@
 
         </div><!-- /col-main -->
 
-        <aside class="col-side" aria-label="Skills and technical notes">
+        <aside class="col-side" aria-label="Selected systems and technical notes">
 
-        <!-- TECH STACK -->
-        <section class="block" id="skills" aria-labelledby="skills-h">
-            <div class="block-label">Technical Skills</div>
-            <h2 class="block-heading" id="skills-h"></h2>
-            <div class="tech-mosaic">
-                <div class="tech-tile">
-                    <h3>ML &amp; Optimization</h3>
-                    <p>Model development, fine-tuning, and optimization across classical ML, probabilistic models, time-series foundation models, and evolutionary search.</p>
+        <!-- SELECTED SYSTEMS -->
+        <section class="block" id="systems" aria-labelledby="systems-h">
+            <div class="block-label">Selected Systems</div>
+            <h2 class="block-heading" id="systems-h">Production AI across models, markets, and infrastructure</h2>
+            <div class="system-grid">
+                <article class="system-card">
+                    <h3>LLM Trading Systems</h3>
+                    <p>Deployed decision pipelines across FX, commodities, and options using gpt-oss-120b, MiniMax-M2, and a DPO-QLoRA fine-tuned Llama-3.1-8B served on vLLM, with evaluation harnesses gating every promotion.</p>
                     <div class="tag-cloud">
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pytorch"></use></svg>PyTorch</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-sklearn"></use></svg>scikit-learn</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-hf"></use></svg>Transformers</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-peft"></use></svg>PEFT</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-trl"></use></svg>TRL/DPO</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-qlora"></use></svg>QLoRA</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bits"></use></svg>bitsandbytes</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-tabpfn"></use></svg>TabPFN</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-chronos"></use></svg>Chronos</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-hmm"></use></svg>HMM</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-nsga"></use></svg>NSGA-II</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bayes"></use></svg>Bayesian opt</span>
+                        <span class="tag">DSPy/GEPA</span><span class="tag">DPO-QLoRA</span><span class="tag">vLLM</span><span class="tag">OANDA</span>
                     </div>
-                </div>
-                <div class="tech-tile">
-                    <h3>Cloud &amp; MLOps</h3>
-                    <p>Serverless-first production systems with automated deployment, infrastructure-as-code, containers, and model-serving workflows.</p>
+                </article>
+                <article class="system-card">
+                    <h3>ML Trading Systems</h3>
+                    <p>Built Bayesian anomaly-detection signals from stochastic-volatility calibrations, a live HMM/NSGA-II equity portfolio, and a Chronos-T5 LoRA plus TabPFN interday options platform.</p>
                     <div class="tag-cloud">
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-lambda"></use></svg>Lambda</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-dynamodb"></use></svg>DynamoDB</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-s3"></use></svg>S3</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-ecr"></use></svg>ECR</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-eventbridge"></use></svg>EventBridge</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-apigw"></use></svg>API Gateway</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-cfn"></use></svg>CloudFormation</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-docker"></use></svg>Docker</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-gha"></use></svg>GitHub Actions</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-modal"></use></svg>Modal</span>
+                        <span class="tag">PyTorch</span><span class="tag">Chronos</span><span class="tag">TabPFN</span><span class="tag">NSGA-II</span>
                     </div>
-                </div>
-                <div class="tech-tile">
-                    <h3>Programming</h3>
-                    <p>Python-first engineering with scientific computing, data wrangling, web scraping, and feed ingestion for research tooling.</p>
+                </article>
+                <article class="system-card">
+                    <h3>Agents &amp; Multimodal Retrieval</h3>
+                    <p>Built a tool-calling signal-mining workflow and an agentic PDF research assistant with CLIP page embeddings, Qdrant retrieval over cosine similarity and MMR, and a two-pass Qwen vision-model RAG workflow.</p>
                     <div class="tag-cloud">
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-python"></use></svg>Python</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pandas"></use></svg>pandas</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-polars"></use></svg>Polars</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-numpy"></use></svg>NumPy</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-scipy"></use></svg>SciPy</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-requests"></use></svg>requests</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-soup"></use></svg>BeautifulSoup</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rss"></use></svg>RSS/XML</span>
+                        <span class="tag">CLIP</span><span class="tag">Qdrant</span><span class="tag">MMR</span><span class="tag">FastAPI</span>
                     </div>
-                </div>
-                <div class="tech-tile">
-                    <h3>APIs &amp; Dashboards</h3>
-                    <p>Production APIs and app backends connecting market data, broker integrations, feeds, and interactive analytics interfaces.</p>
+                </article>
+                <article class="system-card">
+                    <h3>Production Infrastructure</h3>
+                    <p>Shipped containerized, scheduled systems with persistent state, cached model artifacts, broker integrations, failure recovery, and automated deployment.</p>
                     <div class="tag-cloud">
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-fastapi"></use></svg>FastAPI</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-react"></use></svg>React/JSX</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-nextjs"></use></svg>Next.js</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-html5"></use></svg>HTML</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rest"></use></svg>REST</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-alpaca"></use></svg>Alpaca</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-oanda"></use></svg>OANDA</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-tradestation"></use></svg>TradeStation</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-yfinance"></use></svg>yfinance</span>
+                        <span class="tag">AWS Lambda</span><span class="tag">Modal</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span>
                     </div>
-                </div>
-                <div class="tech-tile">
-                    <h3>LLM &amp; RAG</h3>
-                    <p>LLM pipelines and prompt optimization for trading inference, plus vector retrieval and multimodal document intelligence.</p>
-                    <div class="tag-cloud">
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-vllm"></use></svg>vLLM</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-groq"></use></svg>Groq</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-langchain"></use></svg>LangChain</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-fireworks"></use></svg>Fireworks AI</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-dspy"></use></svg>DSPy</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-gepa"></use></svg>GEPA</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-qdrant"></use></svg>Qdrant</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bm25"></use></svg>BM25</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-embed"></use></svg>Qwen3 Embedding</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rerank"></use></svg>Qwen3 Reranker</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rag"></use></svg>Multimodal RAG</span>
-                    </div>
-                </div>
+                </article>
             </div>
         </section>
 
