@@ -862,10 +862,10 @@
             <div class="block-label">About</div>
             <h2 class="block-heading" id="about-h">From research idea to production system</h2>
             <p class="prose">
-                Engineer who builds and operates ML- and LLM-driven systems—spanning research, deployment, and infrastructure.
+                I work at the point where research stops being a promising notebook and becomes a system that has to make decisions in the real world. That has taken me from physics-based simulation and scientific computing to quantitative trading, model fine-tuning, retrieval, evaluation, and production infrastructure.
             </p>
             <p class="prose">
-                PhD in Engineering Mechanics from University of Texas at Austin. US permanent resident.
+                The common thread is building the whole path: formulate the problem, test the signal, design the failure modes, deploy the model, and measure whether it deserves to stay live. I hold a PhD in Engineering Mechanics from the University of Texas at Austin and am a US permanent resident.
             </p>
 
             <!-- Uncomment and edit if you want an availability banner:
@@ -896,6 +896,7 @@
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-chronos"></use></svg>Chronos</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-hmm"></use></svg>HMMs</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-nsga"></use></svg>NSGA-II</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bayes"></use></svg>Bayesian optimization</span>
                     </div>
                 </div>
                 <div class="tech-tile">
@@ -951,6 +952,8 @@
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-gepa"></use></svg>GEPA</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-qdrant"></use></svg>Qdrant</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bm25"></use></svg>BM25</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-embed"></use></svg>Qwen3 Embedding</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rerank"></use></svg>Qwen3 Reranker</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rag"></use></svg>Multimodal RAG</span>
                     </div>
                 </div>
@@ -988,38 +991,35 @@
 
                     <div class="exp-group">
                         <span class="exp-lead">ML-backed trading systems</span>
-                        <ul class="exp-points">
-                            <li>Deployed intraday ETF and index options trading strategies on Bayesian anomaly detection over stochastic-volatility implied vols—<strong>5–10% weekly returns on capital at risk</strong>.</li>
-                            <li>Ran a daily rebalanced, regime-aware equity portfolio: HMM regime detection, ElasticNet forecasts, NSGA-II optimization—<strong>5% annualized alpha</strong> in a multi-year backtest.</li>
-                            <li>Deployed interday equity options trading systems: fine-tuned <strong>Amazon Chronos-T5 with LoRA</strong> on labels derived from a backtesting engine, then used the resulting embeddings to train per-asset <strong>TabPFN classifiers</strong> for inference.</li>
-                        </ul>
+                        <p>
+                            My work at Zebra moved between statistical modeling and live trading. For intraday ETF and index options, I used Bayesian anomaly detection to identify dislocations in stochastic-volatility implied vols; the deployed strategies produced <strong>5–10% weekly returns on capital at risk</strong>. At a longer horizon, I combined HMM regime detection, ElasticNet forecasts, and NSGA-II portfolio construction in a daily rebalanced equity strategy that generated <strong>5% annualized alpha</strong> in a multi-year backtest.
+                        </p>
+                        <p>
+                            I also explored how foundation models could change the representation of market history. Rather than asking Chronos to trade directly, I fine-tuned Amazon Chronos-T5 with LoRA on labels produced by the backtesting engine, then used its embeddings as inputs to per-asset TabPFN classifiers. The result was a practical bridge between time-series pretraining and a controlled inference layer.
+                        </p>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">LLM-backed trading systems</span>
-                        <ul class="exp-points">
-                            <li>Developed <strong>gpt-oss-120b-backed intraday single-stock options trading systems</strong>.</li>
-                            <li>Calibrated jump-aware stochastic-volatility model parameters to live option-chain snapshots.</li>
-                            <li>Fed trajectories of risk-neutral volatility, jump risk, expected movement, and option repricing to the LLM.</li>
-                            <li>Implemented <strong>fail-closed signal gating</strong> for malformed, insufficiently evidenced, and calibration-invalid outputs.</li>
-                            <li>Built an automated daily evaluation harness measuring reliability, rule compliance, consistency, and robustness.</li>
-                            <li>Deployed a <strong>DPO-QLoRA-tuned Llama-3.1-8B</strong> and DSPy prompt optimizer-backed intraday FX trading system.</li>
-                            <li>Implemented a news relevance pipeline using BM25, Qwen3 Embedding, reciprocal rank fusion, and Qwen3 Reranker.</li>
-                            <li>Replayed archived market contexts against ground truth to benchmark <strong>precision, recall, F1, and coverage</strong>.</li>
-                            <li>Ran evaluation-gated GEPA prompt optimization with <strong>gpt-oss-120b</strong> as the reflection model.</li>
-                            <li>Accelerated candidate sampling for DPO preference-pair generation using <strong>vLLM continuous batching</strong>.</li>
-                            <li>Trained a rank-16 LoRA adapter with BF16 compute over a frozen 4-bit NF4 base using on-demand L4 GPUs.</li>
-                            <li>Evaluated the adapter against the frozen base on a test set using paired bootstrap analysis of reward deltas.</li>
-                            <li>Served the base and adapter as separate model IDs through an authenticated, OpenAI-compatible vLLM endpoint.</li>
-                        </ul>
+                        <p>
+                            I treated the LLM as one component inside a quantitative decision system, not as an oracle. In the single-stock options system, live option chains were first converted into trajectories of risk-neutral volatility, jump risk, expected movement, and repricing. <strong>gpt-oss-120b</strong> reasoned over that structured market state, while fail-closed gates rejected malformed answers, weak evidence, or invalid calibrations before a signal could travel any further.
+                        </p>
+                        <p>
+                            Reliability became a product of the system rather than a subjective impression of a model response. A daily harness tracked rule compliance, consistency, and robustness. For the intraday FX system, I paired a news-relevance pipeline—BM25, Qwen3 embeddings, reciprocal rank fusion, and reranking—with a DPO-QLoRA-tuned Llama-3.1-8B. Archived market contexts provided ground truth for precision, recall, F1, and coverage, and GEPA prompt changes were evaluated before promotion.
+                        </p>
+                        <p>
+                            The training and serving path mattered just as much as the model choice. I used vLLM continuous batching to accelerate preference generation, trained a rank-16 LoRA adapter over a frozen 4-bit base on on-demand L4 GPUs, compared it with the base model through paired bootstrap analysis, and exposed both behind an authenticated OpenAI-compatible endpoint.
+                        </p>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">LLM-backed agents</span>
-                        <ul class="exp-points">
-                            <li>Built an autonomous interday options signal-mining agent using <strong>gpt-oss-120b</strong>, exhaustive quantile sweeps, stability screening, and iterative rule refinement—identified strategies with <strong>Sharpe above 1.5</strong>.</li>
-                            <li>Shipped an agentic Qwen3 vision model-backed multimodal RAG PDF assistant—CLIP embeddings in Qdrant, cosine and MMR retrieval, and cited answers from a two-pass workflow.</li>
-                        </ul>
+                        <p>
+                            Some of the most useful agent work was exploratory. I built an autonomous signal-mining loop that combined gpt-oss-120b with exhaustive quantile sweeps, stability screening, and iterative rule refinement. Instead of stopping at plausible hypotheses, it pushed candidates through quantitative tests and surfaced interday options strategies with <strong>Sharpe above 1.5</strong>.
+                        </p>
+                        <p>
+                            The same emphasis on evidence shaped a multimodal PDF assistant. CLIP embeddings and Qdrant supported cosine and MMR retrieval, while a two-pass Qwen3 vision workflow separated evidence gathering from answer construction and returned cited responses.
+                        </p>
                     </div>
                 </div>
             </article>
@@ -1033,7 +1033,7 @@
                 <div class="exp-company">VISIE Inc. &middot; Austin, TX</div>
                 <div class="exp-body">
                     <p>
-                        Joined during the early integration phase of a surgical navigation platform combining imaging and robotic actuation. Implemented TCP/UDP communication protocols for robotic arm motion control, product packaging with python-poetry, and deployment through Azure Artifacts—contributing to the company's successful <strong>$8.2M Series A</strong>.
+                        At VISIE, I worked at the boundary between software and a physical surgical-navigation platform during its early integration phase. I implemented the TCP/UDP communication needed to control robotic-arm motion, then helped turn the code into a product through Poetry packaging and Azure Artifacts deployment. That engineering contributed as the company progressed to a successful <strong>$8.2M Series A</strong>.
                     </p>
                 </div>
             </article>
@@ -1047,7 +1047,7 @@
                 <div class="exp-company">Sophelio &middot; Austin, TX</div>
                 <div class="exp-body">
                     <p>
-                        Adapted physics-informed modeling originally developed for fusion experiment data to financial time series. The resulting production pipeline used sparse regression for PDE construction and signal generation, paired with a CAGR-maximizing Bayesian TPE optimizer driving a swing-trading system.
+                        Sophelio was where I first carried my physics background directly into financial markets. I adapted a physics-informed approach developed for fusion experiments so that it could discover structure in financial time series. Sparse regression constructed the governing PDE and generated signals; a Bayesian TPE search then tuned the resulting swing-trading system for CAGR.
                     </p>
                 </div>
             </article>
@@ -1060,10 +1060,9 @@
                 </div>
                 <div class="exp-company">Los Alamos National Lab &amp; University of Southern California</div>
                 <div class="exp-body">
-                    <ul class="exp-points">
-                        <li>Generated hydrocarbon production estimates for a real shale site by replacing 3D discrete fracture network geometry with a graph-based reduced-order model of flow and transport.</li>
-                        <li>Built a computational framework for fast estimation of fault stability and ground deformation for field-scale CO<sub>2</sub> storage in faulted oilfields.</li>
-                    </ul>
+                    <p>
+                        My postdoctoral work focused on making field-scale physics tractable without discarding the structure that mattered. For a real shale site, I replaced expensive 3D discrete fracture-network geometry with a graph-based reduced-order model of flow and transport. I also developed a faster framework for estimating fault stability and ground deformation in faulted oilfields considered for CO<sub>2</sub> storage.
+                    </p>
                 </div>
             </article>
         </section>
@@ -1079,7 +1078,7 @@
                         <div class="edu-school">University of Texas at Austin</div>
                     </div>
                     <div class="edu-detail">
-                        Austin, TX.
+                        Austin, TX. Training in mechanics, numerical simulation, and scientific computing that became the foundation for my later work in ML and quantitative systems.
                     </div>
                 </div>
                 <div class="edu-row">
@@ -1118,8 +1117,8 @@
     <!-- ═══════════ FOOTER ═══════════ -->
     <footer>
         <div class="footer-inner">
-            <p class="footer-cta">Building and operating ML- and LLM-driven systems</p>
-            <p>Across research, deployment, and infrastructure.</p>
+            <p class="footer-cta">Building something that has to work outside the notebook?</p>
+            <p>I am most useful where research, deployment, and reliability become the same problem.</p>
             <div class="footer-legal" style="margin-top: 2rem;">
                 <p>&copy; 2026 Saumik Dana. All rights reserved.</p>
             </div>
