@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html{color-scheme:light dark}body{margin:0}img{max-width:100%}</style>
+<title>Interview Log 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper:   #f3f5f3;
+    --surface: #fbfcfb;
+    --ink:     #171b1a;
+    --body:    #33403c;
+    --muted:   #62706b;
+    --faint:   #8b9792;
+    --rule:    #d7dcd9;
+    --rule-hi: #b9c3bf;
+    --accent:  #23564a;
+    --live:    #8c5a0d;
+    --live-bg: #f6ecd9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:   #101413;
+      --surface: #161b1a;
+      --ink:     #e8ece9;
+      --body:    #c3ccc8;
+      --muted:   #96a29d;
+      --faint:   #6f7c77;
+      --rule:    #262e2c;
+      --rule-hi: #38423f;
+      --accent:  #74bfad;
+      --live:    #d9a45c;
+      --live-bg: #2a2114;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:   #101413;
+    --surface: #161b1a;
+    --ink:     #e8ece9;
+    --body:    #c3ccc8;
+    --muted:   #96a29d;
+    --faint:   #6f7c77;
+    --rule:    #262e2c;
+    --rule-hi: #38423f;
+    --accent:  #74bfad;
+    --live:    #d9a45c;
+    --live-bg: #2a2114;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--body);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  header { display: flex; flex-direction: column; gap: 0.75rem; }
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 {
+    font-family: "Newsreader", Georgia, serif;
+    font-weight: 600; font-size: clamp(2.1rem, 4.5vw, 3rem);
+    line-height: 1.1; letter-spacing: -0.015em; color: var(--ink);
+    margin: 0; text-wrap: balance;
+  }
+  .lede {
+    font-family: "Newsreader", Georgia, serif;
+    font-size: 1.18rem; line-height: 1.55; color: var(--muted);
+    margin: 0; max-width: 44rem;
+  }
+
+  .figures {
+    display: flex; flex-wrap: wrap; gap: 0 2.5rem;
+    border-top: 1px solid var(--rule-hi);
+    border-bottom: 1px solid var(--rule-hi);
+    padding: 1rem 0;
+  }
+  .fig { display: flex; flex-direction: column; gap: 0.1rem; }
+  .fig b {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 1.65rem; font-weight: 500; color: var(--ink);
+    line-height: 1.1; font-variant-numeric: tabular-nums;
+  }
+  .fig span {
+    font-size: 0.74rem; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--faint);
+  }
+  .fig.is-live b { color: var(--live); }
+
+  .scroller { overflow-x: auto; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1080px;
+    font-size: 0.9rem;
+  }
+  thead th {
+    text-align: left;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-weight: 500; font-size: 0.7rem;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--faint);
+    padding: 0 0.85rem 0.6rem;
+    border-bottom: 1px solid var(--rule-hi);
+    position: sticky; top: 0;
+    background: var(--paper);
+  }
+  tbody td {
+    padding: 0.95rem 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  tbody tr:hover td { background: var(--surface); }
+
+  .c-n, .c-date {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--faint);
+    white-space: nowrap;
+  }
+  .c-n { width: 3.2rem; }
+  .c-date { width: 5.4rem; }
+  .c-co { width: 11.5rem; color: var(--ink); font-weight: 600; }
+  .c-sess { width: 24%; color: var(--body); }
+  .c-read { width: 26%; color: var(--body); }
+  .c-back { width: 21%; color: var(--muted); }
+
+  .month td {
+    border-bottom: 1px solid var(--rule-hi);
+    padding: 1.9rem 0.85rem 0.5rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .month .count { color: var(--faint); letter-spacing: 0.08em; }
+
+  tr.live .c-co { color: var(--live); }
+  tr.live td:first-child { box-shadow: inset 3px 0 0 var(--live); }
+  .chip {
+    display: inline-block;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--live); background: var(--live-bg);
+    border-radius: 2px; padding: 0.1rem 0.4rem;
+    margin-left: 0.35rem; vertical-align: 1px;
+  }
+  .blank { color: var(--faint); }
+  code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.88em; color: var(--accent);
+  }
+
+  footer {
+    border-top: 1px solid var(--rule-hi);
+    padding-top: 1.25rem;
+    font-size: 0.88rem; color: var(--muted);
+    max-width: 46rem;
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Jan 1 &ndash; Sep 9, 2026</div>
+    <h1>Interview Log 2026</h1>
+    <p class="lede">Every session, reconstructed from the calendar, with what happened and how it looks in hindsight. Platforms in the record: Codility, Mettl, HackerRank, Colab, and a good deal of Zoom.</p>
+  </header>
+
+  <div class="figures">
+    <div class="fig"><b>33</b><span>Sessions</span></div>
+    <div class="fig"><b>19</b><span>Companies</span></div>
+    <div class="fig"><b>9</b><span>Months, none empty</span></div>
+    <div class="fig"><b>11</b><span>Went past round one</span></div>
+    <div class="fig is-live"><b>1</b><span>Still live</span></div>
+  </div>
+
+  <div class="scroller">
+    <table>
+      <thead>
+        <tr>
+          <th class="c-n">#</th>
+          <th class="c-date">Date</th>
+          <th class="c-co">Company</th>
+          <th class="c-sess">Session</th>
+          <th class="c-read">Your read</th>
+          <th class="c-back">Looking back</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="month"><td colspan="6">January <span class="count">&nbsp;&mdash;&nbsp; 6 sessions</span></td></tr>
+
+        <tr>
+          <td class="c-n">1</td><td class="c-date">Jan 8</td>
+          <td class="c-co">Interactive Brokers</td>
+          <td class="c-sess">Codility Live test &mdash; Quant Model Engineer, Greenwich CT (Robert Q.)</td>
+          <td class="c-read">Went back and forth a bit, but did okay</td>
+          <td class="c-back">Don't want to go to Greenwich, Connecticut. Don't care about it</td>
+        </tr>
+        <tr>
+          <td class="c-n">2</td><td class="c-date">Jan 9</td>
+          <td class="c-co">Neural Concept</td>
+          <td class="c-sess">Job fit (Luca Zampieri, US Dir. Engineering)</td>
+          <td class="c-read">Hadn't done multi-objective optimization yet &mdash; didn't know the Pareto front. As an engineering optimization person, should have. Fair miss</td>
+          <td class="c-back">Would have been interesting. But I genuinely didn't know much about engineering optimization then. Fair enough</td>
+        </tr>
+        <tr>
+          <td class="c-n">3</td><td class="c-date">Jan 13</td>
+          <td class="c-co">Profound</td>
+          <td class="c-sess">Initial screen (Ali Vaghar, Head of Data)</td>
+          <td class="c-read">Good &mdash; which is why they advanced me</td>
+          <td class="c-back">Interesting, but at that point I genuinely wasn't ready</td>
+        </tr>
+        <tr>
+          <td class="c-n">4</td><td class="c-date">Jan 14</td>
+          <td class="c-co">Interactive Brokers</td>
+          <td class="c-sess">Virtual interview via Mettl (Dale Choi)</td>
+          <td class="c-read">Okay, not bad. Some odd questions that made no difference</td>
+          <td class="c-back">Same &mdash; don't want Greenwich. Don't care</td>
+        </tr>
+        <tr>
+          <td class="c-n">5</td><td class="c-date">Jan 20</td>
+          <td class="c-co">Tudor Investment</td>
+          <td class="c-sess">Medium Freq. Quant Researcher, Pipeline (Akshay Nandwana)</td>
+          <td class="c-read">He drilled me, I went back and forth. Wasn't ready. Fucked it up</td>
+          <td class="c-back">Went a little back and forth, but it's okay</td>
+        </tr>
+        <tr>
+          <td class="c-n">6</td><td class="c-date">Jan 21</td>
+          <td class="c-co">Profound</td>
+          <td class="c-sess">Data science take-home presentation (Brandon Punturo)</td>
+          <td class="c-read">Okay, but they'd flagged an API option in the email and I hadn't used one &mdash; calling an open-source model through a provider like Fireworks or Together hadn't occurred to me. They needed someone who knew that. Fair enough</td>
+          <td class="c-back">Interesting, but I wasn't ready at that point</td>
+        </tr>
+
+        <tr class="month"><td colspan="6">February <span class="count">&nbsp;&mdash;&nbsp; 5 sessions</span></td></tr>
+
+        <tr>
+          <td class="c-n">7</td><td class="c-date">Feb 2</td>
+          <td class="c-co">American Century</td>
+          <td class="c-sess">30-min (Brian O'Connor)</td>
+          <td class="c-read">First-round recruiter conversation, went nowhere</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+        <tr>
+          <td class="c-n">8</td><td class="c-date">Feb 4</td>
+          <td class="c-co">Bridgewater</td>
+          <td class="c-sess">Phone screen (Isabel Koehler)</td>
+          <td class="c-read">Same &mdash; first round, went nowhere</td>
+          <td class="c-back">Was never going to work out</td>
+        </tr>
+        <tr>
+          <td class="c-n">9</td><td class="c-date">Feb 12</td>
+          <td class="c-co">CVector</td>
+          <td class="c-sess">Sr. RE (E. Ogden-Fung)</td>
+          <td class="c-read">First of three back-to-back conversations with senior people &mdash; Ogden-Fung, then Ruggles, then Zhang</td>
+          <td class="c-back">Don't know what the fuck they were doing</td>
+        </tr>
+        <tr>
+          <td class="c-n">10</td><td class="c-date">Feb 17</td>
+          <td class="c-co">CVector</td>
+          <td class="c-sess">Tyler Ruggles</td>
+          <td class="c-read">Second of the three</td>
+          <td class="c-back">Don't know what the fuck they were doing</td>
+        </tr>
+        <tr>
+          <td class="c-n">11</td><td class="c-date">Feb 18</td>
+          <td class="c-co">CVector</td>
+          <td class="c-sess">Richard Zhang</td>
+          <td class="c-read">Third. Didn't work out &mdash; probably just weren't looking for someone like me at that point. Fine</td>
+          <td class="c-back">Don't know what the fuck they were doing</td>
+        </tr>
+
+        <tr class="month"><td colspan="6">March <span class="count">&nbsp;&mdash;&nbsp; 7 sessions</span></td></tr>
+
+        <tr>
+          <td class="c-n">12</td><td class="c-date">Mar 3</td>
+          <td class="c-co">Modal</td>
+          <td class="c-sess">Initial call (Tom Callahan)</td>
+          <td class="c-read">Seemed okay, which is why they moved me on</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+        <tr>
+          <td class="c-n">13</td><td class="c-date">Mar 4</td>
+          <td class="c-co">Plot Technologies</td>
+          <td class="c-sess">Round 1 (Ethan)</td>
+          <td class="c-read">Interesting conversation, went over how to build an agent. Fucked it up</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+        <tr>
+          <td class="c-n">14</td><td class="c-date">Mar 5</td>
+          <td class="c-co">Modal</td>
+          <td class="c-sess">FDE hiring manager (Luis)</td>
+          <td class="c-read">He asked questions but there was clearly no interest in hiring me. Fuck them</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+        <tr>
+          <td class="c-n">15</td><td class="c-date">Mar 9</td>
+          <td class="c-co">Plot Technologies</td>
+          <td class="c-sess">Round 2</td>
+          <td class="c-read">Straight to the CTO &mdash; this was the live coding one</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+        <tr>
+          <td class="c-n">16</td><td class="c-date">Mar 13</td>
+          <td class="c-co">Obin</td>
+          <td class="c-sess">Round 1 (Shaw Li)</td>
+          <td class="c-read">Conversation. Okay</td>
+          <td class="c-back">Whatever</td>
+        </tr>
+        <tr>
+          <td class="c-n">17</td><td class="c-date">Mar 16</td>
+          <td class="c-co">Obin</td>
+          <td class="c-sess">1st technical &mdash; bring your own AI coding agent</td>
+          <td class="c-read">Bunch of questions, plus him telling me how he'd build something. Wasn't that good. Okay</td>
+          <td class="c-back">Whatever</td>
+        </tr>
+        <tr>
+          <td class="c-n">18</td><td class="c-date">Mar 24</td>
+          <td class="c-co">R. Flores</td>
+          <td class="c-sess">Quant Analyst role (Scott Barcalow)</td>
+          <td class="c-read">Bullshit</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+
+        <tr class="month"><td colspan="6">April <span class="count">&nbsp;&mdash;&nbsp; 3 sessions</span></td></tr>
+
+        <tr>
+          <td class="c-n">19</td><td class="c-date">Apr 9</td>
+          <td class="c-co">Covariance</td>
+          <td class="c-sess">Mike</td>
+          <td class="c-read">Conversation with the owner. Good</td>
+          <td class="c-back">Whatever</td>
+        </tr>
+        <tr>
+          <td class="c-n">20</td><td class="c-date">Apr 13</td>
+          <td class="c-co">Covariance</td>
+          <td class="c-sess">Data challenge &mdash; Python in Colab, 2.5 hrs (Kara Kaufman)</td>
+          <td class="c-read">Finished it. Interviewer was a jackass. Just a Python interview in Colab &mdash; max queue, min queue, that kind of bullshit</td>
+          <td class="c-back">Whatever</td>
+        </tr>
+        <tr>
+          <td class="c-n">21</td><td class="c-date">Apr 17</td>
+          <td class="c-co">Axiom Math</td>
+          <td class="c-sess">Shubho</td>
+          <td class="c-read">Just a conversation</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+
+        <tr class="month"><td colspan="6">May <span class="count">&nbsp;&mdash;&nbsp; 2 sessions</span></td></tr>
+
+        <tr>
+          <td class="c-n">22</td><td class="c-date">May 1</td>
+          <td class="c-co">Covariance</td>
+          <td class="c-sess">Rory Kulz</td>
+          <td class="c-read">Bit of a jackass, asked stupid questions. Didn't do well enough</td>
+          <td class="c-back">Whatever</td>
+        </tr>
+        <tr>
+          <td class="c-n">23</td><td class="c-date">May 5</td>
+          <td class="c-co">Axiom Math</td>
+          <td class="c-sess">Coding interview (Shubho)</td>
+          <td class="c-read">Pure coding. Honestly not interested in that kind of thing &mdash; heaps, queues, all that. Fuck all that</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+
+        <tr class="month"><td colspan="6">June <span class="count">&nbsp;&mdash;&nbsp; 2 sessions</span></td></tr>
+
+        <tr>
+          <td class="c-n">24</td><td class="c-date">Jun 18</td>
+          <td class="c-co">OneSix Solutions</td>
+          <td class="c-sess">Maria Musitani</td>
+          <td class="c-read">Fuck all that</td>
+          <td class="c-back">Fuck 'em</td>
+        </tr>
+        <tr>
+          <td class="c-n">25</td><td class="c-date">Jun 29</td>
+          <td class="c-co">Nomura</td>
+          <td class="c-sess">Kartik Arora</td>
+          <td class="c-read">Had the conversation, never heard back. Bastards</td>
+          <td class="c-back">Fuck them</td>
+        </tr>
+
+        <tr class="month"><td colspan="6">July <span class="count">&nbsp;&mdash;&nbsp; 1 session</span></td></tr>
+
+        <tr>
+          <td class="c-n">26</td><td class="c-date">Jul 31</td>
+          <td class="c-co">Thalo Labs</td>
+          <td class="c-sess">Round 1 (Nina Nappa)</td>
+          <td class="c-read">Good conversation</td>
+          <td class="c-back">Whatever</td>
+        </tr>
+
+        <tr class="month"><td colspan="6">August <span class="count">&nbsp;&mdash;&nbsp; 5 sessions</span></td></tr>
+
+        <tr>
+          <td class="c-n">27</td><td class="c-date">Aug 7</td>
+          <td class="c-co">Thalo Labs</td>
+          <td class="c-sess">Round 2 (Phil Herbert)</td>
+          <td class="c-read">Also good. They decided not to proceed anyway. Fuck all that</td>
+          <td class="c-back">Whatever</td>
+        </tr>
+        <tr>
+          <td class="c-n">28</td><td class="c-date">Aug 14</td>
+          <td class="c-co">Accenture</td>
+          <td class="c-sess">Screen &mdash; AI/ML Computational Science Specialist (Zaryab Abbasi)</td>
+          <td class="c-read blank">&mdash;</td>
+          <td class="c-back">Fuck them. But I did learn something &mdash; recall and precision. I should have known those. Not actively using them, but still</td>
+        </tr>
+        <tr class="live">
+          <td class="c-n">29</td><td class="c-date">Aug 21</td>
+          <td class="c-co">Anthelion Capital<span class="chip">Live</span></td>
+          <td class="c-sess">Round 1</td>
+          <td class="c-read blank">&mdash;</td>
+          <td class="c-back">Still live</td>
+        </tr>
+        <tr>
+          <td class="c-n">30</td><td class="c-date">Aug 24</td>
+          <td class="c-co">Accenture</td>
+          <td class="c-sess">Skills interview (Lauren Jensen)</td>
+          <td class="c-read">Interviewer asked questions and then completely garbled the feedback &mdash; I said one thing, she assumed something else entirely</td>
+          <td class="c-back">Fuck them. The interviewer completely garbled it. What else can I do. But I did learn &mdash; recall and precision</td>
+        </tr>
+        <tr class="live">
+          <td class="c-n">31</td><td class="c-date">Aug 28</td>
+          <td class="c-co">Anthelion Capital<span class="chip">Live</span></td>
+          <td class="c-sess">Round 2</td>
+          <td class="c-read blank">&mdash;</td>
+          <td class="c-back">Still live</td>
+        </tr>
+
+        <tr class="month"><td colspan="6">September <span class="count">&nbsp;&mdash;&nbsp; 2 sessions</span></td></tr>
+
+        <tr>
+          <td class="c-n">32</td><td class="c-date">Sep 4</td>
+          <td class="c-co">Arlyn AI</td>
+          <td class="c-sess">Technical screen, HackerRank (Steven Beverly)</td>
+          <td class="c-read">The Python round &mdash; the <code>key=</code> one</td>
+          <td class="c-back">A real miss. I fucked up that Python thing. But hey &mdash; what can I do</td>
+        </tr>
+        <tr class="live">
+          <td class="c-n">33</td><td class="c-date">Sep 8</td>
+          <td class="c-co">Anthelion Capital<span class="chip">Live</span></td>
+          <td class="c-sess">Round 3 &mdash; take-home review</td>
+          <td class="c-read blank">&mdash;</td>
+          <td class="c-back">Still live</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Reconstructed from calendar entries containing &ldquo;interview&rdquo;, &ldquo;screen&rdquo;, or the candidate's own name. Sessions logged under a bare company name or a generic title would not appear, so 33 is a floor rather than a total.
+  </footer>
+
+</div>
+
+</body>
+</html>
