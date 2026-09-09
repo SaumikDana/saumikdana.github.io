@@ -132,6 +132,37 @@
 
         .skip-link:focus { left: 0; }
 
+        /* ─── HEADLINE BAND ─── */
+        .headline-band {
+            width: 100%;
+            overflow: hidden;
+            background: var(--accent);
+            color: #fff;
+            border-bottom: 1px solid rgba(255,255,255,0.18);
+        }
+
+        .headline-track {
+            display: flex;
+            width: max-content;
+            padding: 0.65rem 0;
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            line-height: 1.2;
+            text-transform: uppercase;
+            white-space: nowrap;
+            will-change: transform;
+            animation: headline-scroll 18s linear infinite;
+        }
+
+        .headline-band:hover .headline-track { animation-play-state: paused; }
+
+        @keyframes headline-scroll {
+            from { transform: translate3d(100vw, 0, 0); }
+            to { transform: translate3d(-100%, 0, 0); }
+        }
+
         /* ─── HERO ─── */
         .hero {
             background: var(--ink);
@@ -710,6 +741,14 @@
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             .js .block { opacity: 1; }
+            .headline-track {
+                width: 100%;
+                justify-content: center;
+                padding-inline: 1rem;
+                white-space: normal;
+                text-align: center;
+                transform: none;
+            }
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
@@ -782,6 +821,10 @@
     </svg>
 
     <a class="skip-link" href="#main">Skip to content</a>
+
+    <aside class="headline-band" aria-label="Professional headline">
+        <p class="headline-track">Long SPY + Short XSP now live and profitable</p>
+    </aside>
 
     <!-- ═══════════ HERO ═══════════ -->
     <header class="hero">
