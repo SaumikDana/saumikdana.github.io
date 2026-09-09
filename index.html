@@ -364,47 +364,6 @@
 
         .prose + .prose { margin-top: 1rem; }
 
-        /* ─── STAT RIBBON ─── */
-        .stat-ribbon {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1px;
-            background: var(--ink);
-            border-radius: 12px;
-            overflow: hidden;
-            margin: 2rem 0 0;
-        }
-
-        .stat-cell {
-            background: var(--ink-light);
-            padding: 1.5rem 1.75rem;
-            text-align: center;
-        }
-
-        .stat-cell .number {
-            font-family: var(--mono);
-            font-size: 1.8rem;
-            font-weight: 500;
-            color: var(--accent-glow);
-            line-height: 1;
-            margin-bottom: 0.35rem;
-        }
-
-        .stat-cell .label {
-            font-size: 0.78rem;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 500;
-        }
-
-        .stat-note {
-            font-size: 0.78rem;
-            color: var(--muted);
-            margin-top: 0.75rem;
-            font-style: italic;
-        }
-
         /* ─── EXPERIENCE CARDS ─── */
         .exp-card {
             background: var(--surface);
@@ -727,7 +686,6 @@
             .social-row, .hero-links { justify-content: center; }
             main { padding: 2rem 1.25rem; }
             .block-heading { font-size: 1.7rem; }
-            .stat-ribbon { grid-template-columns: 1fr; }
             .exp-meta { flex-direction: column; }
             .edu-row {
                 grid-template-columns: 1fr;
@@ -852,7 +810,7 @@
     </nav>
 
     <aside class="headline-band" aria-label="Professional headline">
-        <p class="headline-track">Long SPY + Short XSP now live and profitable</p>
+        <p class="headline-track">Long SPY + Short XSP now live and profitable &nbsp;•&nbsp; 5–10% weekly returns on capital at risk</p>
     </aside>
 
     <!-- ═══════════ MAIN ═══════════ -->
@@ -973,21 +931,6 @@
                 </div>
                 <div class="exp-company">Zebra Capital Management LLC &middot; Stamford, CT</div>
                 <div class="exp-body">
-
-                    <div class="stat-ribbon">
-                    <div class="stat-cell">
-                        <div class="number">1.5+</div>
-                        <div class="label">Sharpe, agent-mined strategies</div>
-                    </div>
-                    <div class="stat-cell">
-                        <div class="number">5–10%</div>
-                        <div class="label">Weekly returns on capital at risk</div>
-                    </div>
-                    <div class="stat-cell">
-                        <div class="number">5%</div>
-                        <div class="label">Annualized alpha vs. benchmark</div>
-                    </div>
-                    </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">ML-backed trading systems</span>
