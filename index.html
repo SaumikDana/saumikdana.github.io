@@ -132,18 +132,70 @@
 
         .skip-link:focus { left: 0; }
 
-        /* ─── HEADLINE BAND ─── */
-        .headline-band {
-            width: 100%;
-            background: var(--accent);
+        /* ─── TIMES SQUARE BILLBOARD ─── */
+        .billboard-zone {
+            padding: 1.6rem 2rem 1.85rem;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 12% 50%, rgba(208, 111, 80, 0.17), transparent 28%),
+                radial-gradient(circle at 88% 25%, rgba(86, 194, 169, 0.1), transparent 25%),
+                #080d12;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .billboard-frame {
+            width: min(100%, 1080px);
+            margin: 0 auto;
+            padding: 11px;
+            position: relative;
+            border: 2px solid #eab67f;
+            border-radius: 7px;
+            background-color: #281d19;
+            background-image: radial-gradient(circle, #ffe3a1 0 2px, #c9784f 2.5px 4px, transparent 4.5px);
+            background-size: 22px 22px;
+            box-shadow:
+                0 0 8px rgba(255, 202, 133, 0.8),
+                0 0 30px rgba(208, 111, 80, 0.32),
+                0 18px 35px rgba(0, 0, 0, 0.45);
+            animation: billboard-bulbs 1.8s ease-in-out infinite alternate;
+        }
+
+        .billboard-screen {
+            min-height: 150px;
+            padding: 1rem 1.75rem 1.15rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 3px;
+            background:
+                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                linear-gradient(100deg, #9e3f32, #d47352 48%, #a84334);
+            background-size: 100% 4px, 100% 100%;
             color: #fff;
-            border-bottom: 1px solid rgba(255,255,255,0.18);
+            box-shadow: inset 0 0 35px rgba(67, 16, 13, 0.42);
+        }
+
+        .billboard-screen::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.1) 38%, transparent 55%);
+        }
+
+        .billboard-kicker {
+            margin: 0 0 0.55rem;
+            color: #ffe7b8;
+            font-family: 'Syne', var(--sans);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
         }
 
         .headline-list {
-            width: min(100% - 3rem, 1120px);
-            margin: 0 auto;
-            padding: 0.8rem 0 0.8rem 1.25rem;
+            margin: 0;
+            padding-left: 1.25rem;
             font-family: 'Syne', var(--sans);
             font-size: clamp(0.92rem, 1.1vw, 1.08rem);
             font-weight: 700;
@@ -166,6 +218,11 @@
 
         @keyframes headline-reveal {
             to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes billboard-bulbs {
+            from { filter: brightness(0.92); }
+            to { filter: brightness(1.12); }
         }
 
         /* ─── HERO ─── */
@@ -699,6 +756,8 @@
             .tech-mosaic { grid-template-columns: 1fr; }
             .nav-scroll { justify-content: flex-start; }
             .footer-cta { font-size: 1.3rem; }
+            .billboard-zone { padding: 1.25rem 1rem 1.45rem; }
+            .billboard-screen { padding: 0.85rem 1rem 1rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -708,6 +767,7 @@
                 opacity: 1;
                 transform: none;
             }
+            .billboard-frame { filter: none; }
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
@@ -810,12 +870,17 @@
         </div>
     </nav>
 
-    <aside class="headline-band" aria-label="Professional headline">
-        <ul class="headline-list">
-            <li>Long SPY + Short XSP intraday options trading systems, now live and profitable</li>
-            <li>5–10% weekly returns on capital at risk</li>
-            <li>Intraday Long Tesla and Long Nvidia also live</li>
-        </ul>
+    <aside class="billboard-zone" aria-label="Live trading systems billboard">
+        <div class="billboard-frame">
+            <div class="billboard-screen">
+                <p class="billboard-kicker">Now Live &bull; Quant Systems</p>
+                <ul class="headline-list">
+                    <li>Long SPY + Short XSP intraday options trading systems, now live and profitable</li>
+                    <li>5–10% weekly returns on capital at risk</li>
+                    <li>Intraday Long Tesla and Long Nvidia also live</li>
+                </ul>
+            </div>
+        </div>
     </aside>
 
     <!-- ═══════════ MAIN ═══════════ -->
