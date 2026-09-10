@@ -135,33 +135,37 @@
         /* ─── HEADLINE BAND ─── */
         .headline-band {
             width: 100%;
-            overflow: hidden;
             background: var(--accent);
             color: #fff;
             border-bottom: 1px solid rgba(255,255,255,0.18);
         }
 
-        .headline-track {
-            display: flex;
-            width: max-content;
-            padding: 0.82rem 0;
+        .headline-list {
+            width: min(100% - 3rem, 1120px);
+            margin: 0 auto;
+            padding: 0.8rem 0 0.8rem 1.25rem;
             font-family: 'Syne', var(--sans);
             font-size: clamp(0.92rem, 1.1vw, 1.08rem);
             font-weight: 700;
-            letter-spacing: 0.1em;
-            line-height: 1.25;
+            letter-spacing: 0.06em;
+            line-height: 1.45;
             text-transform: uppercase;
             text-shadow: 0 1px 12px rgba(13, 17, 23, 0.2);
-            white-space: nowrap;
-            will-change: transform;
-            animation: headline-scroll 34s linear infinite;
         }
 
-        .headline-band:hover .headline-track { animation-play-state: paused; }
+        .headline-list li {
+            padding-left: 0.35rem;
+            opacity: 0;
+            transform: translateX(24px);
+            animation: headline-reveal 0.65s ease-out forwards;
+        }
 
-        @keyframes headline-scroll {
-            from { transform: translate3d(100vw, 0, 0); }
-            to { transform: translate3d(-100%, 0, 0); }
+        .headline-list li:nth-child(1) { animation-delay: 0.2s; }
+        .headline-list li:nth-child(2) { animation-delay: 1.1s; }
+        .headline-list li:nth-child(3) { animation-delay: 2s; }
+
+        @keyframes headline-reveal {
+            to { opacity: 1; transform: translateX(0); }
         }
 
         /* ─── HERO ─── */
@@ -700,12 +704,8 @@
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             .js .block { opacity: 1; }
-            .headline-track {
-                width: 100%;
-                justify-content: center;
-                padding-inline: 1rem;
-                white-space: normal;
-                text-align: center;
+            .headline-list li {
+                opacity: 1;
                 transform: none;
             }
             *, *::before, *::after {
@@ -811,7 +811,11 @@
     </nav>
 
     <aside class="headline-band" aria-label="Professional headline">
-        <p class="headline-track">Long SPY + Short XSP intraday options trading systems, now live and profitable &nbsp;•&nbsp; 5–10% weekly returns on capital at risk &nbsp;•&nbsp; Intraday Long Tesla and Long Nvidia also live</p>
+        <ul class="headline-list">
+            <li>Long SPY + Short XSP intraday options trading systems, now live and profitable</li>
+            <li>5–10% weekly returns on capital at risk</li>
+            <li>Intraday Long Tesla and Long Nvidia also live</li>
+        </ul>
     </aside>
 
     <!-- ═══════════ MAIN ═══════════ -->
