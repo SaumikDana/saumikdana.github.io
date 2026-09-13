@@ -144,7 +144,7 @@
         }
 
         .billboard-frame {
-            width: min(100%, 1080px);
+            width: min(100%, 1240px);
             margin: 0 auto;
             padding: 11px;
             position: relative;
@@ -975,7 +975,7 @@
             <div class="tech-mosaic">
                 <div class="tech-tile">
                     <h3>ML &amp; Optimization</h3>
-                    <p>Model development, fine-tuning, and optimization across classical ML, probabilistic models, time-series foundation models, and evolutionary search.</p>
+                    <p>Model development, distributed fine-tuning, and optimization across classical ML, probabilistic models, time-series foundation models, preference learning, and evolutionary search.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pytorch"></use></svg>PyTorch</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-sklearn"></use></svg>scikit-learn</span>
@@ -993,8 +993,10 @@
                 </div>
                 <div class="tech-tile">
                     <h3>Cloud &amp; MLOps</h3>
-                    <p>Serverless-first production systems with automated deployment, infrastructure-as-code, containers, and model-serving workflows.</p>
+                    <p>Serverless and GPU-backed production systems spanning single-node multi-GPU inference, multi-node distributed training, automated deployment, infrastructure-as-code, containers, and versioned model serving.</p>
                     <div class="tag-cloud">
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pytorch"></use></svg>PyTorch DDP</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pytorch"></use></svg>NCCL</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-lambda"></use></svg>Lambda</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-dynamodb"></use></svg>DynamoDB</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-s3"></use></svg>S3</span>
@@ -1008,7 +1010,7 @@
                 </div>
                 <div class="tech-tile">
                     <h3>Programming</h3>
-                    <p>Python-first engineering with scientific computing, data wrangling, web scraping, and feed ingestion for research tooling.</p>
+                    <p>Python-first engineering for scientific computing, data wrangling, parallel data pipelines, and high-throughput feed ingestion for research tooling.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-python"></use></svg>Python</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pandas"></use></svg>pandas</span>
@@ -1034,9 +1036,10 @@
                 </div>
                 <div class="tech-tile">
                     <h3>LLM &amp; RAG</h3>
-                    <p>LLM pipelines and prompt optimization for trading inference, plus vector retrieval and multimodal document intelligence.</p>
+                    <p>High-throughput LLM pipelines, parallel generation and evaluation, DPO-QLoRA fine-tuning, prompt optimization for trading inference, vector retrieval, and multimodal document intelligence.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-vllm"></use></svg>vLLM</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-hf"></use></svg>Llama 3.1</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-groq"></use></svg>Groq</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-langchain"></use></svg>LangChain</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-fireworks"></use></svg>Fireworks AI</span>
