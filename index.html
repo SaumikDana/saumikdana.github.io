@@ -183,6 +183,38 @@
             background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.1) 38%, transparent 55%);
         }
 
+        .billboard-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) clamp(135px, 18vw, 190px);
+            grid-template-areas: "copy art";
+            gap: clamp(1rem, 2.5vw, 2rem);
+            align-items: center;
+        }
+
+        .billboard-copy { grid-area: copy; }
+
+        .billboard-art {
+            grid-area: art;
+            margin: 0;
+            align-self: stretch;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .billboard-art img {
+            display: block;
+            width: 100%;
+            max-width: 190px;
+            height: 245px;
+            object-fit: contain;
+            object-position: center bottom;
+            mix-blend-mode: screen;
+            filter: sepia(0.28) saturate(0.72) drop-shadow(0 7px 10px rgba(45, 10, 8, 0.45));
+        }
+
         .billboard-kicker {
             margin: 0 0 0.55rem;
             color: #ffe7b8;
@@ -763,6 +795,23 @@
             .footer-cta { font-size: 1.3rem; }
             .billboard-zone { padding: 1.25rem 1rem 1.45rem; }
             .billboard-screen { padding: 0.85rem 1rem 1rem; }
+            .billboard-content {
+                grid-template-columns: minmax(0, 1fr) 120px;
+                gap: 0.8rem;
+            }
+            .billboard-art img { height: 210px; }
+        }
+
+        @media (max-width: 560px) {
+            .billboard-content {
+                grid-template-columns: 1fr;
+                grid-template-areas: "art" "copy";
+            }
+            .billboard-art { max-height: 155px; }
+            .billboard-art img {
+                width: 115px;
+                height: 165px;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -879,14 +928,21 @@
     <aside class="billboard-zone" aria-label="Live trading systems billboard">
         <div class="billboard-frame">
             <div class="billboard-screen">
-                <p class="billboard-kicker">Extra, extra, read all about it!!!</p>
-                <ul class="headline-list">
-                    <li>Long SPY + Short XSP intraday options trading systems, now live and profitable</li>
-                    <li>5–10% weekly returns on capital at risk</li>
-                    <li>LLM-backed intraday Long Tesla and Long Nvidia also live</li>
-                    <li>Long IWM + Short MRUT also live</li>
-                    <li>DPO-QLoRA-tuned Llama-3.1-8B + DSPy prompt optimizer-backed intraday FX trading system, now deployed</li>
-                </ul>
+                <div class="billboard-content">
+                    <div class="billboard-copy">
+                        <p class="billboard-kicker">Extra, extra, read all about it!!!</p>
+                        <ul class="headline-list">
+                            <li>Long SPY + Short XSP intraday options trading systems, now live and profitable</li>
+                            <li>5–10% weekly returns on capital at risk</li>
+                            <li>LLM-backed intraday Long Tesla and Long Nvidia also live</li>
+                            <li>Long IWM + Short MRUT also live</li>
+                            <li>DPO-QLoRA-tuned Llama-3.1-8B + DSPy prompt optimizer-backed intraday FX trading system, now deployed</li>
+                        </ul>
+                    </div>
+                    <figure class="billboard-art">
+                        <img src="newsboy-billboard.jpg" alt="Vintage newspaper boy announcing headlines through a megaphone">
+                    </figure>
+                </div>
             </div>
         </div>
     </aside>
