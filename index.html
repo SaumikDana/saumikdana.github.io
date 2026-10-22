@@ -1204,7 +1204,7 @@
                         <ul class="headline-list">
                             <li>Deployed multi-asset, multi-strategy equity-options trading systems</li>
                             <li>Autonomous signal-mining agent identified strategies with Sharpe above 1.5</li>
-                            <li>Deployed DPO-QLoRA-tuned Llama-3.1-8B and DSPy-backed intraday FX system</li>
+                            <li>Deployed QLoRA-tuned Llama-3.1-8B and DSPy prompt-optimizer-backed intraday FX system</li>
                         </ul>
                     </div>
                     <figure class="billboard-art">
@@ -1249,7 +1249,7 @@
             <div class="tech-mosaic">
                 <div class="tech-tile">
                     <h3>ML &amp; Optimization</h3>
-                    <p>Model development, distributed fine-tuning, and optimization across classical ML, probabilistic models, time-series foundation models, preference learning, and evolutionary search.</p>
+                    <p>Model development, fine-tuning, and optimization across classical ML, time-series foundation models, probabilistic models, and evolutionary search.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pytorch"></use></svg>PyTorch</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-sklearn"></use></svg>scikit-learn</span>
@@ -1262,16 +1262,16 @@
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-chronos"></use></svg>Chronos</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-hmm"></use></svg>HMMs</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-nsga"></use></svg>NSGA-II</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bayes"></use></svg>Bayesian optimization</span>
                     </div>
                 </div>
                 <div class="tech-tile">
                     <h3>Cloud &amp; MLOps</h3>
-                    <p>Serverless and GPU-backed production systems spanning Kubernetes backtests, single-node multi-GPU inference, multi-node distributed training, automated deployment, infrastructure-as-code, containers, and versioned model serving.</p>
+                    <p>Serverless production systems, containerized model serving, automated deployment, reproducible GPU workflows, and distributed training.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pytorch"></use></svg>PyTorch DDP</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pytorch"></use></svg>NCCL</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-lambda"></use></svg>Lambda</span>
+                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-apigw"></use></svg>API Gateway</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-dynamodb"></use></svg>DynamoDB</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-s3"></use></svg>S3</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-ecr"></use></svg>ECR</span>
@@ -1283,11 +1283,12 @@
                         <span class="tag">Kubernetes</span>
                         <span class="tag">kind</span>
                         <span class="tag">Indexed Jobs</span>
+                        <span class="tag">Terraform</span>
                     </div>
                 </div>
                 <div class="tech-tile">
                     <h3>Programming</h3>
-                    <p>Python-first engineering for scientific computing, data wrangling, parallel data pipelines, and high-throughput feed ingestion for research tooling.</p>
+                    <p>Python-first engineering for scientific computing, data wrangling, and feed ingestion for research tooling.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-python"></use></svg>Python</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pandas"></use></svg>pandas</span>
@@ -1298,7 +1299,7 @@
                     </div>
                 </div>
                 <div class="tech-tile">
-                    <h3>APIs &amp; Dashboards</h3>
+                    <h3>APIs, Trading Systems &amp; Dashboards</h3>
                     <p>Production REST and streaming integrations for market data, multi-leg execution, persistent strategy state, operational risk controls, and interactive analytics.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-fastapi"></use></svg>FastAPI</span>
@@ -1314,12 +1315,11 @@
                 </div>
                 <div class="tech-tile">
                     <h3>LLM &amp; RAG</h3>
-                    <p>High-throughput LLM pipelines, parallel generation and evaluation, DPO-QLoRA fine-tuning, prompt optimization for trading inference, vector retrieval, and multimodal document intelligence.</p>
+                    <p>High-throughput LLM pipelines, parallel generation and evaluation, prompt optimization for trading inference, vector retrieval, and multimodal document intelligence.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-vllm"></use></svg>vLLM</span>
                         <span class="tag">gpt-oss-120b</span>
                         <span class="tag">gpt-oss-20b</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-hf"></use></svg>Llama 3.1</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-groq"></use></svg>Groq</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-langchain"></use></svg>LangChain</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-fireworks"></use></svg>Fireworks AI</span>
@@ -1327,10 +1327,7 @@
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-gepa"></use></svg>GEPA</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-qdrant"></use></svg>Qdrant</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-bm25"></use></svg>BM25</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-embed"></use></svg>Qwen3 Embedding</span>
-                        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rerank"></use></svg>Qwen3 Reranker</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-rag"></use></svg>Multimodal RAG</span>
-                        <span class="tag">Qwen3-VL</span>
                     </div>
                 </div>
             </div>
@@ -1356,7 +1353,7 @@
                     <div class="exp-group">
                         <span class="exp-lead">Production portfolio &amp; interday options</span>
                         <p>
-                            I built and operated a portfolio of independently deployed production systems, standardizing observability while improving reliability, performance, and resource efficiency. For multi-asset, multi-strategy interday equity options, I built a Kubernetes backtesting framework with indexed job scheduling and an autonomous <strong>gpt-oss-120b</strong> signal-mining agent that identified strategies with <strong>Sharpe above 1.5</strong>.
+                            I built and operated a portfolio of independently deployed production systems, standardizing observability while delivering coordinated improvements to reliability, performance, and resource efficiency. For multi-asset, multi-strategy interday equity options, I built a Kubernetes backtesting framework with indexed job scheduling and an autonomous <strong>gpt-oss-120b</strong>-backed signal-mining agent that identified strategies with <strong>Sharpe above 1.5</strong>.
                         </p>
                         <p>
                             I also fine-tuned Amazon Chronos-T5 with LoRA on labels derived from the backtesting engine, then used the resulting embeddings to train per-asset TabPFN classifiers for inference.
@@ -1366,20 +1363,20 @@
                     <div class="exp-group">
                         <span class="exp-lead">Intraday options</span>
                         <p>
-                            For single-stock options systems, I calibrated a jump-, rate-, and dividend-aware stochastic-volatility model to live option-chain snapshots and priced American options with a discrete-dividend binomial correction. Narratives of risk-neutral volatility, jump risk, and expected movement became structured input for <strong>gpt-oss-120b</strong> trade decisions. An automated daily harness measured reliability, rule compliance, consistency, and robustness.
+                            I consolidated multiple TradeStation market-data collectors into a reusable Terraform module and calibrated a jump-, rate-, and dividend-aware stochastic-volatility model to live option-chain snapshots. I implemented Bayesian anomaly detection over model-backed forecasts and fed narratives of traded-expiry implied-volatility smile repricing to <strong>gpt-oss-120b</strong> for trade decisions.
                         </p>
                         <p>
-                            I also deployed intraday index-options strategies using Bayesian anomaly detection over stochastic-volatility-model forecasts, achieving <strong>5–10% weekly returns on capital at risk</strong>.
+                            The deployed systems achieved <strong>5–10% weekly returns on capital at risk</strong>. An automated daily evaluation harness measured reliability, rule compliance, consistency, and robustness.
                         </p>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">Intraday FX</span>
                         <p>
-                            I deployed a DPO-QLoRA-tuned Llama-3.1-8B and DSPy-backed FX trading system. Its news-relevance pipeline combined BM25, Qwen3 Embedding, reciprocal rank fusion, and Qwen3 Reranker; <strong>gpt-oss-20b</strong> compressed news and price action into the inference context. Archived contexts were replayed against ground truth to benchmark precision, recall, F1, and coverage, while evaluation-gated GEPA optimization used gpt-oss-120b as the reflection model.
+                            I deployed a QLoRA-tuned Llama-3.1-8B and DSPy prompt-optimizer-backed FX trading system. Its news-relevance pipeline combined BM25, Qwen3 Embedding, reciprocal rank fusion, and Qwen3 Reranker; <strong>gpt-oss-20b</strong> compressed news and price action into the inference context. Evaluation-gated GEPA prompt optimization used <strong>gpt-oss-120b</strong> as the reflection model.
                         </p>
                         <p>
-                            I generated preference pairs with single-node multi-GPU data parallelism and vLLM continuous batching, then fine-tuned a frozen NF4 Llama-3.1-8B base with rank-16 LoRA using multi-node distributed data parallelism. An OpenAI-compatible vLLM endpoint provided versioned adapter promotion and storage-backed rollback.
+                            I fine-tuned a frozen NF4 Llama-3.1-8B base with rank-16 LoRA using single-node multi-GPU DDP, then evaluated held-out reward, accuracy, and precision for base and adapted policies using vLLM continuous batching. An OpenAI-compatible vLLM endpoint provided versioned adapter promotion and storage-backed rollback.
                         </p>
                     </div>
 
