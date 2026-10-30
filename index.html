@@ -44,7 +44,7 @@
         "https://github.com/SaumikDana",
         "https://scholar.google.com/citations?user=KzKHVHcAAAAJ&hl=en"
       ],
-      "jobTitle": "ML, LLM and Quantitative Systems Engineer",
+      "jobTitle": "Independent ML and LLM Engineer",
       "alumniOf": {
         "@type": "CollegeOrUniversity",
         "name": "University of Texas at Austin"
@@ -1170,7 +1170,7 @@
                 <figcaption class="portrait-cap">The author, pictured</figcaption>
             </figure>
             <div class="hero-text">
-                <p class="subtitle">ML &amp; LLM Systems &middot; Production Infrastructure</p>
+                <p class="subtitle">ML &amp; LLM Systems &middot; Quantitative Research &middot; Production Infrastructure</p>
                 <p class="credential">US Permanent Resident</p>
                 <div class="hero-links">
                     <a href="mailto:dana.spk5@gmail.com">dana.spk5@gmail.com</a>
@@ -1202,9 +1202,9 @@
                     <div class="billboard-copy">
                         <p class="billboard-kicker">Extra, extra, read all about it!!!</p>
                         <ul class="headline-list">
-                            <li>Deployed multi-asset, multi-strategy equity-options trading systems</li>
-                            <li>Autonomous signal-mining agent identified strategies with Sharpe above 1.5</li>
-                            <li>Deployed QLoRA-tuned Llama-3.1-8B and DSPy prompt-optimizer-backed intraday FX system</li>
+                            <li>Operating ML- and LLM-backed trading systems on independent capital</li>
+                            <li>Scaled LLM fine-tuning to single-node multi-GPU DDP</li>
+                            <li>Built automated evaluation, retrieval, and Kubernetes backtesting systems</li>
                         </ul>
                     </div>
                     <figure class="billboard-art">
@@ -1288,9 +1288,10 @@
                 </div>
                 <div class="tech-tile">
                     <h3>Programming</h3>
-                    <p>Python-first engineering for scientific computing, data wrangling, and feed ingestion for research tooling.</p>
+                    <p>Engineering with scientific computing, data wrangling, and feed ingestion for research tooling.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-python"></use></svg>Python</span>
+                        <span class="tag">TypeScript</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-pandas"></use></svg>pandas</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-polars"></use></svg>Polars</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-numpy"></use></svg>NumPy</span>
@@ -1314,14 +1315,16 @@
                     </div>
                 </div>
                 <div class="tech-tile">
-                    <h3>LLM &amp; RAG</h3>
-                    <p>High-throughput LLM pipelines, parallel generation and evaluation, prompt optimization for trading inference, vector retrieval, and multimodal document intelligence.</p>
+                    <h3>LLM, Agents &amp; RAG</h3>
+                    <p>High-throughput LLM pipelines, tool-calling agents, parallel generation and evaluation, prompt optimization for trading inference, vector retrieval, and multimodal document intelligence.</p>
                     <div class="tag-cloud">
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-vllm"></use></svg>vLLM</span>
                         <span class="tag">gpt-oss-120b</span>
                         <span class="tag">gpt-oss-20b</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-groq"></use></svg>Groq</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-langchain"></use></svg>LangChain</span>
+                        <span class="tag">MCP</span>
+                        <span class="tag">Tool calling</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-fireworks"></use></svg>Fireworks AI</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-dspy"></use></svg>DSPy</span>
                         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="#i-gepa"></use></svg>GEPA</span>
@@ -1339,7 +1342,36 @@
         <section class="block" id="experience" aria-labelledby="experience-h">
             <div class="block-label">Experience &mdash; From Our Correspondents</div>
             <h2 class="block-heading" id="experience-h">Building systems that leave the notebook</h2>
-            <p class="block-standfirst">Four postings, filed in reverse chronological order, as is the custom.</p>
+            <p class="block-standfirst">Five postings, filed in reverse chronological order, as is the custom.</p>
+
+            <!-- Independent engineering -->
+            <article class="exp-card">
+                <div class="exp-meta">
+                    <h3 class="exp-role">Independent ML &amp; LLM Engineer</h3>
+                    <span class="exp-dates">Jan 2026 &ndash; Present</span>
+                </div>
+                <div class="exp-company">Independent</div>
+                <div class="exp-body">
+                    <div class="exp-group">
+                        <span class="exp-lead">Operating production trading systems</span>
+                        <p>
+                            I continue to develop and operate systems built during my time at Zebra, now running on my own capital. I switched the LLM-backed intraday options system to NVIDIA Nemotron 30B MoE and added an automated daily evaluation harness measuring reliability, rule compliance, consistency, and robustness.
+                        </p>
+                    </div>
+                    <div class="exp-group">
+                        <span class="exp-lead">Reusable infrastructure &amp; evaluation</span>
+                        <p>
+                            I consolidated TradeStation market-data collectors into a reusable Terraform module and built a Kubernetes framework for multi-asset interday options backtests with indexed job scheduling.
+                        </p>
+                    </div>
+                    <div class="exp-group">
+                        <span class="exp-lead">Retrieval, distributed training &amp; prompt optimization</span>
+                        <p>
+                            I added a news-relevance pipeline to the intraday FX system using BM25, Qwen3 Embedding, reciprocal rank fusion, and Qwen3 Reranker; scaled LLM fine-tuning to single-node multi-GPU DDP; and added GEPA prompt optimization with <strong>gpt-oss-120b</strong> as the reflection model.
+                        </p>
+                    </div>
+                </div>
+            </article>
 
             <!-- Quant role -->
             <article class="exp-card">
@@ -1351,39 +1383,39 @@
                 <div class="exp-body">
 
                     <div class="exp-group">
-                        <span class="exp-lead">Production portfolio &amp; interday options</span>
+                        <span class="exp-lead">Interday equity options</span>
                         <p>
-                            I built and operated a portfolio of independently deployed production systems, standardizing observability while delivering coordinated improvements to reliability, performance, and resource efficiency. For multi-asset, multi-strategy interday equity options, I built a Kubernetes backtesting framework with indexed job scheduling and an autonomous <strong>gpt-oss-120b</strong>-backed signal-mining agent that identified strategies with <strong>Sharpe above 1.5</strong>.
+                            I deployed multi-asset, multi-strategy interday equity-options systems and built a scalable, memory-efficient Python backtesting framework supporting multi-asset strategies, signal-based execution, dynamic contract selection, delta hedging, and comprehensive P&amp;L analytics.
                         </p>
                         <p>
-                            I also fine-tuned Amazon Chronos-T5 with LoRA on labels derived from the backtesting engine, then used the resulting embeddings to train per-asset TabPFN classifiers for inference.
+                            I fine-tuned Amazon Chronos-T5 with LoRA on labels derived from the backtesting engine, then used the resulting embeddings to train per-asset TabPFN classifiers. I also built a multi-step, tool-calling signal-mining agent using <strong>gpt-oss-120b</strong> and MCP, later replaced it with a fixed protocol, and evaluated candidates with multiple-testing diagnostics to filter spurious signals.
                         </p>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">Intraday options</span>
                         <p>
-                            I consolidated multiple TradeStation market-data collectors into a reusable Terraform module and calibrated a jump-, rate-, and dividend-aware stochastic-volatility model to live option-chain snapshots. I implemented Bayesian anomaly detection over model-backed forecasts and fed narratives of traded-expiry implied-volatility smile repricing to <strong>gpt-oss-120b</strong> for trade decisions.
+                            I deployed multi-asset, multi-strategy intraday equity-options systems. I calibrated a jump-, rate-, and dividend-aware stochastic-volatility model to live option-chain snapshots and implemented Bayesian anomaly detection over its forecasts.
                         </p>
                         <p>
-                            The deployed systems achieved <strong>5–10% weekly returns on capital at risk</strong>. An automated daily evaluation harness measured reliability, rule compliance, consistency, and robustness.
+                            The deployed systems achieved <strong>5&ndash;10% weekly returns on capital at risk</strong>. Their LLM-backed decision layer used deterministic entry gates and fed implied-volatility-skew narratives to <strong>gpt-oss-120b</strong> for hold and exit decisions.
                         </p>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">Intraday FX</span>
                         <p>
-                            I deployed a QLoRA-tuned Llama-3.1-8B and DSPy prompt-optimizer-backed FX trading system. Its news-relevance pipeline combined BM25, Qwen3 Embedding, reciprocal rank fusion, and Qwen3 Reranker; <strong>gpt-oss-20b</strong> compressed news and price action into the inference context. Evaluation-gated GEPA prompt optimization used <strong>gpt-oss-120b</strong> as the reflection model.
+                            I deployed a QLoRA-tuned Llama-3.1-8B-backed intraday FX trading system. <strong>gpt-oss-20b</strong> compressed news and price action into the inference context.
                         </p>
                         <p>
-                            I fine-tuned a frozen NF4 Llama-3.1-8B base with rank-16 LoRA using single-node multi-GPU DDP, then evaluated held-out reward, accuracy, and precision for base and adapted policies using vLLM continuous batching. An OpenAI-compatible vLLM endpoint provided versioned adapter promotion and storage-backed rollback.
+                            I fine-tuned a frozen NF4 base with rank-16 LoRA, evaluated held-out accuracy and precision for base and adapted policies using vLLM continuous batching, and built an OpenAI-compatible vLLM endpoint with versioned adapter promotion and storage-backed rollback.
                         </p>
                     </div>
 
                     <div class="exp-group">
                         <span class="exp-lead">Portfolio modeling &amp; multimodal RAG</span>
                         <p>
-                            I built a daily rebalanced, regime-aware equity portfolio using a Hidden Markov Model for regime detection, ElasticNet forecasts, and NSGA-II optimization, achieving <strong>5% annualized alpha</strong> in a multi-year backtest. I also shipped a multimodal RAG PDF assistant backed by Qwen3-VL, a two-pass workflow, and Qdrant.
+                            I built a daily rebalanced, regime-aware equity portfolio using a Hidden Markov Model for regime detection, ElasticNet forecasts, and NSGA-II optimization, achieving <strong>5% annualized alpha</strong> in a multi-year backtest. I also built a multimodal RAG assistant using CLIP embeddings, Qdrant retrieval, a vision LLM with a two-pass self-critique guardrail and page-level citations, a TypeScript/Next.js frontend, and a FastAPI backend on Modal.
                         </p>
                     </div>
                 </div>
